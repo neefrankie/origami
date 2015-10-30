@@ -72,8 +72,8 @@ var Share = {
 			
 
 			var aElement = document.createElement('a');
-			aElement.classList.add('share-links__link');
-			aElement.classList.add('share-links__link--' + network);
+			aElement.classList.add('share-link');
+			aElement.classList.add('share-link-' + network);
 			aElement.href = url;
 			aElement.target = '_blank';		
 			
