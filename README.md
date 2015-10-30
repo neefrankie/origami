@@ -56,3 +56,9 @@ If you do not pass in the `config`, the script will search `<meta>` and `<title>
 
 	<meta name="description" content="This will be used as the config.summary value" />
 
+# Generated HTML Structure
+	<ul>
+		<li><a class="share-links__link share-links__link--wechat" href="" target="_blank">微信</a></li>
+		<li><a class="share-links__link share-links__link--wechat" href="" target="_blank">微博</a></li>
+		<li><a class="share-links__link share-links__link--wechat" href="" target="_blank">LinkedIn</a></li>
+	</ul>
