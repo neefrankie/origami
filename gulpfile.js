@@ -15,7 +15,7 @@ gulp.task('clean', function() {
 gulp.task('dist', ['clean'], function() {
 	return gulp.src('src/share.js')
 		.pipe(gulp.dest('dist/'))
-		.pipe(rename('share.min.js'))
+		.pipe(rename({extname: '.min.js'}))
 		.pipe(uglify())
 		.pipe(gulp.dest('dist/'));
 });

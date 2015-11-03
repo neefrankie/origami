@@ -11,21 +11,21 @@ var socialUrls = {
 		name: "LinkedIn",
 		url: "http://www.linkedin.com/shareArticle?mini=true&url={{url}}&title={{title}}&summary={{summary}}&source=FT中文网"
 	},
-	defaultNetworks: ['wechat', 'weibo', 'linkedin']
+	defaultSocialList: ['wechat', 'weibo', 'linkedin']
 };
 
 /*
   *@object Share used as prototype
   */
 var Share = {
-	init: function(rootEl, networks, config) {
+	init: function(rootEl, socialList, config) {
 		this.rootEl = rootEl;
-		this.networks = networks;
+		this.socials = socialList;
 		this.config = config;
 //If `networks` and `config` were passed in the wrong order:
 		for (var i = 1; i < arguments.length; i++) {
 			if (Array.isArray(arguments[i])) {
-				this.networks = arguments[i];
+				this.socials = arguments[i];
 			} else {
 				this.config = arguments[i];
 			}
@@ -43,18 +43,18 @@ var Share = {
 			console.log(e.message);
 		}
 //If there is `data-o-share-links`, then split the attribute value into an array...
-		if (!this.networks && hasShareAttr) {
-			this.networks = this.rootEl.getAttribute('data-o-share-links').split(' ') || [];
+		if (!this.socials && hasShareAttr) {
+			this.socials = this.rootEl.getAttribute('data-o-share-links').split(' ') || [];
 		}
 //else, use `defaultNetworks`:
-		if (!this.networks && !hasShareAttr) {
-			this.networks = socialUrls.defaultNetworks;
+		if (!this.socials && !hasShareAttr) {
+			this.socials = socialUrls.defaultSocialList;
 		}
 //If `config` param does not exist, get the share url content from tags.
 		if (!this.config) {
 			this.config = {};
 			this.config.url = window.location.href || '';
-			this.config.title = document.getElementsByTagName('title')[0].firstChild.nodeValue || '';
+			this.config.title = this.getTitle();
 			this.config.summary = this.getDescription();
 		}
 		this.render();
@@ -63,21 +63,21 @@ var Share = {
 	render: function() {
 		var ulElement = document.createElement('ul');
 
-		for (var i = 0; i < this.networks.length; i++) {
-			var network = this.networks[i];
-			var name = socialUrls[network].name;
-			var url = this.generateSocialUrl(network);
+		for (var i = 0; i < this.socials.length; i++) {
+			var social = this.socials[i];
+			var socialName = socialUrls[social].name;
+			var url = this.generateSocialUrl(social);
 
 			var liElement = document.createElement('li');
 			
 
 			var aElement = document.createElement('a');
 			aElement.classList.add('share-link');
-			aElement.classList.add('share-link-' + network);
+			aElement.classList.add('share-link-' + social);
 			aElement.href = url;
 			aElement.target = '_blank';		
 			
-			var aText = document.createTextNode(name);
+			var aText = document.createTextNode(socialName);
 			aElement.appendChild(aText);
 			liElement.appendChild(aElement);
 			ulElement.appendChild(liElement);
@@ -90,8 +90,8 @@ var Share = {
 		}
 	},
 
-	generateSocialUrl: function(socialNetwork) {
-		var templateUrl = socialUrls[socialNetwork].url;
+	generateSocialUrl: function(social) {
+		var templateUrl = socialUrls[social].url;
 		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(this.config.url))
 			.replace('{{title}}', encodeURIComponent(this.config.title))
 			.replace('{{summary}}', encodeURIComponent(this.config.summary));
@@ -102,6 +102,17 @@ var Share = {
 		var descElement = document.querySelector('meta[property="og:description"]');
 		if (descElement) {
 			return descElement.hasAttribute('content') ? descElement.getAttribute('content') : '';
-		}	
+		}
+		return '';
+	},
+
+	getTitle: function() {
+		var titleElement = document.querySelector('title');
+		if (titleElement) {
+//`innerText` for IE
+			var titleText = (titleElement.textContent !== undefined) ? titleElement.textContent : titleElement.innerText;
+			return titleText.split('-')[0].trim();
+		}
+		return '';
 	}
 };
