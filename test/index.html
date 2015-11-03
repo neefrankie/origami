@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head> 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="">
+
+   <meta name="copyright" content="FT中文网">
+   <meta name="robots" content="index,follow">
+   <meta name="author" content="FT中文网">
+   <meta property="og:site_name" content=""/>
+   <meta property="og:type" content="article"/>
+   <meta property="og:title" content=""/>
+   <meta property="og:description" content="" />
+   <meta property="og:image:url" content=""/>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" /> 
+    <link rel="apple-touch-icon" href="ipad_icon.png" />
+    <link href="favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>FT中文网分享组件 - FT中文网</title>
+
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/sprite.css">
+
+</head>
+
+<body>
+    <div class="share-links">
+<!-- 
+        <ul>
+            <li><a class="share-link share-link-wechat" href="" target="_blank">微信</a></li>
+            <li><a class="share-link share-link-wechat" href="" target="_blank">微博</a></li>
+            <li><a class="share-link share-link-wechat" href="" target="_blank">LinkedIn</a></li>
+        </ul> 
+-->
+    </div>
+
+    <div class="share-links" data-o-component="o-share" data-o-share-links="wechat weibo">
+      
+    </div>
+
+<script src="../src/share.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+  var shareDiv = document.querySelectorAll('.share-links');
+  var shareLinks = Object.create(Share);
+  for (var i = 0; i < shareDiv.length; i++) {
+    shareLinks.init(shareDiv[i]);
+  }  
+});
+
+</script>
+</body>
+</html>
