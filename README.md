@@ -71,3 +71,7 @@ If you do not pass in the `config`, the script will search `<meta>` and `<title>
 		<li><a class="share-link share-link-weibo" href="" target="_blank">微博</a></li>
 		<li><a class="share-link share-link-linkedin" href="" target="_blank">LinkedIn</a></li>
 	</ul>
+
+# Generate Sprite
+
+run `gulp sprite`
