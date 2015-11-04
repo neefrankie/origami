@@ -1,5 +1,8 @@
-#Share button API
-## Usage
+# Installation
+
+	bower install ftc-share --save
+
+# Usage
 Create a new object by inheriting `Share`:
 
 	var sharebutton = Object.create(Share);
