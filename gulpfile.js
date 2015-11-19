@@ -1,6 +1,7 @@
 'use strict'
 const gulp = require('gulp');
 const del = require('del');
+const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 
 const svgmin = require('gulp-svgmin');
@@ -43,7 +44,7 @@ gulp.task('svgmin', function() {
 
 gulp.task('svg2png', function() {
   return gulp.src('demo/svg/*.svg')
-    .pipe(svg2png())
+    .pipe(svg2png([0.2]))
     .pipe(gulp.dest('demo/icons/png'));
 });
 
@@ -54,22 +55,6 @@ gulp.task('rsvg', function() {
       scale: 0.2
     }))
     .pipe(gulp.dest('demo/icons/png'));
-});
-
-gulp.task('build', ['svg2css', 'svgstore', 'svgmin', 'svg2png'])
-
-gulp.task('serve', ['build'], function() {
-  browserSync.init({
-    files: ['demo/**/*', 'src/*'],
-    server: {
-      baseDir: ['demo', 'src'],
-      routes: {
-        '/bower_components': 'bower_components'
-      }
-    }
-  });
-
-  gulp.watch(['demo/*.html', 'demo/styles']).on('change', browserSync.reload);
 });
 
 //distribute
@@ -84,3 +69,21 @@ gulp.task('dist', ['clean'], function() {
     .pipe(uglify())
     .pipe(gulp.dest('dist/'));
 });
+
+gulp.task('build', ['svg2css', 'svgstore', 'svgmin', 'dist']);
+
+gulp.task('serve', ['build'], function() {
+  browserSync.init({
+    files: ['demo/**/*', 'dist/*'],
+    server: {
+      baseDir: ['demo', 'src'],
+      routes: {
+        '/bower_components': 'bower_components'
+      }
+    }
+  });
+
+  gulp.watch('src/*', ['dist']);
+  gulp.watch(['demo/*.html', 'demo/styles', 'dist']).on('change', browserSync.reload);
+});
+
