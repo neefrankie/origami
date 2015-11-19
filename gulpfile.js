@@ -1,50 +1,86 @@
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
-var rename = require('gulp-rename');
-var del = require('del');
-var imageResize = require('gulp-image-resize');
-var spritesmith = require('gulp.spritesmith');
-var merge = require('merge-stream');
-var handlebars = require('handlebars');
+'use strict'
+const gulp = require('gulp');
+const del = require('del');
+const rename = require('gulp-rename');
 
+const svgmin = require('gulp-svgmin');
+const svgToCss = require('gulp-svg-to-css');
+const svgstore = require('gulp-svgstore');
+
+const svg2png = require('gulp-svg2png');
+const rsvg = require('gulp-rsvg');
+
+const sequence = require('gulp-sequence');
+
+const browserSync = require('browser-sync').create();
+
+//Generate inline svg css
+gulp.task('svg2css', function() {
+  return gulp.src('demo/svg/*.svg')
+    .pipe(svgmin())
+    .pipe(svgToCss({
+      name: 'icons.data.svg.css',
+      prefix: 'icon-',
+      template: '.{{prefix}}{{filename}}{background-image:url("{{{dataurl}}}");}'
+    }))
+    .pipe(gulp.dest('demo/styles/'));
+});
+
+//Generate a svg sprite with `symbol` elements
+gulp.task('svgstore', function() {
+  var svgs = gulp.src('demo/svg/*.svg')
+    .pipe(svgmin())
+    .pipe(svgstore())
+    .pipe(rename('sprite.symbol.svg'))
+    .pipe(gulp.dest('demo/icons/'));
+});
+
+gulp.task('svgmin', function() {
+  return gulp.src('demo/svg/*.svg')
+    .pipe(svgmin())
+    .pipe(gulp.dest('demo/icons/svg'));
+});
+
+gulp.task('svg2png', function() {
+  return gulp.src('demo/svg/*.svg')
+    .pipe(svg2png())
+    .pipe(gulp.dest('demo/icons/png'));
+});
+
+gulp.task('rsvg', function() {
+  return gulp.src('demo/svg/social*.svg')
+    .pipe(rsvg({
+      format: 'png',
+      scale: 0.2
+    }))
+    .pipe(gulp.dest('demo/icons/png'));
+});
+
+gulp.task('build', ['svg2css', 'svgstore', 'svgmin', 'svg2png'])
+
+gulp.task('serve', ['build'], function() {
+  browserSync.init({
+    files: ['demo/**/*', 'src/*'],
+    server: {
+      baseDir: ['demo', 'src'],
+      routes: {
+        '/bower_components': 'bower_components'
+      }
+    }
+  });
+
+  gulp.watch(['demo/*.html', 'demo/styles']).on('change', browserSync.reload);
+});
+
+//distribute
 gulp.task('clean', function() {
-	del(['dist/*']);
+  return del(['dist/*']);
 });
 
 gulp.task('dist', ['clean'], function() {
-	return gulp.src('src/share.js')
-		.pipe(gulp.dest('dist/'))
-		.pipe(rename({extname: '.min.js'}))
-		.pipe(uglify())
-		.pipe(gulp.dest('dist/'));
-});
-
-//produce sprite icon.
-//Make sure GraphicsMagick or ImageMagick is installed on your system and properly set up in your PATH before using `resize`.
-gulp.task('icon-resize', function() {
-  return gulp.src('icons/*.png')
-    .pipe(imageResize({
-      width: 20,
-      crop:false
-    }))
-    .pipe(gulp.dest('.tmp'));
-});
-
-gulp.task('sprite', ['icon-resize'], function() {
-  var spriteData = gulp.src('.tmp/*.png')
-    .pipe(spritesmith({
-      imgName: 'sprite.png',
-      cssName: 'sprite.css',
-      algorithm: 'top-down',
-      padding: 4,
-      cssTemplate: 'template/hb.css.handlebars'
-    }));
-  var imgStream = spriteData.img
-    .pipe(gulp.dest('./test/images/'));
-
-  var cssStream = spriteData.css
-    .pipe(gulp.dest('./test/styles/'));
-
-  return merge(imgStream, cssStream);
+  return gulp.src('src/share.js')
+    .pipe(gulp.dest('dist/'))
+    .pipe(rename({extname: '.min.js'}))
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/'));
 });

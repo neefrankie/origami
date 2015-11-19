@@ -38,13 +38,13 @@ var Share = {
 		}
 //Try if there is a `data-o-share-links` attribute on the `rootEl`
 		try {
-			var hasShareAttr = this.rootEl.hasAttribute('data-o-share-links');
+			var hasShareAttr = this.rootEl.hasAttribute('data-link-list');
 		} catch(e) {
 			console.log(e.message);
 		}
 //If there is `data-o-share-links`, then split the attribute value into an array...
 		if (!this.socials && hasShareAttr) {
-			this.socials = this.rootEl.getAttribute('data-o-share-links').split(' ') || [];
+			this.socials = this.rootEl.getAttribute('data-share-links').split(' ') || [];
 		}
 //else, use `defaultNetworks`:
 		if (!this.socials && !hasShareAttr) {
@@ -70,15 +70,22 @@ var Share = {
 
 			var liElement = document.createElement('li');
 			
-
 			var aElement = document.createElement('a');
 			aElement.classList.add('share-link');
-			aElement.classList.add('share-link-' + social);
+			aElement.classList.add('share-' + social);
 			aElement.href = url;
-			aElement.target = '_blank';		
+			aElement.target = '_blank';
+
+			var iElement = document.createElement('i');
+			iElement.classList.add('icon-social-' + social);
+
+			var spanElement = document.createElement('span')
 			
-			var aText = document.createTextNode(socialName);
-			aElement.appendChild(aText);
+			var socialText = document.createTextNode(socialName);
+			spanElement.appendChild(socialText);
+
+			aElement.appendChild(iElement);
+			aElement.appendChild(spanElement);
 			liElement.appendChild(aElement);
 			ulElement.appendChild(liElement);
 		}

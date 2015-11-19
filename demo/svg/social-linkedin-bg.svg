@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   viewBox="0 0 100 100"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="social-linkedin-reverse.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.89"
+     inkscape:cx="31.622307"
+     inkscape:cy="50"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     units="px"
+     inkscape:showpageshadow="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="955"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4138" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-952.36216)">
+    <g
+       transform="matrix(0.69442515,0,0,-0.69444444,0,1052.3622)"
+       inkscape:label="ink_ext_XXXXXX"
+       id="g4163">
+      <g
+         transform="scale(0.1,0.1)"
+         id="g4165">
+        <path
+           inkscape:connector-curvature="0"
+           id="path4167"
+           style="fill:#0977b6;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           d="M 1333.44,1440 106.289,1440 C 47.6484,1440 0,1393.52 0,1336.23 L 0,103.891 C 0,46.5508 47.6484,0 106.289,0 L 1333.44,0 C 1392.19,0 1440.04,46.5508 1440.04,103.891 L 1440.04,1336.23 C 1440.04,1393.52 1392.19,1440 1333.44,1440" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           d="M 337.16084,1224.0006 C 270.20219,1224.0006 216.006,1169.6172 216.006,1102.6989 216.006,1035.712 270.20219,981.34204 337.16084,981.34204 403.94342,981.34204 458.23314,1035.712 458.23314,1102.6989 458.23314,1169.6172 403.94342,1224.0006 337.16084,1224.0006 Z M 973.44378,906.05894 C 871.81201,906.05894 803.64259,850.23714 775.75563,797.29524 L 772.94958,797.29524 772.94958,889.30487 572.59295,889.30487 572.59295,216.00058 781.34019,216.00058 781.34019,549.07043 C 781.34019,636.88529 798.01132,721.92947 906.70408,721.92947 1013.825,721.92947 1015.2868,621.52396 1015.2868,543.44901 L 1015.2868,216.00058 1224.034,216.00058 1224.034,585.33418 C 1224.034,766.59953 1184.9968,906.05894 973.44378,906.05894 Z M 232.64966,889.30487 232.64966,216.00058 441.56196,216.00058 441.56196,889.30487 232.64966,889.30487 Z"
+           id="path4169"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -20,11 +20,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" /> 
     <link rel="apple-touch-icon" href="ipad_icon.png" />
-    <link href="favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <!-- <link href="favicon.ico" type="image/x-icon" rel="shortcut icon" /> -->
     <title>FT中文网分享组件 - FT中文网</title>
-
+    <link rel="stylesheet" type="text/css" href="styles/icons.data.svg.css">
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
-    <link rel="stylesheet" type="text/css" href="styles/sprite.css">
 
 </head>
 
@@ -39,9 +38,15 @@
 -->
     </div>
 
-    <div class="share-links" data-o-component="o-share" data-o-share-links="wechat weibo">
+    <div class="share-links" data-component="ftc-share" data-share-links="wechat weibo">
       
     </div>
+
+    <ul>
+        <li><a class="share-link share-wechat" href="" target="_blank"><i class="icon-social-wechat"></i><span>微信</span></a></li>
+        <li><a class="share-link share-weibo" href="" target="_blank"><i class="icon-social-weibo"></i><span>微博</span></a></li>
+        <li><a class="share-link share-linkedin" href="" target="_blank"><i class="icon-social-linkedin"></i><span>LinkedIn</span></a></li>
+    </ul> 
 
 <script src="../src/share.js"></script>
 <script type="text/javascript">

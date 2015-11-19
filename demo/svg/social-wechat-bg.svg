@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   x="0px"
+   y="0px"
+   width="100"
+   height="100"
+   viewBox="0 0 100 100"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="social-wechat-reverse.svg">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10000"
+     gridtolerance="10000"
+     guidetolerance="10000"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="955"
+     id="namedview9"
+     showgrid="true"
+     inkscape:showpageshadow="false"
+     inkscape:zoom="7.89"
+     inkscape:cx="31.622307"
+     inkscape:cy="50"
+     inkscape:window-x="29"
+     inkscape:window-y="43"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4139" />
+  </sodipodi:namedview>
+  <rect
+     style="fill:#609700;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="rect4141"
+     width="100"
+     height="100"
+     x="0"
+     y="0"
+     rx="10"
+     ry="10" />
+  <g
+     id="Layer 1"
+     transform="matrix(0.21202987,0,0,0.21289917,7.5939973,7.4198721)"
+     style="fill:#ffffff;fill-opacity:1">
+    <path
+       d="M 120.601,46.576 C 9.241,66.466 -27.879,192.281 60.7,249.869 c 4.857,3.122 4.857,2.776 -2.429,24.516 l -6.244,18.617 22.434,-12.026 22.434,-12.026 11.911,2.891 c 12.488,3.122 28.447,5.319 39.085,5.319 l 6.361,0 -2.198,-8.442 C 134.593,204.423 194.956,140.706 273.475,140.706 l 10.639,0 -2.197,-7.632 C 264.686,72.826 191.95,33.856 120.601,46.576 Z m -9.714,56.316 c 11.795,7.98 12.489,25.21 1.156,32.611 -18.386,12.026 -39.895,-9.136 -27.522,-27.176 5.435,-8.094 18.503,-10.754 26.366,-5.435 z m 94.824,0 c 19.427,13.068 4.857,43.249 -16.884,34.923 -15.726,-6.013 -17.577,-27.637 -2.891,-35.385 5.782,-3.122 14.802,-2.891 19.775,0.462 z m 42.902,47.644 c -55.16,10.06 -93.436,51.921 -91.239,100.027 2.891,64.411 78.403,108.816 150.908,88.926 l 8.557,-2.313 18.04,9.714 c 9.945,5.435 18.271,9.367 18.502,8.904 0.232,-0.578 -1.734,-7.516 -4.278,-15.495 -5.782,-17.809 -5.898,-16.537 1.85,-22.087 87.191,-62.561 10.639,-188.144 -102.34,-167.676 z m -2.197,51.921 c 4.856,3.238 7.4,11.333 5.319,17.231 -4.394,12.604 -23.243,13.529 -28.332,1.387 -5.782,-13.992 10.177,-26.944 23.013,-18.618 z m 77.246,1.388 c 7.632,7.285 6.36,19.659 -2.544,24.284 -13.645,6.938 -27.984,-6.938 -20.93,-20.237 4.625,-8.557 16.536,-10.638 23.474,-4.047 z M 220.43,328.772"
+       id="path5"
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1" />
+  </g>
+  <defs
+     id="defs7" />
+</svg>
