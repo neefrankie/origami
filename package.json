@@ -26,6 +26,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-rename": "^1.2.2",
     "gulp-rsvg": "^1.0.1",
+    "gulp-sass": "^2.1.0",
     "gulp-sequence": "^0.4.1",
     "gulp-svg-to-css": "^1.1.15",
     "gulp-svg2png": "^0.3.0",

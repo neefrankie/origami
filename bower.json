@@ -4,7 +4,7 @@
     "weiguo.ni <neefrankie@gmail.com>"
   ],
   "description": "FT Chinese share module",
-  "main": "src/main.js",
+  "main": "dist/share.min.js",
   "moduleType": [
     "es6"
   ],
@@ -21,5 +21,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "ftc-icons": "~4.0.1",
+    "svg4everybody": "~2.0.0"
+  }
 }

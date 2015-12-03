@@ -1,0 +1,43 @@
+@import "../../bower_components/ftc-icons/ftc-dist/icons";
+
+.share-link {
+	i {
+		padding-left: 1em;
+		background-repeat: no-repeat;
+		background-position: left center;
+		background-size: contain;
+		border-radius: .2em;		
+	}
+	span {
+		padding-left: .3em
+	}
+}
+.share-link:hover/* i*/ {
+	background-color: orange;
+}
+
+.no-bg {
+	.icon-social-wechat {
+		background-image: $social-wechat;
+	}
+	.icon-social-weibo {
+		background-image: $social-weibo;
+	}
+	.icon-social-linkedin {
+		background-image: $social-linkedin;
+	}	
+}
+
+
+.with-bg {
+	.icon-social-wechat {
+		background-image: $social-wechat-bg;
+	}
+	.icon-social-weibo {
+		background-image: $social-weibo-bg;
+	}
+	.icon-social-linkedin {
+		background-image: $social-linkedin-bg;
+	}
+}
+
