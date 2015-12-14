@@ -23,7 +23,7 @@
     "tests"
   ],
   "dependencies": {
-    "ftc-icons": "~4.0.1",
+    "ftc-icons": "~1.0.0",
     "svg4everybody": "~2.0.0"
   }
 }
