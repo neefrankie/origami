@@ -1,6 +1,7 @@
 {
   "name": "ftc-share",
   "version": "0.0.1",
+  "main": "lib/share.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FTChinese/ftc-share.git"
@@ -32,6 +33,8 @@
     "gulp-svg2png": "^0.3.0",
     "gulp-svgmin": "^1.2.0",
     "gulp-svgstore": "^5.0.5",
-    "gulp-uglify": "^1.5.1"
+    "gulp-uglify": "^1.5.1",
+    "through2": "^2.0.0",
+    "wiredep": "^3.0.0"
   }
 }

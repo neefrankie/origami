@@ -55,7 +55,7 @@ class Share {
 			this.config.title = this.getTitle();
 			this.config.summary = this.getDescription();
 		}
-		this.redner();
+		this.render();
 	}
 
 	render() {

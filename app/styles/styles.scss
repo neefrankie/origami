@@ -1,4 +1,6 @@
-@import "../../bower_components/ftc-icons/main";
+// bower:scss
+@import "bower_components/ftc-icons/main.scss";
+// endbower
 
 .share-link {
 	i {
@@ -9,7 +11,8 @@
 		border-radius: .2em;		
 	}
 	span {
-		padding-left: .3em
+		padding-left: .3em;
+		font-size: 18px;
 	}
 }
 .share-link:hover/* i*/ {
