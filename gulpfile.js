@@ -45,14 +45,18 @@ gulp.task('wiredep', () => {
 });
 
 gulp.task('styles', function() {
-  return gulp.src('app/styles/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('.tmp/styles'))
+  return gulp.src('app/styles.scss')
+    .pipe(sass({
+      outputStyle: 'expanded',
+      precision: 10,
+      includePaths: ['bower_components']
+    }).on('error', sass.logError))
+    .pipe(gulp.dest('.tmp'))
     .pipe(browserSync.stream());
 });
 
 gulp.task('scripts', function () {
-  return gulp.src('app/scripts/main.js')
+  return gulp.src('app/scripts/index.js')
     .pipe(through2.obj(function (file, enc, next) {
       browserify(file.path, { debug: process.env.NODE_ENV === 'development' })
         .transform(require('babelify'))
@@ -68,7 +72,7 @@ gulp.task('scripts', function () {
       this.emit('end');
     })
     .pipe(rename('main.bundle.js'))
-    .pipe(gulp.dest('.tmp/scripts'))
+    .pipe(gulp.dest('.tmp'))
     .pipe(browserSync.stream());
 });
 
@@ -77,10 +81,10 @@ gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', ['styles', 'scripts'], function() {
+gulp.task('serve', ['styles'], function() {
   browserSync.init({
     server: {
-      baseDir: ['.tmp', 'app'],
+      baseDir: ['.tmp', 'app', 'dist'],
       routes: {
         '/bower_components': 'bower_components'
       }
@@ -88,23 +92,16 @@ gulp.task('serve', ['styles', 'scripts'], function() {
   });
 
   gulp.watch([
-    'app/*.html'
+    'app/*.html',
+    'dist/share.es5.js'
   ]).on('change', browserSync.reload);
 
-  gulp.watch('bower.json', ['wiredep']);
-  gulp.watch('app/scripts/*.js', ['scripts']);
-  gulp.watch(['app/styles/*.scss'], ['styles']);
-});
-
-gulp.task('dist', function() {
-  return gulp.src('dist/share.js')
-    .pipe(rename({extname: 'min.js'}))
-    .pipe('dist');
+  gulp.watch(['app/*.scss'], ['styles']);
 });
 
 gulp.task('build', function() {
   return gulp.src('app/scripts/share.es6.js')
     .pipe(babel())
-    .pipe(rename('share.js'))
+    .pipe(rename('share.babel.js'))
     .pipe(gulp.dest('lib'));
 });

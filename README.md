@@ -94,3 +94,7 @@ If you do not pass in the `config`, the script will search `<meta>` and `<title>
 # Background Images
 
 You can use your own icons on the `i` element, or use this project together with [FTC-ICONS](https://github.com/FTChinese/ftc-icons/).
+
+# ES6 Branch
+
+Rewrite component with es6 `import`, `export` and `class`. The main file is `app/share.es6.js`. It was transpiled into es5 under `lib`. Test file under `build` produced by `webpack`.
