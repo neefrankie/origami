@@ -9,23 +9,27 @@ const sequence = require('gulp-sequence');
 const browserSync = require('browser-sync').create();
 
 gulp.task('wiredep', () => {
-  gulp.src('demo/styles/*.scss')
+  gulp.src('app/styles/*.scss')
     .pipe(wiredep({
       ignorePath: /^(\.\.\/)+/
     }))
-    .pipe(gulp.dest('demo/styles'));
+    .pipe(gulp.dest('app'));
 
-  gulp.src('demo/*.html')
+  gulp.src('app/*.html')
     .pipe(wiredep({
       ignorePath: /^(\.\.\/)*\.\./
     }))
-    .pipe(gulp.dest('demo'));
+    .pipe(gulp.dest('app'));
 });
 
 gulp.task('sass', function() {
-  return gulp.src('demo/styles/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('.tmp/styles'))
+  return gulp.src('app/*.scss')
+    .pipe(sass({
+      outputStyle: 'expanded',
+      precision: 10,
+      includePaths: ['bower_components']
+    }).on('error', sass.logError))
+    .pipe(gulp.dest('.tmp'))
     .pipe(browserSync.stream());
 });
 
@@ -34,18 +38,10 @@ gulp.task('clean', function() {
   return del(['dist/*']);
 });
 
-gulp.task('dist', ['clean'], function() {
-  return gulp.src('src/share.js')
-    .pipe(gulp.dest('dist/'))
-    .pipe(rename({extname: '.min.js'}))
-    .pipe(uglify())
-    .pipe(gulp.dest('dist/'));
-});
-
-gulp.task('serve', function() {
+gulp.task('serve', ['clean'], function() {
   browserSync.init({
     server: {
-      baseDir: ['.tmp', 'demo', 'src'],
+      baseDir: ['.tmp', 'app', 'dist'],
       routes: {
         '/bower_components': 'bower_components'
       }
@@ -53,13 +49,11 @@ gulp.task('serve', function() {
   });
 
   gulp.watch([
-    'demo/*.html',
-    'src/*.js',
-    '.tmp/styles/*.css'
+    'app/*.html',
+    'dist/*.js'
   ]).on('change', browserSync.reload);
 
-  gulp.watch('src/*', ['dist']);
-  gulp.watch(['demo/styles/*.scss'], ['sass']);
+  gulp.watch(['app/*.scss'], ['sass']);
 });
 
 
