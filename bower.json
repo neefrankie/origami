@@ -4,7 +4,7 @@
     "weiguo.ni <neefrankie@gmail.com>"
   ],
   "description": "FT Chinese share module",
-  "main": "dist/share.min.js",
+  "main": "dist/share.js",
   "moduleType": [
     "es6"
   ],

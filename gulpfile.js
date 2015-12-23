@@ -98,10 +98,3 @@ gulp.task('serve', ['styles'], function() {
 
   gulp.watch(['app/*.scss'], ['styles']);
 });
-
-gulp.task('build', function() {
-  return gulp.src('app/scripts/share.es6.js')
-    .pipe(babel())
-    .pipe(rename('share.babel.js'))
-    .pipe(gulp.dest('lib'));
-});
