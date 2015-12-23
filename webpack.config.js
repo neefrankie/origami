@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const PATHS = {
-	app: path.join(__dirname, 'app'),
+	app: path.join(__dirname, 'es6'),
 	build: path.join(__dirname, 'build')
 };
 

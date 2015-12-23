@@ -55,8 +55,8 @@ gulp.task('styles', function() {
     .pipe(browserSync.stream());
 });
 
-gulp.task('scripts', function () {
-  return gulp.src('app/scripts/index.js')
+gulp.task('babelify', function () {
+  return gulp.src('es6/index.js')
     .pipe(through2.obj(function (file, enc, next) {
       browserify(file.path, { debug: process.env.NODE_ENV === 'development' })
         .transform(require('babelify'))
@@ -71,7 +71,7 @@ gulp.task('scripts', function () {
       console.log(error.stack);
       this.emit('end');
     })
-    .pipe(rename('main.bundle.js'))
+    .pipe(rename('share.js'))
     .pipe(gulp.dest('.tmp'))
     .pipe(browserSync.stream());
 });
@@ -93,8 +93,26 @@ gulp.task('serve', ['styles'], function() {
 
   gulp.watch([
     'app/*.html',
-    'dist/share.es5.js'
+    'dist/share.js'
   ]).on('change', browserSync.reload);
 
   gulp.watch(['app/*.scss'], ['styles']);
+});
+
+gulp.task('serve:es6', ['styles', 'babelify'], function() {
+  browserSync.init({
+    server: {
+      baseDir: ['.tmp', 'es6'],
+      routes: {
+        '/bower_components': 'bower_components'
+      }
+    }
+  });
+
+  gulp.watch([
+    'app/*.html'
+  ]).on('change', browserSync.reload);
+
+  gulp.watch(['app/*.scss'], ['styles']);
+  gulp.watch('es6/*.js', ['babelify']);
 });
