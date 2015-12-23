@@ -1,7 +1,6 @@
 'use strict'
 const gulp = require('gulp');
 const del = require('del');
-const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const browserify = require('browserify');
@@ -55,7 +54,7 @@ gulp.task('styles', function() {
     .pipe(browserSync.stream());
 });
 
-gulp.task('babelify', function () {
+gulp.task('scripts', function () {
   return gulp.src('es6/index.js')
     .pipe(through2.obj(function (file, enc, next) {
       browserify(file.path, { debug: process.env.NODE_ENV === 'development' })
@@ -99,10 +98,12 @@ gulp.task('serve', ['styles'], function() {
   gulp.watch(['app/*.scss'], ['styles']);
 });
 
-gulp.task('serve:es6', ['styles', 'babelify'], function() {
+/*gulp.task('build:es6', sequence('clean', ['styles', 'scripts']));
+
+gulp.task('serve:es6', ['build:es6'], function() {
   browserSync.init({
     server: {
-      baseDir: ['.tmp', 'es6'],
+      baseDir: ['.tmp', 'app'],
       routes: {
         '/bower_components': 'bower_components'
       }
@@ -115,4 +116,4 @@ gulp.task('serve:es6', ['styles', 'babelify'], function() {
 
   gulp.watch(['app/*.scss'], ['styles']);
   gulp.watch('es6/*.js', ['babelify']);
-});
+});*/
