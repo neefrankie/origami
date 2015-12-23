@@ -11,7 +11,15 @@ var socialUrls = {
 		name: "LinkedIn",
 		url: "http://www.linkedin.com/shareArticle?mini=true&url={{url}}&title={{title}}&summary={{summary}}&source=FT中文网"
 	},
-	defaultSocialList: ['wechat', 'weibo', 'linkedin']
+	facebook: {
+		name: "Facebook",
+		url: "http://www.facebook.com/sharer.php?u={{url}}&amp;t={{title}}+|+{{titleExtra}}"
+	},
+	twitter: {
+		name: "Twitter",
+		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;related={{relatedTwitterAccounts}}&amp;via=FT"
+	},
+	defaultSocialList: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter']
 };
 
 /*
@@ -38,7 +46,7 @@ var Share = {
 		}
 //Try if there is a `data-o-share-links` attribute on the `rootEl`
 		try {
-			var hasShareAttr = this.rootEl.hasAttribute('data-link-list');
+			var hasShareAttr = this.rootEl.hasAttribute('data-share-links');
 		} catch(e) {
 			console.log(e.message);
 		}
@@ -75,6 +83,7 @@ var Share = {
 			aElement.classList.add('share-' + social);
 			aElement.href = url;
 			aElement.target = '_blank';
+			aElement.setAttribute('data-trackable', social)
 
 			var iElement = document.createElement('i');
 			iElement.classList.add('icon-social-' + social);

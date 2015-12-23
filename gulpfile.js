@@ -19,7 +19,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('sass', function() {
+gulp.task('styles', function() {
   return gulp.src('app/*.scss')
     .pipe(sass({
       outputStyle: 'expanded',
@@ -32,10 +32,10 @@ gulp.task('sass', function() {
 
 //distribute
 gulp.task('clean', function() {
-  return del(['dist/*']);
+  return del(['.tmp/**']);
 });
 
-gulp.task('serve', ['clean'], function() {
+gulp.task('serve', ['styles'], function() {
   browserSync.init({
     server: {
       baseDir: ['.tmp', 'app', 'dist'],
@@ -50,7 +50,7 @@ gulp.task('serve', ['clean'], function() {
     'dist/*.js'
   ]).on('change', browserSync.reload);
 
-  gulp.watch(['app/*.scss'], ['sass']);
+  gulp.watch(['app/*.scss'], ['styles']);
 });
 
 
