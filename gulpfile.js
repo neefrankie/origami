@@ -1,10 +1,7 @@
 'use strict'
 const gulp = require('gulp');
 const del = require('del');
-const uglify = require('gulp-uglify');
-const rename = require('gulp-rename');
 const sass = require('gulp-sass');
-const sequence = require('gulp-sequence');
 
 const browserSync = require('browser-sync').create();
 
