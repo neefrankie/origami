@@ -92,7 +92,7 @@ gulp.task('serve', ['styles'], function() {
 
   gulp.watch([
     'app/*.html',
-    'dist/share.js'
+    'app/**/*.js'
   ]).on('change', browserSync.reload);
 
   gulp.watch(['app/*.scss'], ['styles']);
