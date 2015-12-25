@@ -3,18 +3,23 @@ const gulp = require('gulp');
 const del = require('del');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
-const browserify = require('browserify');
+const sourcemaps = require('gulp-sourcemaps');
 const sequence = require('gulp-sequence');
+const plumber = require('gulp-plumber');
+const browserify = require('browserify');
+
 const source = require('vinyl-source-stream');
 const browserSync = require('browser-sync').create();
 
 gulp.task('styles', function() {
   return gulp.src('main.scss')
+    ..pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded',
       precision: 10,
       includePaths: ['bower_components']
     }).on('error', sass.logError))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('.tmp'))
     .pipe(browserSync.stream());
 });
@@ -23,9 +28,9 @@ gulp.task('scripts', function() {
   return browserify('main.js')
     .bundle()
     .pipe(source('main.js'))
-    .pipe(gulp.dest('.tmp'))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest('.tmp'));
 });
+gulp.task('scripts:watch', ['scripts'], browserSync.reload);
 
 gulp.task('clean', function() {
   return del(['.tmp/**']);
@@ -45,8 +50,8 @@ gulp.task('serve', ['styles', 'scripts'], function() {
     'app/*.html'
   ]).on('change', browserSync.reload);
 
-  gulp.watch(['src/**/*.scss'], ['styles']);
-  gulp.watch(['src/**/*.js'], ['scripts']);
+  gulp.watch(['main.scss', 'src/**/*.scss'], ['styles']);
+  gulp.watch(['main.js', 'src/**/*.js'], ['scripts:watch']);
 });
 
 /*gulp.task('build:es6', sequence('clean', ['styles', 'scripts']));
