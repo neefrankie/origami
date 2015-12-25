@@ -123,3 +123,5 @@ var Share = {
 		return '';
 	}
 };
+
+module.exports = Share;

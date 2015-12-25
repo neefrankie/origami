@@ -1,7 +1,7 @@
 {
   "name": "ftc-share",
   "version": "0.0.1",
-  "main": "dist/share.js",
+  "main": "main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FTChinese/ftc-share.git"
@@ -29,18 +29,21 @@
     "browserify": "^12.0.1",
     "css-loader": "^0.23.0",
     "del": "^2.1.0",
+    "dom-delegate": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
     "gulp-concat": "^2.6.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.1.0",
     "gulp-sequence": "^0.4.1",
+    "gulp-umd": "^0.2.0",
     "html-webpack-plugin": "^1.7.0",
+    "requirejs": "^2.1.22",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "through2": "^2.0.0",
+    "vinyl-source-stream": "^1.1.0",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0",
-    "wiredep": "^3.0.0"
+    "webpack-dev-server": "^1.14.0"
   }
 }
