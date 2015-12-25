@@ -1,3 +1,4 @@
+'use strict'
 var socialUrls = {
 	wechat: {
 		name: "微信",
@@ -14,15 +15,36 @@ var socialUrls = {
 	defaultSocialList: ['wechat', 'weibo', 'linkedin']
 };
 
+// Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
+var pageMeta = {
+	url: window.location.href || '',
+	summary: (function() {
+		var descElement = document.querySelector('meta[property="og:description"]');
+		if (descElement) {
+			return descElement.hasAttribute('content') ? descElement.getAttribute('content') : '';
+		}
+		return '';
+	})(),
+	title: (function() {
+		var titleElement = document.querySelector('title');
+		if (titleElement) {
+//`innerText` for IE
+			var titleText = (titleElement.textContent !== undefined) ? titleElement.textContent : titleElement.innerText;
+			return titleText.split('-')[0].trim();
+		}
+		return '';
+	})()
+}
+
 /*
-  *@object Share used as prototype
+  *@object Share
   */
 var Share = {
 	init: function(rootEl, socialList, config) {
 		this.rootEl = rootEl;
 		this.socials = socialList;
 		this.config = config;
-//If `networks` and `config` were passed in the wrong order:
+//If `socialList` and `config` were passed in the wrong order:
 		for (var i = 1; i < arguments.length; i++) {
 			if (Array.isArray(arguments[i])) {
 				this.socials = arguments[i];
@@ -38,26 +60,41 @@ var Share = {
 		}
 //Try if there is a `data-o-share-links` attribute on the `rootEl`
 		try {
-			var hasShareAttr = this.rootEl.hasAttribute('data-link-list');
+			var hasShareLinks = this.rootEl.hasAttribute('data-share-links');
 		} catch(e) {
 			console.log(e.message);
 		}
 //If there is `data-o-share-links`, then split the attribute value into an array...
-		if (!this.socials && hasShareAttr) {
+		if (!this.socials && hasShareLinks) {
 			this.socials = this.rootEl.getAttribute('data-share-links').split(' ') || [];
 		}
 //else, use `defaultNetworks`:
-		if (!this.socials && !hasShareAttr) {
+		if (!this.socials && !hasShareLinks) {
 			this.socials = socialUrls.defaultSocialList;
 		}
 //If `config` param does not exist, get the share url content from tags.
 		if (!this.config) {
-			this.config = {};
-			this.config.url = window.location.href || '';
-			this.config.title = this.getTitle();
-			this.config.summary = this.getDescription();
+			this.config = pageMeta;
 		}
 		this.render();
+		return this;
+	},
+
+	initAll: function(el) {
+		var shareInstances = [];
+		if (!el) {
+			el = document.body;
+		} else if (!(el instanceof HTMLElement)) {
+			el = document.querySelector(el);
+		}
+
+		var shareElements = el.querySelectorAll('[data-component=ftc-share]');
+		
+		for (var i = 0; i < shareElements.length; i++) {
+			var shareObject = Object.create(Share);
+			shareInstances.push(shareObject.init(shareElements[i]));
+		}
+		return shareInstances;
 	},
 
 	render: function() {
@@ -103,24 +140,6 @@ var Share = {
 			.replace('{{title}}', encodeURIComponent(this.config.title))
 			.replace('{{summary}}', encodeURIComponent(this.config.summary));
 		return templateUrl;
-	},
-
-	getDescription: function() {
-		var descElement = document.querySelector('meta[property="og:description"]');
-		if (descElement) {
-			return descElement.hasAttribute('content') ? descElement.getAttribute('content') : '';
-		}
-		return '';
-	},
-
-	getTitle: function() {
-		var titleElement = document.querySelector('title');
-		if (titleElement) {
-//`innerText` for IE
-			var titleText = (titleElement.textContent !== undefined) ? titleElement.textContent : titleElement.innerText;
-			return titleText.split('-')[0].trim();
-		}
-		return '';
 	}
 };
 

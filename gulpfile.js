@@ -13,7 +13,7 @@ const browserSync = require('browser-sync').create();
 
 gulp.task('styles', function() {
   return gulp.src('main.scss')
-    ..pipe(sourcemaps.init())
+    .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded',
       precision: 10,
@@ -28,9 +28,10 @@ gulp.task('scripts', function() {
   return browserify('main.js')
     .bundle()
     .pipe(source('main.js'))
-    .pipe(gulp.dest('.tmp'));
+    .pipe(gulp.dest('.tmp'))
+    .pipe(browserSync.stream());
 });
-gulp.task('scripts:watch', ['scripts'], browserSync.reload);
+
 
 gulp.task('clean', function() {
   return del(['.tmp/**']);
@@ -51,7 +52,7 @@ gulp.task('serve', ['styles', 'scripts'], function() {
   ]).on('change', browserSync.reload);
 
   gulp.watch(['main.scss', 'src/**/*.scss'], ['styles']);
-  gulp.watch(['main.js', 'src/**/*.js'], ['scripts:watch']);
+  gulp.watch(['main.js', 'src/**/*.js'], ['scripts']);
 });
 
 /*gulp.task('build:es6', sequence('clean', ['styles', 'scripts']));
