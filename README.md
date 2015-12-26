@@ -1,7 +1,3 @@
-## Install
-```
-bower install ftc-share --save
-```
 ## Getting started
 
 The simplest markup you might need looks like this:
