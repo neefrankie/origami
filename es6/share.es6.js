@@ -1,4 +1,5 @@
-var socialUrls = {
+'use strict'
+const socialUrls = {
 	wechat: {
 		name: "微信",
 		url: "http://www.ftchinese.com/m/corp/qrshare.html?title={{title}}&url={{url}}&ccode=2C1A1408"
@@ -11,27 +12,16 @@ var socialUrls = {
 		name: "LinkedIn",
 		url: "http://www.linkedin.com/shareArticle?mini=true&url={{url}}&title={{title}}&summary={{summary}}&source=FT中文网"
 	},
-	facebook: {
-		name: "Facebook",
-		url: "http://www.facebook.com/sharer.php?u={{url}}&amp;t={{title}}+|+{{titleExtra}}"
-	},
-	twitter: {
-		name: "Twitter",
-		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;related={{relatedTwitterAccounts}}&amp;via=FT"
-	},
-	defaultSocialList: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter']
+	defaultSocialList: ['wechat', 'weibo', 'linkedin']
 };
 
-/*
-  *@object Share used as prototype
-  */
-var Share = {
-	init: function(rootEl, socialList, config) {
+class Share {
+	constructor(rootEl, socialList, config) {
 		this.rootEl = rootEl;
 		this.socials = socialList;
 		this.config = config;
 //If `networks` and `config` were passed in the wrong order:
-		for (var i = 1; i < arguments.length; i++) {
+		for (let i = 1; i < arguments.length; i++) {
 			if (Array.isArray(arguments[i])) {
 				this.socials = arguments[i];
 			} else {
@@ -46,7 +36,7 @@ var Share = {
 		}
 //Try if there is a `data-o-share-links` attribute on the `rootEl`
 		try {
-			var hasShareAttr = this.rootEl.hasAttribute('data-share-links');
+			var hasShareAttr = this.rootEl.hasAttribute('data-link-list');
 		} catch(e) {
 			console.log(e.message);
 		}
@@ -66,31 +56,30 @@ var Share = {
 			this.config.summary = this.getDescription();
 		}
 		this.render();
-	},
+	}
 
-	render: function() {
-		var ulElement = document.createElement('ul');
+	render() {
+		let ulElement = document.createElement('ul');
 
-		for (var i = 0; i < this.socials.length; i++) {
-			var social = this.socials[i];
-			var socialName = socialUrls[social].name;
-			var url = this.generateSocialUrl(social);
+		for (let i = 0; i < this.socials.length; i++) {
+			let social = this.socials[i];
+			let socialName = socialUrls[social].name;
+			let url = this.generateSocialUrl(social);
 
-			var liElement = document.createElement('li');
+			let liElement = document.createElement('li');
 			
-			var aElement = document.createElement('a');
+			let aElement = document.createElement('a');
 			aElement.classList.add('share-link');
 			aElement.classList.add('share-' + social);
 			aElement.href = url;
 			aElement.target = '_blank';
-			aElement.setAttribute('data-trackable', social)
 
-			var iElement = document.createElement('i');
+			let iElement = document.createElement('i');
 			iElement.classList.add('icon-social-' + social);
 
-			var spanElement = document.createElement('span')
+			let spanElement = document.createElement('span')
 			
-			var socialText = document.createTextNode(socialName);
+			let socialText = document.createTextNode(socialName);
 			spanElement.appendChild(socialText);
 
 			aElement.appendChild(iElement);
@@ -104,31 +93,33 @@ var Share = {
 		} catch(e) {
 			console.log(e.message);
 		}
-	},
+	}
 
-	generateSocialUrl: function(social) {
-		var templateUrl = socialUrls[social].url;
+	generateSocialUrl(social) {
+		let templateUrl = socialUrls[social].url;
 		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(this.config.url))
 			.replace('{{title}}', encodeURIComponent(this.config.title))
 			.replace('{{summary}}', encodeURIComponent(this.config.summary));
 		return templateUrl;
-	},
+	}
 
-	getDescription: function() {
-		var descElement = document.querySelector('meta[property="og:description"]');
+	getDescription () {
+		let descElement = document.querySelector('meta[property="og:description"]');
 		if (descElement) {
 			return descElement.hasAttribute('content') ? descElement.getAttribute('content') : '';
 		}
 		return '';
-	},
+	}
 
-	getTitle: function() {
-		var titleElement = document.querySelector('title');
+	getTitle() {
+		let titleElement = document.querySelector('title');
 		if (titleElement) {
 //`innerText` for IE
-			var titleText = (titleElement.textContent !== undefined) ? titleElement.textContent : titleElement.innerText;
+			let titleText = (titleElement.textContent !== undefined) ? titleElement.textContent : titleElement.innerText;
 			return titleText.split('-')[0].trim();
 		}
 		return '';
 	}
 };
+
+export { Share };
