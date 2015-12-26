@@ -42,11 +42,8 @@ var pageMeta = {
 		}
 		return '';
 	})()
-}
+};
 
-/*
-  *@object Share
-  */
 var Share = {
 	init: function(rootEl, socialList, config) {
 		this.rootEl = rootEl;
@@ -68,9 +65,7 @@ var Share = {
 		}
 //Try if there is a `data-o-share-links` attribute on the `rootEl`
 		try {
-
 			var hasShareLinks = this.rootEl.hasAttribute('data-share-links');
-
 		} catch(e) {
 			console.log(e.message);
 		}
@@ -86,25 +81,6 @@ var Share = {
 		if (!this.config) {
 			this.config = pageMeta;
 		}
-		this.render();
-		return this;
-	},
-
-	initAll: function(el) {
-		var shareInstances = [];
-		if (!el) {
-			el = document.body;
-		} else if (!(el instanceof HTMLElement)) {
-			el = document.querySelector(el);
-		}
-
-		var shareElements = el.querySelectorAll('[data-component=ftc-share]');
-		
-		for (var i = 0; i < shareElements.length; i++) {
-			var shareObject = Object.create(Share);
-			shareInstances.push(shareObject.init(shareElements[i]));
-		}
-		return shareInstances;
 	},
 
 	render: function() {

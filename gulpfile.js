@@ -39,7 +39,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-  return browserify('main.js')
+  return browserify('app/index.js')
     .bundle()
     .pipe(source('main.js'))
     .pipe(gulp.dest('.tmp'))
@@ -66,7 +66,7 @@ gulp.task('serve', ['styles', 'scripts'], function() {
   ]).on('change', browserSync.reload);
 
   gulp.watch(['main.scss', 'src/**/*.scss'], ['styles']);
-  gulp.watch(['main.js', 'src/**/*.js'], ['scripts']);
+  gulp.watch(['app/*.js', 'main.js', 'src/**/*.js'], ['scripts']);
 });
 
 /*gulp.task('build:es6', sequence('clean', ['styles', 'scripts']));

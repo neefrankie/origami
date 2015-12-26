@@ -1,100 +1,100 @@
-# Installation
+## Install
+```
+bower install ftc-share --save
+```
+## Getting started
 
-	bower install ftc-share --save
+The simplest markup you might need looks like this:
 
-# Usage
-Create a new object by inheriting `Share`:
+```html
+<div data-component="ftc-share"
+    class="ftc-share"
+    data-share-links="{{links}}">
+</div>
+```
 
-	var sharebutton = Object.create(Share);
+The different options are:
 
-Create share elements with `Share`'s `init()` method:
+* `links`: List of lower case social networks to be added separated by a space.
 
-	sharebutton.init('.containerClassName');
+The different social networks are:
 
-## `Share.init()` signature:
+* Wechat
+* Weibo
+* Linkedin
+* Facebook
+* Twitter
 
-	
-	Share.init([rootEl, socialList, configopt]);
+### Instantiation
 
-`rootEl` is the share button's container. It could be either an id, class or HTMLElement but not a NodeList. This means you could use `getElementById` or `querySelector`,  but neither `getElementsByTagName` nor `querySelectorAll`. If you have multiple groups of the share button container, use a loop to initialize the `sharebutton` object multiple times yourself:
+#### Javascript
+To instantiate the JavaScript:
 
-	var myshares = document.querySelectorAll('.share-links');
-	var share = Object.create(Share);
-	for (let i = 0; i < myshares.length; i++) {
-		share.init(mysahres[i]);
-	}
+```javascript
+var ftcShare = require('ftc-share');
+var ftcShare.create(document.querySelector('[data-component=ftc-share]'));
+```
 
-If you ommit this param, it will default to `document.body`.
+The markup will be generated for that instance of `ftc-share`.
 
-`socialList` is an optional array listing the social share platforms. Currently Available: 'wechat', 'weibo', 'linkedin'. Deafult to select all threee.
+You can also instantiate all instances in your page by running `ftcShare.createAll()` which returns an array with all of them.
 
-If you do not pass in the `socialList` param, the script will first try to find wether the container element has a `data-o-share-links` atrribute. The simplest markup might look like the following:
+#### Sass
 
-	<div data-component="ftc-share"
-	    data-share-links="{{networks}}">
-	</div>
-	
+```scss
+@import 'o-share/main';
+```
 
-If `data-share-links` exists, it will get the value of this attribute and split the value into an array. If it failed to find this attribute, a default array will be used.
+## API
+```javascript
+	ftcShare.create([rootEl, socialList, configopt]);
+```
+`rootEl` is the share button's container. It could be either an id, class or HTMLElement. If you ommit this param, it will default to `document.body`.
+
+`socialList` is an optional array listing the social share platforms. Currently Available: 'wechat', 'weibo', 'linkedin', 'facebook', 'twitter'. Deafult to select all.
+
+If you do not pass the `socialList` param, the script will first try to find wether the container element has a `data-share-links` atrribute. If `data-share-links` exists, it will get the value of this attribute and split the value into an array. If it failed to find this attribute, the default list will be used.
 
 `config` is an object containing the information used as the share button's `href` value:
-	
+
+```javascript	
 	var config = {
 		url: //string. The url to share. Usually default to window.location.href.
 		title: // string. The title to show when shared.
 		summary: // string. A short messge to be shared
 	}
-	
+```
 
-If you do not pass in the `config`, the script will search `<meta>` and `<title>` tag for related infomation. You should at leat provide a `meta` tag with the following attributes and values in your HTML file:
+If you do not pass the `config`, the script will search `<meta>` and `<title>` tag for related infomation. You should at leat provide a `meta` tag with the following attributes and values in your HTML file:
 
-	<meta name="description" content="This will be used as the config.summary value" />
+```html
+<meta name="description" content="This will be used as the config.summary value" />
+```
 
-# Example:
+### Example:
 
-##HTML:
+```javascript
+var socialList = ['wechat', 'weibo', 'linkedin'];
+var config = {
+    url: window.location.href,
+    title: 'Syria oil map',
+    summary: 'How the Isis oil economy works, explained through the journey of a barrel of oil in Syria',
+};
+ftcShare.create('.share-links', socialList, config);
+```
 
-	<div class="share-links"></div>
+### Generated Markup
+```html
+<ul>
+    <li>
+        <a class="share-link share-wechat" href="" target="_blank">
+            <i class="icon-social-wechat"></i>
+            <span>微信</span>
+        </a>
+    </li>
+</ul>
+```
 
-##Script:
+### Background Images
 
-	var socialList = ['wechat', 'weibo', 'linkedin'];
-	var config = {
-		url: window.location.href,
-		title: 'Syria oil map',
-		summary: 'How the Isis oil economy works, explained through the journey of a barrel of oil in Syria',
-	};
-	var share = Object.create(Share)
-	share.init('.share-links', socialList, config);
-	
-
-# Generated HTML Structure
-
-	<ul>
-        <li>
-        	<a class="share-link share-wechat" href="" target="_blank">
-        		<i class="icon-social-wechat"></i>
-        		<span>微信</span>
-        	</a>
-        </li>
-        <li>
-        	<a class="share-link share-weibo" href="" target="_blank">
-        		<i class="icon-social-weibo"></i>
-        		<span>微博</span>
-        	</a>
-        </li>
-        <li>
-        	<a class="share-link share-linkedin" href="" target="_blank">
-        		<i class="icon-social-linkedin"></i>
-        		<span>LinkedIn</span>
-        	</a>
-        </li>
-    </ul>
-
-# Background Images
-
-You can use your own icons on the `i` element, or use this project together with [FTC-ICONS](https://github.com/FTChinese/ftc-icons/).
-
-# ES6 Branch
-
-Rewrite component with es6 `import`, `export` and `class`. The main file is `app/share.es6.js`. It was transpiled into es5 under `lib`. Test file under `build` produced by `webpack`.
+You can use your own icons on the `i` element, or use those provided by [FTC-ICONS](https://github.com/FTChinese/ftc-icons/).
