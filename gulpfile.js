@@ -9,24 +9,12 @@ const plumber = require('gulp-plumber');
 const browserify = require('browserify');
 
 const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
 const browserSync = require('browser-sync').create();
-
-gulp.task('wiredep', () => {
-  gulp.src('app/styles/*.scss')
-    .pipe(wiredep({
-      ignorePath: /^(\.\.\/)+/
-    }))
-    .pipe(gulp.dest('app'));
-
-  gulp.src('app/*.html')
-    .pipe(wiredep({
-      ignorePath: /^(\.\.\/)*\.\./
-    }))
-    .pipe(gulp.dest('app'));
-});
 
 gulp.task('styles', function() {
   return gulp.src('main.scss')
+    .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded',
@@ -39,13 +27,23 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-  return browserify('app/index.js')
-    .bundle()
+  var b = browserify({
+    entries: 'app/index.js',
+    debug: true
+  });
+
+  return b.bundle()
+    .on('error', function(err) {
+      console.log(err.message);
+      this.emit('end')
+    })  
     .pipe(source('main.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('.tmp'))
     .pipe(browserSync.stream());
 });
-
 
 gulp.task('clean', function() {
   return del(['.tmp/**']);
@@ -69,29 +67,9 @@ gulp.task('serve', ['styles', 'scripts'], function() {
   gulp.watch(['app/*.js', 'main.js', 'src/**/*.js'], ['scripts']);
 });
 
-/*gulp.task('build:es6', sequence('clean', ['styles', 'scripts']));
-
-gulp.task('serve:es6', ['build:es6'], function() {
-  browserSync.init({
-    server: {
-      baseDir: ['.tmp', 'app'],
-      routes: {
-        '/bower_components': 'bower_components'
-      }
-    }
-  });
-
-  gulp.watch([
-    'app/*.html'
-  ]).on('change', browserSync.reload);
-
-  gulp.watch(['app/*.scss'], ['styles']);
-  gulp.watch('es6/*.js', ['babelify']);
-});*/
-
 /*==== Test Feature=========*/
 
-const babel = require('gulp-babel');
+/*const babel = require('gulp-babel');
 const babelify = require('babelify');
 const through2 = require('through2');
 const umd = require('gulp-umd');
@@ -99,7 +77,7 @@ const requirejs = require('requirejs');
 
 gulp.task('umd', function() {
   gulp.src('src/js/*.js')
-    .pipe(umd(/*{
+    .pipe(umd({
       dependencies: function(file) {
         return [
           {
@@ -111,7 +89,7 @@ gulp.task('umd', function() {
           }
         ];
       }
-    }*/))
+    }))
     .pipe(gulp.dest('app/scripts'));
 });
 
@@ -134,4 +112,4 @@ gulp.task('es6', function () {
     .pipe(rename('share.js'))
     .pipe(gulp.dest('.tmp'))
     .pipe(browserSync.stream());
-});
+});*/

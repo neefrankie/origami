@@ -11,9 +11,7 @@
     "FTC",
     "icons"
   ],
-  "scripts": {
-    
-  },
+  "scripts": {},
   "author": "weiguo.ni",
   "license": "MIT",
   "bugs": {
@@ -30,6 +28,8 @@
     "gulp-sass": "^2.1.0",
     "gulp-sequence": "^0.4.1",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "^3.0.7",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }
