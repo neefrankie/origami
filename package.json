@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/FTChinese/ftc-share#readme",
   "devDependencies": {
+    "bower-webpack-plugin": "^0.1.9",
     "browser-sync": "^2.10.0",
     "browserify": "^12.0.1",
+    "browserify-bower": "^0.6.0",
     "del": "^2.1.0",
     "dom-delegate": "^2.0.2",
     "gulp": "^3.9.0",
@@ -30,6 +32,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "webpack": "^1.12.9"
   }
 }

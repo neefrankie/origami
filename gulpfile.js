@@ -1,16 +1,20 @@
 'use strict'
-const gulp = require('gulp');
-const del = require('del');
-const rename = require('gulp-rename');
-const sass = require('gulp-sass');
-const sourcemaps = require('gulp-sourcemaps');
-const sequence = require('gulp-sequence');
-const plumber = require('gulp-plumber');
-const browserify = require('browserify');
+var gulp = require('gulp');
+var del = require('del');
+var rename = require('gulp-rename');
+var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
+var sequence = require('gulp-sequence');
+var plumber = require('gulp-plumber');
+var browserify = require('browserify');
+var browserifyBower = require('browserify-bower');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var webpack = require('webpack');
+var gutil = require('gulp-util');
+var browserSync = require('browser-sync').create();
 
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
-const browserSync = require('browser-sync').create();
+var webpackConfig = require('./webpack.config.js');
 
 gulp.task('styles', function() {
   return gulp.src('main.scss')
@@ -28,16 +32,20 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
   var b = browserify({
-    entries: 'app/index.js',
+    entries: './app/index.js',
     debug: true
   });
 
-  return b.bundle()
+  return b
+    .plugin('browserify-bower', {
+      require: ['dom-delegate', 'ftc-icons']
+    })
+    .bundle()
     .on('error', function(err) {
       console.log(err.message);
       this.emit('end')
     })  
-    .pipe(source('main.js'))
+    .pipe(source('bundle.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init())
     .pipe(sourcemaps.write())
@@ -45,11 +53,20 @@ gulp.task('scripts', function() {
     .pipe(browserSync.stream());
 });
 
+gulp.task('webpack', function() {
+  webpack(webpackConfig, function(err, stats) {
+    if (err) throw new gutil.PluginError("webpack", err);
+    gutil.log("[webpack]", stats.toString({
+        // output options
+    }));
+  });
+});
+
 gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', ['styles', 'scripts'], function() {
+gulp.task('serve', ['styles', 'webpack'], function() {
   browserSync.init({
     server: {
       baseDir: ['.tmp', 'app'],
@@ -64,7 +81,7 @@ gulp.task('serve', ['styles', 'scripts'], function() {
   ]).on('change', browserSync.reload);
 
   gulp.watch(['main.scss', 'src/**/*.scss'], ['styles']);
-  gulp.watch(['app/*.js', 'main.js', 'src/**/*.js'], ['scripts']);
+  gulp.watch(['app/*.js', 'main.js', 'src/**/*.js'], ['webpack']);
 });
 
 /*==== Test Feature=========*/
