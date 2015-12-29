@@ -1,76 +1,113 @@
-// bower:scss
-@import "ftc-icons/main.scss";
-// endbower
-
-.share-link {
-	i {
-		padding-left: 1em;
-		background-repeat: no-repeat;
-		background-position: left center;
-		background-size: contain;
-		border-radius: .2em;		
-	}
-	span {
-		padding-left: .3em;
-		font-size: 18px;
-	}
-}
-
-.no-bg {
-	.icon-social-wechat {
-		background-image: $social-wechat;
-	}
-	.icon-social-weibo {
-		background-image: $social-weibo;
-	}
-	.icon-social-linkedin {
-		background-image: $social-linkedin;
-	}
-	.icon-social-facebook {
-		background-image: $social-facebook;
-	}
-	.icon-social-twitter {
-		background-image: $social-twitter;
-	}	
-}
-
-
-.has-bg {
-	li {
+@mixin oShareBase($classname: o-share) {
+	.#{$classname} {
 		display: inline-block;
-		margin: 0 .5em;
-	}
-	a {
-		display: inline-block;
-		&:hover {
-			opacity: .8;
+
+		ul {
+			margin: 0;
+			padding: 0;
 		}
 	}
-	i {
-		display: inline-block;
-		width: 100px;
-		height: 100px;
-		border-radius: 50%;
-		padding: 0;
-		margin: 0;
-	}
-	span {
-		display: none;
-	}
-	.icon-social-wechat {
-		background-image: $social-wechat-bg;
-	}
-	.icon-social-weibo {
-		background-image: $social-weibo-bg;
-	}
-	.icon-social-linkedin {
-		background-image: $social-linkedin-bg;
-	}
-	.icon-social-facebook {
-		background-image: $social-facebook-bg;
-	}
-	.icon-social-twitter {
-		background-image: $social-twitter-bg;
+
+	.#{$classname}__action {
+		float: left;
+		margin: 0 5px 0 0;
+		list-style-type: none;
+		line-height: $o-share-icon-size;
+		cursor: pointer;
+
+		i {
+			float: left;
+			background-size: 100% 100%;
+			width: $o-share-icon-size;
+			height: $o-share-icon-size;
+			text-indent: $o-share-icon-size;
+			overflow: hidden;
+		}
+
+		span {
+			float: left;
+			line-height: $o-share-icon-size;
+			font-size: $o-share-icon-size;
+			margin: 0;
+			padding: 0 0 0 6px;
+		}
+
+		a {
+			text-decoration: none;
+			padding: 6px;
+			display: block;
+			overflow: hidden;
+
+			&:focus i {
+				box-shadow: 0 0 2px oColorsGetPaletteColor('black');
+			}
+
+			&:hover i {
+				opacity: 0.8;
+			}
+		}
+		&:first-child a {
+			padding-left: 0;
+		}
 	}
 }
 
+@mixin oShareActionLink($classname: o-share) {
+	.#{$classname}__action--url {
+		/* display: none; */
+
+		i {
+			background-image: url(_oShareGetIconUrl(link));
+		}
+
+		input {
+			display: block;
+			margin: 6px;
+			border: 0;
+			border-radius: 2px;
+			padding: 5px 8px;
+			width: 140px;
+			font-size: 12px;
+			line-height: 14px;
+			box-shadow: 0 0 3px oColorsGetPaletteColor('grey-tint5');
+
+			// Removes the cross the clears the input in IE 10+
+			&::-ms-clear {
+				display: none;
+			}
+		}
+	}
+
+	[data-o-share--js] .#{$classname}__action--url {
+		display: block;
+	}
+
+	.#{$classname}__action--url[aria-selected=true] {
+		position: relative;
+		a {
+			display: none;
+		}
+	}
+}
+
+/// Icon
+///
+/// @param {String} $name - Name of the icon
+/// @param {String} $classname [o-share] - base class name
+@mixin oShareActionIcon($name, $hasBg: true, $classname: o-share) {
+	.#{$classname}__action--#{$name} i {
+		$iconcolor: map-get($_o-share-icon-colors, $name);
+		$iconname: null;
+		@if ($hasBg) {
+			$iconname: "social-" + $name + "-bg";
+		} @else {
+			$iconname: "social-" + $name;
+		}
+
+		background-image: sassvg($iconname, $fillcolor: $iconcolor);
+		
+		// The weird value for rgba is to prevent Sass converting rgba(0,0,0,0) to 'transparent',
+		// which would cause the following line of css to be understood by ie7/8 and the svg to be downloaded
+		background: rgba(0, 0, 0, 0.0001) sassvg($iconname, $fillcolor: $iconcolor) center/100% no-repeat;
+	}
+}

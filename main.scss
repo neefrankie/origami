@@ -1,2 +1,14 @@
+@import "ftc-icons/main.scss";
 
+@import "src/scss/variables";
+@import 'src/scss/functions';
 @import "src/scss/share";
+
+@include oShareBase();
+@include oShareActionLink();
+@include oShareActionIcon(wechat);
+@include oShareActionIcon(weibo);
+@include oShareActionIcon(linkedin);
+@include oShareActionIcon(facebook);
+@include oShareActionIcon(twitter);
+

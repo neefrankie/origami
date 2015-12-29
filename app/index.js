@@ -1,6 +1,5 @@
-var domDelegate = require('dom-delegate');
 var socialShare = require('../main.js');
 
 
-socialShare.create('.share-links');
+socialShare.create('.o-share');
 socialShare.createAll();

@@ -77,7 +77,8 @@ gulp.task('serve', ['styles', 'webpack'], function() {
   });
 
   gulp.watch([
-    'app/*.html'
+    'app/*.html',
+    '.tmp/*.js'
   ]).on('change', browserSync.reload);
 
   gulp.watch(['main.scss', 'src/**/*.scss'], ['styles']);

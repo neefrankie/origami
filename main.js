@@ -17,7 +17,7 @@ module.exports = {
 			el = document.querySelector(el);
 		}
 
-		var shareElements = el.querySelectorAll('[data-component=ftc-share]');
+		var shareElements = el.querySelectorAll('[data-o-component=o-share]');
 		
 		for (var i = 0; i < shareElements.length; i++) {
 			var shareInstance = Object.create(Share);

@@ -1,0 +1,28 @@
+////
+/// @group o-share
+/// @link http://registry.origami.ft.com/components/o-share
+////
+
+/// Silent mode
+/// @type Bool
+$o-share-is-silent: true !default;
+
+/// Icon size
+/// @type Number
+$o-share-icon-size: 24px;
+
+/// List of accepted social network icons, and the version
+/// @type map
+$_o-share-icons: (wechat, weibo, linkedin, facebook, twitter);
+
+/// Tooltip background
+/// @type color
+$_o-share-tooltip-bg: rgba(0, 0, 0, 0.6);
+
+$_o-share-icon-colors: (
+	wechat:#609700,
+	weibo: #e6162d,
+	linkedin:#0977b6,
+	facebook: #3c5a99,
+	twitter: #6aa9e0,
+);

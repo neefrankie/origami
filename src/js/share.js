@@ -20,7 +20,11 @@ var socialUrls = {
 		name: "Twitter",
 		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;related={{relatedTwitterAccounts}}&amp;via=FT"
 	},
-	defaultSocialList: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter']
+	url: {
+		name: "URL",
+		url: "{{url}}"
+	},
+	defaultSocialList: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter', 'url']
 };
 
 // Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
@@ -46,6 +50,7 @@ var pageMeta = {
 
 var Share = {
 	init: function(rootEl, socialList, config) {
+		var hasShareLinks = null;
 		this.rootEl = rootEl;
 		this.socials = socialList;
 		this.config = config;
@@ -57,21 +62,24 @@ var Share = {
 				this.config = arguments[i];
 			}
 		}
-		if (!this.rootEl) {
-			this.rootEl = document.body;
-		} 
+		
 		if (!(this.rootEl instanceof HTMLElement)) {
 			this.rootEl = document.querySelector(rootEl);
 		}
+
+		if (!this.rootEl) {
+			this.rootEl = document.body;
+		} 
 //Try if there is a `data-o-share-links` attribute on the `rootEl`
 		try {
-			var hasShareLinks = this.rootEl.hasAttribute('data-share-links');
+			hasShareLinks = this.rootEl.hasAttribute('data-o-share-links');
+			console.log('hasShareLinks: ', hasShareLinks)
 		} catch(e) {
 			console.log(e.message);
 		}
 //If there is `data-o-share-links`, then split the attribute value into an array...
 		if (!this.socials && hasShareLinks) {
-			this.socials = this.rootEl.getAttribute('data-share-links').split(' ') || [];
+			this.socials = this.rootEl.getAttribute('data-o-share-links').split(' ') || [];
 		}
 //else, use `defaultNetworks`:
 		if (!this.socials && !hasShareLinks) {
@@ -92,10 +100,9 @@ var Share = {
 			var url = this.generateSocialUrl(social);
 
 			var liElement = document.createElement('li');
+			liElement.classList.add('o-share__action', 'o-share__action--' + social)
 			
 			var aElement = document.createElement('a');
-			aElement.classList.add('share-link');
-			aElement.classList.add('share-' + social);
 			aElement.href = url;
 			aElement.target = '_blank';
 			aElement.setAttribute('data-trackable', social)
@@ -105,8 +112,7 @@ var Share = {
 
 			var spanElement = document.createElement('span')
 			
-			var socialText = document.createTextNode(socialName);
-			spanElement.appendChild(socialText);
+			spanElement.appendChild(document.createTextNode(socialName));
 
 			aElement.appendChild(iElement);
 			aElement.appendChild(spanElement);
