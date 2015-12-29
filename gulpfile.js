@@ -12,6 +12,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var webpack = require('webpack');
 var gutil = require('gulp-util');
+var bourbon = require('bourbon').includePaths;
 var browserSync = require('browser-sync').create();
 
 var webpackConfig = require('./webpack.config.js');
@@ -23,7 +24,7 @@ gulp.task('styles', function() {
     .pipe(sass({
       outputStyle: 'expanded',
       precision: 10,
-      includePaths: ['bower_components']
+      includePaths: ['bower_components', bourbon]
     }).on('error', sass.logError))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('.tmp'))

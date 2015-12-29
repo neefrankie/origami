@@ -5,6 +5,7 @@
 		ul {
 			margin: 0;
 			padding: 0;
+			@include clearfix;
 		}
 	}
 
@@ -22,12 +23,13 @@
 			height: $o-share-icon-size;
 			text-indent: $o-share-icon-size;
 			overflow: hidden;
+			border-radius: 50%;
 		}
 
 		span {
 			float: left;
-			line-height: $o-share-icon-size;
-			font-size: $o-share-icon-size;
+/* 			line-height: $o-share-icon-size;
+			font-size: $o-share-icon-size; */
 			margin: 0;
 			padding: 0 0 0 6px;
 		}
@@ -54,7 +56,7 @@
 
 @mixin oShareActionLink($classname: o-share) {
 	.#{$classname}__action--url {
-		/* display: none; */
+		display: none;
 
 		i {
 			background-image: url(_oShareGetIconUrl(link));
