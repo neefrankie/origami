@@ -45,7 +45,7 @@ You can also instantiate all instances in your page by running `ftcShare.createA
 ```javascript
 	ftcShare.create([rootEl, socialList, configopt]);
 ```
-`rootEl` is the share button's container. It could be either an id, class or HTMLElement. If you ommit this param, it will default to `document.body`.
+`rootEl` is the share button's container. It could be either an id, class or HTMLElement. If you ommit this param or the selector could not be found on the page, it will default to `document.body`.
 
 `socialList` is an optional array listing the social share platforms. Currently Available: 'wechat', 'weibo', 'linkedin', 'facebook', 'twitter'. Deafult to select all.
 
