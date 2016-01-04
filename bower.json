@@ -26,6 +26,7 @@
     "tests"
   ],
   "dependencies": {
-    "ftc-icons": "~1.0.1"
+    "ftc-icons": "~1.0.2",
+    "dom-delegate": "~2.0.3"
   }
 }
