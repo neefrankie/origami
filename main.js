@@ -2,14 +2,14 @@
 const Share = require('./src/js/share');
 
 module.exports = {
-	create: function (rootEl, socialList, config) {
+	build: function (rootEl, socialList, config) {
 		var shareInstance = Object.create(Share);
 		shareInstance.init(rootEl, socialList, config);
 		shareInstance.render();
 		return shareInstance;
 	},
 
-	createAll: function (el) {
+	buildAll: function (el) {
 		var shareInstances = [];
 		if (!el) {
 			el = document.body;

@@ -1,5 +1,5 @@
 var socialShare = require('../main.js');
 
 
-socialShare.create('.o-share');
-socialShare.createAll();
+socialShare.build('.o-share');
+socialShare.buildAll();
