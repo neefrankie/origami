@@ -7,10 +7,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var sequence = require('gulp-sequence');
 var plumber = require('gulp-plumber');
 var browserify = require('browserify');
-var browserifyBower = require('browserify-bower');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var webpack = require('webpack');
 var gutil = require('gulp-util');
 var bourbon = require('bourbon').includePaths;
 var browserSync = require('browser-sync').create();
@@ -38,9 +36,7 @@ gulp.task('scripts', function() {
   });
 
   return b
-    .plugin('browserify-bower', {
-      require: ['dom-delegate', 'ftc-icons']
-    })
+    .transform('debowerify')
     .bundle()
     .on('error', function(err) {
       console.log(err.message);
@@ -54,20 +50,11 @@ gulp.task('scripts', function() {
     .pipe(browserSync.stream());
 });
 
-gulp.task('webpack', function() {
-  webpack(webpackConfig, function(err, stats) {
-    if (err) throw new gutil.PluginError("webpack", err);
-    gutil.log("[webpack]", stats.toString({
-        // output options
-    }));
-  });
-});
-
 gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', ['styles', 'webpack'], function() {
+gulp.task('serve', ['styles', 'scripts'], function() {
   browserSync.init({
     server: {
       baseDir: ['.tmp', 'app'],
@@ -83,7 +70,7 @@ gulp.task('serve', ['styles', 'webpack'], function() {
   ]).on('change', browserSync.reload);
 
   gulp.watch(['main.scss', 'src/**/*.scss'], ['styles']);
-  gulp.watch(['app/*.js', 'main.js', 'src/**/*.js'], ['webpack']);
+  gulp.watch(['app/*.js', 'main.js', 'src/**/*.js'], ['scripts']);
 });
 
 /*==== Test Feature=========*/
