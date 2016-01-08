@@ -9,7 +9,8 @@
     "main.scss"
   ],
   "moduleType": [
-    "es6"
+    "es6",
+    "node"
   ],
   "keywords": [
     "ftc",
@@ -23,7 +24,8 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "demo"
   ],
   "dependencies": {
     "ftc-icons": "~1.0.2",
