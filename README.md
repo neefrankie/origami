@@ -3,23 +3,19 @@
 The simplest markup you might need looks like this:
 
 ```html
-<div data-component="ftc-share"
-    class="ftc-share"
-    data-share-links="{{links}}">
+<div data-o-component="ftc-share"
+    class="o-share"
+    data-o-share-links="{{links}}">
 </div>
 ```
 
 The different options are:
 
-* `links`: List of lower case social networks to be added separated by a space.
+* `links`: List of lower case social networks to be added separated by a space. Put any social platform you want to show on the page to this attribute:
 
-The different social networks are:
+    data-o-share-links="wechat weibo linedin facebook twitter"
 
-* Wechat
-* Weibo
-* Linkedin
-* Facebook
-* Twitter
+If you do not add `data-o-share-links` attribute, it defaults to all. If you use this attribute, only the listed ones will be shown.
 
 ### Instantiation
 
