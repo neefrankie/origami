@@ -32,11 +32,11 @@
 			font-size: $o-share-icon-size; */
 			margin: 0;
 			padding: 0 0 0 6px;
+			display: none;
 		}
 
 		a {
 			text-decoration: none;
-			padding: 6px;
 			display: block;
 			overflow: hidden;
 
@@ -101,9 +101,9 @@
 		$iconcolor: map-get($_o-share-icon-colors, $name);
 		$iconname: null;
 		@if ($hasBg) {
-			$iconname: "social-" + $name + "-bg";
-		} @else {
 			$iconname: "social-" + $name;
+		} @else {
+			$iconname: "social-" + $name + "-alt";
 		}
 
 		background-image: sassvg($iconname, $fillcolor: $iconcolor);

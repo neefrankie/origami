@@ -28,7 +28,7 @@
     "demo"
   ],
   "dependencies": {
-    "ftc-icons": "~1.0.4",
+    "ftc-icons": "~1.1.0",
     "dom-delegate": "~2.0.3"
   }
 }
