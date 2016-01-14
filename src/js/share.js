@@ -18,7 +18,7 @@ var socialUrls = {
 	},
 	twitter: {
 		name: "Twitter",
-		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}"
+		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;via=FTChinese"
 	},
 	url: {
 		name: "URL",
