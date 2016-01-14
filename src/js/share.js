@@ -14,11 +14,11 @@ var socialUrls = {
 	},
 	facebook: {
 		name: "Facebook",
-		url: "http://www.facebook.com/sharer.php?u={{url}}&amp;t={{title}}+|+{{titleExtra}}"
+		url: "http://www.facebook.com/sharer.php?u={{url}}"
 	},
 	twitter: {
 		name: "Twitter",
-		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;related={{relatedTwitterAccounts}}&amp;via=FT"
+		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}"
 	},
 	url: {
 		name: "URL",
