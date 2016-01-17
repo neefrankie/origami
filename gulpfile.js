@@ -30,7 +30,7 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
   var b = browserify({
-    entries: 'client/main.js',
+    entries: 'demo/main.js',
     debug: true,
     cache: {},
     packageCache: {},
@@ -58,7 +58,7 @@ gulp.task('scripts', function() {
       .pipe(buffer())
       .pipe($.sourcemaps.init({loadMaps: true}))
       .pipe($.sourcemaps.write('./'))
-      .pipe(gulp.dest('.tmp/scripts'))
+      .pipe(gulp.dest('.tmp'))
       .pipe(browserSync.stream({once:true}));
   }
 });
@@ -82,4 +82,5 @@ gulp.task('serve', ['styles', 'scripts'], function() {
   ]).on('change', browserSync.reload);
 
   gulp.watch(['main.scss', 'src/**/*.scss'], ['styles']);
+
 });

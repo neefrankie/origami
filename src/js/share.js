@@ -49,7 +49,41 @@ var pageMeta = {
 };
 
 var Share = {
+	dispathCustomEvent: function(event, data = {}, namespace = 'oShare') {
+		this.rootEl.dispatchEvent(new CustomEvent(namespace + '.' + event, {
+			detail: data,
+			bubbles: true
+		}));
+	},
+	handleClick: function(ev) {
+		const actionEl = ev.target.closest('li.o-share__action');
+		if (this.rootEl.contains(actionEl) && actionEl.querySelector('a[href')) {
+			ev.preventDefault();
+
+			const url = actionEl.querySelector('a[href]').href;
+
+			this.dispatchEvent('event', {
+				category: 'share',
+				action: 'click',
+				button: actionEl.textContent.trim()
+			}, 'oTracking');
+
+			if (actionEl.classList.contains('o-share__action--url')) {
+				this.copyLink(url, actionEl);
+			} else {
+				this.shareSocial(url);
+			}
+		}
+	},
+	copyLink: function(url, parentEl) {
+
+	},
+	shareSocial: function(url) {
+
+	},
 	init: function(rootEl, socialList, config) {
+		this.openWindows = {};
+
 		var hasShareLinks = null;
 		this.rootEl = rootEl;
 		this.socials = socialList;
