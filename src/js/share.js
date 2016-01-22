@@ -49,38 +49,6 @@ var pageMeta = {
 };
 
 var Share = {
-	dispathCustomEvent: function(event, data = {}, namespace = 'oShare') {
-		this.rootEl.dispatchEvent(new CustomEvent(namespace + '.' + event, {
-			detail: data,
-			bubbles: true
-		}));
-	},
-	handleClick: function(ev) {
-		const actionEl = ev.target.closest('li.o-share__action');
-		if (this.rootEl.contains(actionEl) && actionEl.querySelector('a[href')) {
-			ev.preventDefault();
-
-			const url = actionEl.querySelector('a[href]').href;
-
-			this.dispatchEvent('event', {
-				category: 'share',
-				action: 'click',
-				button: actionEl.textContent.trim()
-			}, 'oTracking');
-
-			if (actionEl.classList.contains('o-share__action--url')) {
-				this.copyLink(url, actionEl);
-			} else {
-				this.shareSocial(url);
-			}
-		}
-	},
-	copyLink: function(url, parentEl) {
-
-	},
-	shareSocial: function(url) {
-
-	},
 	init: function(rootEl, socialList, config) {
 		this.openWindows = {};
 
@@ -104,6 +72,11 @@ var Share = {
 		if (!this.rootEl) {
 			this.rootEl = document.body;
 		} 
+
+		this.rootEl.addEventListener('click', this.handleClick);
+
+		this.rootEl.setAttribute('data-o-share--js', '');
+
 //Try if there is a `data-o-share-links` attribute on the `rootEl`
 		try {
 			hasShareLinks = this.rootEl.hasAttribute('data-o-share-links');
@@ -167,6 +140,64 @@ var Share = {
 			.replace('{{title}}', encodeURIComponent(this.config.title))
 			.replace('{{summary}}', encodeURIComponent(this.config.summary));
 		return templateUrl;
+	},
+
+	dispathCustomEvent: function(event, data = {}, namespace = 'oShare') {
+		this.rootEl.dispatchEvent(new CustomEvent(namespace + '.' + event, {
+			detail: data,
+			bubbles: true
+		}));
+	},
+
+	handleClick: (ev) => {
+		const actionEl = ev.target.closest('li.o-share__action');
+
+		if (this.rootEl.contains(actionEl) && actionEl.querySelector('a[href')) {
+			ev.preventDefault();
+
+			const url = actionEl.querySelector('a[href]').href;
+
+			this.dispatchEvent('event', {
+				category: 'share',
+				action: 'click',
+				button: actionEl.textContent.trim()
+			}, 'oTracking');
+
+			if (actionEl.classList.contains('o-share__action--url')) {
+				this.copyLink(url, actionEl);
+			} else {
+				this.shareSocial(url);
+			}
+		}
+	},
+
+	copyLink: function(url, parentEl) {
+		if (!url || !parentEl || parentEl.hasAttribute("aria-selected")) {
+			return;
+		}
+		parentEl.setAttribute('aria-selected', 'true');
+
+		this.dispatchCustomEvent('open', {
+			share: oShare,
+			action: 'url',
+			url: url
+		});
+	},
+
+	shareSocial: function(url) {
+		if (url) {
+			if (this.openWindows[url] && !openWindows[url].closed) {
+				openWindows[url].focus();
+			} else {
+				openWindows[url] = window.open(url, '', 'width=646,height=436');
+			}
+
+			dispatchEvent('open', {
+				share: oShare,
+				action: "social",
+				url: url
+			});
+		}
 	}
 };
 
