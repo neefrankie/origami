@@ -69,7 +69,7 @@ function Share (rootEl, config) {
 			rootEl = document.querySelector(rootEl);
 		}
 
-		const rootDelegate = new DomDelegate(rootEl);
+		const rootDomDelegate = new DomDelegate(rootEl);
 		rootDelegate.on('click', handleClick);
 		rootEl.setAttribute('data-o-share--js', '');
 
@@ -159,158 +159,96 @@ function Share (rootEl, config) {
 			}
 		}
 	}
-}
-var Share = {
-	init: function(rootEl, socialList, config) {
-		this.openWindows = {};
 
-		var hasShareLinks = null;
-		this.rootEl = rootEl;
-		this.socials = socialList;
-		this.config = config;
-//If `socialList` and `config` were passed in the wrong order:
-		for (var i = 1; i < arguments.length; i++) {
-			if (Array.isArray(arguments[i])) {
-				this.socials = arguments[i];
-			} else {
-				this.config = arguments[i];
-			}
-		}
-		
-		if (!(this.rootEl instanceof HTMLElement)) {
-			this.rootEl = document.querySelector(rootEl);
-		}
-
-		if (!this.rootEl) {
-			this.rootEl = document.body;
-		} 
-
-		this.rootEl.addEventListener('click', this.handleClick);
-
-		this.rootEl.setAttribute('data-o-share--js', '');
-
-//Try if there is a `data-o-share-links` attribute on the `rootEl`
-		try {
-			hasShareLinks = this.rootEl.hasAttribute('data-o-share-links');
-			console.log('hasShareLinks: ', hasShareLinks)
-		} catch(e) {
-			console.log(e.message);
-		}
-//If there is `data-o-share-links`, then split the attribute value into an array...
-		if (!this.socials && hasShareLinks) {
-			this.socials = this.rootEl.getAttribute('data-o-share-links').split(' ') || [];
-		}
-//else, use `defaultNetworks`:
-		if (!this.socials && !hasShareLinks) {
-			this.socials = socialUrls.defaultSocialList;
-		}
-//If `config` param does not exist, get the share url content from tags.
-		if (!this.config) {
-			this.config = pageMeta;
-		}
-	},
-
-	render: function() {
-		var ulElement = document.createElement('ul');
-
-		for (var i = 0; i < this.socials.length; i++) {
-			var social = this.socials[i];
-			var socialName = socialUrls[social].name;
-			var url = this.generateSocialUrl(social);
-
-			var liElement = document.createElement('li');
-			liElement.classList.add('o-share__action', 'o-share__action--' + social)
-			
-			var aElement = document.createElement('a');
-			aElement.href = url;
-			aElement.target = '_blank';
-			aElement.setAttribute('data-trackable', social)
-
-			var iElement = document.createElement('i');
-			iElement.classList.add('icon-social-' + social);
-
-			var spanElement = document.createElement('span')
-			
-			spanElement.appendChild(document.createTextNode(socialName));
-
-			aElement.appendChild(iElement);
-			aElement.appendChild(spanElement);
-			liElement.appendChild(aElement);
-			ulElement.appendChild(liElement);
-		}
-
-		try {
-			this.rootEl.appendChild(ulElement);
-		} catch(e) {
-			console.log(e.message);
-		}
-	},
-
-	generateSocialUrl: function(social) {
-		var templateUrl = socialUrls[social].url;
-		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(this.config.url))
-			.replace('{{title}}', encodeURIComponent(this.config.title))
-			.replace('{{summary}}', encodeURIComponent(this.config.summary));
-		return templateUrl;
-	},
-
-	dispathCustomEvent: function(event, data = {}, namespace = 'oShare') {
-		this.rootEl.dispatchEvent(new CustomEvent(namespace + '.' + event, {
-			detail: data,
-			bubbles: true
-		}));
-	},
-
-	handleClick: (ev) => {
-		const actionEl = ev.target.closest('li.o-share__action');
-
-		if (this.rootEl.contains(actionEl) && actionEl.querySelector('a[href')) {
-			ev.preventDefault();
-
-			const url = actionEl.querySelector('a[href]').href;
-
-			this.dispatchEvent('event', {
-				category: 'share',
-				action: 'click',
-				button: actionEl.textContent.trim()
-			}, 'oTracking');
-
-			if (actionEl.classList.contains('o-share__action--url')) {
-				this.copyLink(url, actionEl);
-			} else {
-				this.shareSocial(url);
-			}
-		}
-	},
-
-	copyLink: function(url, parentEl) {
-		if (!url || !parentEl || parentEl.hasAttribute("aria-selected")) {
+	function copyLink(url, parentEl) {
+		if (!url || !parentEl || parentEl.hasAttribute('aria-selected')) {
 			return;
 		}
 		parentEl.setAttribute('aria-selected', 'true');
 
-		this.dispatchCustomEvent('open', {
-			share: oShare,
-			action: 'url',
-			url: url
+		new TextCopyHelper({
+			message: '分享请复制此链接'，
+			text: url,
+			parentEl: parentEl,
+			onCopy: function() {
+				oShare.rootEl.dispatchEvent(new CustomEvent('oShare.copy', {
+					detail: {
+						share: oShare,
+						action: 'url',
+						url: url
+					}
+				}));
+			},
+			onDestroy: function() {
+				parentEl.removeAttribute('aria-selected');
+			}
 		});
-	},
 
-	shareSocial: function(url) {
+		oShare.rootEl.dispatchEvent(new CustomEvent('oShare.open', {
+			detail: {
+				share: oShare,
+				action: 'url',
+				url: url
+			}
+		}));
+	}
+
+	function shareSocial(url) {
 		if (url) {
-			if (this.openWindows[url] && !openWindows[url].closed) {
+			if (openWindows[url] && !openWindows[url].closed) {
 				openWindows[url].focus();
 			} else {
 				openWindows[url] = window.open(url, '', 'width=646,height=436');
 			}
 
-			dispatchEvent('open', {
-				share: oShare,
-				action: "social",
-				url: url
-			});
+			oShare.rootEl.dispatchEvent(new CustomEvent('oShare.open', {
+				detail: {
+					share: oShare,
+					action: 'social',
+					url: url
+				}
+			}));
 		}
 	}
+
+	init();
+}
+
+Share.prototype.destroy = function() {
+	this.rootDomDelegate.destroy();
+
+	for (let i = 0; i < this.rootEl.children; i++) {
+		this.rootEl.removeChild(this.rootEl.chidlren[i]);
+	}
+
+	this.rootEl.removeAttribute('data-o-share--js');
+	this.rootEl = undefined;
 };
+
+Share.init = function(el) {
+	const shareInstances = [];
+
+	if (!el) {
+		el =document.body;
+	} else if (!el instanceof HTMLElement) {
+		el = document.querySelector(el);
+	}
+
+	const shareElements = el.querySelectorAll('[data-o-component=o-share]');
+
+	for (let i = 0; i < shareElements.length; i++) {
+		if (!shareElements[i].hasAttribute('data-o-header--js')) {
+			shareInstances.push(new Share(shareElements[i]));
+		}
+	}
+
+	return shareInstances;
+};
+
+const OSharePrototype = Object.create(HTMLElement.prototype);
+
+Share.Element = document.registerElement ? document.registerElement('o-share', {
+	prototype: OSharePrototype
+}) : undefined;
 
 module.exports = Share;
