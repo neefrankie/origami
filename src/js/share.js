@@ -31,7 +31,7 @@ const socialUrls = {
 // Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
 const fallbackConfig = {
 	url: window.location.href || '',
-	links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter', 'url']
+	links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter', 'url'],
 	summary: (function() {
 			let descElement = document.querySelector('meta[property="og:description"]');
 			if (descElement) {
@@ -69,11 +69,11 @@ function Share (rootEl, config) {
 			rootEl = document.querySelector(rootEl);
 		}
 
-		const rootDomDelegate = new DomDelegate(rootEl);
+		const rootDelegate = new DomDelegate(rootEl);
 		rootDelegate.on('click', handleClick);
 		rootEl.setAttribute('data-o-share--js', '');
 
-		oShare.rootDelegate = rootDelegate;
+		oShare.rootDomDelegate = rootDelegate;
 		oShare.rootEl = rootEl;
 
 		if (rootEl.children.length === 0) {
@@ -114,12 +114,8 @@ function Share (rootEl, config) {
 			aElement.target = '_blank';
 			
 			const iElement = document.createElement('i');
-			iElement.classList.add('o-icons__social-' + social);
+			iElement.innerHTML = linkName;
 			aElement.appendChild(iElement);
-
-			const spanElement = document.createElement('span')		
-			spanElement.innerHTML = socialName;			
-			aElement.appendChild(spanElement);
 
 			liElement.appendChild(aElement);
 			ulElement.appendChild(liElement);
@@ -147,7 +143,7 @@ function Share (rootEl, config) {
 				detail: {
 					category: 'share',
 					action: 'click',
-					button: actionEl.textContent.trim();
+					button: actionEl.textContent.trim()
 				}
 			});
 			oShare.rootEl.dispatchEvent(clickEvent);
@@ -167,7 +163,7 @@ function Share (rootEl, config) {
 		parentEl.setAttribute('aria-selected', 'true');
 
 		new TextCopyHelper({
-			message: '分享请复制此链接'，
+			message: '分享请复制此链接',
 			text: url,
 			parentEl: parentEl,
 			onCopy: function() {

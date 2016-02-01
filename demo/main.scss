@@ -1,0 +1,74 @@
+@import "ftc-icons/main";
+
+$o-share-icon-size: 24px;
+
+/// List of accepted social network icons, and the version
+/// @type map
+$_o-share-icons: (wechat, weibo, linkedin, facebook, twitter);
+
+/// Tooltip background
+/// @type color
+$_o-share-tooltip-bg: rgba(0, 0, 0, 0.6);
+
+$_o-share-icon-colors: (
+	wechat:#609700,
+	weibo: #e6162d,
+	linkedin:#0977b6,
+	facebook: #3c5a99,
+	twitter: #6aa9e0,
+);
+
+.o-share {
+	display: inline-block;
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		&::after {
+		  clear: both;
+		  content: "";
+		  display: table;
+		}
+	}
+
+	.o-share__action {
+		float: left;
+		padding: 0;
+		margin: 0 5px 0 0;
+		line-height: $o-share-icon-size;
+		cursor: pointer;
+		a {
+			float: left;
+			text-decoration: none;
+			&::before {
+				content: '';
+				float: left;
+				width: $o-share-icon-size;
+				height: $o-share-icon-size;
+				background-color: orange;
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				background-position: 50% 50%;
+			}
+			&:hover::before {
+				opacity: 0.8;
+			}
+			&:focus i {
+				box-shadow: 0 0 2px #000000;
+			}
+			i {
+				float: left;
+			}
+		}
+		
+	}
+}
+
+.o-share__action--url {
+	
+}
+
+//http://image.webservices.ft.com/v1/images/raw/ftsocial:link?source=o-share&format=svg
+.o-share__action--wechat a::before {
+	background-image: ftcIconsGetIconDatauri(social-wechat-hollow);
+}

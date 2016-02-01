@@ -15,7 +15,7 @@ var browserSync = require('browser-sync').create();
 
 
 gulp.task('styles', function() {
-  return gulp.src('main.scss')
+  return gulp.src('demo/main.scss')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe($.sass({
@@ -81,6 +81,6 @@ gulp.task('serve', ['styles', 'scripts'], function() {
     'demo/*.html'
   ]).on('change', browserSync.reload);
 
-  gulp.watch(['main.scss', 'src/**/*.scss'], ['styles']);
+  gulp.watch(['demo/main.scss', 'src/**/*.scss'], ['styles']);
 
 });
