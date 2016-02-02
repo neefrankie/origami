@@ -59,14 +59,14 @@ function TextCopyHelper(config) {
 	 */
 	function init() {
 		textCopyHelper.inputEl = createInputElement(config.text);
-		config.parentEl.insertBefore(textCopyHelper.inputEl, config.parentEl.childNodes[0]);
+		config.parentEl.appendChild(textCopyHelper.inputEl);
 		const inputWidth = getPixelWidthOfText(config.text, textCopyHelper.inputEl);
 
 		if (inputWidth !== -1) {
 			textCopyHelper.inputEl.style.width = inputWidth + 'px';
 		}
 		textCopyHelper.inputEl.select();
-
+		
 		textCopyHelper.tooltip = new Tooltip(config.message, config.parentEl);
 		textCopyHelper.config = config;
 		textCopyHelper.bodyDomDelegate = new DomDelegate(document.body);
@@ -99,7 +99,7 @@ function TextCopyHelper(config) {
 	});
 
 	this.inputDomDelegate.on('copy', function() {
-		textCopyHelper.tooltip.setText('Copied!');
+		textCopyHelper.tooltip.setText('已复制!');
 
 		if (typeof config.onCopy === "function") {
 			config.onCopy();

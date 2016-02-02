@@ -11,7 +11,7 @@ const socialUrls = {
 		url: "http://service.weibo.com/share/share.php?&appkey=4221537403&url={{url}}&title=【{{title}}】{{summary}}&ralateUid=1698233740&source=FT中文网&sourceUrl=http://www.ftchinese.com/&content=utf8&ccode=2G139005"
 	},
 	linkedin: {
-		name: "LinkedIn",
+		name: "领英",
 		url: "http://www.linkedin.com/shareArticle?mini=true&url={{url}}&title={{title}}&summary={{summary}}&source=FT中文网"
 	},
 	facebook: {
@@ -23,7 +23,7 @@ const socialUrls = {
 		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;via=FTChinese"
 	},
 	url: {
-		name: "链接",
+		name: "复制链接",
 		url: "{{url}}"
 	} 
 };
@@ -106,20 +106,13 @@ function Share (rootEl, config) {
 		for (let i = 0; i < config.links.length; i++) {
 			const link = config.links[i];
 			const linkName = socialUrls[link].name;
-			var tooltipText = '';
-			if (link !== 'url') {
-				tooltipText = '分享到' + linkName;
-			} else {
-				tooltipText = '点击复制本页链接';
-			}
 			
-
 			const liElement = document.createElement('li');
 			liElement.classList.add('o-share__action', 'o-share__action--' + link)
 			
 			const aElement = document.createElement('a');
 			aElement.href = generateSocialUrl(link);
-			aElement.setAttribute('data-tooltip', tooltipText);
+			aElement.setAttribute('data-tooltip', linkName);
 			
 			const iElement = document.createElement('i');
 			iElement.innerHTML = linkName;
@@ -133,9 +126,14 @@ function Share (rootEl, config) {
 
 	function generateSocialUrl (socialNetwork) {
 		let templateUrl = socialUrls[socialNetwork].url;
-		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
+		if (socialNetwork !== 'url') {
+			templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
 			.replace('{{title}}', encodeURIComponent(config.title))
 			.replace('{{summary}}', encodeURIComponent(config.summary));
+		} else {
+			templateUrl = templateUrl.replace('{{url}}', config.url);
+		}
+		
 		return templateUrl;
 	}
 
@@ -171,7 +169,7 @@ function Share (rootEl, config) {
 		parentEl.setAttribute('aria-selected', 'true');
 
 		new TextCopyHelper({
-			message: '分享请复制此链接',
+			message: '分享此链接',
 			text: url,
 			parentEl: parentEl,
 			onCopy: function() {

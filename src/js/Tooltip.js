@@ -29,7 +29,7 @@ function Tooltip(text, refEl) {
 	 * @param {HTMLElement} tipEl - a tooltip element returned by {@link createTooltip}
 	 */
 	function renderTooltip(tipEl) {
-		refEl.insertBefore(tipEl, refEl.childNodes[0]);
+		refEl.appendChild(tipEl);
 		tipEl.style.width = tipEl.clientWidth + "px"; // Set width based on initial text
 		tipEl.style.left = (refEl.offsetWidth - tipEl.offsetWidth) / 2 + "px";
 		tipEl.style.opacity = 1;
