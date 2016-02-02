@@ -29,6 +29,7 @@
   ],
   "dependencies": {
     "ftc-icons": "~1.4.0",
-    "dom-delegate": "~2.0.3"
+    "dom-delegate": "~2.0.3",
+    "o-colors": "^3.3.1"
   }
 }
