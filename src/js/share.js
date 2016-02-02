@@ -23,15 +23,16 @@ const socialUrls = {
 		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;via=FTChinese"
 	},
 	url: {
-		name: "URL",
+		name: "链接",
 		url: "{{url}}"
 	} 
 };
 
 // Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
 const fallbackConfig = {
-	url: window.location.href || '',
 	links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter', 'url'],
+
+	url: window.location.href || '',
 	summary: (function() {
 			let descElement = document.querySelector('meta[property="og:description"]');
 			if (descElement) {
@@ -105,13 +106,20 @@ function Share (rootEl, config) {
 		for (let i = 0; i < config.links.length; i++) {
 			const link = config.links[i];
 			const linkName = socialUrls[link].name;
+			var tooltipText = '';
+			if (link !== 'url') {
+				tooltipText = '分享到' + linkName;
+			} else {
+				tooltipText = '点击复制本页链接';
+			}
+			
 
 			const liElement = document.createElement('li');
 			liElement.classList.add('o-share__action', 'o-share__action--' + link)
 			
 			const aElement = document.createElement('a');
 			aElement.href = generateSocialUrl(link);
-			aElement.target = '_blank';
+			aElement.setAttribute('data-tooltip', tooltipText);
 			
 			const iElement = document.createElement('i');
 			iElement.innerHTML = linkName;

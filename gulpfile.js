@@ -23,7 +23,7 @@ gulp.task('styles', function() {
       precision: 10,
       includePaths: ['bower_components', bourbon]
     }).on('error', $.sass.logError))
-    .pipe($.sourcemaps.write())
+    .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest('.tmp'))
     .pipe(browserSync.stream());
 });

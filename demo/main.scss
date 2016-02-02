@@ -1,10 +1,14 @@
+@import "o-colors/main";
 @import "ftc-icons/main";
+
+@include oColorsSetUseCase(tooltip, text, 'white');
+@include oColorsSetUseCase(tooltip, background, 'grey-tint5');
 
 $o-share-icon-size: 24px;
 
 /// List of accepted social network icons, and the version
 /// @type map
-$_o-share-icons: (wechat, weibo, linkedin, facebook, twitter);
+$_o-share-icons: (wechat, weibo, linkedin, facebook, twitter, url);
 
 /// Tooltip background
 /// @type color
@@ -16,22 +20,26 @@ $_o-share-icon-colors: (
 	linkedin:#0977b6,
 	facebook: #3c5a99,
 	twitter: #6aa9e0,
+	link: #27757B
 );
 
-.o-share {
-	display: inline-block;
-	ul {
-		margin: 0;
-		padding: 0;
-		list-style-type: none;
-		&::after {
-		  clear: both;
-		  content: "";
-		  display: table;
+/// Generate base share styles
+/// @param {String} $classname [o-share] - base class name
+@mixin oShareBase($classname: o-share) {
+	.#{$classname} {
+		display: inline-block;
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+			&::after {
+			  clear: both;
+			  content: "";
+			  display: table;
+			}
 		}
 	}
-
-	.o-share__action {
+	.#{$classname}__action {
 		float: left;
 		padding: 0;
 		margin: 0 5px 0 0;
@@ -39,40 +47,111 @@ $_o-share-icon-colors: (
 		a {
 			float: left;
 			text-decoration: none;
+			padding: 0 5px 0 0;
 			&::before {
 				content: '';
 				float: left;
 				width: $o-share-icon-size;
 				height: $o-share-icon-size;
-				background-color: orange;
+				background-color: oColorsGetPaletteColor('white');
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 				background-position: 50% 50%;
+				border-radius: 2px;
 			}
 			&:hover::before {
 				opacity: 0.8;
 			}
 			&:focus i {
-				box-shadow: 0 0 2px #000000;
+				box-shadow: 0 0 2px oColorsGetPaletteColor('black');
 			}
 			i {
 				float: left;
 			}
 		}
-		
-	}
+	}	
 }
 
-.o-share__action--url {
-	input {
+/// Action link styles
+/// @param {String} $classname [o-share] - base class name
+@mixin oShareActionLink($classname: o-share) {
+	.#{$classname}__action--url {
+		input {
+			display: block;
+			border: 0;
+			border-radius: 2px;
+			padding: 5px 8px;
+			font-size: 14px;
+			box-shadow: 0 0 3px oColorsGetPaletteColor('grey-tint5');
+
+			&::-ms-clear {
+				display: none;
+			}
+		}		
+	}
+
+	[data-o-share--js] .o-share__action--url {
 		display: block;
-		margin: 6px;
-		border: 0;
-		border-radius: 2px;
+	}
+
+	.#{$classname}__action--url[aria-selected=true] {
+		position: relative;
+		a {
+			display: none;
+		}
 	}
 }
 
-//http://image.webservices.ft.com/v1/images/raw/ftsocial:link?source=o-share&format=svg
-.o-share__action--wechat a::before {
-	background-image: ftcIconsGetIconDatauri(social-wechat-hollow);
+//URL icon on ft: http://image.webservices.ft.com/v1/images/raw/ftsocial:link?source=o-share&format=svg
+/// Icon
+///
+/// @param {String} $name - Name of the icon listed in `$_o-share-icons`
+/// @param {String} $classname [o-share] - base class name
+@mixin oShareActionIcon($name, $classname: o-share) {
+	.#{$classname}__action--#{$name} a::before {
+		$iconname: "social-" + $name + "-hollow";
+		background-image: ftcIconsGetIconDatauri($iconname);
+	}
+}
+
+@mixin oShareVertical($classname: o-share) {
+	clear: both;
+	margin: 0 0 5px;
+}
+
+@include oShareBase();
+@include oShareActionLink();
+
+@each $icon in $_o-share-icons {
+	@include oShareActionIcon($icon);
+}
+
+.o-share-tooltip {
+	position: absolute;
+	top: -40px;
+	opacity: 0;
+	cursor: default;
+	transition: opacity 0.25s;
+}
+.o-share-tooltip__text {
+	padding: 8px 20px;
+	white-space: nowrap;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 14px;
+	text-align: center;
+	color: oColorsGetColorFor(tooltip, text);
+	background-color: oColorsGetColorFor(tooltip, background);
+	background-color: $_o-share-tooltip-bg;
+	text-shadow: 0 0 1px oColorsGetPaletteColor('black');
+}
+.o-share-tooltip__arrow {
+	position: relative;
+	left: 50%;
+	margin-left: -16px;
+	width: 0;
+	height: 0;
+	border-left: 10px solid rgba(0, 0, 0, 0);
+	border-right: 10px solid rgba(0, 0, 0, 0);
+	border-top: 10px solid $_o-share-tooltip-bg;
 }
