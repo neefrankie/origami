@@ -111,7 +111,13 @@ function Share (rootEl, config) {
 			liElement.classList.add('o-share__action', 'o-share__action--' + link)
 			
 			const aElement = document.createElement('a');
-			aElement.href = generateSocialUrl(link);
+			// Do not need to encode url for `socialUrl[url]`
+			if (link !== 'url') {
+				aElement.href = generateSocialUrl(link);
+			} else {
+				aElement.href = config.url;
+			}
+			
 			aElement.setAttribute('data-tooltip', linkName);
 			
 			const iElement = document.createElement('i');
@@ -126,13 +132,9 @@ function Share (rootEl, config) {
 
 	function generateSocialUrl (socialNetwork) {
 		let templateUrl = socialUrls[socialNetwork].url;
-		if (socialNetwork !== 'url') {
-			templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
+		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
 			.replace('{{title}}', encodeURIComponent(config.title))
 			.replace('{{summary}}', encodeURIComponent(config.summary));
-		} else {
-			templateUrl = templateUrl.replace('{{url}}', config.url);
-		}
 		
 		return templateUrl;
 	}
