@@ -1,7 +1,7 @@
 /*global require, module*/
 
 const DomDelegate = require('dom-delegate');
-const Tooltip = require('./Tooltip');
+/*const Tooltip = require('./Tooltip');*/
 
 /**
  * Gets the width of a text by using a <canvas> element
@@ -38,18 +38,36 @@ function getPixelWidthOfText(text, refEl) {
 function TextCopyHelper(config) {
 
 	const textCopyHelper = this;
+	const cssClass = 'o-share-tooltip';
 	/**
 	 * Creates an input element for the URL setting it's correct width corresponding to said URL
 	 *
 	 * @private
 	 * @returns {HTMLElement} inputEl
 	 */
-	function createInputElement(text) {
+	function createInputElement(cssClass, text) {
 		const inputEl = document.createElement('input');
 		inputEl.setAttribute('type', 'text');
+		inputEl.id = cssClass + '__url';
 		inputEl.setAttribute('value', text);
 
 		return inputEl;
+	}
+
+	// Ported from ./Tooltip.js to simply markup strure.
+	function createMessageElement(cssClass, message) {
+		const messageEl = document.createElement('span');
+		messageEl.className = cssClass + '__text';
+		messageEl.innerHTML = message;
+
+		return messageEl;
+	}
+
+	function createTooltip(cssClass) {
+		const tipEl = document.createElement('div')
+		tipEl.className = cssClass;
+
+		return tipEl;
 	}
 
 	/**
@@ -58,18 +76,29 @@ function TextCopyHelper(config) {
 	 * @private
 	 */
 	function init() {
-		textCopyHelper.inputEl = createInputElement(config.text);
-		config.parentEl.appendChild(textCopyHelper.inputEl);
+		textCopyHelper.inputEl = createInputElement(cssClass, config.text);
 		const inputWidth = getPixelWidthOfText(config.text, textCopyHelper.inputEl);
 
 		if (inputWidth !== -1) {
 			textCopyHelper.inputEl.style.width = inputWidth + 'px';
 		}
-		textCopyHelper.inputEl.select();
 		
-		textCopyHelper.tooltip = new Tooltip(config.message, config.parentEl);
+
+		textCopyHelper.messageEl = createMessageElement(cssClass, config.message);
+
+		textCopyHelper.tooltip = createTooltip(cssClass);
+
+		textCopyHelper.tooltip.appendChild(textCopyHelper.inputEl);
+		textCopyHelper.tooltip.appendChild(textCopyHelper.messageEl);
+
+		config.parentEl.appendChild(textCopyHelper.tooltip);
+// select() must be put after inputEl appeared in the DOM tree.		
+		textCopyHelper.inputEl.select();
+//		textCopyHelper.tooltip = new Tooltip(config.message, config.parentEl);
 		textCopyHelper.config = config;
+
 		textCopyHelper.bodyDomDelegate = new DomDelegate(document.body);
+
 		textCopyHelper.inputDomDelegate = new DomDelegate(textCopyHelper.inputEl);
 	}
 
@@ -99,7 +128,7 @@ function TextCopyHelper(config) {
 	});
 
 	this.inputDomDelegate.on('copy', function() {
-		textCopyHelper.tooltip.setText('已复制!');
+		textCopyHelper.messageEl.innerHTML = '已复制!';
 
 		if (typeof config.onCopy === "function") {
 			config.onCopy();
@@ -112,12 +141,19 @@ function TextCopyHelper(config) {
  * Destroys the TextCopyHelper, disabling event listeners, and removing the input and tooltip from DOM. Also runs optional {@link config.onDestroy}
  */
 TextCopyHelper.prototype.destroy = function() {
-	this.inputEl.parentElement.removeChild(this.inputEl);
-	this.tooltip.destroy();
-	this.tooltip = undefined;
+	this.tooltip.removeChild(this.inputEl);
 	this.inputEl = undefined;
+
+	this.tooltip.removeChild(this.messageEl);
+	this.messageEl = undefined;
+	
+
+	this.tooltip.parentElement.removeChild(this.tooltip);
+	this.tooltip = undefined;
+//	this.tooltip.destroy();
+		
 	this.bodyDomDelegate.destroy();
-	this.inputDomDelegate.destroy();
+//	this.inputDomDelegate.destroy();
 
 	if (typeof this.config.onDestroy === "function") {
 		this.config.onDestroy();
