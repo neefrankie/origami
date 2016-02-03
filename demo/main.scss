@@ -97,6 +97,9 @@ $_o-share-icon-colors: (
 
 	.#{$classname}__action--url[aria-selected=true] {
 		position: relative;
+		a::after, a::before {
+			display: none;
+		}
 	}
 }
 
