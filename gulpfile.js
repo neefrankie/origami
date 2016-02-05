@@ -41,7 +41,7 @@ gulp.task('scripts', function() {
   b.on('update', bundle);
   b.on('log', $.util.log);
 
-  bundle();
+  return bundle();
 
   function bundle(ids) {
     $.util.log('Compiling JS...');
@@ -67,7 +67,7 @@ gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', ['styles', 'scripts'], function() {
+gulp.task('serve', gulp.series(gulp.parallel('styles', 'scripts'), function () {
   browserSync.init({
     server: {
       baseDir: ['.tmp', 'demo'],
@@ -77,10 +77,8 @@ gulp.task('serve', ['styles', 'scripts'], function() {
     }
   });
 
-  gulp.watch([
-    'demo/*.html'
-  ]).on('change', browserSync.reload);
+  gulp.watch(['demo/*.html'], browserSync.reload);
 
-  gulp.watch(['demo/main.scss', 'src/**/*.scss'], ['styles']);
+  gulp.watch(['demo/main.scss', 'src/**/*.scss'], gulp.parallel('styles'));
 
-});
+}));
