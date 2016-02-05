@@ -8,11 +8,15 @@ $o-share-icon-size: 24px;
 
 /// List of accepted social network icons, and the version
 /// @type map
-$_o-share-icons: (wechat, weibo, linkedin, facebook, twitter, url);
+$o-share-icons: (wechat, weibo, linkedin, facebook, twitter, url) !default;
 
 /// Tooltip background
 /// @type color
-$_o-share-tooltip-bg: rgba(0, 0, 0, 0.6);
+
+$_o-share-tooltip-height: 22px;
+$_o-share-tooltip-arrow-size: 5px;
+$_o-share-tooltip-bg: #323232;
+$_o-share-tooltip-text: #ecf0f1;
 
 $_o-share-icon-colors: (
 	wechat:#609700,
@@ -22,6 +26,8 @@ $_o-share-icon-colors: (
 	twitter: #6aa9e0,
 	link: #27757B
 );
+
+
 
 /// Generate base share styles
 /// @param {String} $classname [o-share] - base class name
@@ -43,42 +49,65 @@ $_o-share-icon-colors: (
 		float: left;
 		padding: 0;
 		margin: 0 5px 0 0;
-		line-height: $o-share-icon-size;
+		/* line-height: $o-share-icon-size; */
 		a {
 			float: left;
 			text-decoration: none;
-			padding: 0 5px 0 0;
-
+			padding: 5px;
+			margin: 0;
+			border-radius: 3px;
+			background-color: #c4c4c4;
 			i {
 				float: left;
 				width: $o-share-icon-size;
 				height: $o-share-icon-size;
+				//prevent line break so that text inside <i> wouldn't break line and show up.
+				white-space: nowrap;
 				text-indent: $o-share-icon-size;
 				overflow: hidden;
-				background-color: oColorsGetPaletteColor('white');
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 				background-position: 50% 50%;
-				border-radius: 2px;
+				
 			}
-
-			&:hover i {
-				opacity: 0.8;
-			}
-			&:focus i {
-				box-shadow: 0 0 2px oColorsGetPaletteColor('black');
+			&:hover {
+				background-color: oColorsGetPaletteColor('teal-2');
 			}
 		}
 	}	
 }
 
+@mixin oShareActionIcon($name, $classname: o-share) {
+	.#{$classname}__action--#{$name} i {
+		/* $iconname: "social-" + $name + "-hollow";
+		background-image: ftcIconsGetIconDatauri($iconname); */
+		$iconname: "social-" + $name;
+		background-image: sassvg($iconname, $fillcolor: oColorsGetPaletteColor('white'));
+	}
+}
+
+@mixin oShareActionIconHollow($name, $classname: o-share) {
+	.#{$classname}__action--#{$name} i {
+		$iconname: "social-" + $name + "-hollow";
+		background-image: sassvg($iconname);
+	}
+}
+
+
 /// Action link styles
 /// @param {String} $classname [o-share] - base class name
 @mixin oShareActionLink($classname: o-share) {
 	.#{$classname}__action--url {
+		position: relative;
+		.#{$classname}-tooltip {
+			position: absolute;
+			white-space: nowrap;
+			top: 50%;
+			left: 100%;
+			transform: translateY(-50%);
+		}
 		input {
 			float: left;
-			display: block;
 			border: 0;
 			border-radius: 2px;
 			padding: 3px 8px;
@@ -91,15 +120,15 @@ $_o-share-icon-colors: (
 		}		
 	}
 
-	[data-o-share--js] .o-share__action--url {
+/* 	[data-o-share--js] .o-share__action--url {
 		display: block;
-	}
+	} */
 
 	.#{$classname}__action--url[aria-selected=true] {
-		position: relative;
-		a::after, a::before {
-			display: none;
+		a {
+			margin-right: 5px;
 		}
+
 	}
 }
 
@@ -108,73 +137,88 @@ $_o-share-icon-colors: (
 ///
 /// @param {String} $name - Name of the icon listed in `$_o-share-icons`
 /// @param {String} $classname [o-share] - base class name
-@mixin oShareActionIcon($name, $classname: o-share) {
-	.#{$classname}__action--#{$name} i {
-		$iconname: "social-" + $name + "-hollow";
-		background-image: ftcIconsGetIconDatauri($iconname);
-	}
-}
 
 @mixin oShareVertical($classname: o-share) {
 	clear: both;
 	margin: 0 0 5px;
 }
 
+@mixin oShareLinkTooltip($classname: o-share) {
+	.#{$classname}__action {
+		a {
+			position: relative;
+			&::before,
+			&::after {
+				box-sizing: content-box;
+				position: absolute;
+				top: 100%;
+				left: 50%;
+				transform: translateX(-50%);
+				visibility: hidden;
+			}
+			&::before {
+				content: '';
+				border-color: $_o-share-tooltip-bg;
+				border-style: none;
+				border: 5px solid transparent;
+				border-bottom: 6px solid $_o-share-tooltip-bg;
+				margin-top: -4px;
+			}
+			&::after {
+				content: attr(data-link-tooltip);
+				border-radius: 3px;
+				width: auto;
+				height: 22px;
+				padding: 11px 11px 0 11px;
+				font-size: 13px;
+				line-height: 14px;
+				white-space: nowrap;
+				background-color: $_o-share-tooltip-bg;
+				color: $_o-share-tooltip-text;
+				margin-top: 7px;
+			}
+			&:hover:before,
+			&:hover:after,
+			&:focus:before,
+			&:focus:after {
+				visibility: visible;
+			}
+		}
+	}
+}
+body {
+	background-color: oColorsGetPaletteColor('pink');
+}
 @include oShareBase();
 @include oShareActionLink();
-
-@each $icon in $_o-share-icons {
+@include oShareLinkTooltip();
+@each $icon in $o-share-icons {
 	@include oShareActionIcon($icon);
 }
 
-$tooltip-height: 22px;
-$tooltip-arrow-size: 5px;
-$tooltip-color: #323232;
-$tooltip-color-text: #ecf0f1;
-[data-tooltip] {
-	position: relative;
-}
-[data-tooltip]::before,
-[data-tooltip]::after {
-	transform: translateX(-50%);
-	box-sizing: content-box;
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	visibility: hidden;
-}
-[data-tooltip]::before {
-	content: '';
-	border-color: $tooltip-color;
-	border-style: none;
-	border: 5px solid transparent;
-	border-bottom: 6px solid $tooltip-color;
-	margin-top: -4px;
-}
-[data-tooltip]::after {
-	content: attr(data-tooltip);
-	border-radius: 3px;
-	width: auto;
-	height: 22px;
-	padding: 11px 11px 0 11px;
-	font-size: 13px;
-	line-height: 14px;
-	white-space: nowrap;
-	background-color: $tooltip-color;
-	color: $tooltip-color-text;
-	margin-top: 7px;
-}
-[data-tooltip]:hover:before,
-[data-tooltip]:hover:after,
-[data-tooltip]:focus:before,
-[data-tooltip]:focus:after {
-	visibility: visible;
+.o-share-inversed {
+	.o-share__action {
+		a {
+			padding: 0;
+		}
+		i {
+			width: 30px;
+			height: 30px;
+		}
+	}
+	@each $icon in $o-share-icons {
+		@include oShareActionIconHollow($icon);
+	}
 }
 
 
- .o-share-tooltip {
-	float: left;
-}
+
+
+/* #c4c4c4
+#00B285 */
+
+
+
 /*.o-share-tooltip__text {
 	padding: 8px 20px;
 	white-space: nowrap;

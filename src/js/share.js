@@ -118,7 +118,7 @@ function Share (rootEl, config) {
 				aElement.href = config.url;
 			}
 			
-			aElement.setAttribute('data-tooltip', linkName);
+			aElement.setAttribute('data-link-tooltip', linkName);
 			
 			const iElement = document.createElement('i');
 			iElement.innerHTML = linkName;

@@ -32,18 +32,37 @@
     </div>
     
     <h2>Demo 2</h2>
-    <div class="o-share" data-o-component="o-share" data-o-share-links="wechat weibo linkedin facebook">
+    <div class="o-share o-share-inversed" data-o-component="o-share" data-o-share-links="wechat weibo linkedin facebook">
       
     </div>
     
-    <h2>HTML Demo</h2>
-    <ul class="has-bg">
-        <li><a class="share-link share-wechat" href="#" target="_blank"><i class="icon-social-wechat"></i><span>微信</span></a></li>
-        <li><a class="share-link share-weibo" href="#" target="_blank"><i class="icon-social-weibo"></i><span>微博</span></a></li>
-        <li><a class="share-link share-linkedin" href="#" target="_blank"><i class="icon-social-linkedin"></i><span>LinkedIn</span></a></li>
-        <li><a class="share-link share-facebook" href="#" target="_blank"><i class="icon-social-facebook"></i><span>LinkedIn</span></a></li>
-        <li><a class="share-link share-twitter" href="#" target="_blank"><i class="icon-social-twitter"></i><span>LinkedIn</span></a></li>
-    </ul> 
+
+<h2>HTML Demo</h2>
+
+<ul>
+    <li class="o-share__action o-share__action--wechat">
+      <a data-tooltip="微信"><i>微信</i></a>
+    </li>
+    <li class="o-share__action o-share__action--weibo">
+      <a data-tooltip="微博"><i>微博</i></a>
+    </li>
+    <li class="o-share__action o-share__action--linkedin">
+      <a data-tooltip="领英"><i>领英</i></a>
+    </li>
+    <li class="o-share__action o-share__action--facebook">
+      <a data-tooltip="Facebook"><i>Facebook</i></a>
+    </li>
+    <li class="o-share__action o-share__action--twitter">
+      <a data-tooltip="Twitter"><i>Twitter</i></a>
+    </li>
+    <li class="o-share__action o-share__action--url" aria-selected="true">
+      <a href="http://localhost:3000/" data-tooltip="复制链接"><i>复制链接</i></a>
+      <div class="o-share-tooltip">
+        <input type="text" id="o-share-tooltip__url" value="http://localhost:3000/" style="width: 110.742px;">
+        <span class="o-share-tooltip__text">分享此链接</span>
+      </div>
+    </li>
+</ul>
 
 <script type="text/javascript" src="bundle.js"></script>
 </body>
