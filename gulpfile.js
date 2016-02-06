@@ -67,7 +67,7 @@ gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', gulp.series(gulp.parallel('styles', 'scripts'), function () {
+gulp.task('serve', gulp.series(gulp.parallel('styles', 'scripts'), function erve () {
   browserSync.init({
     server: {
       baseDir: ['.tmp', 'demo'],

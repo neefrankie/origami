@@ -1,9 +1,58 @@
 $o-share-is-silent: false;
-
 @import "../main";
 
 body {
 	background-color: oColorsGetPaletteColor('pink');
 }
+
+.o-share--polychrome {
+	@include oShareSetIconSize(40);
+	@include oShareIcon(polychrome);
+}
+
+.o-share--duotone {
+	@include oShareSetIconSize(50);
+	@include oShareIcon(duotone);
+}
+
+.o-share--monochrome {
+	@include oShareSetIconSize(60);
+	@include oShareIcon(monochrome);	
+}
+
+.o-share-symbol {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	.o-share__action {
+		float: none;
+		display: inline-block;
+		a {
+			float: none;
+			display: inline-block;
+			background-color: orange;
+			&:hover {
+				background-color: red;
+			}
+		}
+		i {
+			display: none;
+		}
+		svg {
+			width: 30px;
+			height: 30px;
+			background-color: transparent;
+			fill: white;
+		}
+	}
+}
+
+
+
+
+
+
+
+
 
 

@@ -18,50 +18,71 @@
 		float: left;
 		padding: 0;
 		margin: 0 5px 0 0;
-		/* line-height: $o-share-icon-size; */
 		a {
 			float: left;
 			text-decoration: none;
-			padding: 5px;
+			padding: $o-share-link-padding;
 			margin: 0;
 			border-radius: 3px;
-			background-color: #c4c4c4;
-			i {
-				float: left;
-				width: $o-share-icon-size;
-				height: $o-share-icon-size;
-				//prevent line break so that text inside <i> wouldn't break line and show up.
-				white-space: nowrap;
-				text-indent: $o-share-icon-size;
-				overflow: hidden;
-				background-size: 100% 100%;
-				background-repeat: no-repeat;
-				background-position: 50% 50%;
-				
-			}
-			&:hover {
-				background-color: oColorsGetPaletteColor('teal-2');
-			}
+		}
+		i {
+			float: left;
+			width: $o-share-icon-size;
+			height: $o-share-icon-size;
+			white-space: nowrap;
+			text-indent: -999em;
+			overflow: hidden;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
 		}
 	}	
 }
 
-@mixin oShareActionIcon($name, $classname: o-share) {
-	.#{$classname}__action--#{$name} i {
-		/* $iconname: "social-" + $name + "-hollow";
-		background-image: ftcIconsGetIconDatauri($iconname); */
-		$iconname: "social-" + $name;
-		background-image: sassvg($iconname, $fillcolor: oColorsGetPaletteColor('white'));
+@mixin oShareSetIconSize($size, $classname: o-share) {
+	.#{$classname}__action {
+		@if (type-of($size) == number and $size != 0) {
+	        $size: if(unitless($size), $size * 1px, $size);
+	    }
+	    $i-size: $size - $o-share-link-padding;
+		i {
+			width: $i-size;
+			height: $i-size;
+		}
 	}
 }
+// Currently designed three groups:
+// default - $color: 'white', $bgcolor: $name, $bghovercolor: transparent;
+// group1 - $color: 'white', $bgcolor: 'grey-tint1', $bghovercolor: $name
+// group2 - $color: 'white', $bgcolor: 'grey-tint1', $bghovercolor: 'teal-2'
+// group3 - $color: 'pink-tint4', $bgcolor: 'transparent', $bghovercolor: 'pink-tint2'
 
-@mixin oShareActionIconHollow($name, $classname: o-share) {
-	.#{$classname}__action--#{$name} i {
-		$iconname: "social-" + $name + "-hollow";
-		background-image: sassvg($iconname);
+@mixin oShareActionIcon($name, $color:'white', $bgcolor:$name,$bghovercolor: false, $classname: o-share) {
+
+	$fill-color: if((type-of($color) == "string"), oColorsGetPaletteColor($color), $color);
+
+	$bg-color: if((type-of($bgcolor) == "string"), oColorsGetPaletteColor($bgcolor), $bgcolor);
+	
+	@if ($bghovercolor) {
+		$bg-hover-color: if((type-of($bghovercolor) == "string"), oColorsGetPaletteColor($bghovercolor), $bghovercolor)	
+	}
+
+	.#{$classname}__action--#{$name} {
+		a
+		{	
+			background-color: $bg-color;
+			@if ($bghovercolor) {
+				&:hover {
+					background-color: $bg-hover-color;
+				}			
+			}
+		}
+		i {
+			$iconname: "social-" + $name;
+			background-image: sassvg($iconname, $fillcolor: $fill-color);
+		}
 	}
 }
-
 
 /// Action link styles
 /// @param {String} $classname [o-share] - base class name
@@ -101,17 +122,6 @@
 	}
 }
 
-//URL icon on ft: http://image.webservices.ft.com/v1/images/raw/ftsocial:link?source=o-share&format=svg
-/// Icon
-///
-/// @param {String} $name - Name of the icon listed in `$_o-share-icons`
-/// @param {String} $classname [o-share] - base class name
-
-@mixin oShareVertical($classname: o-share) {
-	clear: both;
-	margin: 0 0 5px;
-}
-
 @mixin oShareLinkTooltip($classname: o-share) {
 	.#{$classname}__action {
 		a {
@@ -124,6 +134,7 @@
 				left: 50%;
 				transform: translateX(-50%);
 				visibility: hidden;
+				z-index: 99;
 			}
 			&::before {
 				content: '';
@@ -153,5 +164,30 @@
 				visibility: visible;
 			}
 		}
+	}
+}
+
+@mixin oShareVertical($classname: o-share) {
+	clear: both;
+	margin: 0 0 5px;
+}
+
+@mixin oShareIcon($type: default) {
+	@if ($type == 'polychrome') {
+		@each $icon in $o-share-icons {
+			@include oShareActionIcon($icon, $color: 'white', $bgcolor: 'grey-tint1', $bghovercolor: $icon);
+		}		
+	} @else if ($type == 'duotone') {
+		@each $icon in $o-share-icons {
+			@include oShareActionIcon($icon, $color:'white', $bgcolor: 'grey-tint1', $bghovercolor:'teal-2');
+		}		
+	} @else if ($type == 'monochrome') {
+		@each $icon in $o-share-icons {
+			@include oShareActionIcon($icon, $color:'pink-tint4', $bgcolor: 'transparent', $bghovercolor:'pink-tint2');
+		}		
+	} @else {
+		@each $icon in $o-share-icons {
+			@include oShareActionIcon($icon);
+		}		
 	}
 }

@@ -26,45 +26,73 @@
 </head>
 
 <body>
-    <h2>Demo 1</h2>
-    <div class="o-share" data-o-component="o-share">
+    <h2>Demo 1 - default</h2>
+    <div class="o-share o-share--default" data-o-component="o-share">
 
     </div>
     
-    <h2>Demo 2</h2>
-    <div class="o-share o-share-inversed" data-o-component="o-share" data-o-share-links="wechat weibo linkedin facebook">
+    <h2>Demo 2 - default </h2>
+    <div class="o-share o-share--default" data-o-component="o-share" data-o-share-links="wechat weibo linkedin facebook">
       
     </div>
 
-    <h2>Demo 1</h2>
-    <div class="o-share intact" data-o-component="o-share">
+    <h2>Demo 3 - polychrome</h2>
+    <div class="o-share o-share--polychrome" data-o-component="o-share">
 
     </div>
 
+    <h2>Demo 4 - duotone</h2>
+    <div class="o-share o-share--duotone" data-o-component="o-share">
+
+    </div>
+
+    <h2>Demo 5 - monochrome</h2>
+    <div class="o-share o-share--monochrome" data-o-component="o-share">
+
+    </div>
+
+
+
+
+
 <h2>HTML Demo</h2>
 
-<ul>
-    <li class="o-share__action o-share__action--wechat">
-      <a data-tooltip="微信"><i>微信</i></a>
+<ul class="o-share-symbol">
+    <li class="o-share__action">
+      <a data-link-tooltip="微信">
+        <svg><use xlink:href="/bower_components/ftc-icons/assets/sprite/ftc-icons-symbol.svg#social-wechat" /></svg>
+        <i>微信</i>
+      </a>
     </li>
-    <li class="o-share__action o-share__action--weibo">
-      <a data-tooltip="微博"><i>微博</i></a>
+    <li class="o-share__action">
+      <a data-link-tooltip="微信">
+        <svg><use xlink:href="/bower_components/ftc-icons/assets/sprite/ftc-icons-symbol.svg#social-weibo" /></svg>
+        <i>微博</i>
+      </a>
     </li>
-    <li class="o-share__action o-share__action--linkedin">
-      <a data-tooltip="领英"><i>领英</i></a>
+    <li class="o-share__action">
+      <a data-link-tooltip="微信">
+        <svg><use xlink:href="/bower_components/ftc-icons/assets/sprite/ftc-icons-symbol.svg#social-linkedin" /></svg>
+        <i>领英</i>
+      </a>
     </li>
-    <li class="o-share__action o-share__action--facebook">
-      <a data-tooltip="Facebook"><i>Facebook</i></a>
+    <li class="o-share__action">
+      <a data-link-tooltip="微信">
+        <svg><use xlink:href="/bower_components/ftc-icons/assets/sprite/ftc-icons-symbol.svg#social-facebook" /></svg>
+        <i>Facebook</i>
+      </a>
     </li>
-    <li class="o-share__action o-share__action--twitter">
-      <a data-tooltip="Twitter"><i>Twitter</i></a>
+    <li class="o-share__action">
+      <a data-link-tooltip="微信">
+        <svg><use xlink:href="/bower_components/ftc-icons/assets/sprite/ftc-icons-symbol.svg#social-twitter" /></svg>
+        <i>Twitter</i>
+      </a>
     </li>
-    <li class="o-share__action o-share__action--url" aria-selected="true">
-      <a href="http://localhost:3000/" data-tooltip="复制链接"><i>复制链接</i></a>
-      <div class="o-share-tooltip">
-        <input type="text" id="o-share-tooltip__url" value="http://localhost:3000/" style="width: 110.742px;">
-        <span class="o-share-tooltip__text">分享此链接</span>
-      </div>
+    <li class="o-share__action">
+      <a data-link-tooltip="微信">
+        <svg><use xlink:href="/bower_components/ftc-icons/assets/sprite/ftc-icons-symbol.svg#social-url" /></svg>
+        <i>复制链接</i>
+      </a>
     </li>
 </ul>
 

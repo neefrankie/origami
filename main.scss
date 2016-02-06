@@ -1,18 +1,17 @@
 @import "o-colors/main";
 @import "ftc-icons/main";
 
-// FTC lib
-
 @import "src/scss/variables";
-@import 'src/scss/functions';
+@import "src/scss/color-palette";
+//@import 'src/scss/functions';
 @import "src/scss/share";
 
 @if (not $o-share-is-silent) {
-	@include oShareBase();
-	@include oShareActionLink();
-	@include oShareLinkTooltip();
-	@each $icon in $o-share-icons {
-		@include oShareActionIcon($icon);
+	@include oShareBase;	
+	@include oShareActionLink;
+	@include oShareLinkTooltip;
+	@if ($o-share-use-default-icon) {
+		@include oShareIcon;
 	}	
 }
 
