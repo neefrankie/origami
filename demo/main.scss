@@ -7,17 +7,17 @@ body {
 
 .o-share--polychrome {
 	@include oShareSetIconSize(40);
-	@include oShareIcon(polychrome);
+	@include oShareIcons(polychrome);
 }
 
 .o-share--duotone {
 	@include oShareSetIconSize(50);
-	@include oShareIcon(duotone);
+	@include oShareIcons(duotone);
 }
 
 .o-share--monochrome {
 	@include oShareSetIconSize(60);
-	@include oShareIcon(monochrome);	
+	@include oShareIcons(monochrome);	
 }
 
 .o-share-symbol {
