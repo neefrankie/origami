@@ -12,7 +12,7 @@ $o-share-link-size: 34px;
 $o-share-link-padding: 5px;
 /// Icon size
 /// @type Number
-$o-share-icon-size: $o-share-link-size - $o-share-link-padding;
+$o-share-icon-size: $o-share-link-size - $o-share-link-padding * 2;
 
 /// List of accepted social network icons, and the version
 /// @type map

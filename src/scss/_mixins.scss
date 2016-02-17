@@ -44,7 +44,7 @@
 		@if (type-of($size) == number and $size != 0) {
 	        $size: if(unitless($size), $size * 1px, $size);
 	    }
-	    $i-size: $size - $o-share-link-padding;
+	    $i-size: $size - $o-share-link-padding * 2;
 		i {
 			width: $i-size;
 			height: $i-size;
