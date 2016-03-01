@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head> 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="description">
+
+   <meta name="copyright" content="FT中文网">
+   <meta name="robots" content="noindex,nofollow">
+   <meta name="author" content="FT中文网">
+   <meta property="og:site_name" content=""/>
+   <meta property="og:type" content="article"/>
+   <meta property="og:title" content=""/>
+   <meta property="og:description" content="og:description" />
+   <meta property="og:image:url" content=""/>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-76x76.png">
+    <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>FTC Share Component</title>
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+
+</head>
+
+<body>
+<h1>FTC Share Component</h1>
+<p>View Source Code: <a href="https://github.com/FTChinese/ftc-share">https://github.com/FTChinese/ftc-share</a></p>
+<div class="demo">
+    <h2>Demo 1 - default</h2>
+    <div class="o-share o-share--default" data-o-component="o-share">
+
+    </div>
+    
+    <h2>Demo 2 - Specify which one to use</h2>
+    <div class="o-share o-share--default" data-o-component="o-share" data-o-share-links="wechat weibo linkedin facebook">
+      
+    </div>
+
+    <h2>Demo 3 - polychrome</h2>
+    <div class="o-share o-share--polychrome" data-o-component="o-share">
+
+    </div>
+
+    <h2>Demo 4 - duotone</h2>
+    <div class="o-share o-share--duotone" data-o-component="o-share">
+
+    </div>
+
+    <h2>Demo 5 - monochrome</h2>
+    <div class="o-share o-share--monochrome" data-o-component="o-share">
+
+    </div>  
+</div>
+
+<hr>
+<h2>SVG Symbol Demo [Random Color]</h2>
+
+<ul class="o-share-symbol">
+    {{ #shareItem }}
+    <li class="o-share__action o-share__action--{{icon}}">
+      <a data-link-tooltip="{{name}}">
+        <svg><use xlink:href="/bower_components/ftc-icons/assets/sprite/ftc-icons-symbol.svg#social-{{icon}}" /></svg>
+        <i>{{name}}</i>
+      </a>
+    </li>
+    {{ /shareItem }}
+</ul>
+
+<hr>
+<div class="source-markup">
+<h2>Markup Structure</h2>
+<ul>
+  {{ #shareItem }}
+  <li class="o-share__action o-share__action--{{icon}}">
+    <a href="" data-link-tooltip="{{}}">
+      <i>{{name}}</i>
+    </a>
+  </li>
+  {{ /shareItem }}
+</ul>
+
+<pre>
+<code>
+&lt;ul&gt;
+
+{{#shareItem}}
+  &lt;li class="o-share__action o-share__action--{{icon}}"&gt;
+    &lt;a href="" data-link-tooltip="{{name}}"&gt;
+      &lt;i&gt;{{name}}&lt;/i&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+
+{{/shareItem}}
+
+  &lt;li class="o-share__action o-share__action--weibo"&gt;
+    &lt;a href="" data-link-tooltip="微博"&gt;
+      &lt;i&gt;微博&lt;/i&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+
+  &lt;li class="o-share__action o-share__action--linkedin"&gt;
+    &lt;a href="" data-link-tooltip="领英"&gt;
+      &lt;i&gt;领英&lt;/i&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+
+  &lt;li class="o-share__action o-share__action--facebook"&gt;
+    &lt;a href="" data-link-tooltip="Facebook"&gt;
+      &lt;i&gt;Facebook&lt;/i&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+
+  &lt;li class="o-share__action o-share__action--twitter"&gt;
+    &lt;a href="" data-link-tooltip="Twitter"&gt;
+      &lt;i&gt;Twitter&lt;/i&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+
+  &lt;li class="o-share__action o-share__action--url"&gt;
+    &lt;a href="http://localhost:3002/" data-link-tooltip="复制链接"&gt;
+      &lt;i&gt;复制链接&lt;/i&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code> 
+</pre>
+</div>
+
+
+<script type="text/javascript" src="scripts/bundle.js"></script>
+</body>
+</html>
