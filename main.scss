@@ -8,6 +8,7 @@
 @import "src/scss/share";
 
 @if (not $o-share-is-silent) {
-
+	@include oShareBase(50%);
+	@include oShareIconDefault;
 }
 

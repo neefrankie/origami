@@ -14,7 +14,14 @@ body {
 	.o-share--teal {
 		@include oShareIconTeal;
 	}
-
+	
+	.o-share--default-hover {
+		@include oShareIconFor(wechat, default-hover);
+		@include oShareIconFor(weibo, default-hover);
+		@include oShareIconFor(linkedin, default-hover);
+		@include oShareIconFor(facebook, default-hover);
+		@include oShareIconFor(twitter, default-hover);
+	}
 	.o-share--tint {
 		@include oShareIconTint;
 		@include oShareSetIconSize(30);

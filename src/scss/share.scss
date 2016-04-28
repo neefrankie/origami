@@ -66,18 +66,15 @@
 	$theme-background: oShareGetColorFor($theme, background);
 	$theme-hover: oShareGetColorFor($theme, hover);
 
-	@if($theme-fill) {
+	@if($theme-fill and ($theme-fill != 'default')) {
 		$fill: $theme-fill;
 	}
-	@if($theme-background) {
+	@if($theme-background and ($theme-background != 'default')) {
 		$background: $theme-background
 	}
-	@if($theme-hover) {
+	@if($theme-hover and ($theme-hover != 'default')) {
 		$hover: $theme-hover;
 	}
-
-	@debug "Will use the following color for theme '#{$theme}':";
-	@debug "fill-#{inspect($fill)}, background-#{inspect($background)}, hover-#{inspect($theme-hover)}";
 
 	.#{$classname}__#{$name} {
 		a {	
