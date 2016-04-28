@@ -26,14 +26,15 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
     <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
     <title>FTC Share Component</title>
-    <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <link rel="stylesheet" type="text/css" href="styles/demo.css">
 
 </head>
 
 <body>
 <h1>FTC Share Component</h1>
 <p>View Source Code: <a href="https://github.com/FTChinese/ftc-share">https://github.com/FTChinese/ftc-share</a></p>
-<div class="demo">
+
+<div class="js-enabled">
     <h2>Demo 1 - default</h2>
     <div class="o-share o-share--default" data-o-component="o-share">
 
@@ -60,32 +61,26 @@
     </div>  
 </div>
 
-<hr>
-<h2>SVG Symbol Demo [Random Color]</h2>
+<div class="no-js">
+  <h2>No js. Embed SVG in markup</h2>
+  {{> ../main}} 
+</div>
 
-<ul class="o-share-symbol">
+
+
+
+<hr>
+<div class="source-markup">
+  <h2>Markup Structure</h2>
+  <ul>
     {{ #shareItem }}
     <li class="o-share__action o-share__action--{{icon}}">
-      <a data-link-tooltip="{{name}}">
-        <svg><use xlink:href="/bower_components/ftc-icons/assets/sprite/ftc-icons-symbol.svg#social-{{icon}}" /></svg>
+      <a href="" data-link-tooltip="{{}}">
         <i>{{name}}</i>
       </a>
     </li>
     {{ /shareItem }}
-</ul>
-
-<hr>
-<div class="source-markup">
-<h2>Markup Structure</h2>
-<ul>
-  {{ #shareItem }}
-  <li class="o-share__action o-share__action--{{icon}}">
-    <a href="" data-link-tooltip="{{}}">
-      <i>{{name}}</i>
-    </a>
-  </li>
-  {{ /shareItem }}
-</ul>
+  </ul>
 
 <pre>
 <code>

@@ -1,0 +1,84 @@
+/// Generate base share styles
+/// @param {String} $classname [o-share] - base class name
+@mixin oShareBase($radius: null, $classname: o-share) {
+	.#{$classname} {
+		display: inline-block;
+		ul {
+			margin: 0;
+			padding: 0;
+		}
+	}
+	.#{$classname}__action {
+		display: inline-block;
+		margin: 0 5px 0 0;
+		list-style-type: none;
+		
+		i {
+			float: left;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			background-position: 50%;
+
+			width: $o-share-icon-size;
+			height: $o-share-icon-size;
+			text-indent: $o-share-icon-size;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		a {
+			text-decoration: none;
+			padding: 6px;
+			display: block;
+			overflow: hidden;
+			@if ($radius != null) {
+				border-radius: $radius;
+			}
+
+			&:focus i {
+				box-shadow: 0 0 2px oColorsGetPaletteColor('black');
+			}
+
+			&:hover i {
+				opacity: 0.8;
+			}
+		}
+	}	
+}
+
+@mixin oShareGetIcon($name, $color: 'default', $classname: o-share) {
+
+	$icon-name: 'social-'+$name;
+	$fill-color: $color;
+
+	@if $color == 'default' {
+		$fill-color: oColorsGetPaletteColor($icon-name);
+	}
+
+	.#{$classname}__action--#{$name} {
+		i {
+			
+			@include oIconsGetSassvg($icon-name, $color:$fill-color, $apply-base-styles: false);
+		}
+	}
+}
+
+@mixin oShareSetBackground($name, $color: 'default', $classname: o-share) {
+
+	$icon-name: 'social-'+$name;
+	$background-color: $color;
+
+	@if $color == 'default' {
+		$background-color: oColorsGetPaletteColor($icon-name);
+	}
+
+	.#{$classname}__action--#{$name} {
+		a {
+			background-color: $background-color;
+		}
+	}	
+}
+
+@mixin oShareDefault($name) {
+	@include oShareGetIcon($name, $color:#ffffff);
+	@include oShareSetBackground($name);
+}

@@ -1,0 +1,116 @@
+$o-share-is-silent: false;
+@import "../main";
+
+body {
+	background-color: oColorsGetPaletteColor('pink');
+}
+
+.demo {
+
+	// @include oShareBase;	
+	// @include oShareActionLink;
+	// @include oShareLinkTooltip;
+	// .o-share--default {
+	// 	@include oShareIcons;
+	// }
+	// .o-share--polychrome {
+	// 	@include oShareSetIconSize(40);
+	// 	@include oShareIcons(polychrome);
+	// }
+
+	// .o-share--duotone {
+	// 	@include oShareSetIconSize(50);
+	// 	@include oShareIcons(duotone);
+	// }
+
+	// .o-share--monochrome {
+	// 	@include oShareSetIconSize(60);
+	// 	@include oShareIcons(monochrome);	
+	// }	
+}
+
+
+// .o-share-symbol {
+// 	list-style-type: none;
+// 	padding: 0;
+// 	margin: 0;
+// 	.o-share__action {
+// 		float: none;
+// 		display: inline-block;
+// 		a {
+// 			float: none;
+// 			display: inline-block;
+			
+			
+// 		}
+// 		i {
+// 			display: none;
+// 		}
+// 		svg {
+// 			width: 30px;
+// 			height: 30px;
+// 			background-color: transparent;
+// 			fill: white;
+// 		}
+// 	}
+// 	@each $icon in $o-share-icons {
+// 		.o-share__action--#{$icon} {
+// 			a {
+// 				background-color: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
+// 				&:hover {
+// 					background-color: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
+// 				}
+// 			}
+// 		}
+// 	}
+// }
+
+.o-share--sprite {
+	svg {
+		width: 30px;
+		height: 30px;
+		background-color: transparent;
+		fill: white;
+	}
+	i {
+		display: none;
+	}
+	// .o-share__wechat {
+	// 	background-color: oColorsGetPaletteColor(social-wechat);
+	// }	
+
+	// .o-share__weibo {
+	// 	background-color: oColorsGetPaletteColor(social-weibo);
+	// }
+	// .o-share__linkedin {
+	// 	background-color: oColorsGetPaletteColor(social-linkedin);
+	// }
+	// .o-share__facebook {
+	// 	background-color: oColorsGetPaletteColor(social-facebook);
+	// }
+	// .o-share__twitter {
+	// 	background-color: oColorsGetPaletteColor(social-twitter);
+	// }
+	.o-share__action {
+		a {
+			background-color: oColorsGetPaletteColor('pink-tint3');
+			&:hover {
+				background-color:oColorsGetPaletteColor('pink-tint5');
+			}
+			&:hover {
+				svg {
+					fill: oColorsGetPaletteColor(teal-1);
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+

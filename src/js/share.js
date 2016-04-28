@@ -1,5 +1,4 @@
 const DomDelegate = require('dom-delegate');
-const TextCopyHelper = require('./TextCopyHelper');
 
 const socialUrls = {
 	wechat: {
@@ -21,16 +20,12 @@ const socialUrls = {
 	twitter: {
 		name: "Twitter",
 		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;via=FTChinese"
-	},
-	url: {
-		name: "复制链接",
-		url: "{{url}}"
-	} 
+	}
 };
 
 // Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
 const fallbackConfig = {
-	links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter', 'url'],
+	links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter'],
 
 	url: window.location.href || '',
 	summary: (function() {
@@ -87,17 +82,6 @@ function Share (rootEl, config) {
 			}
 			render();
 		}
-
-		const initEvent = new CustomEvent('oShare.ready',
-			{
-				detail: {
-					share: oShare
-				},
-				bubbles: true
-			}
-		);
-
-		oShare.rootEl.dispatchEvent(initEvent);
 	}
 
 	function render() {
@@ -111,14 +95,10 @@ function Share (rootEl, config) {
 			liElement.classList.add('o-share__action', 'o-share__action--' + link)
 			
 			const aElement = document.createElement('a');
-			// Do not need to encode url for `socialUrl[url]`
-			if (link !== 'url') {
-				aElement.href = generateSocialUrl(link);
-			} else {
-				aElement.href = config.url;
-			}
-			
-			aElement.setAttribute('data-link-tooltip', linkName);
+
+			aElement.href = generateSocialUrl(link);
+		
+			aElement.setAttribute('title', '分享到'+linkName);
 			
 			const iElement = document.createElement('i');
 			iElement.innerHTML = linkName;
@@ -130,15 +110,6 @@ function Share (rootEl, config) {
 		oShare.rootEl.appendChild(ulElement);
 	}
 
-	function generateSocialUrl (socialNetwork) {
-		let templateUrl = socialUrls[socialNetwork].url;
-		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
-			.replace('{{title}}', encodeURIComponent(config.title))
-			.replace('{{summary}}', encodeURIComponent(config.summary));
-		
-		return templateUrl;
-	}
-
 	function handleClick(e) {
 		const actionEl = e.target.closest('li.o-share__action');
 
@@ -147,54 +118,8 @@ function Share (rootEl, config) {
 
 			const url = actionEl.querySelector('a[href]').href;
 
-			const clickEvent = new CustomEvent('oTracking.event', {
-				detail: {
-					category: 'share',
-					action: 'click',
-					button: actionEl.textContent.trim()
-				}
-			});
-			oShare.rootEl.dispatchEvent(clickEvent);
-
-			if (actionEl.classList.contains('o-share__action--url')) {
-				copyLink(url, actionEl);
-			} else {
-				shareSocial(url);
-			}
+			shareSocial(url);
 		}
-	}
-
-	function copyLink(url, parentEl) {
-		if (!url || !parentEl || parentEl.hasAttribute('aria-selected')) {
-			return;
-		}
-		parentEl.setAttribute('aria-selected', 'true');
-
-		new TextCopyHelper({
-			message: '分享此链接',
-			text: url,
-			parentEl: parentEl,
-			onCopy: function() {
-				oShare.rootEl.dispatchEvent(new CustomEvent('oShare.copy', {
-					detail: {
-						share: oShare,
-						action: 'url',
-						url: url
-					}
-				}));
-			},
-			onDestroy: function() {
-				parentEl.removeAttribute('aria-selected');
-			}
-		});
-
-		oShare.rootEl.dispatchEvent(new CustomEvent('oShare.open', {
-			detail: {
-				share: oShare,
-				action: 'url',
-				url: url
-			}
-		}));
 	}
 
 	function shareSocial(url) {
@@ -204,15 +129,16 @@ function Share (rootEl, config) {
 			} else {
 				openWindows[url] = window.open(url, '', 'width=646,height=436');
 			}
-
-			oShare.rootEl.dispatchEvent(new CustomEvent('oShare.open', {
-				detail: {
-					share: oShare,
-					action: 'social',
-					url: url
-				}
-			}));
 		}
+	}
+
+	function generateSocialUrl (socialNetwork) {
+		let templateUrl = socialUrls[socialNetwork].url;
+		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
+			.replace('{{title}}', encodeURIComponent(config.title))
+			.replace('{{summary}}', encodeURIComponent(config.summary));
+		
+		return templateUrl;
 	}
 
 	init();
@@ -241,18 +167,11 @@ Share.init = function(el) {
 	const shareElements = el.querySelectorAll('[data-o-component=o-share]');
 
 	for (let i = 0; i < shareElements.length; i++) {
-		if (!shareElements[i].hasAttribute('data-o-header--js')) {
-			shareInstances.push(new Share(shareElements[i]));
-		}
+		shareInstances.push(new Share(shareElements[i]));
+
 	}
 
 	return shareInstances;
 };
-
-const OSharePrototype = Object.create(HTMLElement.prototype);
-
-Share.Element = document.registerElement ? document.registerElement('o-share', {
-	prototype: OSharePrototype
-}) : undefined;
 
 module.exports = Share;

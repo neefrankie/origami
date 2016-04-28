@@ -1,49 +1,23 @@
-var path = require('path');
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var del = require('del');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var debowerify = require('debowerify');
-var babelify = require('babelify');
-var cssnext = require('postcss-cssnext');
-var browserSync = require('browser-sync').create();
+const fs = require('fs');
+const path = require('path');
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
+const del = require('del');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const browserify = require('browserify');
+const watchify = require('watchify');
+const debowerify = require('debowerify');
+const babelify = require('babelify');
+const cssnext = require('postcss-cssnext');
+const browserSync = require('browser-sync').create();
 
-var config = require('./config.json');
-var projectName = path.basename(__dirname);
+const demoPath = '../../ftrepo/ft-interact/';
+const projectName = path.basename(__dirname);
 
 gulp.task(function mustache() {
   const DEST = '.tmp';
-  const options = {
-    "shareItem": [
-      {
-        "icon": "wechat",
-        "name": "微信"
-      },
-      {
-        "icon": "weibo",
-        "name": "微博"
-      },
-      {
-        "icon": "linkedin",
-        "name": "领英"
-      },
-      {
-        "icon": "facebook",
-        "name": "Facebook"
-      },
-      {
-        "icon": "twitter",
-        "name": "Twitter"
-      },
-      {
-        "icon": "url",
-        "name": "复制链接"
-      }
-    ]
-  }
+  const options = JSON.parse(fs.readFileSync('demo/data.json'));
 
   return gulp.src('demo/index.mustache')
     .pipe($.changed(DEST))
@@ -57,7 +31,7 @@ gulp.task(function mustache() {
 gulp.task('styles', function styles() {
   const DEST = '.tmp/styles';
 
-  return gulp.src('demo/main.scss')
+  return gulp.src('demo/demo.scss')
     .pipe($.changed(DEST))
     .pipe($.plumber())
     .pipe($.sourcemaps.init({loadMaps:true}))
@@ -80,8 +54,8 @@ gulp.task('styles', function styles() {
 
 /* Bundle js with watchify + browserify + debowerify + babelify*/
 gulp.task('scripts', function scripts() {
-  var b = browserify({
-    entries: 'demo/main.js',
+  const b = browserify({
+    entries: 'demo/demo.js',
     debug: true,
     cache: {},
     packageCache: {},
@@ -117,7 +91,7 @@ gulp.task('scripts', function scripts() {
 gulp.task(function js() {
   const DEST = '.tmp/scripts';
 
-  var b = browserify({
+  const b = browserify({
     entries: 'demo/main.js',
     debug: true,
     cache: {},
@@ -151,9 +125,10 @@ gulp.task('serve', gulp.parallel('mustache', 'styles', 'scripts', function erve 
     }
   });
 
-  gulp.watch('demo/*.mustache', gulp.parallel('mustache'));
+  gulp.watch(['demo/*.{mustache,json}', '*.mustache'], gulp.parallel('mustache'));
 
-  gulp.watch(['demo/*.scss', 'src/**/*.scss'], gulp.parallel('styles'));
+  gulp.watch(['demo/*.scss', 'src/**/*.scss', '*.scss'], gulp.parallel('styles'));
+  gulp.watch(['demo/*.js', 'src/**/*.js'], gulp.parallel('scripts'));
 
 }));
 
