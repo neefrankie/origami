@@ -1,105 +1,50 @@
-$o-share-is-silent: false;
 @import "../main";
 
 body {
 	background-color: oColorsGetPaletteColor('pink');
 }
 
-.demo {
+.demo--sassvg {
+	@include oShareBase(50%);
 
-	// @include oShareBase;	
-	// @include oShareActionLink;
-	// @include oShareLinkTooltip;
-	// .o-share--default {
-	// 	@include oShareIcons;
-	// }
-	// .o-share--polychrome {
-	// 	@include oShareSetIconSize(40);
-	// 	@include oShareIcons(polychrome);
-	// }
+	.o-share--default {
+		@include oShareIconDefault;
+	}
 
-	// .o-share--duotone {
-	// 	@include oShareSetIconSize(50);
-	// 	@include oShareIcons(duotone);
-	// }
+	.o-share--teal {
+		@include oShareIconTeal;
+	}
 
-	// .o-share--monochrome {
-	// 	@include oShareSetIconSize(60);
-	// 	@include oShareIcons(monochrome);	
-	// }	
+	.o-share--tint {
+		@include oShareIconTint;
+		@include oShareSetIconSize(30);
+		@include oShareSetIconRadius(3px);
+	}
 }
 
 
-// .o-share-symbol {
-// 	list-style-type: none;
-// 	padding: 0;
-// 	margin: 0;
-// 	.o-share__action {
-// 		float: none;
-// 		display: inline-block;
-// 		a {
-// 			float: none;
-// 			display: inline-block;
-			
-			
-// 		}
-// 		i {
-// 			display: none;
-// 		}
-// 		svg {
-// 			width: 30px;
-// 			height: 30px;
-// 			background-color: transparent;
-// 			fill: white;
-// 		}
-// 	}
-// 	@each $icon in $o-share-icons {
-// 		.o-share__action--#{$icon} {
-// 			a {
-// 				background-color: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
-// 				&:hover {
-// 					background-color: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
-// 				}
-// 			}
-// 		}
-// 	}
-// }
+.demo--sprite {
+	@include oShareSpriteBase;
 
-.o-share--sprite {
-	svg {
-		width: 30px;
-		height: 30px;
-		background-color: transparent;
-		fill: white;
+	@include oShareSpriteIcon(wechat);
+	@each $name in $o-share-icon-names {
+		@include oShareSpriteIcon($name);
 	}
-	i {
-		display: none;
-	}
-	// .o-share__wechat {
-	// 	background-color: oColorsGetPaletteColor(social-wechat);
-	// }	
+}
 
-	// .o-share__weibo {
-	// 	background-color: oColorsGetPaletteColor(social-weibo);
-	// }
-	// .o-share__linkedin {
-	// 	background-color: oColorsGetPaletteColor(social-linkedin);
-	// }
-	// .o-share__facebook {
-	// 	background-color: oColorsGetPaletteColor(social-facebook);
-	// }
-	// .o-share__twitter {
-	// 	background-color: oColorsGetPaletteColor(social-twitter);
-	// }
-	.o-share__action {
+.demo--sprite-custom {
+	@include oShareSpriteBase {
+
+		svg {
+			fill: oColorsGetPaletteColor('pink-tint1');
+		}
+
 		a {
-			background-color: oColorsGetPaletteColor('pink-tint3');
+			background-color: oColorsGetPaletteColor('orange-tint1');
 			&:hover {
-				background-color:oColorsGetPaletteColor('pink-tint5');
-			}
-			&:hover {
+				background-color: oColorsGetPaletteColor('blue-tint1');
 				svg {
-					fill: oColorsGetPaletteColor(teal-1);
+					fill: oColorsGetPaletteColor('orange-tint1');
 				}
 			}
 		}

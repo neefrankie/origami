@@ -92,7 +92,7 @@ function Share (rootEl, config) {
 			const linkName = socialUrls[link].name;
 			
 			const liElement = document.createElement('li');
-			liElement.classList.add('o-share__action', 'o-share__action--' + link)
+			liElement.classList.add('o-share__action', 'o-share__' + link)
 			
 			const aElement = document.createElement('a');
 

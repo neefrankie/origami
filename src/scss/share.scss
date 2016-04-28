@@ -1,5 +1,8 @@
 /// Generate base share styles
 /// @param {String} $classname [o-share] - base class name
+/// If you want to customize the look and feel of all icons, pass content block to it.
+/// NOTE, custom content block will be put under `.o-share__action`.
+///
 @mixin oShareBase($radius: null, $classname: o-share) {
 	.#{$classname} {
 		display: inline-block;
@@ -21,64 +24,150 @@
 
 			width: $o-share-icon-size;
 			height: $o-share-icon-size;
-			text-indent: $o-share-icon-size;
+			text-indent: -($o-share-icon-size * 1000);
 			white-space: nowrap;
 			overflow: hidden;
 		}
 		a {
 			text-decoration: none;
-			padding: 6px;
+			padding: 4px;
 			display: block;
-			overflow: hidden;
 			@if ($radius != null) {
 				border-radius: $radius;
 			}
 
-			&:focus i {
-				box-shadow: 0 0 2px oColorsGetPaletteColor('black');
-			}
-
-			&:hover i {
+			&:hover {
 				opacity: 0.8;
 			}
+// Clearfix
+			&:after {
+				clear: both;
+				content: '';
+				display: table;
+			}
 		}
+		@content;
 	}	
 }
+/// @param {String} $name - One of the $o-share-icon-names
+/// @param {String} $theme - One of the theme names in $o-share-themes.
+@mixin oShareIconFor($name, $theme: 'default', $classname: o-share) {
+	$iconname: "social-" + $name;
 
-@mixin oShareGetIcon($name, $color: 'default', $classname: o-share) {
+	$fill: oColorsGetPaletteColor($iconname);
+	$background: oColorsGetPaletteColor($iconname);
+	$hover: oColorsGetPaletteColor($iconname);
 
-	$icon-name: 'social-'+$name;
-	$fill-color: $color;
+	@if ($theme == null) {
+		$theme: 'default';
+	}
+	
+	$theme-fill: oShareGetColorFor($theme, fill);
+	$theme-background: oShareGetColorFor($theme, background);
+	$theme-hover: oShareGetColorFor($theme, hover);
 
-	@if $color == 'default' {
-		$fill-color: oColorsGetPaletteColor($icon-name);
+	@if($theme-fill) {
+		$fill: $theme-fill;
+	}
+	@if($theme-background) {
+		$background: $theme-background
+	}
+	@if($theme-hover) {
+		$hover: $theme-hover;
 	}
 
-	.#{$classname}__action--#{$name} {
+	@debug "Will use the following color for theme '#{$theme}':";
+	@debug "fill-#{inspect($fill)}, background-#{inspect($background)}, hover-#{inspect($theme-hover)}";
+
+	.#{$classname}__#{$name} {
+		a {	
+			background-color: $background;
+// If `hover` color is not set in `theme`, we should not fallback to the default `$hover`.
+// Instead, do not output it.
+			@if ($theme-hover) {
+				&:hover {
+					background-color: $hover;
+				}					
+			}
+		}
 		i {
-			
-			@include oIconsGetSassvg($icon-name, $color:$fill-color, $apply-base-styles: false);
+			background-image: sassvg($iconname, $fillcolor: $fill);
 		}
 	}
 }
 
-@mixin oShareSetBackground($name, $color: 'default', $classname: o-share) {
+@mixin oShareIconDefault {
+	@each $name in $o-share-icon-names {
+		@include oShareIconFor($name);
+	}
+}
+@mixin oShareIconTeal {
+	@each $name in $o-share-icon-names {
+		@include oShareIconFor($name, teal);
+	}
+}
+@mixin oShareIconTint {
+	@each $name in $o-share-icon-names {
+		@include oShareIconFor($name, tint);
+	}
+}
 
-	$icon-name: 'social-'+$name;
-	$background-color: $color;
 
-	@if $color == 'default' {
-		$background-color: oColorsGetPaletteColor($icon-name);
+// The following mixins should be used together.
+// Style svgs embeded in HTML. See `main.mustache`.
+@mixin oShareSpriteBase($radius: null, $width: $o-share-icon-size, $height: $o-share-icon-size, $classname: o-share) {
+
+	.#{$classname} {
+		display: inline-block;
+		ul {
+			margin: 0;
+			padding: 0;
+		}
 	}
 
-	.#{$classname}__action--#{$name} {
+	.#{$classname}__action {
+		display: inline-block;
+		margin: 0 5px 0 0;
+		list-style-type: none;
+
+		i {
+			display: none;
+		}
+		svg {
+			float: left;
+			width: $o-share-icon-size;
+			height: $o-share-icon-size;
+			background-color: transparent;
+		}
 		a {
-			background-color: $background-color;
+			text-decoration: none;
+			padding: 4px;
+			display: block;
+			@if ($radius != null) {
+				border-radius: $radius;
+			}
+			&:after {
+				clear: both;
+				content: '';
+				display: table;
+			}
 		}
-	}	
+		@content;
+	}
 }
 
-@mixin oShareDefault($name) {
-	@include oShareGetIcon($name, $color:#ffffff);
-	@include oShareSetBackground($name);
+// Add color to svg sprite.
+@mixin oShareSpriteIcon($name, $classname: o-share) {
+	$iconname: "social-" + $name;
+
+	$iconcolor: oColorsGetPaletteColor($iconname);
+
+	.#{$classname}__#{$name} {
+		a {
+			background-color: $iconcolor;
+		}
+		svg {
+			fill: oColorsGetPaletteColor('white');
+		}
+	}
 }

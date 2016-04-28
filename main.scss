@@ -2,26 +2,12 @@
 @import "ftc-icons/main";
 
 @import "src/scss/variables";
-@import "src/scss/color-palette";
-//@import 'src/scss/functions';
+@import "src/scss/color";
+@import 'src/scss/functions';
+@import "src/scss/mixins";
 @import "src/scss/share";
 
 @if (not $o-share-is-silent) {
-	@include oShareBase(50%);
-	@include oShareDefault(wechat);
-	@include oShareDefault(weibo);
-	@include oShareDefault(linkedin);
-	@include oShareDefault(facebook);
-	@include oShareDefault(twitter);
-	// @include oShareActionIcon(wechat);
-	// @include oShareIconBackground(wechat, #333);
-	// @include oShareActionIcon(weibo);
-	// @include oShareActionIcon(linkedin);
-	// @include oShareActionIcon(facebook);
-	// @include oShareActionIcon(twitter);
-	//@include oShareActionLink;
-	// @if ($o-share-use-default-icon) {
-	// 	@include oShareIcons;
-	// }	
+
 }
 
