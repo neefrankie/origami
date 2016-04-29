@@ -1,28 +1,55 @@
 /// The following mixin could be used to set every instance of `o-share` separately.
-/// If you want to set the same style on all instance of `o-share` on the same page, it is not recommended to use them. Instead, use `oShareBase` to reduce code redundancy:
 
-// @include oShareBase {
-// 	a {
-// 		background-color: orange;
-// 		padding: 10px;
-// 		border-radius: 50%;
-// 	}
+
+// Use it to customise the look and feel of all icons,
+//
+// @example
+// oShareSetIconStyle {
+//	padding: 10px;
+// 	background-color: #000000;
+// 	border-radius: 50%;
 // 	i {
-// 		height: 50px;
-// 		width: 40px;
+// 		width: 30px;
+// 		height: 30px;
 // 	}
 // }
-// You should put `oShareBase` after `oShareIconFor` when used this way to avoid overriding.
-
-/// @param {String} $color - this should be a hex colour value. Used to set a background color beneath the icon. We suggest using an o-colors function.
-@mixin oShareSetIconBackground($color, $classname: o-share) {
+@mixin oShareCustomBase($classname: o-share) {
 	.#{$classname}__action {
+		a {
+			@content;
+		}
+	}
+}
+/// @param {String} $name - One of the icon names as in $o-share-icon-names.
+/// @param {String} $color - this should be a hex colour value. Used to set a background color beneath the icon. We suggest using an o-colors function.
+@mixin oShareSetIconBackground($name, $color:'default', $classname: o-share) {
+	.#{$classname}__#{$name} {
+		@if $color == 'default' {
+			$iconname: 'social-'+$name;
+			$color: oColorsGetPaletteColor($iconname);
+		}
 		a {
 			background-color: $color;
 		}
 	}
 }
 
+/// @param {String} $theme - Name of the theme
+/// @param {String} $property - Property it applies to. One of `fill`, `background`, or `hover`
+/// @param {String} $color - One of $o-colors-palette.
+@mixin oShareSetTheme($theme, $property, $color) {
+	$propmap: ($property: $color);
+
+	@if (map-has-key($o-share-themes, $theme)) {
+		$propmap: map-merge(map-get($o-share-themes, $theme), $propmap);
+	}
+
+	$newmap: ($theme: $propmap);
+
+	$o-share-themes: map-merge($o-share-themes, $newmap) !global;
+}
+
+// Some helper mixins.
 /// @param {Number} $padding - This is the padding of `a` element containing the icon element.
 @mixin oShareSetIconGap($padding, $classname: o-share) {
 	.#{$classname}__action {
@@ -54,18 +81,4 @@
 			height: $height + 0px;
 		}
 	} 
-}
-/// @param {String} $theme - Name of the theme
-/// @param {String} $property - Property it applies to. One of `fill`, `background`, or `hover`
-/// @param {String} $color - One of $o-colors-palette.
-@mixin oShareSetTheme($theme, $property, $color) {
-	$propmap: ($property: $color);
-
-	@if (map-has-key($o-share-themes, $theme)) {
-		$propmap: map-merge(map-get($o-share-themes, $theme), $propmap);
-	}
-
-	$newmap: ($theme: $propmap);
-
-	$o-share-themes: map-merge($o-share-themes, $newmap) !global;
 }

@@ -14,7 +14,7 @@ $o-share-themes: () !default;
 
 $o-share-themes: map-merge((
 	default: (fill: 'white'),
-
+	dark: (fill: 'white', background: 'transparent'),
 	default-hover: (fill: 'white', background:'grey-tint1',  hover: 'default'),
 
 	teal: (fill: 'white', background: 'grey-tint1', hover: 'teal-2'),

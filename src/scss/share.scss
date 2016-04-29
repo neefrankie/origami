@@ -1,18 +1,23 @@
 /// Generate base share styles
 /// @param {String} $classname [o-share] - base class name
-/// If you want to customize the look and feel of all icons, pass content block to it.
-/// NOTE, custom content block will be put under `.o-share__action`.
-///
-@mixin oShareBase($radius: null, $classname: o-share) {
+/// If you want to customize the look and feel of all icons, pass content block to mixin `oShareCustomBase {}`.
+@mixin oShareBase($classname: o-share) {
 	.#{$classname} {
 		display: inline-block;
 		ul {
 			margin: 0;
 			padding: 0;
+			// Clearfix
+			&:after {
+				clear: both;
+				content: '';
+				display: table;
+			}
 		}
 	}
 	.#{$classname}__action {
-		display: inline-block;
+	// Float everything to avoid gaps in HTML.
+		float: left;
 		margin: 0 5px 0 0;
 		list-style-type: none;
 		
@@ -29,24 +34,14 @@
 			overflow: hidden;
 		}
 		a {
+			float: left;
 			text-decoration: none;
-			padding: 4px;
-			display: block;
-			@if ($radius != null) {
-				border-radius: $radius;
-			}
-
+			padding: 4px;			
+			border-radius: $o-share-icon-radius;
 			&:hover {
 				opacity: 0.8;
 			}
-// Clearfix
-			&:after {
-				clear: both;
-				content: '';
-				display: table;
-			}
 		}
-		@content;
 	}	
 }
 /// @param {String} $name - One of the $o-share-icon-names
@@ -93,6 +88,7 @@
 	}
 }
 
+// Some pre-defined themes.
 @mixin oShareIconDefault {
 	@each $name in $o-share-icon-names {
 		@include oShareIconFor($name);
@@ -107,6 +103,18 @@
 	@each $name in $o-share-icon-names {
 		@include oShareIconFor($name, tint);
 	}
+	@include oShareCustomBase {
+		border-radius: 3px;
+	}
+	
+}
+@mixin oShareIconDark {
+	@each $name in $o-share-icon-names {
+		@include oShareIconFor($name, dark);
+	}
+	@include oShareCustomBase {
+		border: 1px solid #fff;
+	}
 }
 
 
@@ -119,11 +127,17 @@
 		ul {
 			margin: 0;
 			padding: 0;
+			// Clearfix
+			&:after {
+				clear: both;
+				content: '';
+				display: table;
+			}
 		}
 	}
 
 	.#{$classname}__action {
-		display: inline-block;
+		float: left;
 		margin: 0 5px 0 0;
 		list-style-type: none;
 
@@ -132,21 +146,16 @@
 		}
 		svg {
 			float: left;
-			width: $o-share-icon-size;
-			height: $o-share-icon-size;
+			width: $width;
+			height: $height;
 			background-color: transparent;
 		}
 		a {
+			float: left;
 			text-decoration: none;
 			padding: 4px;
-			display: block;
 			@if ($radius != null) {
 				border-radius: $radius;
-			}
-			&:after {
-				clear: both;
-				content: '';
-				display: table;
 			}
 		}
 		@content;

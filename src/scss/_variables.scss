@@ -6,14 +6,9 @@
 /// Silent mode
 /// @type Bool
 $o-share-is-silent: true !default;
-// $o-share-use-default-icon: true !default;
 
 $o-share-icon-size: 24px !default;
-// $o-share-link-size: 34px;
-// $o-share-link-padding: 5px;
-/// Icon size
-/// @type Number
-// $o-share-icon-size: $o-share-link-size - $o-share-link-padding * 2;
+$o-share-icon-radius: 50% !default;
 
 /// List of accepted social network icons, and the version
 /// @type map

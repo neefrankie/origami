@@ -5,7 +5,7 @@ body {
 }
 
 .demo--sassvg {
-	@include oShareBase(50%);
+	@include oShareBase;
 
 	.o-share--default {
 		@include oShareIconDefault;
@@ -24,8 +24,17 @@ body {
 	}
 	.o-share--tint {
 		@include oShareIconTint;
-		@include oShareSetIconSize(30);
-		@include oShareSetIconRadius(3px);
+		@include oShareCustomBase {
+			i {
+				width: 30px;
+				height: 30px;
+			}
+		}
+	}
+
+	.o-share--dark {
+		@include oShareIconDark;
+		background-color: #000;
 	}
 }
 
@@ -33,10 +42,13 @@ body {
 .demo--sprite {
 	@include oShareSpriteBase;
 
-	@include oShareSpriteIcon(wechat);
 	@each $name in $o-share-icon-names {
 		@include oShareSpriteIcon($name);
 	}
+	ul {
+		background-color: orange;
+	}
+	
 }
 
 .demo--sprite-custom {
