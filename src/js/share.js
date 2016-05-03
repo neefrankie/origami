@@ -66,7 +66,8 @@ function Share (rootEl, config) {
 		}
 
 		const rootDelegate = new DomDelegate(rootEl);
-		rootDelegate.on('click', handleClick);
+		//rootEl.addEventListener('click', handleClick);
+		rootDelegate.on('click', 'a', handleClick);
 		rootEl.setAttribute('data-o-share--js', '');
 
 		oShare.rootDomDelegate = rootDelegate;
@@ -92,13 +93,14 @@ function Share (rootEl, config) {
 			const linkName = socialUrls[link].name;
 			
 			const liElement = document.createElement('li');
-			liElement.classList.add('o-share__action', 'o-share__' + link)
+			//liElement.classList.add('o-share__action', 'o-share__' + link);
+			liElement.className = 'o-share__action o-share__' + link;
 			
 			const aElement = document.createElement('a');
 
 			aElement.href = generateSocialUrl(link);
-		
 			aElement.setAttribute('title', '分享到'+linkName);
+			aElement.setAttribute('target', '_blank');
 			
 			const iElement = document.createElement('i');
 			iElement.innerHTML = linkName;
@@ -110,16 +112,9 @@ function Share (rootEl, config) {
 		oShare.rootEl.appendChild(ulElement);
 	}
 
-	function handleClick(e) {
-		const actionEl = e.target.closest('li.o-share__action');
-
-		if (oShare.rootEl.contains(actionEl) && actionEl.querySelector('a[href]')) {
-			e.preventDefault();
-
-			const url = actionEl.querySelector('a[href]').href;
-
-			shareSocial(url);
-		}
+	function handleClick(e, target) {
+		e.preventDefault();
+		shareSocial(target.href);
 	}
 
 	function shareSocial(url) {
