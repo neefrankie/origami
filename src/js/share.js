@@ -46,14 +46,6 @@ const fallbackConfig = {
 		})()
 };
 
-/*
-config = {
-	url: 'http://www.fthince.com',location.href.
-	title: 'Article Title',
-	summary: 'A short summary of the article',
-	links: ['wechat', 'weibo', 'linkedin']
-}
-*/
 function Share (rootEl, config) {
 	const oShare = this;
 	const openWindows = {};
@@ -79,7 +71,7 @@ function Share (rootEl, config) {
 				config.links = rootEl.hasAttribute('data-o-share-links') ? rootEl.getAttribute('data-o-share-links').split(' ') : fallbackConfig.links;
 				config.url = rootEl.getAttribute('data-o-share-url') || fallbackConfig.url;
 				config.title = rootEl.getAttribute('data-o-share-title') || fallbackConfig.title;
-				config.summray = rootEl.getAttribute('data-o-share-summary') || fallbackConfig.summary;
+				config.summary = rootEl.getAttribute('data-o-share-summary') || fallbackConfig.summary;
 			}
 			render();
 		}
@@ -129,10 +121,11 @@ function Share (rootEl, config) {
 
 	function generateSocialUrl (socialNetwork) {
 		let templateUrl = socialUrls[socialNetwork].url;
+		console.log(config);
 		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
 			.replace('{{title}}', encodeURIComponent(config.title))
 			.replace('{{summary}}', encodeURIComponent(config.summary));
-		
+
 		return templateUrl;
 	}
 
