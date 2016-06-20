@@ -19,31 +19,24 @@ const socialUrls = {
 	},
 	twitter: {
 		name: "Twitter",
-		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text={{title}}&amp;via=FTChinese"
+		url: "https://twitter.com/intent/tweet?url={{url}}&amp;text=【{{title}}】{{summary}}&amp;via=FTChinese"
 	}
 };
+
+function getOgContent(metaEl) {
+	if (!(metaEl instanceof HTMLElement)) {
+		metaEl = document.querySelector(metaEl);
+	}
+	return metaEl.hasAttribute('content') ? metaEl.getAttribute('content') : '';
+}
 
 // Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
 const fallbackConfig = {
 	links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter'],
 
 	url: window.location.href || '',
-	summary: (function() {
-			let descElement = document.querySelector('meta[property="og:description"]');
-			if (descElement) {
-				return descElement.hasAttribute('content') ? descElement.getAttribute('content') : '';
-			}
-			return '';
-		})(),
-	title: (function() {
-			let titleElement = document.querySelector('title');
-			if (titleElement) {
-	//`innerText` for IE
-				let titleText = (titleElement.textContent !== undefined) ? titleElement.textContent : titleElement.innerText;
-				return titleText.split('-')[0].trim();
-			}
-			return '';
-		})()
+	summary: getOgContent('meta[property="og:description"]'),
+	title: getOgContent('meta[property="og:title"]')
 };
 
 function Share (rootEl, config) {
@@ -58,7 +51,6 @@ function Share (rootEl, config) {
 		}
 
 		const rootDelegate = new DomDelegate(rootEl);
-		//rootEl.addEventListener('click', handleClick);
 		rootDelegate.on('click', 'a', handleClick);
 		rootEl.setAttribute('data-o-share--js', '');
 
@@ -121,7 +113,6 @@ function Share (rootEl, config) {
 
 	function generateSocialUrl (socialNetwork) {
 		let templateUrl = socialUrls[socialNetwork].url;
-		console.log(config);
 		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
 			.replace('{{title}}', encodeURIComponent(config.title))
 			.replace('{{summary}}', encodeURIComponent(config.summary));

@@ -11,6 +11,13 @@
         "withFacebook": true,
     	"withTwitter": true
     },
+    "description": "This is the demo page of FTC's social sharing function",
+    "ogTitle": "FTC Share Demo",
+    "ogType": "article",
+    "ogImage": "",
+    "ogUrl": "",
+    "assetsPath": "/bower_components/ftc-icons/",
+    "title": "FTC Share Demo",
     "shareItem": [
       {
         "icon": "wechat",
