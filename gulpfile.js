@@ -33,6 +33,9 @@ gulp.task('mustache', function () {
   return gulp.src('./demos/src/index.mustache')
     .pipe($.data(function(file) {
       return readFilePromisified('./demos/src/data.json')
+        .then(function(value) {
+          return JSON.parse(value);
+        });
     }))   
     .pipe($.mustache({}, {
       extension: '.html'
