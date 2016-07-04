@@ -3,35 +3,47 @@ const path = require('path');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const del = require('del');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
-const browserify = require('browserify');
-const watchify = require('watchify');
-const debowerify = require('debowerify');
-const babelify = require('babelify');
 const cssnext = require('postcss-cssnext');
 const browserSync = require('browser-sync').create();
+const webpack = require('webpack-stream');
+const webpackConfig = require('./webpack.config.js');
+process.env.NODE_ENV = 'development';
 
-const demoPath = '../../ftrepo/ft-interact/';
+const demoFolder = 'ft-interact';
 const projectName = path.basename(__dirname);
 
-gulp.task(function mustache() {
-  const DEST = '.tmp';
-  const options = JSON.parse(fs.readFileSync('demo/data.json'));
+function readFilePromisified(filename) {
+  return new Promise(
+    function(resolve, reject) {
+      fs.readFile(filename, 'utf8', function(err, data) {
+        if (err) {
+          console.log('Cannot find file: ' + filename);
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    }
+  );
+}
 
-  return gulp.src('demo/index.mustache')
-    .pipe($.changed(DEST))
-    .pipe($.mustache(options, {
+gulp.task('mustache', function () {
+  const DEST = '.tmp';
+
+  return gulp.src('./demos/src/index.mustache')
+    .pipe($.data(function(file) {
+      return readFilePromisified('./demos/src/data.json')
+    }))   
+    .pipe($.mustache({}, {
       extension: '.html'
     }))
-    .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream({once: true}));
+    .pipe(gulp.dest(DEST));
 });
 
 gulp.task('styles', function styles() {
   const DEST = '.tmp/styles';
 
-  return gulp.src('demo/demo.scss')
+  return gulp.src('demos/src/demo.scss')
     .pipe($.changed(DEST))
     .pipe($.plumber())
     .pipe($.sourcemaps.init({loadMaps:true}))
@@ -52,70 +64,26 @@ gulp.task('styles', function styles() {
     .pipe(browserSync.stream({once: true}));
 });
 
-/* Bundle js with watchify + browserify + debowerify + babelify*/
-gulp.task('scripts', function scripts() {
-  const b = browserify({
-    entries: 'demo/demo.js',
-    debug: true,
-    cache: {},
-    packageCache: {},
-    transform: [babelify, debowerify],
-    plugin: [watchify]
-  });
+gulp.task('scripts', function() {
+  const DEST = '.tmp/scripts/';
 
-  b.on('update', bundle);
-  b.on('log', $.util.log);
-
-  bundle();
-
-  function bundle(ids) {
-    $.util.log('Compiling JS...');
-    if (ids) {
-      console.log('Changed Files:\n' + ids);
-    }   
-    return b.bundle()
-      .on('error', function(err) {
-        $.util.log(err.message);
-        browserSync.notify('Browerify Error!')
-        this.emit('end')
-      })
-      .pipe(source('bundle.js'))
-      .pipe(buffer())
-      .pipe($.sourcemaps.init({loadMaps: true}))
-      .pipe($.sourcemaps.write('./'))
-      .pipe(gulp.dest('.tmp/scripts'))
-      .pipe(browserSync.stream({once:true}));
+  if (process.env.NODE_ENV === 'production') {
+    webpackConfig.watch = false;
   }
-});
 
-gulp.task(function js() {
-  const DEST = '.tmp/scripts';
-
-  const b = browserify({
-    entries: 'demo/main.js',
-    debug: true,
-    cache: {},
-    packageCache: {},
-    transform: [babelify, debowerify]
-  });
-
-  return b.bundle()
-    .on('error', function(err) {
-      $.util.log(err.message);
-      this.emit('end')
-    })
-    .pipe(source('bundle.js'))
-    .pipe(buffer())
+  return gulp.src('demos/src/demo.js')
+    .pipe(webpack(webpackConfig))
     .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(DEST));
+    .pipe(gulp.dest(DEST))
+    .pipe(browserSync.stream({once:true}));
 });
 
 gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', gulp.parallel('mustache', 'styles', 'scripts', function erve () {
+gulp.task('serve', gulp.parallel('mustache', 'styles', 'scripts', function serve () {
   browserSync.init({
     server: {
       baseDir: ['.tmp'],
@@ -125,14 +93,34 @@ gulp.task('serve', gulp.parallel('mustache', 'styles', 'scripts', function erve 
     }
   });
 
-  gulp.watch(['demo/*.{mustache,json}', '*.mustache'], gulp.parallel('mustache'));
+  gulp.watch(['demo/src/*.{mustache,json}', '*.mustache'], gulp.parallel('mustache'));
 
-  gulp.watch(['demo/*.scss', 'src/**/*.scss', '*.scss'], gulp.parallel('styles'));
-  gulp.watch(['demo/*.js', 'src/**/*.js'], gulp.parallel('scripts'));
+  gulp.watch(['demo/src/*.scss', 'src/**/*.scss', '*.scss'], gulp.parallel('styles'));
 
+  gulp.watch(['demo/src/*.js', 'src/**/*.js'], gulp.parallel('scripts'));
 }));
 
-gulp.task('deploy', gulp.series('clean', 'mustache', 'styles', 'js', function() {
+// Set NODE_ENV according to dirrent task run.
+// Any easy way to set it?
+gulp.task('dev', function() {
+  return Promise.resolve(process.env.NODE_ENV = 'development')
+    .then(function(value) {
+      console.log('NODE_ENV: ' + process.env.NODE_ENV);
+    });
+});
+
+gulp.task('prod', function() {
+  return Promise.resolve(process.env.NODE_ENV = 'production')
+    .then(function(value) {
+      console.log('NODE_ENV: ' + process.env.NODE_ENV);
+    });
+});
+
+gulp.task('demos:copy', function() {
+  const DEST = path.join(__dirname, '..', demoFolder, projectName);
+
   return gulp.src('.tmp/**/*')
-    .pipe(gulp.dest(config.deploy.assets + projectName));
-}));
+    .pipe(gulp.dest(DEST));
+})
+
+gulp.task('demos', gulp.series('prod', 'clean', gulp.parallel('mustache', 'styles', 'scripts'), 'demos:copy', 'dev'));
