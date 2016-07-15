@@ -9,8 +9,8 @@ const browserSync = require('browser-sync').create();
 // const webpackConfig = require('./webpack.config.js');
 const rollup = require('rollup').rollup;
 const buble = require('rollup-plugin-buble');
-const bowerResolve = require('rollup-plugin-bower-resolve');
-const commonjs = require('rollup-plugin-commonjs');
+// const bowerResolve = require('rollup-plugin-bower-resolve');
+// const commonjs = require('rollup-plugin-commonjs');
 
 var cache;
 
@@ -76,8 +76,8 @@ gulp.task('scripts', () => {
   return rollup({
     entry: 'demos/src/demo.js',
     plugins: [
-      bowerResolve(),
-      commonjs(),
+      // bowerResolve(),
+      // commonjs(),
       buble()
     ],
     cache: cache,
@@ -134,7 +134,7 @@ gulp.task('rollup', () => {
     entry: './src/js/share.js',
     plugins: [buble()],
     cache: cache,
-    external: ['dom-delegate']
+    // external: ['dom-delegate']
   }).then(function(bundle) {
     cache = bundle;
 
@@ -142,9 +142,9 @@ gulp.task('rollup', () => {
       format: 'iife',
       moduleName: 'Share',
       moduleId: 'ftc-share',
-      globals: {
-        'dom-delegate': 'domDelegate.Delegate'
-      },
+      // globals: {
+      //   'dom-delegate': 'domDelegate.Delegate'
+      // },
       dest: 'dist/ftc-share.js',
       sourceMap: true,
     });
