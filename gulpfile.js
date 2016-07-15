@@ -5,9 +5,14 @@ const $ = require('gulp-load-plugins')();
 const del = require('del');
 const cssnext = require('postcss-cssnext');
 const browserSync = require('browser-sync').create();
-const webpack = require('webpack-stream');
-const webpackConfig = require('./webpack.config.js');
-process.env.NODE_ENV = 'development';
+// const webpackStream = require('webpack-stream');
+// const webpackConfig = require('./webpack.config.js');
+const rollup = require('rollup').rollup;
+const buble = require('rollup-plugin-buble');
+const bowerResolve = require('rollup-plugin-bower-resolve');
+const commonjs = require('rollup-plugin-commonjs');
+
+var cache;
 
 const demoFolder = 'ft-interact';
 const projectName = path.basename(__dirname);
@@ -67,19 +72,28 @@ gulp.task('styles', function styles() {
     .pipe(browserSync.stream({once: true}));
 });
 
-gulp.task('scripts', function() {
-  const DEST = '.tmp/scripts/';
+gulp.task('scripts', () => {
+  return rollup({
+    entry: 'demos/src/demo.js',
+    plugins: [
+      bowerResolve(),
+      commonjs(),
+      buble()
+    ],
+    cache: cache,
+  }).then(function(bundle) {
+    cache = bundle;
 
-  if (process.env.NODE_ENV === 'production') {
-    webpackConfig.watch = false;
-  }
-
-  return gulp.src('demos/src/demo.js')
-    .pipe(webpack(webpackConfig))
-    .pipe($.sourcemaps.init({loadMaps: true}))
-    .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(DEST))
-    .pipe(browserSync.stream({once:true}));
+    return bundle.write({
+      format: 'iife',
+      moduleName: 'Share',
+      moduleId: 'ftc-share',
+      dest: '.tmp/scripts/ftc-share.js',
+      sourceMap: true,
+    }).then(function() {
+      browserSync.reload('ftc-share.js');
+    });
+  });
 });
 
 gulp.task('clean', function() {
@@ -100,30 +114,80 @@ gulp.task('serve', gulp.parallel('mustache', 'styles', 'scripts', function serve
 
   gulp.watch(['demo/src/*.scss', 'src/**/*.scss', '*.scss'], gulp.parallel('styles'));
 
-  gulp.watch(['demo/src/*.js', 'src/**/*.js'], gulp.parallel('scripts'));
+  gulp.watch(['demos/src/*.js', 'src/js/share.js', 'main.js'], gulp.parallel('scripts'));
+
 }));
-
-// Set NODE_ENV according to dirrent task run.
-// Any easy way to set it?
-gulp.task('dev', function() {
-  return Promise.resolve(process.env.NODE_ENV = 'development')
-    .then(function(value) {
-      console.log('NODE_ENV: ' + process.env.NODE_ENV);
-    });
-});
-
-gulp.task('prod', function() {
-  return Promise.resolve(process.env.NODE_ENV = 'production')
-    .then(function(value) {
-      console.log('NODE_ENV: ' + process.env.NODE_ENV);
-    });
-});
 
 gulp.task('demos:copy', function() {
   const DEST = path.join(__dirname, '..', demoFolder, projectName);
 
   return gulp.src('.tmp/**/*')
     .pipe(gulp.dest(DEST));
-})
+});
 
-gulp.task('demos', gulp.series('prod', 'clean', gulp.parallel('mustache', 'styles', 'scripts'), 'demos:copy', 'dev'));
+gulp.task('demos', gulp.series(/*'prod',*/ 'clean', gulp.parallel('mustache', 'styles', 'scripts'), 'demos:copy'/*, 'dev'*/));
+
+
+// dist js to be directly used in the browser.
+gulp.task('rollup', () => {
+  return rollup({
+    entry: './src/js/share.js',
+    plugins: [buble()],
+    cache: cache,
+    external: ['dom-delegate']
+  }).then(function(bundle) {
+    cache = bundle;
+
+    return bundle.write({
+      format: 'iife',
+      moduleName: 'Share',
+      moduleId: 'ftc-share',
+      globals: {
+        'dom-delegate': 'domDelegate.Delegate'
+      },
+      dest: 'dist/ftc-share.js',
+      sourceMap: true,
+    });
+  });
+});
+
+gulp.task('dist', gulp.parallel('rollup'));
+
+// deprecated tasks
+// process.env.NODE_ENV = 'development';
+
+// gulp.task('webpack', function(done) {
+//   const DEST = '.tmp/scripts/';
+
+//   if (process.env.NODE_ENV === 'production') {
+//     webpackConfig.watch = false;
+//   }
+
+//   return gulp.src('demos/src/demo.js')
+//     .pipe(webpackStream(webpackConfig, null, function(err, stats) {
+//       $.util.log(stats.toString({
+//           colors: $.util.colors.supportsColor,
+//           chunks: false,
+//           hash: false,
+//           version: false
+//       }));
+//       browserSync.reload({once:true});
+//     }))
+//     .pipe(gulp.dest(DEST));
+// });
+
+// Set NODE_ENV according to dirrent task run.
+// Any easy way to set it?
+// gulp.task('dev', function() {
+//   return Promise.resolve(process.env.NODE_ENV = 'development')
+//     .then(function(value) {
+//       console.log('NODE_ENV: ' + process.env.NODE_ENV);
+//     });
+// });
+
+// gulp.task('prod', function() {
+//   return Promise.resolve(process.env.NODE_ENV = 'production')
+//     .then(function(value) {
+//       console.log('NODE_ENV: ' + process.env.NODE_ENV);
+//     });
+// });
