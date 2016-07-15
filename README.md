@@ -32,25 +32,37 @@ The different social networks are (in the order frequency used in China):
 * Linkedin
 * Facebook
 * Twitter
-* URL (The url to be copied for share)
 
 You can take a look at the example by running `gulp serve`.
 
-### Instantiation
-
-#### Javascript
+### Javascript
 To instantiate the JavaScript:
 
 ```javascript
-var oShare = require('o-share');
-var oShareInstance = new oShare(document.querySelector('[data-o-component=o-share]'));
+import Share from 'ftc-share'
+var shareInstance = new Share(document.querySelector('[data-o-component=o-share]'));
 ```
 
-The markup will be generated for that instance of `o-share`.
+The markup will be generated for that instance of `o-share`. The generated markup has the following structure:
+```html
+<ul>
+    <li class="o-share__action o-share__wechat">
+        <a href="" title="分享到微信">
+            <i>微信</i>
+        </a>
+    </li>
+</ul>
+```
 
-You can also instantiate all instances in your page by running `oShare.init` which returns an array with all of them.
+You can also instantiate all instances in your page by running the static method `Share.init` which returns an array with all of them.
 
-## Events
+You can also use in the `script` tag of you HTML the compiled version for browsers in the directory `dist`. It has no external dependency and you can use it directly:
+
+```
+<script src="ftc-share/dist/ftc-share.js" />
+```
+
+### Events
 
 This module will trigger the following events on its root element:
 
@@ -58,7 +70,7 @@ This module will trigger the following events on its root element:
 * `oShare.open` - when a share link has been opened (popup/flyout opened as a result of button click)
 * `oShare.copy` - when the URL has been copied
 
-#### Sass
+### Sass
 
 ```scss
 @import 'o-share/main';
@@ -130,15 +142,4 @@ If you do not pass the `config`, the script will first search `data` attributes 
 
 ```html
 <meta property="og:description" content="summary of the article" />
-```
-
-### Generated Markup
-```html
-<ul>
-    <li class="o-share__action o-share__action--wechat">
-        <a href="" data-link-tooltip="微信">
-            <i>微信</i>
-        </a>
-    </li>
-</ul>
 ```
