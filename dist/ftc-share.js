@@ -1,7 +1,5 @@
-var Share = (function (Delegate) {
+var Share = (function () {
 	'use strict';
-
-	Delegate = 'default' in Delegate ? Delegate['default'] : Delegate;
 
 	var socialUrls = {
 		wechat: {
@@ -34,7 +32,7 @@ var Share = (function (Delegate) {
 	}
 
 	// Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
-	var fallbackConfig = {
+	var defaultConfig = {
 		links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter'],
 
 		url: window.location.href || '',
@@ -42,106 +40,92 @@ var Share = (function (Delegate) {
 		title: getOgContent('meta[property="og:title"]')
 	};
 
-	function Share (rootEl, config) {
-		var oShare = this;
-		var openWindows = {};
-
-		function init() {
-			if (!rootEl) {
-				rootEl = document.body;
-			} else if (!(rootEl instanceof HTMLElement)) {
-				rootEl = document.querySelector(rootEl);
-			}
-
-			// const rootDelegate = new DomDelegate(rootEl);
-			var rootDelegate = new Delegate(rootEl);
-			
-			rootDelegate.on('click', 'a', handleClick);
-			rootEl.setAttribute('data-o-share--js', '');
-
-			oShare.rootDomDelegate = rootDelegate;
-			oShare.rootEl = rootEl;
-
-			if (rootEl.children.length === 0) {
-				if (!config) {
-					config = {};
-					config.links = rootEl.hasAttribute('data-o-share-links') ? rootEl.getAttribute('data-o-share-links').split(' ') : fallbackConfig.links;
-					config.url = rootEl.getAttribute('data-o-share-url') || fallbackConfig.url;
-					config.title = rootEl.getAttribute('data-o-share-title') || fallbackConfig.title;
-					config.summary = rootEl.getAttribute('data-o-share-summary') || fallbackConfig.summary;
-				}
-				render();
-			}
+	var Share = function Share(rootEl, config) {
+		if (!rootEl) {
+			rootEl = document.body;
+		} else if (!(rootEl instanceof HTMLElement)) {
+			rootEl = document.querySelector(rootEl);
 		}
+		rootEl.setAttribute('data-o-share--js', '');
 
-		function render() {
-			var ulElement = document.createElement('ul');
-
-			for (var i = 0; i < config.links.length; i++) {
-				var link = config.links[i];
-				var linkName = socialUrls[link].name;
-				
-				var liElement = document.createElement('li');
-				//liElement.classList.add('o-share__action', 'o-share__' + link);
-				liElement.className = 'o-share__action o-share__' + link;
-				
-				var aElement = document.createElement('a');
-
-				aElement.href = generateSocialUrl(link);
-				aElement.setAttribute('title', '分享到'+linkName);
-				aElement.setAttribute('target', '_blank');
-				
-				var iElement = document.createElement('i');
-				iElement.innerHTML = linkName;
-				aElement.appendChild(iElement);
-
-				liElement.appendChild(aElement);
-				ulElement.appendChild(liElement);
-			}
-			oShare.rootEl.appendChild(ulElement);
+		this.rootEl = rootEl;
+		if (!config) {
+			config = {};
+			config.links = rootEl.hasAttribute('data-o-share-links') ? rootEl.getAttribute('data-o-share-links').split(' ') : defaultConfig.links;
+			config.url = rootEl.getAttribute('data-o-share-url') || defaultConfig.url;
+			config.title = rootEl.getAttribute('data-o-share-title') || defaultConfig.title;
+			config.summary = rootEl.getAttribute('data-o-share-summary') || defaultConfig.summary;
 		}
+		this.config = config;
+		this.openWindows = {};
 
-		function handleClick(e, target) {
-			e.preventDefault();
-			shareSocial(target.href);
+		if (rootEl.children.length === 0) {
+			this.render();
+			this.addClickEvent();
 		}
-
-		function shareSocial(url) {
-			if (url) {
-				if (openWindows[url] && !openWindows[url].closed) {
-					openWindows[url].focus();
-				} else {
-					openWindows[url] = window.open(url, '', 'width=646,height=436');
-				}
-			}
-		}
-
-		function generateSocialUrl (socialNetwork) {
-			var templateUrl = socialUrls[socialNetwork].url;
-			templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
-				.replace('{{title}}', encodeURIComponent(config.title))
-				.replace('{{summary}}', encodeURIComponent(config.summary));
-
-			return templateUrl;
-		}
-
-		init();
-	}
-
-	Share.prototype.destroy = function() {
-		var this$1 = this;
-
-		this.rootDomDelegate.destroy();
-
-		for (var i = 0; i < this.rootEl.children; i++) {
-			this$1.rootEl.removeChild(this$1.rootEl.chidlren[i]);
-		}
-
-		this.rootEl.removeAttribute('data-o-share--js');
-		this.rootEl = undefined;
 	};
 
-	Share.init = function(el) {
+	Share.prototype.render = function render () {
+			var this$1 = this;
+
+		var ulElement = document.createElement('ul');
+
+		for (var i = 0, len = this.config.links.length; i < len; i++) {
+			var link = this$1.config.links[i];
+			var linkName = socialUrls[link].name;
+				
+			var liElement = document.createElement('li');
+
+			liElement.className = 'o-share__action o-share__' + link;
+				
+			var aElement = document.createElement('a');
+
+			aElement.href = this$1.generateSocialUrl(link);
+			aElement.setAttribute('title', '分享到'+linkName);
+				
+			var iElement = document.createElement('i');
+			iElement.innerHTML = linkName;
+			aElement.appendChild(iElement);
+
+			liElement.appendChild(aElement);
+			ulElement.appendChild(liElement);
+		}
+		this.rootEl.appendChild(ulElement);
+	};
+
+	Share.prototype.addClickEvent = function addClickEvent () {
+			var this$1 = this;
+
+		this.rootEl.addEventListener('click', function (e) {
+			var target = e.target;
+			e.preventDefault();
+			while (target.nodeName.toLowerCase() !== 'a') {
+				target = target.parentNode
+			}
+			this$1.shareSocial(target.href);
+		});
+	};
+
+	Share.prototype.shareSocial = function shareSocial (url) {
+		if (url) {
+			if (this.openWindows[url] && !this.openWindows[url].closed) {
+				this.openWindows[url].focus();
+			} else {
+				this.openWindows[url] = window.open(url, '', 'width=646,height=436');
+			}
+		}
+	};
+
+	Share.prototype.generateSocialUrl = function generateSocialUrl (socialNetwork) {
+		var templateUrl = socialUrls[socialNetwork].url;
+		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(this.config.url))
+			.replace('{{title}}', encodeURIComponent(this.config.title))
+			.replace('{{summary}}', encodeURIComponent(this.config.summary));
+
+		return templateUrl;
+	};
+
+	Share.init = function init (el) {
 		var shareInstances = [];
 
 		if (!el) {
@@ -162,5 +146,5 @@ var Share = (function (Delegate) {
 
 	return Share;
 
-}(domDelegate.Delegate));
+}());
 //# sourceMappingURL=ftc-share.js.map
