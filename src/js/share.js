@@ -1,6 +1,3 @@
-// const DomDelegate = require('dom-delegate');
-import Delegate from 'dom-delegate';
-
 const socialUrls = {
 	wechat: {
 		name: "微信",
@@ -32,7 +29,7 @@ function getOgContent(metaEl) {
 }
 
 // Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
-const fallbackConfig = {
+const defaultConfig = {
 	links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter'],
 
 	url: window.location.href || '',
@@ -40,53 +37,47 @@ const fallbackConfig = {
 	title: getOgContent('meta[property="og:title"]')
 };
 
-function Share (rootEl, config) {
-	const oShare = this;
-	const openWindows = {};
-
-	function init() {
+class Share {
+	constructor(rootEl, config) {
 		if (!rootEl) {
 			rootEl = document.body;
 		} else if (!(rootEl instanceof HTMLElement)) {
 			rootEl = document.querySelector(rootEl);
 		}
-
-		const rootDelegate = new Delegate(rootEl);
-
-		rootDelegate.on('click', 'a', handleClick);
 		rootEl.setAttribute('data-o-share--js', '');
 
-		oShare.rootDomDelegate = rootDelegate;
-		oShare.rootEl = rootEl;
+		this.rootEl = rootEl;
+		if (!config) {
+			config = {};
+			config.links = rootEl.hasAttribute('data-o-share-links') ? rootEl.getAttribute('data-o-share-links').split(' ') : defaultConfig.links;
+			config.url = rootEl.getAttribute('data-o-share-url') || defaultConfig.url;
+			config.title = rootEl.getAttribute('data-o-share-title') || defaultConfig.title;
+			config.summary = rootEl.getAttribute('data-o-share-summary') || defaultConfig.summary;
+		}
+		this.config = config;
+		this.openWindows = {};
 
 		if (rootEl.children.length === 0) {
-			if (!config) {
-				config = {};
-				config.links = rootEl.hasAttribute('data-o-share-links') ? rootEl.getAttribute('data-o-share-links').split(' ') : fallbackConfig.links;
-				config.url = rootEl.getAttribute('data-o-share-url') || fallbackConfig.url;
-				config.title = rootEl.getAttribute('data-o-share-title') || fallbackConfig.title;
-				config.summary = rootEl.getAttribute('data-o-share-summary') || fallbackConfig.summary;
-			}
-			render();
+			this.render();
+			this.addClickEvent();
 		}
 	}
 
-	function render() {
+	render() {
 		const ulElement = document.createElement('ul');
 
-		for (let i = 0; i < config.links.length; i++) {
-			const link = config.links[i];
+		for (let i = 0, len = this.config.links.length; i < len; i++) {
+			const link = this.config.links[i];
 			const linkName = socialUrls[link].name;
 			
 			const liElement = document.createElement('li');
-			//liElement.classList.add('o-share__action', 'o-share__' + link);
+
 			liElement.className = 'o-share__action o-share__' + link;
 			
 			const aElement = document.createElement('a');
 
-			aElement.href = generateSocialUrl(link);
+			aElement.href = this.generateSocialUrl(link);
 			aElement.setAttribute('title', '分享到'+linkName);
-			aElement.setAttribute('target', '_blank');
 			
 			const iElement = document.createElement('i');
 			iElement.innerHTML = linkName;
@@ -95,64 +86,57 @@ function Share (rootEl, config) {
 			liElement.appendChild(aElement);
 			ulElement.appendChild(liElement);
 		}
-		oShare.rootEl.appendChild(ulElement);
+		this.rootEl.appendChild(ulElement);
 	}
 
-	function handleClick(e, target) {
-		e.preventDefault();
-		shareSocial(target.href);
+	addClickEvent() {
+		this.rootEl.addEventListener('click', (e) => {
+			var target = e.target;
+			e.preventDefault();
+			while (target.nodeName.toLowerCase() !== 'a') {
+				target = target.parentNode
+			}
+			this.shareSocial(target.href);
+		});
 	}
 
-	function shareSocial(url) {
+	shareSocial(url) {
 		if (url) {
-			if (openWindows[url] && !openWindows[url].closed) {
-				openWindows[url].focus();
+			if (this.openWindows[url] && !this.openWindows[url].closed) {
+				this.openWindows[url].focus();
 			} else {
-				openWindows[url] = window.open(url, '', 'width=646,height=436');
+				this.openWindows[url] = window.open(url, '', 'width=646,height=436');
 			}
 		}
 	}
 
-	function generateSocialUrl (socialNetwork) {
+	generateSocialUrl (socialNetwork) {
 		let templateUrl = socialUrls[socialNetwork].url;
-		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(config.url))
-			.replace('{{title}}', encodeURIComponent(config.title))
-			.replace('{{summary}}', encodeURIComponent(config.summary));
+		templateUrl = templateUrl.replace('{{url}}', encodeURIComponent(this.config.url))
+			.replace('{{title}}', encodeURIComponent(this.config.title))
+			.replace('{{summary}}', encodeURIComponent(this.config.summary));
 
 		return templateUrl;
 	}
 
-	init();
+	static init(el) {
+		const shareInstances = [];
+
+		if (!el) {
+			el =document.body;
+		} else if (!el instanceof HTMLElement) {
+			el = document.querySelector(el);
+		}
+
+		const shareElements = el.querySelectorAll('[data-o-component=o-share]');
+
+		for (let i = 0; i < shareElements.length; i++) {
+			shareInstances.push(new Share(shareElements[i]));
+
+		}
+
+		return shareInstances;
+	}
 }
-
-Share.prototype.destroy = function() {
-	this.rootDomDelegate.destroy();
-
-	for (let i = 0; i < this.rootEl.children; i++) {
-		this.rootEl.removeChild(this.rootEl.chidlren[i]);
-	}
-
-	this.rootEl.removeAttribute('data-o-share--js');
-	this.rootEl = undefined;
-};
-
-Share.init = function(el) {
-	const shareInstances = [];
-
-	if (!el) {
-		el =document.body;
-	} else if (!el instanceof HTMLElement) {
-		el = document.querySelector(el);
-	}
-
-	const shareElements = el.querySelectorAll('[data-o-component=o-share]');
-
-	for (let i = 0; i < shareElements.length; i++) {
-		shareInstances.push(new Share(shareElements[i]));
-
-	}
-
-	return shareInstances;
-};
 
 export default Share;
