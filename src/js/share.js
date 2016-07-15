@@ -1,4 +1,5 @@
-const DomDelegate = require('dom-delegate');
+// const DomDelegate = require('dom-delegate');
+import Delegate from 'dom-delegate';
 
 const socialUrls = {
 	wechat: {
@@ -50,7 +51,8 @@ function Share (rootEl, config) {
 			rootEl = document.querySelector(rootEl);
 		}
 
-		const rootDelegate = new DomDelegate(rootEl);
+		const rootDelegate = new Delegate(rootEl);
+
 		rootDelegate.on('click', 'a', handleClick);
 		rootEl.setAttribute('data-o-share--js', '');
 
@@ -153,4 +155,4 @@ Share.init = function(el) {
 	return shareInstances;
 };
 
-module.exports = Share;
+export default Share;

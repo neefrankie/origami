@@ -1,3 +1,4 @@
-var oShare = require('../../main.js');
+// var oShare = require('../../main.js');
+import Share from '../../main';
 
-oShare.init();
+Share.init();
