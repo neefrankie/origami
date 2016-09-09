@@ -5,7 +5,7 @@ module.exports = {
 	entry: './demos/src/demo.js',
 	output: {
 		path: path.join(__dirname, '.tmp/scripts'),
-		filename: 'main.js',
+		filename: 'demo.js',
 		sourceMapFilename: '[file].map'
 	},
 	watch: true,
