@@ -70,30 +70,6 @@ gulp.task('styles', function styles() {
     .pipe(browserSync.stream({once: true}));
 });
 
-// gulp.task('scripts', () => {
-//   return rollup({
-//     entry: 'demos/src/demo.js',
-//     plugins: [
-//       // bowerResolve(),
-//       // commonjs(),
-//       buble()
-//     ],
-//     cache: cache,
-//   }).then(function(bundle) {
-//     cache = bundle;
-
-//     return bundle.write({
-//       format: 'iife',
-//       moduleName: 'Share',
-//       moduleId: 'ftc-share',
-//       dest: '.tmp/scripts/ftc-share.js',
-//       sourceMap: true,
-//     }).then(function() {
-//       browserSync.reload('ftc-share.js');
-//     });
-//   });
-// });
-
 gulp.task('webpack', (done) => {
   webpack(webpackConfig, function(err, stats) {
     if (err) throw new $.util.PluginError('webpack', err);
@@ -137,7 +113,7 @@ gulp.task('demos:copy', function() {
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('demos', gulp.series('clean', gulp.parallel('mustache', 'styles', 'scripts'), 'demos:copy'));
+gulp.task('demos', gulp.series('clean', gulp.parallel('mustache', 'styles', 'webpack'), 'demos:copy'));
 
 
 // dist js to be directly used in the browser.

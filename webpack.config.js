@@ -2,7 +2,7 @@ const path = require('path');
 const BowerWebpackPlugin = require('bower-webpack-plugin');
 
 module.exports = {
-	entry: './client/js/main.js',
+	entry: './demos/src/demo.js',
 	output: {
 		path: path.join(__dirname, '.tmp/scripts'),
 		filename: 'main.js',
@@ -15,7 +15,7 @@ module.exports = {
 			{
 				test: /\.js$/,
 				include: [
-					path.resolve(__dirname, 'client/js'),
+					path.resolve(__dirname, 'src/js'),
 					path.resolve(__dirname, 'bower_components')
 				],
 				loader: 'babel',
