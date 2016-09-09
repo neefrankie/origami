@@ -30,6 +30,18 @@ function readFile(filename) {
   );
 }
 
+process.env.NODE_ENV = 'dev';
+
+gulp.task('prod', function(done) {
+  process.env.NODE_ENV = 'prod';
+  done();
+});
+
+gulp.task('dev', function(done) {
+  process.env.NODE_ENV = 'dev';
+  done();
+});
+
 gulp.task('mustache', function () {
   const DEST = '.tmp';
 
@@ -71,6 +83,10 @@ gulp.task('styles', function styles() {
 });
 
 gulp.task('webpack', (done) => {
+  if (process.env.NODE_ENV === 'prod') {
+    delete webpackConfig.watch;
+  }
+
   webpack(webpackConfig, function(err, stats) {
     if (err) throw new $.util.PluginError('webpack', err);
     $.util.log('[webpack]', stats.toString({
@@ -113,7 +129,7 @@ gulp.task('demos:copy', function() {
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('demos', gulp.series('clean', gulp.parallel('mustache', 'styles', 'webpack'), 'demos:copy'));
+gulp.task('demos', gulp.series('prod', 'clean', gulp.parallel('mustache', 'styles', 'webpack'), 'demos:copy'));
 
 
 // dist js to be directly used in the browser.
