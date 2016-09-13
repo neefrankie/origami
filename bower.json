@@ -1,0 +1,17 @@
+{
+  "name": "ftc-footer",
+  "description": "Footer Used For Single Page on FTC",
+  "main": "main.scss",
+  "authors": [
+    "weiguo.ni"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/FTChinese/ftc-footer",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
