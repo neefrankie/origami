@@ -184,10 +184,3 @@ gulp.task('copy', () => {
 });
 
 gulp.task('demo', gulp.series('prod', 'clean', gulp.parallel('html', 'styles', 'webpack'), 'copy'));
-
-
-gulp.task('bump', () => {
-  return gulp.src(['package.json', 'bower.json'])
-    .pipe($.bump({version: '1.2.3'}))
-    .pipe(gulp.dest('./'))
-})
