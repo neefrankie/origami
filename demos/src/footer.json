@@ -6,19 +6,19 @@
 			"items": [
 				{
 					"text": "关于我们",
-					"href": "http://www.ftchinese.com/m/events/event.html"
+					"href": "http://www.ftchinese.com/m/corp/aboutus.html"
 				},
 				{
 					"text": "职业机会",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://www.ftchinese.com/jobs/?from=ft"
 				},
 				{
 					"text": "问题回馈",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://www.ftchinese.com/m/corp/faq.html"
 				},
 				{
 					"text": "联系方式",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://www.ftchinese.com/m/corp/contact.html"
 				}
 			]
 		},
@@ -28,11 +28,11 @@
 
 				{
 					"text": "服务条款",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://www.ftchinese.com/m/corp/service.html"
 				},
 				{
 					"text": "版权声明",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://www.ftchinese.com/m/corp/copyright.html"
 				}
 			]
 		},
@@ -41,7 +41,7 @@
 			"items": [
 				{
 					"text": "广告业务",
-					"href": "http://www.ftchinese.com/m/events/event.html"
+					"href": "http://www.ftchinese.com/m/corp/sales.html"
 				},
 				{
 					"text": "会议活动",
@@ -49,15 +49,15 @@
 				},
 				{
 					"text": "会员信息中心",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://www.ftchinese.com/m/marketing/home.html"
 				},
 				{
 					"text": "最新动态",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://www.ftchinese.com/m/marketing/ftc.html"
 				},
 				{
 					"text": "合作伙伴",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://www.ftchinese.com/m/corp/partner.html"
 				}
 			]
 		},
@@ -66,23 +66,23 @@
 			"items": [
 				{
 					"text": "微信",
-					"href": "http://www.ftchinese.com/m/events/event.html"
+					"href": "http://www.ftchinese.com/m/corp/follow.html"
 				},
 				{
 					"text": "微博",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "http://weibo.com/ftchinese"
 				},
 				{
 					"text": "Linkedin",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "https://www.linkedin.com/company/4865254?trk=hp-feed-company-name"
 				},
 				{
 					"text": "Facebook",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "https://www.facebook.com/financialtimeschinese"
 				},
 				{
 					"text": "Twitter",
-					"href": "http://www.ftchinese.com/marketing/home"
+					"href": "https://twitter.com/FTChinese"
 				}
 			]
 		},
