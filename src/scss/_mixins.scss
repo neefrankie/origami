@@ -1,0 +1,116 @@
+@mixin oFooterBase($classname: o-footer) {
+	.#{$classname} {
+		margin-top: (2 * $o-footer-spacing-unit);
+		border-top: 10px solid;
+		line-height: $o-footer-spacing-unit;
+
+		a {
+			border-bottom: 0;
+			text-decoration: none;
+		}		
+	}
+
+	.#{$classname}--theme-dark {
+		@include oColorsFor('o-footer-dark', 'text' 'background' 'border');
+
+		a {
+			color: oColorsGetColorFor('o-footer-dark-link', 'text');
+			&:hover,
+			&:focus {
+				color: oColorsGetColorFor('o-footer-dark-link-hover', 'text');
+			}
+		}		
+	}
+
+	.#{$classname}--theme-light {
+		@include oColorsFor('o-footer-light', 'text' 'background' 'border');
+		a {
+			color: oColorsGetColorFor('o-footer-light-link', 'text');
+			&:hover,
+			&:focus {
+				color: oColorsGetColorFor('o-footer-light-link-hover', 'text');
+			}
+		}
+	}
+
+	.#{$classname}__container {
+		@include oGridContainer();
+	}
+
+	.#{$classname}__row {
+		margin-top: $o-footer-spacing-unit;
+	}
+
+	.#{$classname}__copyright {
+		padding-top: $o-footer-spacing-unit;
+		padding-bottom: $o-footer-spacing-unit;
+
+		.#{$classname}--theme-dark & {
+			color: oColorsGetColorFor('o-footer-dark-copyright', 'text');
+		}
+
+		.#{$classname}--theme-light & {
+			color: oColorsGetColorFor('o-footer-light-copyright', 'text');
+		}
+
+		a {
+			text-decoration: underline;
+		}
+	}
+}
+
+@mixin oFooterMatrix($classname: o-footer) {
+	.#{$classname} {
+		&__matrix {
+			@include oGridRow();
+		}
+
+		&__matrix-group {
+			@include oGridColspan();
+		}
+
+		&__matrix-group {
+			@include oGridColspan((default: 6, M: 3, L: 2), $width-only: true);
+		}
+
+		&__matrix-title,
+		&__matrix-link {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		&__matrix-title {
+			margin: 0;
+			line-height: inherit;
+			font-size: inherit;
+			font-weight: 600;
+		}
+
+		&__matrix-content {
+			margin-top: $o-footer-spacing-unit / 2;
+			margin-bottom: $o-footer-spacing-unit / 2;
+		}
+
+		&__matrix-link {
+			display: block;
+			padding: 4px 0;
+		}
+	}
+}
+
+@mixin oFooterSimple($classname: o-footer) {
+	.#{$classname}__link-items {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	.#{$classname}__link-item {
+		display: inline-block;
+		margin-bottom: $o-footer-spacing-unit / 2;
+		margin-right: $o-footer-spacing-unit
+	}
+	.#{$classname}__link {
+		display: block;
+	}
+}

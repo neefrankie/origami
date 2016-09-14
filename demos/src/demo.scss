@@ -1,0 +1,12 @@
+$o-footer-is-silent: false;
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #fff1e0;
+    color: #333;
+    font-family: "Helvetica Neue", "Lucida Grande", Verdana, "PingFang SC", "PingFang TC", "Hiragino Sans GB", "Heiti SC", "Heiti TC", "WenQuanYi Micro Hei", "Microsoft YaHei", "Microsoft JhengHei", STHeiti, sans-serif;
+}
+
+@import "../../main";
+
+@include oFooterSimple();

@@ -41,5 +41,8 @@
     "rollup-plugin-buble": "^0.13.0",
     "rollup-plugin-bower-resolve": "^0.2.0",
     "webpack": "^1.13.2"
+  },
+  "devDependencies": {
+    "gulp-util": "^3.0.7"
   }
 }

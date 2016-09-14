@@ -20,7 +20,6 @@ const bowerResolve = require('rollup-plugin-bower-resolve');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 
-
 var cache;
 process.env.NODE_ENV = 'dev';
 
@@ -40,6 +39,31 @@ gulp.task('dev', function(done) {
   done();
 });
 
+const demos = [
+  {
+    tmpl: 'demo-index.html',
+    title: 'index',
+    name: 'index.html',
+  }, 
+  {
+    tmpl: 'demo-full.html',
+    title: 'footer',
+    name: 'dark-theme.html'
+  }, 
+  {
+    tmpl: 'demo-full.html',
+    title: 'footer-light',
+    name: 'light-theme.html',
+    theme: 'theme-light'
+  }, 
+  {
+    tmpl: 'demo-simple.html',
+    title: 'simple-footer',
+    name: 'simple-footer.html',
+    theme: 'theme-light'
+  }
+];
+
 gulp.task('index', () => {
   return co(function *() {
     const destDir = '.tmp';
@@ -50,17 +74,28 @@ gulp.task('index', () => {
       });
     }
 
-    const context = yield helper.readJson('demos/src/footer.json');
+    const data = yield helper.readJson('demos/src/footer.json');
 
-    const res = nunjucks.render('base.html', context);
-    const indexPage = fs.createWriteStream('.tmp/index.html');
-    indexPage.write(res);
-    indexPage.on('error', (error) => {
-      console.log(error);
-    });
+    const htmlString = yield Promise.all(demos.map(function(current, i, array) {
+      var context = {};
+      if (current.title === 'index') {
+        context.demos = array.slice(1);
+      } else {
+        context = Object.assign(data, current)
+      }
+      return helper.render(current.tmpl, context)
+    }));
+
+    demos.forEach(function(current, i) {
+      const htmlFile = fs.createWriteStream('.tmp/' + current.name);
+      htmlFile.write(htmlString[i]);
+      htmlFile.on('error', (error) => {
+        console.log(error);
+      });
+    });     
   })
   .then(function(){
-    browserSync.reload('index.html');
+    browserSync.reload('*.html');
   }, function(err) {
     console.error(err.stack);
   });
@@ -69,7 +104,7 @@ gulp.task('index', () => {
 gulp.task('styles', function styles() {
   const DEST = '.tmp/styles';
 
-  return gulp.src('demos/src/demo.scss')
+  return gulp.src('demos/src/*.scss')
     .pipe($.changed(DEST))
     .pipe($.plumber())
     .pipe($.sourcemaps.init({loadMaps:true}))
@@ -127,7 +162,7 @@ gulp.task('clean', function() {
 
 gulp.task('serve', 
   gulp.parallel(
-    'index', 'styles',
+    'index', 'styles', 'webpack',
     function serve() {
     browserSync.init({
       server: {
@@ -140,6 +175,6 @@ gulp.task('serve',
 
     gulp.watch('demos/src/*.{html,json}', gulp.parallel('index'));
 
-    gulp.watch(['demos/*.scss', '*.scss', 'src/**/*.scss'], gulp.parallel('styles'));
+    gulp.watch(['demos/src/*.scss', '*.scss', 'src/**/*.scss'], gulp.parallel('styles'));
   })
 );

@@ -9,25 +9,22 @@
   <meta name="author" content="FTC Interactive Graphics"> 
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  {% set iconPath = "/bower_components/ftc-icons/" %}
+  {% set iconsPath = "/bower_components/ftc-icons/" %}
   <link rel="apple-touch-icon" sizes="180x180" href="{{iconsPath}}favicons/apple-touch-icon-180x180.png">
   <link rel="apple-touch-icon" sizes="152x152" href="{{iconsPath}}favicons/apple-touch-icon-152x152.png">
   <link rel="apple-touch-icon" sizes="120x120" href="{{iconsPath}}favicons/apple-touch-icon-120x120.png">
   <link rel="apple-touch-icon" sizes="76x76" href="{{iconsPath}}favicons/apple-touch-icon-76x76.png">
   <link href="{{iconsPath}}favicons/favicon.ico" type="image/x-icon" rel="shortcut icon" />
-  {% set pageTitle = "FTC Footer Component" %}
-  <title>{{pageTitle}} - FT中文网</title>
+  <title>ftc-footer {{title}} - FT中文网</title>
 
+{% if title %}
   <link rel="stylesheet" type="text/css" href="styles/demo.css">
-
+{% else %}
+  <link rel="stylesheet" type="text/css" href="styles/index.css">
+{% endif %}
 </head>
 
 <body>
-
-{% include "footer.html" %}
-
-
+{% block body %}{% endblock%}
 </body>
-
-
 </html>

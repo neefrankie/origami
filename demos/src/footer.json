@@ -1,4 +1,5 @@
 {
+	"theme": "theme-dark",
 	"matrix": [
 		{
 			"title": "支持",
@@ -8,21 +9,21 @@
 					"href": "http://www.ftchinese.com/m/events/event.html"
 				},
 				{
+					"text": "职业机会",
+					"href": "http://www.ftchinese.com/marketing/home"
+				},
+				{
 					"text": "问题回馈",
 					"href": "http://www.ftchinese.com/marketing/home"
 				},
 				{
 					"text": "联系方式",
 					"href": "http://www.ftchinese.com/marketing/home"
-				},
-				{
-					"text": "职业机会",
-					"href": "http://www.ftchinese.com/marketing/home"
 				}
 			]
 		},
 		{
-			"title": "法务",
+			"title": "法律事务",
 			"items": [
 
 				{
@@ -84,7 +85,71 @@
 					"href": "http://www.ftchinese.com/marketing/home"
 				}
 			]
+		},
+		{
+			"title": "FT产品",
+			"items": [
+				
+				{
+					"text":"FT研究院",
+					"href": "http://www.ftchinese.com/m/marketing/intelligence.html"
+				},
+				{
+					"text":"FT商学院",
+					"href": "http://www.ftchinese.com/channel/mba.html"
+				},
+				{
+					"text":"FT电子书",
+					"href": "http://www.ftchinese.com/m/marketing/ebook.html"
+				},
+				{
+					"text":"数据新闻",
+					"href": "http://www.ftchinese.com/channel/datanews.html"
+				},
+				{
+					"text": "FT英文版",
+					"href": "https://www.ft.com/"
+				}
+			]
 		}
 	],
-	"copyrightYear": "2016"
+	"copyrightYear": "2016",
+	"links": [
+		{
+			"text": "关于我们",
+			"href":"http://www.ftchinese.com/m/corp/aboutus.html"
+		},
+		{
+			"text": "加入我们",
+			"href":"http://www.ftchinese.com/jobs/?from=ft"
+		},
+		{
+			"text": "问题回馈",
+			"href":"http://www.ftchinese.com/m/corp/faq.html"
+		},
+		{
+			"text": "联系方式",
+			"href":"http://www.ftchinese.com/m/corp/contact.html"
+		},
+		{
+			"text": "合作伙伴",
+			"href":"http://www.ftchinese.com/m/corp/partner.html"
+		},
+		{
+			"text": "服务条款",
+			"href":"http://www.ftchinese.com/m/corp/service.html"
+		},
+		{
+			"text": "广告业务",
+			"href":"http://www.ftchinese.com/m/corp/sales.html"
+		},
+		{
+			"text": "版权声明",
+			"href":"http://www.ftchinese.com/m/corp/copyright.html"
+		},
+		{
+			"text": "最新动态",
+			"href":"http://www.ftchinese.com/m/marketing/ftc.html"
+		}
+	]
 }

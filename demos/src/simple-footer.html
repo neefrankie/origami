@@ -1,0 +1,19 @@
+<footer class="o-footer o-footer--{{theme}}" data-o-component="o-footer">
+	<div class="o-footer__container">
+		<div class="o-footer__row">
+			<ul class="o-footer__link-items">
+				{% for link in links %}
+				<li class="o-footer__link-item"><a class="o-footer__link" href="{{link.href}}">{{link.text}}</a></li>
+				{% endfor %}
+			</ul>				
+		</div>
+
+		<div class="o-footer__copyright">
+			<small>
+				&#xA9; FT中文网 {{copyrightYear}}.
+				<abbr title="Financial Times" aria-label="F T">FT</abbr> and ‘Financial Times’ are trademarks of The Financial Times Ltd.
+			</small>
+		</div>
+
+	</div>
+</footer>

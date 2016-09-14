@@ -3,10 +3,10 @@ const BowerWebpackPlugin = require('bower-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-	entry: './demos/src/demo.js',
+	entry: './demos/src/index.js',
 	output: {
 		path: path.join(__dirname, '.tmp/scripts'),
-		filename: 'demo.js',
+		filename: 'index.js',
 		sourceMapFilename: '[file].map'
 	},
 	watch: true,

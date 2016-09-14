@@ -1,23 +1,32 @@
 <footer class="o-footer o-footer--{{theme}}" data-o-component="o-footer">
 	<div class="o-footer__container">
-		<nav class="o-footer__matrix">
-			{% for group in matrix %}
-			<div class="o-footer__matrix-group o-footer__matrix-group--{{group.layout}}">
-				<h6 class="o-footer__matrix-title">{{group.title}}</h6>
-				<div class="o-footer__matrix-content">
-					{% for item in group.items %}
-					<a class="o-footer__matrix-link" href="{{item.href}}">{{item.text}}</a>
-					{% endfor %}							
-				</div>
-			</div>
-			{% endfor %}
-		</nav>
-	</div>
+		<div class="o-footer__row">
+			<nav class="o-footer__matrix">
 
-	<div class="o-footer__copyright">
-		<small>
-			&#xA9; FT中文网 {{copyrightYear}}.
-			<abbr title="Financial Times" aria-label="F T">FT</abbr> and ‘Financial Times’ are trademarks of The Financial Times Ltd.
-		</small>
+				{% for group in matrix %}
+				<div class="o-footer__matrix-group o-footer__matrix-group--{{group.layout}}">
+
+					<h6 class="o-footer__matrix-title">{{group.title}}</h6>
+					<div class="o-footer__matrix-content">
+
+						{% for item in group.items %}
+						<a class="o-footer__matrix-link" href="{{item.href}}">{{item.text}}</a>
+						{% endfor %}	
+
+					</div>
+
+				</div>
+				{% endfor %}
+
+			</nav>			
+		</div>
+
+		<div class="o-footer__copyright">
+			<small>
+				&#xA9; FT中文网 {{copyrightYear}}.
+				<abbr title="Financial Times" aria-label="F T">FT</abbr> and ‘Financial Times’ are trademarks of The Financial Times Ltd.
+			</small>
+		</div>
+
 	</div>
 </footer>
