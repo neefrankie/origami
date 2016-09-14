@@ -4,7 +4,6 @@ const url = require('url');
 const isThere = require('is-there');
 const co = require('co');
 const mkdirp = require('mkdirp');
-const nunjucks = require('nunjucks');
 const helper = require('./helper');
 
 const gulp = require('gulp');
@@ -22,11 +21,6 @@ const webpackConfig = require('./webpack.config.js');
 
 var cache;
 process.env.NODE_ENV = 'dev';
-
-nunjucks.configure('demos/src', {
-  autoescape: false,
-  noCache: true
-});
 
 // change NODE_ENV between tasks.
 gulp.task('prod', function(done) {
@@ -64,7 +58,7 @@ const demos = [
   }
 ];
 
-gulp.task('index', () => {
+gulp.task('html', () => {
   return co(function *() {
     const destDir = '.tmp';
 
@@ -162,7 +156,7 @@ gulp.task('clean', function() {
 
 gulp.task('serve', 
   gulp.parallel(
-    'index', 'styles', 'webpack',
+    'html', 'styles', 'webpack',
     function serve() {
     browserSync.init({
       server: {
@@ -173,8 +167,16 @@ gulp.task('serve',
       }
     });
 
-    gulp.watch('demos/src/*.{html,json}', gulp.parallel('index'));
+    gulp.watch('demos/src/*.{html,json}', gulp.parallel('html'));
 
     gulp.watch(['demos/src/*.scss', '*.scss', 'src/**/*.scss'], gulp.parallel('styles'));
   })
 );
+
+gulp.task('copy', () => {
+  const DEST = path.resolve(__dirname, '../ft-interact/');
+  gulp.src('.tmp/**/*')
+    .pipe(gulp.dest(DEST));
+});
+
+gulp.task('demo', gulp.series('prod', 'clean', gulp.parallel('html', 'styles', 'webpack'), 'copy'));

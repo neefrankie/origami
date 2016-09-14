@@ -1,10 +1,18 @@
 const fs = require('fs');
 const nunjucks = require('nunjucks');
 
+var env = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(
+    ['partials', 'demos/src'], 
+    {noCache: true}
+  ),
+  {autoescape: false}
+);
+
 function render(name, context) {
   const obj = {};
   return new Promise(function(resolve, reject) {
-    nunjucks.render(name, context, function(err, result) {
+    env.render(name, context, function(err, result) {
       if (err) {
         reject(err);
       } else {
