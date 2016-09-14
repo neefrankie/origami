@@ -2,7 +2,7 @@
   "name": "ftc-footer",
   "version": "1.0.0",
   "description": "Footer Used For Single Page on FTC",
-  "main": "main.scss",
+  "main": "./lib/data.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

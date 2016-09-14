@@ -1,6 +1,6 @@
 {
   "name": "ftc-footer",
-  "description": "Footer Used For Single Page on FTC",
+  "description": "FTC footer component",
   "main": "main.scss",
   "authors": [
     "weiguo.ni"

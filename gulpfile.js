@@ -19,6 +19,9 @@ const bowerResolve = require('rollup-plugin-bower-resolve');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 
+const data = require('./lib/data.js');
+
+const projectName = 'ftc-footer';
 var cache;
 process.env.NODE_ENV = 'dev';
 
@@ -68,7 +71,7 @@ gulp.task('html', () => {
       });
     }
 
-    const data = yield helper.readJson('demos/src/footer.json');
+    // const data = yield helper.readJson('demos/src/footer.json');
 
     const htmlString = yield Promise.all(demos.map(function(current, i, array) {
       var context = {};
@@ -174,8 +177,9 @@ gulp.task('serve',
 );
 
 gulp.task('copy', () => {
-  const DEST = path.resolve(__dirname, '../ft-interact/');
-  gulp.src('.tmp/**/*')
+  const DEST = path.resolve(__dirname, '../ft-interact', projectName);
+  console.log(`Deploying to ${DEST}`);
+  return gulp.src('.tmp/**/*')
     .pipe(gulp.dest(DEST));
 });
 
