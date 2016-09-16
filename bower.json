@@ -1,6 +1,6 @@
 {
   "name": "ftc-footer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "FTC footer component",
   "main": "main.scss",
   "authors": [
@@ -13,7 +13,11 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "demos",
+    "gulpfile.js",
+    "helper.js",
+    "webpack.config.js"
   ],
   "dependencies": {
     "o-colors": "^3.5.2",
