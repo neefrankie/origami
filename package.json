@@ -1,6 +1,6 @@
 {
   "name": "ftc-footer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "FTC page footer",
   "main": "./lib/data.js",
   "scripts": {
