@@ -2,7 +2,9 @@
   "name": "ftc-footer",
   "version": "0.0.2",
   "description": "FTC footer component",
-  "main": "main.scss",
+  "main": [
+    "main.scss"
+  ],
   "authors": [
     "weiguo.ni"
   ],

@@ -15,13 +15,10 @@
   <link rel="apple-touch-icon" sizes="120x120" href="{{iconsPath}}favicons/apple-touch-icon-120x120.png">
   <link rel="apple-touch-icon" sizes="76x76" href="{{iconsPath}}favicons/apple-touch-icon-76x76.png">
   <link href="{{iconsPath}}favicons/favicon.ico" type="image/x-icon" rel="shortcut icon" />
-  <title>ftc-footer{% if title %}: {{title}}{% endif %} - FT中文网</title>
+  <title>ftc-footer{% if pageTitle %}: {{ pageTitle }}{% endif %} demo</title>
 
-{% if title %}
   <link rel="stylesheet" type="text/css" href="styles/demo.css">
-{% else %}
-  <link rel="stylesheet" type="text/css" href="styles/index.css">
-{% endif %}
+
 </head>
 
 <body>

@@ -43,21 +43,5 @@
     "rollup-plugin-bower-resolve": "^0.2.0",
     "rollup-plugin-buble": "^0.13.0",
     "webpack": "^1.13.2"
-  },
-  "hasCss": true,
-  "hasJs": false,
-  "demos": [
-    {
-      "title": "footer",
-      "name": "dark-theme"
-    },
-    {
-      "title": "footer-light",
-      "name": "light-theme"
-    },
-    {
-      "title": "simple-footer",
-      "name": "simple-footer"
-    }
-  ]
+  }
 }

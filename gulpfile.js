@@ -36,31 +36,6 @@ gulp.task('dev', function(done) {
   done();
 });
 
-const demos = [
-  {
-    tmpl: 'demo-index.html',
-    title: 'index',
-    name: 'index.html',
-  }, 
-  {
-    tmpl: 'demo-full.html',
-    title: 'footer',
-    name: 'dark-theme.html'
-  }, 
-  {
-    tmpl: 'demo-full.html',
-    title: 'footer-light',
-    name: 'light-theme.html',
-    theme: 'theme-light'
-  }, 
-  {
-    tmpl: 'demo-simple.html',
-    title: 'simple-footer',
-    name: 'simple-footer.html',
-    theme: 'theme-light'
-  }
-];
-
 gulp.task('html', () => {
   return co(function *() {
     const destDir = '.tmp';
@@ -71,20 +46,19 @@ gulp.task('html', () => {
       });
     }
 
-    // const data = yield helper.readJson('demos/src/footer.json');
+    const origami = yield helper.readJson('origami.json');
 
-    const htmlString = yield Promise.all(demos.map(function(current, i, array) {
-      var context = {};
-      if (current.title === 'index') {
-        context.demos = array.slice(1);
-      } else {
-        context = Object.assign(data, current)
-      }
-      return helper.render(current.tmpl, context)
+    const demos = origami.demos;
+
+    const htmlString = yield Promise.all(demos.map(function(demo) {
+      let template = path.basename(demo.template);
+      console.log(template);
+
+      return helper.render(template, Object.assign(data, {pageTitle: demo.name}));
     }));
 
-    demos.forEach(function(current, i) {
-      const htmlFile = fs.createWriteStream('.tmp/' + current.name);
+    demos.forEach(function(demo, i) {
+      const htmlFile = fs.createWriteStream('.tmp/' + demo.name + '.html');
       htmlFile.write(htmlString[i]);
       htmlFile.on('error', (error) => {
         console.log(error);
@@ -159,18 +133,20 @@ gulp.task('clean', function() {
 
 gulp.task('serve', 
   gulp.parallel(
-    'html', 'styles', 'webpack',
+    'html', 'styles',
     function serve() {
     browserSync.init({
       server: {
         baseDir: ['.tmp'],
+        index: 'footer.html',
+        directory: true,
         routes: {
           '/bower_components': 'bower_components'
         }
       }
     });
 
-    gulp.watch('demos/src/*.{html,json}', gulp.parallel('html'));
+    gulp.watch(['demos/src/*.html', 'partials/*.html'], gulp.parallel('html'));
 
     gulp.watch(['demos/src/*.scss', '*.scss', 'src/**/*.scss'], gulp.parallel('styles'));
   })
@@ -183,4 +159,4 @@ gulp.task('copy', () => {
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('demo', gulp.series('prod', 'clean', gulp.parallel('html', 'styles', 'webpack'), 'copy'));
+gulp.task('demo', gulp.series('prod', 'clean', gulp.parallel('html', 'styles'), 'copy'), 'dev');
