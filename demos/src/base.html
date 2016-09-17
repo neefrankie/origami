@@ -23,5 +23,8 @@
 
 <body>
 {% block body %}{% endblock%}
+{% if demo %}
+<script type="text/javascript" src="/api/resize-iframe.js"></script>
+{% endif %}
 </body>
 </html>
