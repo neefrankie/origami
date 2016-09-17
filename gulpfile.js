@@ -37,6 +37,8 @@ gulp.task('dev', function(done) {
 });
 
 gulp.task('html', () => {
+  var demo = false;
+
   return co(function *() {
     const destDir = '.tmp';
 
@@ -44,6 +46,9 @@ gulp.task('html', () => {
       mkdirp(destDir, (err) => {
         if (err) console.log(err);
       });
+    }
+    if (process.env.NODE_ENV = 'prod') {
+      demo = true;
     }
 
     const origami = yield helper.readJson('origami.json');
@@ -54,7 +59,10 @@ gulp.task('html', () => {
       let template = path.basename(demo.template);
       console.log(template);
 
-      return helper.render(template, Object.assign(data, {pageTitle: demo.name}));
+      return helper.render(template, Object.assign(data, {
+        pageTitle: demo.name,
+        demo: demo
+      }));
     }));
 
     demos.forEach(function(demo, i) {
@@ -152,11 +160,15 @@ gulp.task('serve',
   })
 );
 
+gulp.task('build', gulp.parallel('html', 'styles'));
+
+const demosDir = '../ft-interact/demos';
+
 gulp.task('copy', () => {
-  const DEST = path.resolve(__dirname, '../ft-interact', projectName);
+  const DEST = path.resolve(__dirname, demosDir, projectName);
   console.log(`Deploying to ${DEST}`);
   return gulp.src('.tmp/**/*')
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('demo', gulp.series('prod', 'clean', gulp.parallel('html', 'styles'), 'copy'), 'dev');
+gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
