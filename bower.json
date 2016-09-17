@@ -1,7 +1,7 @@
 {
   "name": "ftc-footer",
   "version": "0.0.2",
-  "description": "FTC footer component",
+  "description": "Responsive FTC page footer",
   "main": [
     "main.scss"
   ],
