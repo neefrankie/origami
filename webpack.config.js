@@ -16,7 +16,7 @@ module.exports = {
 				test: /\.js$/,
 				include: [
 					path.resolve(__dirname, 'src/js'),
-					path.resolve(__dirname, 'bower_components')
+					path.resolve(__dirname, 'demos/src')
 				],
 				loader: 'babel',
 				query: {

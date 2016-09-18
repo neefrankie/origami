@@ -46,46 +46,65 @@
 }
 /// @param {String} $name - One of the $o-share-icon-names
 /// @param {String} $theme - One of the theme names in $o-share-themes.
-@mixin oShareIconFor($name, $theme: 'default', $classname: o-share) {
-	$iconname: "social-" + $name;
-
-	$fill: oColorsGetPaletteColor($iconname);
-	$background: oColorsGetPaletteColor($iconname);
-	$hover: oColorsGetPaletteColor($iconname);
-
-	@if ($theme == null) {
-		$theme: 'default';
-	}
-	
-	$theme-fill: oShareGetColorFor($theme, fill);
-	$theme-background: oShareGetColorFor($theme, background);
-	$theme-hover: oShareGetColorFor($theme, hover);
-
-	@if($theme-fill and ($theme-fill != 'default')) {
-		$fill: $theme-fill;
-	}
-	@if($theme-background and ($theme-background != 'default')) {
-		$background: $theme-background
-	}
-	@if($theme-hover and ($theme-hover != 'default')) {
-		$hover: $theme-hover;
-	}
-
-	.#{$classname}__#{$name} {
-		a {	
-			background-color: $background;
-// If `hover` color is not set in `theme`, we should not fallback to the default `$hover`.
-// Instead, do not output it.
-			@if ($theme-hover) {
-				&:hover {
-					background-color: $hover;
-				}					
+@mixin oShareSetIcons($foreground, $classname: o-share) {
+// set the icon's shape and color 
+	@if type-of($foreground) == map {
+		@each $icon, $color in $foreground {
+			.#{$classname}__#{$icon} i {
+				background-image: sassvg("social-" + $icon, $fillcolor: $color);
 			}
 		}
-		i {
-			background-image: sassvg($iconname, $fillcolor: $fill);
+	} @else {
+	
+		$color: if(type-of($foreground) == string, oColorsGetPaletteColor($foreground), $foreground);
+
+		@each $icon in $o-share-icon-names {
+
+			.#{$classname}__#{$icon} i {
+				background-image: sassvg("social-" + $icon, $fillcolor: $color)
+			}
 		}
 	}
+}
+
+@mixin oShareSetBackground($background, $classname: o-share) {
+	
+	@if type-of($background) == map {
+		@each $icon, $color in $background {
+			.#{$classname}__#{$icon} a {
+				background-color: $color;
+			}
+		}
+	} @else if type-of($background) == string {
+		
+		$color: if(type-of($background) == string, oColorsGetPaletteColor($background), $background);
+
+		.#{#classname}__action a {
+			background-color: $color;
+		} 
+	}	
+}
+
+@mixin oShareSetHover($hover, $classname: o-share) {
+
+	@if type-of($hover) == map {
+		
+		@each $icon, $color in $hover {
+			.#{$classname}__#{$icon} a:hover {
+				background-color: $color;
+			}
+		}
+
+	} @else {
+
+		$color: if(type-of($hover) == string, oColorsGetPaletteColor($hover), $hover);
+
+		@debug "hover color: #{inspect($color)}";
+
+		.#{$classname}__action a:hover {
+			background-color: $color;
+		}
+	}	
 }
 
 // Some pre-defined themes.
