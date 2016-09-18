@@ -1,12 +1,15 @@
 {
   "name": "ftc-share",
   "version": "0.0.1",
-  "main": "main.js",
+  "main": [
+    "main.scss",
+    "main.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FTChinese/ftc-share.git"
   },
-  "description": "ftc social share function",
+  "description": "Share module",
   "keywords": [
     "FTC",
     "share"
