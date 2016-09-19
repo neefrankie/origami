@@ -5,24 +5,26 @@ const isThere = require('is-there');
 const co = require('co');
 const mkdirp = require('mkdirp');
 const helper = require('./helper');
+const data = require('./lib/data.js');
+
+const del = require('del');
+const browserSync = require('browser-sync').create();
+const cssnext = require('postcss-cssnext');
 
 const gulp = require('gulp');
-const browserSync = require('browser-sync').create();
-const del = require('del');
-const cssnext = require('postcss-cssnext');
 const $ = require('gulp-load-plugins')();
-
-const rollup = require('rollup').rollup;
-const buble = require('rollup-plugin-buble');
-const bowerResolve = require('rollup-plugin-bower-resolve');
 
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 
-const data = require('./lib/data.js');
-
-const projectName = 'ftc-footer';
+const rollup = require('rollup').rollup;
+const buble = require('rollup-plugin-buble');
+const bowerResolve = require('rollup-plugin-bower-resolve');
 var cache;
+
+const demosDir = '../ft-interact/demos';
+const projectName = path.basename(__dirname);
+
 process.env.NODE_ENV = 'dev';
 
 // change NODE_ENV between tasks.
@@ -47,7 +49,7 @@ gulp.task('html', () => {
         if (err) console.log(err);
       });
     }
-    if (process.env.NODE_ENV = 'prod') {
+    if (process.env.NODE_ENV === 'prod') {
       demo = true;
     }
 
@@ -162,7 +164,6 @@ gulp.task('serve',
 
 gulp.task('build', gulp.parallel('html', 'styles'));
 
-const demosDir = '../ft-interact/demos';
 
 gulp.task('copy', () => {
   const DEST = path.resolve(__dirname, demosDir, projectName);
