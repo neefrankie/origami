@@ -20,7 +20,7 @@
   <link href="{{iconsPath}}favicons/favicon.ico" type="image/x-icon" rel="shortcut icon" />
   <title>ftc-share{% if pageTitle %}: {{ pageTitle }}{% endif %} demo</title>
 
-  <link rel="stylesheet" type="text/css" href="styles/demo.css">
+  <link rel="stylesheet" type="text/css" href="styles/demo{% if share.svgSymbol %}-svg-symbol{% endif %}.css">
 
 </head>
 

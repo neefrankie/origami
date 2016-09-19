@@ -89,7 +89,7 @@ gulp.task('html', () => {
 gulp.task('styles', function styles() {
   const DEST = '.tmp/styles';
 
-  return gulp.src('demos/src/demo.scss')
+  return gulp.src('demos/src/*.scss')
     .pipe($.changed(DEST))
     .pipe($.plumber())
     .pipe($.sourcemaps.init({loadMaps:true}))
@@ -151,11 +151,11 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'webpack', () => {
     }
   });
 
-  gulp.watch(['demo/src/*.{html,json}', 'partials/*.html'], gulp.parallel('html'));
+  gulp.watch(['demos/src/*.{html,json}', 'partials/*.html'], gulp.parallel('html'));
 
   gulp.watch([
     'demos/src/*.scss', 
-    'src/**/*.scss', 
+    'src/scss/*.scss', 
     '*.scss'], 
     gulp.parallel('styles')
   );

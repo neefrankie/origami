@@ -1,0 +1,15 @@
+@import "../../main";
+
+body {
+	@include oColorsFor(page);
+}
+
+.o-share--symbol-dark {
+	background-color: #000;
+}
+
+@include oShareSymbolBase;
+@include oShareSymbolDefault;
+@include oShareSymbolLight;
+@include oShareSymbolDark;
+@include oShareSymbolTint;

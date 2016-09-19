@@ -38,9 +38,41 @@
 			"description": "light theme"
 		},
 		{
-			"name": "share-symbol",
+			"name": "share-tint",
+			"template": "demos/src/share-js.html",
+			"theme": "theme-tint",
+			"data": "demos/src/data.json",
+			"description": "tint theme"
+		},
+		{
+			"name": "svg-symbol",
 			"template": "demos/src/share.html",
 			"svgSymbol": true,
+			"theme": "symbol-default",
+			"data": "demos/src/data.json",
+			"description": "use svg symbol as icon image"
+		},
+		{
+			"name": "svg-symbol-light",
+			"template": "demos/src/share.html",
+			"svgSymbol": true,
+			"theme": "symbol-light",
+			"data": "demos/src/data.json",
+			"description": "use svg symbol as icon image"
+		},
+		{
+			"name": "svg-symbol-dark",
+			"template": "demos/src/share.html",
+			"svgSymbol": true,
+			"theme": "symbol-dark",
+			"data": "demos/src/data.json",
+			"description": "use svg symbol as icon image"
+		},
+		{
+			"name": "svg-symbol-tint",
+			"template": "demos/src/share.html",
+			"svgSymbol": true,
+			"theme": "symbol-tint",
 			"data": "demos/src/data.json",
 			"description": "use svg symbol as icon image"
 		}

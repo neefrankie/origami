@@ -7,17 +7,20 @@
 /// @type Bool
 $o-share-is-silent: true !default;
 
-$o-share-link-size: 32px !default;
+
 $o-share-link-padding: 4px !default;
 // default to 32px - 2 * 4px = 24px.
 // $o-share-icon-size: $o-share-link-size - 2 * $o-share-link-padding !default;
 $o-share-icon-size: 24px !default;
 $o-share-icon-radius: 50% !default;
 
+/// Caculated from `$o-share-link-padding + $o-share-icon-size`;
+$o-share-link-size: $o-share-icon-size + $o-share-link-padding;
+
 /// List of accepted social network icons, and the version
 /// @type map
 
-$o-share-icons: (
+$o-share-icon-palette: (
 	"wechat": #609700,
 	"weibo": #e6162d,
 	"linkedin": #0977b6,
@@ -25,4 +28,4 @@ $o-share-icons: (
 	"twitter": #6aa9e0
 ) !default;
 
-$o-share-icon-names: map-keys($o-share-icons) !default;
+$o-share-icon-names: map-keys($o-share-icon-palette) !default;

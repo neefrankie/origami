@@ -1,5 +1,80 @@
-/// The following mixin could be used to set every instance of `o-share` separately.
+/// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
+@mixin oShareSetIcons($foreground, $classname: o-share) {
+// set the icon's shape and color 
+	@if type-of($foreground) == map {
+		@each $icon, $color in $foreground {
+			.#{$classname}__#{$icon} i {
+				background-image: sassvg("social-" + $icon, $fillcolor: $color);
+			}
+		}
+	} @else {
+	
+		$color: if(type-of($foreground) == string, oColorsGetPaletteColor($foreground), $foreground);
 
+		@each $icon in $o-share-icon-names {
+
+			.#{$classname}__#{$icon} i {
+				background-image: sassvg("social-" + $icon, $fillcolor: $color)
+			}
+		}
+	}
+}
+
+/// @param {String} $background - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
+@mixin oShareSetBackground($background, $classname: o-share) {
+	
+	@if type-of($background) == map {
+		@each $icon, $color in $background {
+			.#{$classname}__#{$icon} a {
+				background-color: $color;
+			}
+		}
+	} @else {
+		
+		$color: if(type-of($background) == string, oColorsGetPaletteColor($background), $background);
+
+		.#{$classname}__action a {
+			background-color: $color;
+		} 
+	}	
+}
+
+@mixin oShareSetHover($hover, $classname: o-share) {
+
+	@if type-of($hover) == map {
+		
+		@each $icon, $color in $hover {
+			.#{$classname}__#{$icon} a:hover {
+				background-color: $color;
+			}
+		}
+
+	} @else {
+
+		$color: if(type-of($hover) == string, oColorsGetPaletteColor($hover), $hover);
+
+		.#{$classname}__action a:hover {
+			background-color: $color;
+		}
+	}	
+}
+
+/// @param {Number} $radius - A number in px or percent. This will set the border-radius of the `a` element wrapping around icon. If no unit, `px` will be added.
+@mixin oShareSetBorder($border: null, $radius: null, $classname: o-share) {
+	.#{$classname}__action a {
+		@if $border != null {
+			border: $border;
+		}
+		@if $radius != null {
+			@if unitless($radius) {
+				$radius: $radius + 0px;
+			}
+			border-radius: $radius;
+		}
+	}
+}
+
+/// The following mixin could be used to set every instance of `o-share` separately.
 
 // Use it to customise the look and feel of all icons,
 //
@@ -20,50 +95,13 @@
 		}
 	}
 }
-/// @param {String} $name - One of the icon names as in $o-share-icon-names.
-/// @param {String} $color - this should be a hex colour value. Used to set a background color beneath the icon. We suggest using an o-colors function.
-@mixin oShareSetIconBackground($name, $color:'default', $classname: o-share) {
-	.#{$classname}__#{$name} {
-		@if $color == 'default' {
-			$iconname: 'social-'+$name;
-			$color: oColorsGetPaletteColor($iconname);
-		}
-		a {
-			background-color: $color;
-		}
-	}
-}
-
-/// @param {String} $theme - Name of the theme
-/// @param {String} $property - Property it applies to. One of `fill`, `background`, or `hover`
-/// @param {String} $color - One of $o-colors-palette.
-@mixin oShareSetTheme($theme, $property, $color) {
-	$propmap: ($property: $color);
-
-	@if (map-has-key($o-share-themes, $theme)) {
-		$propmap: map-merge(map-get($o-share-themes, $theme), $propmap);
-	}
-
-	$newmap: ($theme: $propmap);
-
-	$o-share-themes: map-merge($o-share-themes, $newmap) !global;
-}
 
 // Some helper mixins.
-/// @param {Number} $padding - This is the padding of `a` element containing the icon element.
-@mixin oShareSetIconGap($padding, $classname: o-share) {
+/// @param {Number} $padding - This is the padding of `a` element containing the icon element. You can also overwrite the global variable `$o-share-link-padding` at the beginning of you file.
+@mixin oShareSetLinkPadding($padding, $classname: o-share) {
 	.#{$classname}__action {
 		a {
 			padding: $padding + 0px;
-		}
-	}
-}
-
-/// @param {Number} $radius - A number in px or percent. This will set the border-radius of the `a` element wrapping around icon.
-@mixin oShareSetIconRadius($radius, $classname: o-share) {
-	.#{$classname}__action {
-		a {
-			border-radius: $radius;
 		}
 	}
 }
@@ -81,4 +119,26 @@
 			height: $height + 0px;
 		}
 	} 
+}
+
+// Themes
+@mixin _oShareThemeDefault {
+	@include oShareSetBackground($background: $o-share-icon-palette);
+	@include oShareSetHover($hover: $o-share-icon-palette);		
+}
+
+@mixin _oShareThemeLight {
+	@include oShareSetBackground($background: 'grey-tint1')
+	@include oShareSetHover($hover: $o-share-icon-palette);	
+}
+
+@mixin _oShareThemeDark {
+	@include oShareSetBackground($background: 'transparent');
+	@include oShareSetBorder($border: 1px solid #fff);	
+}
+
+@mixin _oShareThemeTint {
+	@include oShareSetBackground($background: 'transparent');
+	@include oShareSetHover($hover: 'pink-tint2');
+	@include oShareSetBorder($radius: 3);	
 }

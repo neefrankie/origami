@@ -1,12 +1,13 @@
 /// Generate base share styles
 /// @param {String} $classname [o-share] - base class name
 /// If you want to customize the look and feel of all icons, pass content block to mixin `oShareCustomBase {}`.
-@mixin oShareBase($classname: o-share) {
+@mixin oShareBase($icon-color: 'white', $include-icon: true, $classname: o-share) {
 	.#{$classname} {
 		display: inline-block;
 		ul {
 			margin: 0;
 			padding: 0;
+			list-style-type: none;
 			// Clearfix
 			&:after {
 				clear: both;
@@ -19,7 +20,6 @@
 	// Float everything to avoid gaps in HTML.
 		float: left;
 		margin: 0 5px 0 0;
-		list-style-type: none;
 		
 		i {
 			float: left;
@@ -42,157 +42,39 @@
 				opacity: 0.8;
 			}
 		}
-	}	
-}
-/// @param {String} $name - One of the $o-share-icon-names
-/// @param {String} $theme - One of the theme names in $o-share-themes.
-@mixin oShareSetIcons($foreground, $classname: o-share) {
-// set the icon's shape and color 
-	@if type-of($foreground) == map {
-		@each $icon, $color in $foreground {
-			.#{$classname}__#{$icon} i {
-				background-image: sassvg("social-" + $icon, $fillcolor: $color);
-			}
-		}
-	} @else {
+	}
 	
-		$color: if(type-of($foreground) == string, oColorsGetPaletteColor($foreground), $foreground);
-
-		@each $icon in $o-share-icon-names {
-
-			.#{$classname}__#{$icon} i {
-				background-image: sassvg("social-" + $icon, $fillcolor: $color)
-			}
-		}
+	@if $include-icon {
+		@include oShareSetIcons($foreground: $icon-color);
 	}
 }
 
-@mixin oShareSetBackground($background, $classname: o-share) {
-	
-	@if type-of($background) == map {
-		@each $icon, $color in $background {
-			.#{$classname}__#{$icon} a {
-				background-color: $color;
-			}
-		}
-	} @else if type-of($background) == string {
-		
-		$color: if(type-of($background) == string, oColorsGetPaletteColor($background), $background);
+/// Predefined themes.
+/// In you HTML container, add `class=o-share--theme-default`, and in you scss `include oShareThemeDefault`
+@mixin oShareThemeDefault {
+	.o-share--theme-default {
+		@include _oShareThemeDefault;
+	}
+}
 
-		.#{#classname}__action a {
-			background-color: $color;
-		} 
+/// In you HTML container, add `class=o-share--theme-light`, and in you scss `include oShareThemeLight`
+@mixin oShareThemeLight {
+	.o-share--theme-light {
+		@include _oShareThemeLight;
+	}
+}
+
+/// In you HTML container, add `class=o-share--theme-dark`, and in you scss `include oShareThemeDark`
+@mixin oShareThemeDark {
+	.o-share--theme-dark {
+		@include _oShareThemeDark;
 	}	
 }
 
-@mixin oShareSetHover($hover, $classname: o-share) {
-
-	@if type-of($hover) == map {
-		
-		@each $icon, $color in $hover {
-			.#{$classname}__#{$icon} a:hover {
-				background-color: $color;
-			}
-		}
-
-	} @else {
-
-		$color: if(type-of($hover) == string, oColorsGetPaletteColor($hover), $hover);
-
-		@debug "hover color: #{inspect($color)}";
-
-		.#{$classname}__action a:hover {
-			background-color: $color;
-		}
-	}	
-}
-
-// Some pre-defined themes.
-@mixin oShareIconDefault {
-	@each $name in $o-share-icon-names {
-		@include oShareIconFor($name);
-	}
-}
-@mixin oShareIconTeal {
-	@each $name in $o-share-icon-names {
-		@include oShareIconFor($name, teal);
-	}
-}
-@mixin oShareIconTint {
-	@each $name in $o-share-icon-names {
-		@include oShareIconFor($name, tint);
-	}
-	@include oShareCustomBase {
-		border-radius: 3px;
-	}
-	
-}
-@mixin oShareIconDark {
-	@each $name in $o-share-icon-names {
-		@include oShareIconFor($name, dark);
-	}
-	@include oShareCustomBase {
-		border: 1px solid #fff;
-	}
-}
-
-
-// The following mixins should be used together.
-// Style svgs embeded in HTML. See `main.mustache`.
-@mixin oShareSpriteBase($radius: null, $width: $o-share-icon-size, $height: $o-share-icon-size, $classname: o-share) {
-
-	.#{$classname} {
-		display: inline-block;
-		ul {
-			margin: 0;
-			padding: 0;
-			// Clearfix
-			&:after {
-				clear: both;
-				content: '';
-				display: table;
-			}
-		}
-	}
-
-	.#{$classname}__action {
-		float: left;
-		margin: 0 5px 0 0;
-		list-style-type: none;
-
-		i {
-			display: none;
-		}
-		svg {
-			float: left;
-			width: $width;
-			height: $height;
-			background-color: transparent;
-		}
-		a {
-			float: left;
-			text-decoration: none;
-			padding: 4px;
-			@if ($radius != null) {
-				border-radius: $radius;
-			}
-		}
-		@content;
-	}
-}
-
-// Add color to svg sprite.
-@mixin oShareSpriteIcon($name, $classname: o-share) {
-	$iconname: "social-" + $name;
-
-	$iconcolor: oColorsGetPaletteColor($iconname);
-
-	.#{$classname}__#{$name} {
-		a {
-			background-color: $iconcolor;
-		}
-		svg {
-			fill: oColorsGetPaletteColor('white');
-		}
+/// In you HTML container, add `class=o-share--theme-tint`, and in you scss `include oShareThemeTint`
+@mixin oShareThemeTint {
+	.o-share--theme-tint {
+		@include oShareSetIcons($foreground: 'pink-tint4');
+		@include _oShareThemeTint;
 	}
 }

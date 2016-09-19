@@ -6,9 +6,12 @@
 @import 'src/scss/functions';
 @import "src/scss/mixins";
 @import "src/scss/share";
+@import "src/scss/svg-symbol";
 
 @if (not $o-share-is-silent) {
 	@include oShareBase;
-	@include oShareIconDefault;
+	@include oShareThemeDefault;
+	@include oShareThemeLight;
+	@include oShareThemeDark;
 }
 

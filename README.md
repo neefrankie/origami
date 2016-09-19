@@ -86,44 +86,44 @@ $o-share-is-silent: false;
 If not, you can just use our mixins to set you custom class.
 
 ## SASS API
-
-We provide default icons image. 3 alternative groups of images and related color sets are provided besides the default ones. If you want to use the alternative sets, you need to `$o-share-use-default-icon` to `false` and use `oShareIcons` mixin:
-
+Each icon has a default color sampled from its official logo. You can override this variable to set your own color scheme: 
 ```sass
-$o-share-is-silent: false;
-$$o-share-use-default-icon: false;
-@import 'o-share/main';
-@include oShareIcons($set);
+$o-share-icon-palette: (
+    "wechat": #609700,
+    "weibo": #e6162d,
+    "linkedin": #0977b6,
+    "facebook": #3c5a99,
+    "twitter": #6aa9e0
+) !default;
 ```
 
-Parameter `$set` could be one of the fllowwing:
+### Themes
 
-* polychrome
-* duotone
-* monochrome
+Serveral predefined themes were provided: `default`, `light`, `dark`. To use them add a class name `class="o-share--theme-<default | light | dark>"` to the outmost container.
 
-Other mixins:
+### Custom themes
+If you want to set the icons' color, background, borders, hovered state and size to whaterever you like, use these mixins:
 
-- `oShareBase`  set the layout of every icon container
-- `oShareActionLink`  set styles specific to url-icon (the last one in the default output) 
-- `oShareLinkTooltip` the tooltip shown up when you hover over the icon.
-- `oShareSetIconSize($size)`  sets the icons size.
-- `oShareActionIcon($name, $color:'white', $bgcolor:'wechat', $bghovercolor: false)`;
+- `@mixin oShareSetIcons($foreground)` Set the icon's shape for each link using `sassvg`. But you'd better first disable `oShareBase` using the default icon by passing `$include-icon:false`. Otherwise the icon's svg code might be include multiple times resuting a large css file.
 
-The `$color`, `$bgcolor` and `$bghovercolor` should be color values or one of those strings as listed in o-colors palette. $bghovercolor could accept a false value to turn hove effects off.
+- `@mixin oShareSetBackground($background)` Set the icon's background color.
 
-Each icons official color was added to o-colors' palette, or you can directly get the value from the list:
+- `@mixin oShareSetHover($hover)` Background color when hovered.
 
-```sass
-$o-share-icon-colors: (
-    wechat:#609700,
-    weibo: #e6162d,
-    linkedin:#0977b6,
-    facebook: #3c5a99,
-    twitter: #6aa9e0,
-    url: #27757b
-);
-```
+- `@mixin oShareSetBorder($border: null, $radius: null)` Set border and border-radius.
+
+- `@mixin oShareSetLinkPadding($padding)` The gap between the icon shape and the edege of the link.
+
+- `@mixin oShareSetIconSize($width, $height:null)` The size of icon.
+
+### Use a svg symbol
+By default `ftc-share` uses svg as icon image. Each icon's svg source code was directly put into compiled css file. If you need the same icon on the same page with differnet colors, you have to include the same icon's svg code multiple times to have a diffence `fill` property on the icon. This is inefficient could bloat up you file.
+
+To solve this problem, you can use svg symbol technique, which is similar to binary image's "sprite". One advantage is that you can set the image's color easily in you css with `fill: <color>`
+
+To use the default svg themes, add class to the container like `class="o-share--symbol-<default | light | dark | tint>`.
+
+The above mentioned mixins coulde also be used here execept `@mixin oShareSetIcons($foreground)` which is needless since you do not need to inline the svg code.
 
 ## JS API
 
