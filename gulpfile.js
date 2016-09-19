@@ -39,7 +39,7 @@ gulp.task('dev', function(done) {
 });
 
 gulp.task('html', () => {
-  var demo = false;
+  var embedded = false;
 
   return co(function *() {
     const destDir = '.tmp';
@@ -61,10 +61,11 @@ gulp.task('html', () => {
       let template = path.basename(demo.template);
       console.log(template);
 
-      return helper.render(template, Object.assign(data, {
+      return helper.render(template, {
         pageTitle: demo.name,
-        demo: demo
-      }));
+        footer: data,
+        embedded: embedded
+      });
     }));
 
     demos.forEach(function(demo, i) {
