@@ -143,3 +143,40 @@ If you do not pass the `config`, the script will first search `data` attributes 
 ```html
 <meta property="og:description" content="summary of the article" />
 ```
+
+## Data structure for templates
+You can `include` the `partials/o-share.html` file in your template so that DOM structure was rendered on the server instead of on the client browser.
+
+Data for the templates should have these entries:
+```
+{
+    share: {
+      "theme": "theme-default",
+      "svgSymbol": false,
+      "items": [
+        {
+          "icon": "wechat",
+          "href": "",
+          "name": "微信"
+        },
+        {
+          "icon": "weibo",
+          "href": "",
+          "name": "微博"
+        },
+        {
+          "icon": "linkedin",
+          "name": "领英"
+        },
+        {
+          "icon": "facebook",
+          "name": "Facebook"
+        },
+        {
+          "icon": "twitter",
+          "name": "Twitter"
+        }
+      ]
+    }
+}
+```

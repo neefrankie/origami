@@ -40,41 +40,41 @@
 		{
 			"name": "share-tint",
 			"template": "demos/src/share-js.html",
-			"theme": "theme-tint",
 			"data": "demos/src/data.json",
-			"description": "tint theme"
+			"description": "tint theme",
+			"theme": "theme-tint"
 		},
 		{
 			"name": "svg-symbol",
 			"template": "demos/src/share.html",
-			"svgSymbol": true,
-			"theme": "symbol-default",
 			"data": "demos/src/data.json",
-			"description": "use svg symbol as icon image"
+			"description": "use svg symbol as icon image",
+			"svgSymbol": true,
+			"theme": "symbol-default"
 		},
 		{
 			"name": "svg-symbol-light",
 			"template": "demos/src/share.html",
-			"svgSymbol": true,
-			"theme": "symbol-light",
 			"data": "demos/src/data.json",
-			"description": "use svg symbol as icon image"
+			"description": "use svg symbol as icon image",
+			"svgSymbol": true,
+			"theme": "symbol-light"
 		},
 		{
 			"name": "svg-symbol-dark",
-			"template": "demos/src/share.html",
-			"svgSymbol": true,
-			"theme": "symbol-dark",
+			"template": "demos/src/share.html",			
 			"data": "demos/src/data.json",
-			"description": "use svg symbol as icon image"
+			"description": "use svg symbol as icon image",
+			"svgSymbol": true,
+			"theme": "symbol-dark"
 		},
 		{
 			"name": "svg-symbol-tint",
 			"template": "demos/src/share.html",
-			"svgSymbol": true,
-			"theme": "symbol-tint",
 			"data": "demos/src/data.json",
-			"description": "use svg symbol as icon image"
+			"description": "use svg symbol as icon image",
+			"svgSymbol": true,
+			"theme": "symbol-tint"
 		}
 	]
 }
