@@ -1,4 +1,4 @@
-## Front-end
+## Get the footer data
 
 To use the front scss and js, install with bower:
 ```
@@ -15,12 +15,3 @@ npm install ftc-footer --save-dev
 ```
 const ftcFooter = require('ftc-footer');
 ```
-The data have two flavors: the complete data for `o-grid` enabled layout and a simple one made of inlined `<a>` tag.
-
-```
-const fullData = ftcFooter.full();
-const simpleData = ftcFooter.simple();
-```
-
-Use the either of the data with `nunjucks`, together with the templates in the `partials` directory of this package.
-
