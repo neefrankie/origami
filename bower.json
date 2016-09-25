@@ -1,0 +1,21 @@
+{
+  "name": "ftc-logos",
+  "description": "FTC logos",
+  "main": "index.js",
+  "authors": [
+    "weiguo.ni"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "FTC",
+    "logos"
+  ],
+  "homepage": "https://github.com/FTChinese/ftc-logos",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

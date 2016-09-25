@@ -1,0 +1,24 @@
+{
+  "name": "ftc-logos",
+  "version": "1.0.0",
+  "description": "FTC logos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FTChinese/ftc-logos.git"
+  },
+  "keywords": [
+    "FTC",
+    "logos"
+  ],
+  "author": "weiguo.ni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FTChinese/ftc-logos/issues"
+  },
+  "homepage": "https://github.com/FTChinese/ftc-logos#readme"
+}
