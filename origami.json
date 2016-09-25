@@ -1,0 +1,22 @@
+{
+    "description": "FTC logos",
+    "origamiType": "module",
+    "origamiCategory": "primitives",
+    "origamiVersion": 1,
+    "support": "https://github.com/FTChinese/ftc-logos/issues",
+    "supportStatus": "active",
+    "demos": [
+        {
+            "name": "background",
+            "template": "demos/src/icons.html",
+            "data": "demos/src/data.json",
+            "description": "Use svg as background with png fallback"
+        },
+        {
+            "name": "image-src",
+            "template": "demos/src/icons.html",
+            "data": "demos/src/data.json",
+            "description": "svg as image src with png fallback"
+        }
+    ]
+}
