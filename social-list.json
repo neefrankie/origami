@@ -3,20 +3,20 @@
     "name": "wechat",
     "themes": {
       "default": {
-        "background": "#609700",
         "foreground": "#fff",
+        "background": "#609700",
         "rx": null,
         "ry": null
       },
       "round": {
-        "background": "#609700",
         "foreground": "#fff",
+        "background": "#609700",
         "rx": "50%",
         "ry": "50%"
       },
       "tint": {
-        "background": null,
         "foreground": "#a7a59b",
+        "background": null,
         "rx": null,
         "ry": null
       }
@@ -123,6 +123,18 @@
         "rx": null,
         "ry": null
       },
+      "round" :{
+        "background": "#27757b",
+        "foreground": "#fff",
+        "rx": "50%",
+        "ry": "50%"
+      },
+      "tint": {
+        "background": null,
+        "foreground": "#a7a59b",
+        "rx": null,
+        "ry": null
+      }
     }
   },
   {
@@ -133,6 +145,18 @@
         "foreground": "#fff",
         "rx": "5",
         "ry": "5"
+      },
+      "round" :{
+        "background": "#d66d06",
+        "foreground": "#fff",
+        "rx": "50%",
+        "ry": "50%"
+      },
+      "tint": {
+        "background": null,
+        "foreground": "#a7a59b",
+        "rx": null,
+        "ry": null
       }
     }
   }
