@@ -13,7 +13,7 @@ const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
-const iconList = require('./social-list.json');
+const socialList = require('./social-list.json');
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
@@ -44,7 +44,7 @@ gulp.task('templates', () => {
     .pipe($.svgmin())
     .pipe($.cheerio({
       run: function($, file) {
-        $('.background').attr('fill', '{{background}}').attr('rx', '{{rx}}').attr('ry', '{{ry}}');
+        $('.background').attr('fill', '{{background}}');
         $('.foreground').attr('fill', '{{foreground}}');
       }
     }))
@@ -77,13 +77,7 @@ gulp.task('svgstore', () => {
     .pipe(gulp.dest('static/sprite'))
 });
 
-gulp.task('svg2png', () => {
-  return gulp.src('svg/*.svg')
-    .pipe($.svg2png())
-    .pipe(gulp.dest('static/png'));
-});
-
-gulp.task('build', gulp.series(gulp.parallel('svgmin', 'templates'), gulp.parallel('svgstore', 'svg2png')));
+gulp.task('build', gulp.parallel('svgmin', 'templates', 'svgstore', 'sassvg'));
 
 // /* demo tasks */
 gulp.task('html', () => {
