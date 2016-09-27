@@ -1,0 +1,21 @@
+{
+  "name": "social-images",
+  "description": "FTC social images",
+  "main": "build-list.js",
+  "authors": [
+    "weiguo.ni"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "social",
+    "share"
+  ],
+  "homepage": "https://github.com/FTChinese/social-images",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
