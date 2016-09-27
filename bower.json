@@ -1,7 +1,9 @@
 {
   "name": "social-images",
   "description": "FTC social images",
-  "main": "build-list.js",
+  "main": [
+    "main.scss"
+  ],
   "authors": [
     "weiguo.ni"
   ],
