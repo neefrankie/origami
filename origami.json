@@ -1,0 +1,40 @@
+{
+    "description": "FTC social images",
+    "origamiType": "module",
+    "origamiCategory": "primitives",
+    "origamiVersion": 1,
+    "support": "https://github.com/FTChinese/social-images/issues",
+    "supportStatus": "active",
+    "demos": [
+        {
+            "name": "default",
+            "template": "demos/src/socials.html",
+            "data": "demos/src/data.json",
+            "description": "Use svg image as background with fallback to png"
+        },
+        {
+            "name": "round",
+            "template": "demos/src/socials.html",
+            "data": "demos/src/data.json",
+            "description": "SVG file as image src"
+        },
+        {
+        	"name": "tint",
+        	"template": "demos/src/socials.html",
+        	"data": "demos/src/data.json",
+        	"description": "All icons in svg symbol with randomly generated color filled"
+        },
+        {
+          "name": "sassvg",
+          "tempalte": "demos/src/socials.html",
+          "data": "",
+          "description": ""
+        },
+        {
+          "name": "svg-sprite",
+          "template": "demos/src/sprite.html",
+          "data": "",
+          "description"
+        }
+    ]
+}
