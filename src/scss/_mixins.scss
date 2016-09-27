@@ -1,0 +1,64 @@
+@mixin _baseStyles($container-width, $container-height: null) {
+	display: inline-block;
+	width: $container-width + 0px;
+	@if ($container-height == null) {
+		$container-height: $container-width;
+	}
+	height: $container-height + 0px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: 50%;
+	background-color: transparent;
+	vertical-align: middle;
+}
+
+@mixin socialImagesGetSassvg($social-name, $color:null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
+
+	@if $color == null {
+		@if map-has-key($social-images-palette, $social-name) {
+			$color: map-get($social-images-palette, $social-name);
+		} @else {
+			$color: #000000;
+		}
+	}
+
+	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", social-images));
+	background-image: sassvg($social-name, $fillcolor: $color);
+
+	@if ($apply-base-styles == true) {
+		@include _baseStyles($container-width);
+	}
+}
+
+@mixin socialImagesGetImage($social-name, $container-width: 20, $container-height: null, $apply-base-styles: true) {
+
+	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", social-images));
+	background-image: url(oAssetsResolve("static/svg/#{$icon-name}.svg", social-images)), none;
+
+	@if ($apply-base-styles == true) {
+		@include _baseStyles($container-width);
+	}
+}
+
+// Set styles on `svg` elements. Its containing box should be `position:relative;`
+@mixin socialImagesGetSprite($icon-name, $color: null, $width: 20, $height:null) {
+
+	@if ($height == null) {
+		$height: $width;
+	}
+
+	display: inline-block;
+	width: $width + 0px;
+	height: $height+0px;
+	svg {
+		width: $width + 0px;
+		height: $height+0px;
+
+		@if ($color != null) {
+			@if type-of($color) == 'string' {
+				$color: oColorsGetPaletteColor($color);
+			}
+			fill: $color;
+		}
+	}
+}
