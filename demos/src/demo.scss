@@ -1,0 +1,80 @@
+@import "../../main";
+@include oAssetsSetModulePaths((
+	social-images: '..',
+));
+
+body {
+	@include oColorsFor(page);
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	li {
+		display: inline-block;
+		width: 180px;
+		margin: 0 0 20px;
+		text-align: center;
+		i {
+			display: inline-block;
+			border: 1px dotted #333;
+			width: 100px;
+			height: 100px;
+
+			svg {
+				width: 100px;
+				height: 100px;
+			}
+
+			&:after {
+				display: inline-block;
+				width: 100px;
+				height: 100px;
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-position: 50%;
+				background-color: transparent;
+				vertical-align: middle;
+			}
+		}
+		span {
+			display: block;
+		}
+	}
+}
+
+
+
+.social-images__default {
+	@each $icon in $o-icons-list {
+		.#{$icon} {
+			&:after {
+				content: '';
+				@include oIconsGetSvg($icon, $apply-base-styles: false);
+			}
+		}
+	}
+}
+
+
+$social-list: sassvg-list("svg");
+.social-images__sassvg {
+	@each $icon in $o-icons-list {
+		.#{$icon} {
+			svg {
+				fill: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
+			}
+		}
+	}
+}
+
+.social-images__sprite {
+	@each $icon in $o-icons-list {
+		.#{$icon} {
+			svg {
+				fill: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
+			}
+		}
+	}
+}
