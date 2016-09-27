@@ -12,7 +12,7 @@
 	vertical-align: middle;
 }
 
-@mixin socialImagesGetSassvg($social-name, $color:null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
+@mixin socialImagesGetSassvg($social-name, $color:null, $background: null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
 
 	@if $color == null {
 		@if map-has-key($social-images-palette, $social-name) {
@@ -33,7 +33,7 @@
 @mixin socialImagesGetImage($social-name, $container-width: 20, $container-height: null, $apply-base-styles: true) {
 
 	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", social-images));
-	background-image: url(oAssetsResolve("static/svg/#{$icon-name}.svg", social-images)), none;
+	background-image: url(oAssetsResolve("static/svg/#{$social-name}.svg", social-images)), none;
 
 	@if ($apply-base-styles == true) {
 		@include _baseStyles($container-width);
@@ -54,11 +54,18 @@
 		width: $width + 0px;
 		height: $height+0px;
 
+		@if $color == null {
+			@if map-has-key($social-images-palette, $social-name) {
+				$color: map-get($social-images-palette, $social-name);
+			}
+		}
+
 		@if ($color != null) {
 			@if type-of($color) == 'string' {
 				$color: oColorsGetPaletteColor($color);
 			}
-			fill: $color;
 		}
+
+		fill: $color;
 	}
 }

@@ -2,6 +2,26 @@
 @include oAssetsSetModulePaths((
 	social-images: '..',
 ));
+$all-variant-list: (
+	'weibo',
+	'linkedin',
+	'facebook',
+	'twitter',
+	'link',
+	'rss',
+	'weibo-round',
+	'linkedin-round',
+	'facebook-round',
+	'twitter-round',
+	'link-round',
+	'rss-round',
+	'weibo-tint',
+	'linkedin-tint',
+	'facebook-tint',
+	'twitter-tint',
+	'link-tint',
+	'rss-tint',
+);
 
 body {
 	@include oColorsFor(page);
@@ -44,34 +64,31 @@ ul {
 	}
 }
 
-
-
 .social-images__default {
-	@each $icon in $o-icons-list {
-		.#{$icon} {
+	@each $name in $all-variant-list {
+		.#{$name} {
 			&:after {
 				content: '';
-				@include oIconsGetSvg($icon, $apply-base-styles: false);
+				@include socialImagesGetImage($name, $apply-base-styles: false);
 			}
 		}
 	}
 }
 
+$social-images: sassvg-list($folder: 'svg');
 
-$social-list: sassvg-list("svg");
 .social-images__sassvg {
-	@each $icon in $o-icons-list {
-		.#{$icon} {
-			svg {
-				fill: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
-			}
+	@each $name in $social-images {
+		$c1: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
+		.#{$name} {
+			@include socialImagesGetSassvg($name, $color: null, $apply-base-styles: false);
 		}
 	}
 }
 
 .social-images__sprite {
-	@each $icon in $o-icons-list {
-		.#{$icon} {
+	@each $name in $social-images {
+		.#{$name} {
 			svg {
 				fill: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
 			}

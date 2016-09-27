@@ -19,5 +19,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "o-assets": "^3.0.2",
+    "o-colors": "^3.5.2"
+  }
 }

@@ -2,10 +2,10 @@
 {% block body %}
 <div class="social-images__sprite">
   <ul>
-    {% for icon in icons%}
+    {% for name in socialNames %}
       <li>
-        <i class="{{icon}}"><svg><use xlink:href="static/sprite/all.svg#{{icon}}" /></svg></i>
-        <span>{{icon}}</span>
+        <i class="{{name}}"><svg><use xlink:href="static/sprite/all.svg#{{name}}" /></svg></i>
+        <span>{{name}}</span>
       </li>
     {% endfor %}
   </ul>

@@ -14,15 +14,15 @@
         },
         {
           "name": "sassvg",
-          "tempalte": "demos/src/sassvg.html",
+          "template": "demos/src/sassvg.html",
           "data": "",
-          "description": ""
+          "description": "Inline svg into css"
         },
         {
           "name": "svg-sprite",
           "template": "demos/src/sprite.html",
           "data": "",
-          "description"
+          "description": "SVG symbol sprite"
         }
     ]
 }

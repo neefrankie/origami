@@ -15,6 +15,18 @@ const $ = require('gulp-load-plugins')();
 
 const socialList = require('./social-list.json');
 
+const socialNames = socialList.map(item => item.name);
+
+var themeNames = socialList.map(item => {
+  const name = item.name;
+  const themes = Object.keys(item.themes);
+  return themes.map(theme => {
+    return (theme === 'default') ? item.name : `${item.name}-${theme}`;
+  });
+});
+
+themeNames = helper.zip(themeNames);
+
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
 
@@ -72,6 +84,15 @@ gulp.task('sassvg', function() {
 gulp.task('svgstore', () => {
   return gulp.src('svg/*.svg')
     .pipe($.svgmin())
+    .pipe($.cheerio({
+      run: function($, file) {
+        $('.background').remove();
+        $('.foreground').removeAttr('fill')
+      },
+      parserOptions: {
+        xmlMode: true
+      }
+    }))
     .pipe($.svgstore())
     .pipe($.rename('all.svg'))
     .pipe(gulp.dest('static/sprite'))
@@ -108,8 +129,8 @@ gulp.task('html', () => {
       const context = {
         pageTitle: demo.name,
         description: demo.description,
-        className: 'o-icons__' + demo.name,
-        icons: iconList,
+        socialNames: socialNames,
+        themeNames: themeNames,
         embedded: embedded
       };
 
@@ -162,7 +183,6 @@ gulp.task('serve', gulp.parallel('html', 'styles', () => {
   browserSync.init({
     server: {
       baseDir: ['.tmp', '.'],
-      index: 'icons.html',
       directory: true,
       routes: {
         '/bower_components': 'bower_components'
@@ -170,12 +190,11 @@ gulp.task('serve', gulp.parallel('html', 'styles', () => {
     }
   });
 
-  gulp.watch(['demos/src/*.{html,json}', 'origami.json'], gulp.parallel('html'));
+  gulp.watch(['demos/src/*.html', 'origami.json'], gulp.parallel('html'));
 
   gulp.watch([
     'demos/src/*.scss',
     'src/scss/*.scss',
-    'sassvg/*.scss',
     '*.scss'],
     gulp.parallel('styles')
   );

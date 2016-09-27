@@ -2,10 +2,10 @@
 {% block body %}
 <div class="social-images__sassvg">
   <ul>
-  	{% for icon in icons %}
+  	{% for name in socialNames %}
     <li>
-      <i class="{{icon}}"></i>
-      <span>{{icon}}</span>
+      <i class="{{name}}"></i>
+      <span>{{name}}</span>
     </li>
     {% endfor %}
   </ul>
