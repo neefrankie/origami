@@ -14,12 +14,9 @@
 
 @mixin socialImagesGetSassvg($social-name, $color:null, $background: null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
 
+// if color is not set, default to black.
 	@if $color == null {
-		@if map-has-key($social-images-palette, $social-name) {
-			$color: map-get($social-images-palette, $social-name);
-		} @else {
-			$color: #000000;
-		}
+		$color: #000000;
 	}
 
 	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", social-images));
@@ -47,25 +44,14 @@
 		$height: $width;
 	}
 
-	display: inline-block;
-	width: $width + 0px;
-	height: $height+0px;
 	svg {
 		width: $width + 0px;
 		height: $height+0px;
-
-		@if $color == null {
-			@if map-has-key($social-images-palette, $social-name) {
-				$color: map-get($social-images-palette, $social-name);
-			}
-		}
-
 		@if ($color != null) {
 			@if type-of($color) == 'string' {
 				$color: oColorsGetPaletteColor($color);
 			}
+			fill: $color;
 		}
-
-		fill: $color;
 	}
 }

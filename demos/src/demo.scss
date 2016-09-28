@@ -79,18 +79,20 @@ $social-images: sassvg-list($folder: 'svg');
 
 .social-images__sassvg {
 	@each $name in $social-images {
-		$c1: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
+
 		.#{$name} {
-			@include socialImagesGetSassvg($name, $color: null, $apply-base-styles: false);
+			background-color: socialImagesGetColor($name);
+			@include socialImagesGetSassvg($name, $color: #fff, $apply-base-styles: false);
 		}
 	}
 }
-
+// It's quite simple to style symbol sprite. You do not even need the minxins.
 .social-images__sprite {
 	@each $name in $social-images {
 		.#{$name} {
+			background-color: socialImagesGetColor($name);
 			svg {
-				fill: rgb(random(256) - 1, random(256) - 1, random(256) - 1);
+				fill: #fff;
 			}
 		}
 	}
