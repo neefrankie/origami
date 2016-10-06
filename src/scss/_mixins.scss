@@ -12,7 +12,7 @@
 	vertical-align: middle;
 }
 
-@mixin socialImagesGetSassvg($social-name, $color:null, $background: null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
+@mixin socialImagesGetSassvg($social-name, $color:null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
 
 // if color is not set, default to black.
 	@if $color == null {
@@ -27,7 +27,7 @@
 	}
 }
 
-@mixin socialImagesGetImage($social-name, $container-width: 20, $container-height: null, $apply-base-styles: true) {
+@mixin socialImagesGetImage($social-name, $color: null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
 
 	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", social-images));
 	background-image: url(oAssetsResolve("static/svg/#{$social-name}.svg", social-images)), none;
