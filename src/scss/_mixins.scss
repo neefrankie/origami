@@ -19,7 +19,7 @@
 		$color: #000000;
 	}
 
-	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", social-images));
+	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", ftc-social-images));
 	background-image: sassvg($social-name, $fillcolor: $color);
 
 	@if ($apply-base-styles == true) {
@@ -29,8 +29,8 @@
 
 @mixin socialImagesGetImage($social-name, $color: null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
 
-	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", social-images));
-	background-image: url(oAssetsResolve("static/svg/#{$social-name}.svg", social-images)), none;
+	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", ftc-social-images));
+	background-image: url(oAssetsResolve("static/svg/#{$social-name}.svg", ftc-social-images)), none;
 
 	@if ($apply-base-styles == true) {
 		@include _baseStyles($container-width);
