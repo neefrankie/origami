@@ -19,29 +19,34 @@
 	"demos": [
 		{
 			"name": "share",
-			"template": "demos/src/share.html",
+			"template": "demos/src/share-js.html",
 			"data": "demos/src/data.json",
-			"description": "default theme"
+			"description": "default theme",
+			"svgSymbol": false,
+			"theme": "theme-default"
 		},
 		{
 			"name": "share-dark",
 			"template": "demos/src/share-js.html",
-			"theme": "theme-dark",
 			"data": "demos/src/data.json",
-			"description": "dark theme"
+			"description": "dark theme",
+			"svgSymbol": false,
+			"theme": "theme-dark"
 		},
 		{
 			"name": "share-light",
 			"template": "demos/src/share-js.html",
-			"theme": "theme-light",
 			"data": "demos/src/data.json",
-			"description": "light theme"
+			"description": "light theme",
+			"svgSymbol": false,
+			"theme": "theme-light"
 		},
 		{
 			"name": "share-tint",
 			"template": "demos/src/share-js.html",
 			"data": "demos/src/data.json",
 			"description": "tint theme",
+			"svgSymbol": false,
 			"theme": "theme-tint"
 		},
 		{
@@ -62,7 +67,7 @@
 		},
 		{
 			"name": "svg-symbol-dark",
-			"template": "demos/src/share.html",			
+			"template": "demos/src/share.html",
 			"data": "demos/src/data.json",
 			"description": "use svg symbol as icon image",
 			"svgSymbol": true,
