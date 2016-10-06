@@ -1,0 +1,44 @@
+@import "../../main";
+@include oAssetsSetModulePaths((
+	ftc-logos: '..',
+));
+
+$logo-list: (
+	'brand-square',
+	'brand-masthead',
+	'brand-masthead-white'
+);
+
+body {
+	@include oColorsFor(page);
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	li {
+		margin: 1em 0;
+		i {
+			display: block;
+			height: 100px;
+			background-size: contain;
+			background-repeat: no-repeat;
+		}
+		span{
+			display: block;
+		}
+	}
+}
+
+@each $logo in $logo-list {
+	.#{$logo} i {
+		@include oLogosGetLogo($logo, $apply-base-style: false);
+	}
+}
+
+.brand-masthead-white {
+	i, img {
+		background-color: #333;
+	}
+}
