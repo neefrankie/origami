@@ -8,7 +8,8 @@
     "gulp": "./node_modules/gulp/bin/gulp.js",
     "postversion": "git push && git push --tags",
     "svgpng": "node ./lib/svg-png.js",
-    "single": "node ./lib/single-image.js"
+    "single": "node ./lib/single-image.js",
+    "list": "node ./lib/build-list.js"
   },
   "repository": {
     "type": "git",
