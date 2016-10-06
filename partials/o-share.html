@@ -1,12 +1,12 @@
 <div class="o-share o-share--{{ share.theme }}" data-o-component="o-share">
 	<ul>
 		{% for item in share.items %}
-			<li class="o-share__action o-share__{{ item.icon }}">
-				<a href="{{ link.href }}" target="_blank" title="分享到{{ item.name }}">
+			<li class="o-share__action o-share__{{ item.name }}">
+				<a href="{{ item.url }}" target="_blank" title="分享到{{ item.text }}">
 					<i>{{ item.name }}</i>
 
 					{% if share.svgSymbol %}
-					<svg><use xlink:href="/bower_components/ftc-icons/sprite/social-icons.svg#social-{{ item.icon }}"></use></svg>
+					<svg><use xlink:href="/bower_components/ftc-social-images/static/sprite/all.svg#{{ item.name }}"></use></svg>
 					{% endif %}
 
 				</a>
