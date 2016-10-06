@@ -1,4 +1,5 @@
-const fs = require('fs');
+const promisify = require('promisify-node')
+const fs = promisify('fs');
 const path = require('path');
 const isThere = require('is-there');
 const co = require('co');
@@ -69,7 +70,7 @@ gulp.task('sassvg', function() {
     .pipe($.cheerio({
       run: function($, file) {
         $('.background').remove();
-        $('.foreground').removeAttr('fill')
+        $('.foreground').removeAttr('fill').removeAttr('class');
       },
       parserOptions: {
         xmlMode: true
@@ -87,7 +88,7 @@ gulp.task('svgstore', () => {
     .pipe($.cheerio({
       run: function($, file) {
         $('.background').remove();
-        $('.foreground').removeAttr('fill')
+        $('.foreground').removeAttr('fill').removeAttr('class')
       },
       parserOptions: {
         xmlMode: true
@@ -98,7 +99,7 @@ gulp.task('svgstore', () => {
     .pipe(gulp.dest('static/sprite'))
 });
 
-gulp.task('build', gulp.parallel('svgmin', 'templates', 'svgstore', 'sassvg'));
+gulp.task('build', gulp.parallel('svgstore', 'sassvg'));
 
 // /* demo tasks */
 gulp.task('html', () => {
@@ -121,7 +122,7 @@ gulp.task('html', () => {
 
     const demos = origami.demos;
 
-    const htmlString = yield Promise.all(demos.map(function(demo) {
+    const renderResults = yield Promise.all(demos.map(function(demo) {
 
       const template = demo.template;
       console.log(`Using template "${template}" for "${demo.name}"`);
@@ -134,13 +135,13 @@ gulp.task('html', () => {
         embedded: embedded
       };
 
-      return helper.render(template, context);
+      return helper.render(template, context, demo.name);
     }));
 
-    demos.forEach(function(demo, i) {
-      str(htmlString[i])
-        .pipe(fs.createWriteStream('.tmp/' + demo.name + '.html'));
-    });
+    yield Promise.all(renderResults.map(result => {
+      const dest = `.tmp/${result.name}.html`;
+      return fs.writeFile(dest, result.content, 'utf8');
+    }));
   })
   .then(function(){
     browserSync.reload('*.html');
