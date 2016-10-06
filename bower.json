@@ -18,10 +18,15 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "svg",
+    "demos"
   ],
   "dependencies": {
     "o-assets": "^3.0.2",
     "o-colors": "^3.5.2"
+  },
+  "devDependencies": {
+    "ftc-logos": "^0.1.0"
   }
 }
