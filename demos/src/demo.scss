@@ -1,27 +1,9 @@
 @import "../../main";
+@import "social-list";
+
 @include oAssetsSetModulePaths((
 	social-images: '..',
 ));
-$all-variant-list: (
-	'weibo',
-	'linkedin',
-	'facebook',
-	'twitter',
-	'link',
-	'rss',
-	'weibo-round',
-	'linkedin-round',
-	'facebook-round',
-	'twitter-round',
-	'link-round',
-	'rss-round',
-	'weibo-tint',
-	'linkedin-tint',
-	'facebook-tint',
-	'twitter-tint',
-	'link-tint',
-	'rss-tint',
-);
 
 body {
 	@include oColorsFor(page);
@@ -65,7 +47,7 @@ ul {
 }
 
 .social-images__default {
-	@each $name in $all-variant-list {
+	@each $name in $social-list {
 		.#{$name} {
 			&:after {
 				content: '';
