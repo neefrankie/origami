@@ -1,20 +1,22 @@
 /// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
 @mixin oShareSetIcons($foreground, $classname: o-share) {
-// set the icon's shape and color 
+// set the icon's shape and color
 	@if type-of($foreground) == map {
-		@each $icon, $color in $foreground {
+		@each $icon, $fillcolor in $foreground {
 			.#{$classname}__#{$icon} i {
-				background-image: sassvg("social-" + $icon, $fillcolor: $color);
+				// background-image: sassvg($icon, $fillcolor: $color);
+				@include socialImagesGetSassvg($icon, $color: $fillcolor, $apply-base-styles: false);
 			}
 		}
 	} @else {
-	
-		$color: if(type-of($foreground) == string, oColorsGetPaletteColor($foreground), $foreground);
+
+		$fillcolor: if(type-of($foreground) == string, oColorsGetPaletteColor($foreground), $foreground);
 
 		@each $icon in $o-share-icon-names {
 
 			.#{$classname}__#{$icon} i {
-				background-image: sassvg("social-" + $icon, $fillcolor: $color)
+				// background-image: sassvg($icon, $fillcolor: $color);
+				@include socialImagesGetSassvg($icon, $color: $fillcolor, $apply-base-styles: false);
 			}
 		}
 	}
@@ -22,7 +24,7 @@
 
 /// @param {String} $background - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
 @mixin oShareSetBackground($background, $classname: o-share) {
-	
+
 	@if type-of($background) == map {
 		@each $icon, $color in $background {
 			.#{$classname}__#{$icon} a {
@@ -30,19 +32,19 @@
 			}
 		}
 	} @else {
-		
+
 		$color: if(type-of($background) == string, oColorsGetPaletteColor($background), $background);
 
 		.#{$classname}__action a {
 			background-color: $color;
-		} 
-	}	
+		}
+	}
 }
 
 @mixin oShareSetHover($hover, $classname: o-share) {
 
 	@if type-of($hover) == map {
-		
+
 		@each $icon, $color in $hover {
 			.#{$classname}__#{$icon} a:hover {
 				background-color: $color;
@@ -56,7 +58,7 @@
 		.#{$classname}__action a:hover {
 			background-color: $color;
 		}
-	}	
+	}
 }
 
 /// @param {Number} $radius - A number in px or percent. This will set the border-radius of the `a` element wrapping around icon. If no unit, `px` will be added.
@@ -118,27 +120,27 @@
 			width: $width + 0px;
 			height: $height + 0px;
 		}
-	} 
+	}
 }
 
 // Themes
 @mixin _oShareThemeDefault {
 	@include oShareSetBackground($background: $o-share-icon-palette);
-	@include oShareSetHover($hover: $o-share-icon-palette);		
+	@include oShareSetHover($hover: $o-share-icon-palette);
 }
 
 @mixin _oShareThemeLight {
 	@include oShareSetBackground($background: 'grey-tint1')
-	@include oShareSetHover($hover: $o-share-icon-palette);	
+	@include oShareSetHover($hover: $o-share-icon-palette);
 }
 
 @mixin _oShareThemeDark {
 	@include oShareSetBackground($background: 'transparent');
-	@include oShareSetBorder($border: 1px solid #fff);	
+	@include oShareSetBorder($border: 1px solid #fff);
 }
 
 @mixin _oShareThemeTint {
 	@include oShareSetBackground($background: 'transparent');
 	@include oShareSetHover($hover: 'pink-tint2');
-	@include oShareSetBorder($radius: 3);	
+	@include oShareSetBorder($radius: 3);
 }
