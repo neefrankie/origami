@@ -1,10 +1,7 @@
 {% extends "base.html" %}
-{% if share.svgSymbol %}
-	{% block css%}
-		<link rel="stylesheet" type="text/css" href="styles/demo-svg-symbol.css">
-	{% endblock%}
-{% endif %}
-
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="styles/demo-svg.css">
+{% endblock %}
 {% block body %}
-	{% include "o-share.html" %}
+	{% include "partials/o-share.html" %}
 {% endblock %}
