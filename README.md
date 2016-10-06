@@ -1,4 +1,8 @@
 ## Usage
+### SCSS API
+- `@mixin socialImagesGetSassvg($social-name, $color:null, $container-width: 20, $container-height: null, $apply-base-styles: true)`
+- `@mixin socialImagesGetImage($social-name, $color:null, $container-width: 20, $container-height: null, $apply-base-styles: true)`
+- `@mixin socialImagesGetSprite($icon-name, $color: null, $width: 20, $height:null)`
 
 ## Commands
 ### Generate all svg and png files
