@@ -1,5 +1,5 @@
 {
-  "name": "social-images",
+  "name": "ftc-social-images",
   "description": "FTC social images",
   "main": [
     "main.scss"
@@ -12,7 +12,7 @@
     "social",
     "share"
   ],
-  "homepage": "https://github.com/FTChinese/social-images",
+  "homepage": "https://github.com/FTChinese/ftc-social-images",
   "ignore": [
     "**/.*",
     "node_modules",

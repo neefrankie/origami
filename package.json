@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FTChinese/social-images.git"
+    "url": "git+https://github.com/FTChinese/ftc-social-images.git"
   },
   "keywords": [
     "social",
@@ -22,9 +22,9 @@
   "author": "weiguo.ni",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/FTChinese/social-images/issues"
+    "url": "https://github.com/FTChinese/ftc-social-images/issues"
   },
-  "homepage": "https://github.com/FTChinese/social-images#readme",
+  "homepage": "https://github.com/FTChinese/ftc-social-images#readme",
   "devDependencies": {
     "browser-sync": "^2.16.0",
     "co": "^4.6.0",
