@@ -1,4 +1,5 @@
-const fs = require('fs');
+const promisify = require('promisify-node')
+const fs = promisify('fs');
 const path = require('path');
 const url = require('url');
 const isThere = require('is-there');
@@ -6,7 +7,7 @@ const co = require('co');
 const mkdirp = require('mkdirp');
 const str = require('string-to-stream');
 const helper = require('./helper');
-// const data = null;
+const data = require('./demos/src/data');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -53,31 +54,34 @@ gulp.task('html', () => {
     if (process.env.NODE_ENV === 'prod') {
       embedded = true;
     }
-    const data = yield helper.readJson('demos/src/data.json');
 
     const origami = yield helper.readJson('origami.json');
 
     const demos = origami.demos;
 
-    const htmlString = yield Promise.all(demos.map(function(demo) {
-      
-      const template = path.basename(demo.template);
+    const renderResults = yield Promise.all(demos.map(function(demo) {
+
+      const template = demo.template;
       console.log(`Using template "${template}" for "${demo.name}"`);
 
       const context = {
         pageTitle: demo.name,
         description: demo.description,
-        share: Object.assign(data, demo),
+        share: {
+          items: data,
+          theme: demo.theme,
+          svgSymbol: demo.svgSymbol
+        },
         embedded: embedded
       };
 
-      return helper.render(template, context);
+      return helper.render(template, context, demo.name);
     }));
 
-    demos.forEach(function(demo, i) {
-      str(htmlString[i])
-        .pipe(fs.createWriteStream('.tmp/' + demo.name + '.html'));
-    });     
+    yield Promise.all(renderResults.map(result => {
+      const dest = `.tmp/${result.name}.html`;
+      return fs.writeFile(dest, result.content, 'utf8');
+    }));
   })
   .then(function(){
     browserSync.reload('*.html');
@@ -154,9 +158,9 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'webpack', () => {
   gulp.watch(['demos/src/*.{html,json}', 'partials/*.html'], gulp.parallel('html'));
 
   gulp.watch([
-    'demos/src/*.scss', 
-    'src/scss/*.scss', 
-    '*.scss'], 
+    'demos/src/*.scss',
+    'src/scss/*.scss',
+    '*.scss'],
     gulp.parallel('styles')
   );
 
