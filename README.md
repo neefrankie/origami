@@ -1,10 +1,21 @@
-# ftc-logos
-FTC logos
+## Usage
 
-Plan:
+## Commands
+### Generate all svg and png files
 
-To move logo images from `ftc-icons` to this repos.
+`logo-list.json` specifies what kind of images will be generated. Each image may have different requirements as to their shape and background color. The `themes` field corresponds to these specifications. To generated all svg and png file as specified by this file:
+```
+npm run svgpng
+```
 
-Logos do not need to be converted to inlined scss, nor does it need to be included in svg symbol sprite.
+### Generate the svg and png of a single image
+```
+npm run single -- -i=image-name -b=background-color -f=foreground-color  -o=outputname
+```
 
-Only produce individual svg and png static file for each logo, possibly with custom themes supported.
+All arguments are optional. Omitted args will default to the svg's original setting.
+
+### Generate favicons
+```
+npm run fav
+```
