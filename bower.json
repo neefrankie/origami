@@ -1,7 +1,9 @@
 {
   "name": "ftc-logos",
   "description": "FTC logos",
-  "main": "index.js",
+  "main": [
+    "main.scss"
+  ],
   "authors": [
     "weiguo.ni"
   ],
@@ -16,6 +18,11 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
-  ]
+    "tests",
+    "demos",
+    "svg"
+  ],
+  "dependencies": {
+    "o-assets": "^3.0.2"
+  }
 }
