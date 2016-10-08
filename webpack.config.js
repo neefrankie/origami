@@ -1,5 +1,5 @@
 const path = require('path');
-const BowerWebpackPlugin = require('bower-webpack-plugin');
+// const BowerWebpackPlugin = require('bower-webpack-plugin');
 
 module.exports = {
 	entry: './demos/src/demo.js',
@@ -24,10 +24,10 @@ module.exports = {
 				}
 			}
 		]
-	},
+	}/*,
 	plugins: [
 		new BowerWebpackPlugin({
 			includes: /\.js$/
 		})
-	]
+	]*/
 };
