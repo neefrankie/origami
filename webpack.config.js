@@ -16,6 +16,7 @@ module.exports = {
 				test: /\.js$/,
 				include: [
 					path.resolve(__dirname, 'main.js'),
+					path.resolve(__dirname, 'src/js'),
 					path.resolve(__dirname, 'demos/src')
 				],
 				loader: 'babel',

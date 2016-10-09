@@ -1,7 +1,9 @@
 {
   "name": "ftc-toggle",
   "description": "FTC toggle component",
-  "main": "main.js",
+  "main": [
+    "main.js"
+  ],
   "authors": [
     "weiguo.ni"
   ],
@@ -20,6 +22,7 @@
     "demos"
   ],
   "devDependencies": {
-    "ftc-logos": "^0.3.0"
+    "ftc-logos": "^0.3.0",
+    "o-colors": "^3.5.2"
   }
 }

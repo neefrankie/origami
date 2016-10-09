@@ -1,3 +1,9 @@
-import Toggle from '../../main.js';
+import Toggle, {ToggleMenu} from '../../main.js';
 
-Toggle.init();
+new Toggle('.toggle [data-o-component="o-toggle"]');
+
+const menu = new ToggleMenu('.menu', {
+	autoCollapse: true,
+	autoCollapseAnchor: 'menu-link'
+});
+console.log(menu);
