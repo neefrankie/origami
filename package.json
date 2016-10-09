@@ -1,6 +1,6 @@
 {
   "name": "ftc-toggle",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "FTC toggle component",
   "main": "main.js",
   "scripts": {
