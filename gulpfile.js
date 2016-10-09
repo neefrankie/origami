@@ -168,7 +168,7 @@ gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
 // dist js to be directly used in the browser.
 gulp.task('rollup', () => {
   return rollup({
-    entry: './src/js/share.js',
+    entry: './src/js/toggle.js',
     plugins: [buble()],
     cache: cache,
     // external: ['dom-delegate']
@@ -177,12 +177,12 @@ gulp.task('rollup', () => {
 
     return bundle.write({
       format: 'iife',
-      moduleName: 'Share',
-      moduleId: 'ftc-share',
+      moduleName: 'Toggle',
+      moduleId: 'ftc-toggle',
       // globals: {
       //   'dom-delegate': 'domDelegate.Delegate'
       // },
-      dest: 'dist/ftc-share.js',
+      dest: 'dist/ftc-toggle.js',
       sourceMap: true,
     });
   });
