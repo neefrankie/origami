@@ -1,7 +1,6 @@
 const promisify = require('promisify-node')
 const fs = promisify('fs');
 const path = require('path');
-const url = require('url');
 const isThere = require('is-there');
 const co = require('co');
 const mkdirp = require('mkdirp');
