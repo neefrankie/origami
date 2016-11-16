@@ -32,6 +32,11 @@ class Toggle {
     }
     this.state = false;
 
+    this.callback = config.callback;
+    if (typeof this.callback === 'string') {
+      this.callback = new Function(this.callback);
+    }
+
     this.targetEl = config.target;
     if (!(this.targetEl instanceof HTMLElement)) {
       this.targetEl = document.querySelector(this.targetEl);
@@ -46,7 +51,6 @@ class Toggle {
   }
 
   toggle(e) {
-    e && e.preventDefault();
     /** 
     * `toggle` adds the class name and returns true if it not exists; returns false if it exists then removes it.
     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList}
@@ -54,6 +58,9 @@ class Toggle {
     this.state = this.targetEl.classList.toggle('o-toggle--active');
     this.toggleEl.setAttribute('aria-expanded', this.state);
     this.targetEl.setAttribute('aria-hidden', !this.state);
+
+    e && e.preventDefault();
+    this.callback && this.callback(this.state ? 'open' : 'close', e, this.targetEl);
   }
 
   destroy() {
