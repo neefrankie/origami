@@ -154,8 +154,4 @@ var data = {
 	]
 }
 
-function getFooterData() {
-	return data;
-}
-
-module.exports = getFooterData();
+module.exports = data;

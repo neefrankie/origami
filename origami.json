@@ -17,19 +17,19 @@
 		{
 			"name": "footer",
 			"template": "demos/src/footer.html",
-			"data": "lib/data.js",
+			"theme": "theme-dark",
 			"description": ""
 		},
 		{
 			"name": "footer-light",
-			"template": "demos/src/footer-light.html",
-			"data": "lib/data.js",
+			"template": "demos/src/footer.html",
+			"theme": "theme-light",
 			"description": ""
 		},
 		{
 			"name": "simple-footer",
 			"template": "demos/src/simple-footer.html",
-			"data": "lib/data.js",
+			"theme": "theme-light",
 			"description": ""
 		}
 	]
