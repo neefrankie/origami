@@ -1,17 +1,17 @@
 ## Get the footer data
 
-To use the front scss and js, install with bower:
+Install with bower:
 ```
 bower install ftc-footer --save
 ```
-Set up you scss and js transpiler to search the `bower_components` directory.
 
-To use the default data to build templates for front-end:
+In node-sass setting, add:
 ```
-npm install ftc-footer --save-dev
+includePaths: ['bower_components']
 ```
 
-`require` the package's exported data:
+To use the default data for templates:
+
 ```
-const ftcFooter = require('ftc-footer');
+const footerData = require('bower_components/ftc-footer');
 ```
