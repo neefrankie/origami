@@ -4,7 +4,7 @@ const url = require('url');
 const isThere = require('is-there');
 const co = require('co');
 const nunjucks = require('nunjucks');
-const footerData = require('./src/js/data.js');
+const footer = require('./src/js/data.js');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -55,14 +55,12 @@ gulp.task('html', () => {
   return co(function *() {
     const destDir = '.tmp';
 
+    const embedded = process.env.NODE_ENV === 'prod';
+
     try {
       yield fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK);
     } catch (err) {    
       yield fs.mkdir(destDir);
-    }
-
-    if (process.env.NODE_ENV === 'prod') {
-      embedded = true;
     }
 
     const origami = yield fs.readFile('origami.json', 'utf8');
@@ -71,12 +69,15 @@ gulp.task('html', () => {
 
     const renderResults = yield Promise.all(demos.map(demo => {
       // Use demo.theme to override default theme
-      Object.assign(footerData, demo);
+      Object.assign(footer, demo);
       const context = {
         pageTitle: demo.name,
-        footer: footerData,
-        embedded: embedded
+        footer,
+        embedded
       }
+      // const context = deepMerge({footer}, demo);
+      // Object.assign(context, {embedded});
+
       return render(demo.template, context, demo.name);
     }));
 
