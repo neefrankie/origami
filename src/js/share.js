@@ -21,24 +21,30 @@ class Share {
 		} else if (!(rootEl instanceof HTMLElement)) {
 			rootEl = document.querySelector(rootEl);
 		}
-		rootEl.setAttribute('data-o-share--js', '');
 
-		this.rootEl = rootEl;
-		if (!config) {
-			config = {};
-			config.links = rootEl.hasAttribute('data-o-share-links') ? rootEl.getAttribute('data-o-share-links').split(' ') : defaultConfig.links;
-			config.url = rootEl.getAttribute('data-o-share-url') || defaultConfig.url;
-			config.title = rootEl.getAttribute('data-o-share-title') || defaultConfig.title;
-			config.summary = rootEl.getAttribute('data-o-share-summary') || defaultConfig.summary;
-		}
-		this.config = config;
+    if (!config) {
+      config = {};
+      Array.prorotype.forEach.call(rootEl.attributes, function (attr) {
+      	if (attr.name.indexOf('data-o-share') === 0) {
+          const key = attr.name.replace('data-o-share-', '');
+          try {
+            config[key] = JSON.parse(attr.value.replace(/\'/g, '"'));
+          } catch (e) {
+            config[key] = attr.value;
+          }
+        }
+      });
+    }
+
+    this.rootEl = rootEl;
+		this.config = Object.assign(config, defaultConfig);
 		this.openWindows = {};
-
 
 		if (rootEl.children.length === 0) {
 			this.handleClick = this.handleClick.bind(this);
 			this.render();
 			this.rootEl.addEventListener('click', this.handleClick);
+			this.rootEl.setAttribute('data-o-share--js', '');
 		}
 	}
 

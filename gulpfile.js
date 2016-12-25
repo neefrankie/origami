@@ -36,9 +36,6 @@ gulp.task('dev', function(done) {
 });
 
 gulp.task('html', () => {
-// determine whether include `/api/resize-iframe.js` listed in `ftc-components`.
-
-
   return co(function *() {
     const destDir = '.tmp';
 
@@ -165,22 +162,12 @@ gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
 // dist js to be directly used in the browser.
 gulp.task('rollup', () => {
   return rollup({
-    entry: './src/js/share.js',
-    plugins: [buble()],
+    entry: './src/js/generateHtml.js',
     cache: cache,
-    // external: ['dom-delegate']
   }).then(function(bundle) {
-    cache = bundle;
-
     return bundle.write({
-      format: 'iife',
-      moduleName: 'Share',
-      moduleId: 'ftc-share',
-      // globals: {
-      //   'dom-delegate': 'domDelegate.Delegate'
-      // },
-      dest: 'dist/ftc-share.js',
-      sourceMap: true,
+      format: 'cjs',
+      dest: 'dist/generateHtml.js',
     });
   });
 });

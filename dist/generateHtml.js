@@ -1,3 +1,5 @@
+'use strict';
+
 const listItem = social => `
 	<li class="o-share__action o-share__${social.name}">
 		<a href="${social.url}" target="_blank" title="分享到${social.text}">
@@ -54,6 +56,6 @@ function generateHtml (
 		: socialUrls;
 		
 	return buildSocialList(socials);
-};
+}
 
-export default generateHtml;
+module.exports = generateHtml;
