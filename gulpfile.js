@@ -1,13 +1,9 @@
-const promisify = require('promisify-node')
-const fs = promisify('fs');
+const fs = require('mz/fs');
 const path = require('path');
-const url = require('url');
-const isThere = require('is-there');
 const co = require('co');
-const mkdirp = require('mkdirp');
-const str = require('string-to-stream');
+const deepMerge = require('deepmerge');
 const helper = require('./helper');
-const data = require('./demos/src/data');
+const share = require('./demos/src/data');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -41,39 +37,27 @@ gulp.task('dev', function(done) {
 
 gulp.task('html', () => {
 // determine whether include `/api/resize-iframe.js` listed in `ftc-components`.
-  var embedded = false;
+
 
   return co(function *() {
     const destDir = '.tmp';
 
-    if (!isThere(destDir)) {
-      mkdirp(destDir, (err) => {
-        if (err) console.log(err);
-      });
-    }
-    if (process.env.NODE_ENV === 'prod') {
-      embedded = true;
-    }
+    const embedded = process.env.NODE_ENV === 'prod';
 
-    const origami = yield helper.readJson('origami.json');
+    try {
+      yield fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK);
+    } catch (err) {    
+      yield fs.mkdir(destDir);
+    }    
 
-    const demos = origami.demos;
+    const origami = yield fs.readFile('origami.json', 'utf8');
 
-    const renderResults = yield Promise.all(demos.map(function(demo) {
+    const demos = JSON.parse(origami).demos;
 
-      const template = demo.template;
-      console.log(`Using template "${template}" for "${demo.name}"`);
+    const renderResults = yield Promise.all(demos.map(demo => {
 
-      const context = {
-        pageTitle: demo.name,
-        description: demo.description,
-        share: {
-          items: data,
-          theme: demo.theme,
-          svgSymbol: demo.svgSymbol
-        },
-        embedded: embedded
-      };
+      const context = deepMerge({share}, demo);
+      Object.assign(context, {embedded});
 
       return helper.render(template, context, demo.name);
     }));

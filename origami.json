@@ -20,66 +20,67 @@
 		{
 			"name": "share",
 			"template": "demos/src/share-js.html",
-			"data": "demos/src/data.json",
 			"description": "default theme",
-			"svgSymbol": false,
-			"theme": "theme-default"
+			"share": {
+				"useSvgSymbol": false,
+				"theme": "theme-default"
+			}
 		},
 		{
 			"name": "share-dark",
 			"template": "demos/src/share-js.html",
-			"data": "demos/src/data.json",
 			"description": "dark theme",
-			"svgSymbol": false,
-			"theme": "theme-dark"
+			"share": {
+				"useSvgSymbol": false,
+				"theme": "theme-dark"
+			}
 		},
 		{
 			"name": "share-light",
 			"template": "demos/src/share-js.html",
-			"data": "demos/src/data.json",
 			"description": "light theme",
-			"svgSymbol": false,
-			"theme": "theme-light"
-		},
-		{
-			"name": "share-tint",
-			"template": "demos/src/share-js.html",
-			"data": "demos/src/data.json",
-			"description": "tint theme",
-			"svgSymbol": false,
-			"theme": "theme-tint"
+			"share": {
+				"useSvgSymbol": false,
+				"theme": "theme-light"
+			}
 		},
 		{
 			"name": "svg-symbol",
 			"template": "demos/src/share.html",
-			"data": "demos/src/data.json",
 			"description": "use svg symbol as icon image",
-			"svgSymbol": true,
-			"theme": "symbol-default"
+			"share": {
+				"useSvgSymbol": true,
+				"theme": "symbol-default"
+			}
 		},
 		{
 			"name": "svg-symbol-light",
 			"template": "demos/src/share.html",
-			"data": "demos/src/data.json",
 			"description": "use svg symbol as icon image",
-			"svgSymbol": true,
-			"theme": "symbol-light"
+			"share": {
+				"useSvgSymbol": true,
+				"theme": "symbol-light"	
+			}
+			
 		},
 		{
 			"name": "svg-symbol-dark",
 			"template": "demos/src/share.html",
-			"data": "demos/src/data.json",
 			"description": "use svg symbol as icon image",
-			"svgSymbol": true,
-			"theme": "symbol-dark"
+			"share": {
+				"useSvgSymbol": true,
+				"theme": "symbol-dark"	
+			}
+			
 		},
 		{
 			"name": "svg-symbol-tint",
 			"template": "demos/src/share.html",
-			"data": "demos/src/data.json",
 			"description": "use svg symbol as icon image",
-			"svgSymbol": true,
-			"theme": "symbol-tint"
+			"share": {
+				"useSvgSymbol": true,
+				"theme": "symbol-tint"
+			}
 		}
 	]
 }
