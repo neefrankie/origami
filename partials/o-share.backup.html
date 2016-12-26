@@ -1,0 +1,15 @@
+<ul>
+	{% for item in share.items %}
+		<li class="o-share__action o-share__{{ item.name }}">
+			<a href="{{ item.url }}" target="_blank" title="分享到{{ item.text }}">
+				<i>{{ item.name }}</i>
+
+				{% if share.sprite %}
+				<svg><use xlink:href="/bower_components/ftc-social-images/static/sprite/all.svg#{{ item.name }}"></use></svg>
+				{% endif %}
+
+			</a>
+		</li>
+	{% endfor %}
+</ul>
+
