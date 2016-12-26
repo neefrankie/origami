@@ -1,0 +1,15 @@
+@mixin oShare($theme: '') {
+	@include oShareBase;
+
+	@if $theme == '' {
+		@each $theme-name in $_o-share-themes {
+			@include _oShareGetThemeMixin($theme-name);
+		}
+	} @else {
+		@if index($_o-share-themes, $theme) {
+			@include _oShareGetThemeMixin($theme-name);
+		} @else {
+			@error "There is no theme '#{$theme}' available in ftc-share.";
+		}
+	}
+}

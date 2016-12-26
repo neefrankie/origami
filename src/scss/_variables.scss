@@ -29,3 +29,5 @@ $o-share-icon-palette: (
 ) !default;
 
 $o-share-icon-names: map-keys($o-share-icon-palette) !default;
+
+$_o-share-themes: ('default', 'light', 'dark');

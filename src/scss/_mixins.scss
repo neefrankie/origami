@@ -1,5 +1,5 @@
 /// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
-@mixin oShareSetIcons($foreground, $classname: o-share) {
+@mixin oShareSetIcons($foreground: 'white', $classname: o-share) {
 // set the icon's shape and color
 	@if type-of($foreground) == map {
 		@each $icon, $fillcolor in $foreground {
@@ -23,29 +23,36 @@
 }
 
 /// @param {String} $background - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
-@mixin oShareSetBackground($background, $classname: o-share) {
+@mixin oShareSetLinkStyle($background, $border: null, $classname: o-share) {
 
 	@if type-of($background) == map {
 		@each $icon, $color in $background {
 			.#{$classname}__#{$icon} a {
 				background-color: $color;
+				@if $border != null {
+					border: $border;
+				}
 			}
 		}
 	} @else {
-
+// If $background is a string, it should be one of the o-colors palette key.
 		$color: if(type-of($background) == string, oColorsGetPaletteColor($background), $background);
 
 		.#{$classname}__action a {
 			background-color: $color;
+			@if $border != null {
+				border: $border;
+			}
 		}
 	}
 }
 
-@mixin oShareSetHover($hover, $classname: o-share) {
+// Set foreground and background color on <a> tag.
+@mixin oShareSetLinkHover($background, $classname: o-share) {
 
-	@if type-of($hover) == map {
+	@if type-of($background) == map {
 
-		@each $icon, $color in $hover {
+		@each $icon, $color in $background {
 			.#{$classname}__#{$icon} a:hover {
 				background-color: $color;
 			}
@@ -53,94 +60,10 @@
 
 	} @else {
 
-		$color: if(type-of($hover) == string, oColorsGetPaletteColor($hover), $hover);
+		$color: if(type-of($background) == string, oColorsGetPaletteColor($background), $hover);
 
 		.#{$classname}__action a:hover {
 			background-color: $color;
 		}
 	}
-}
-
-/// @param {Number} $radius - A number in px or percent. This will set the border-radius of the `a` element wrapping around icon. If no unit, `px` will be added.
-@mixin oShareSetBorder($border: null, $radius: null, $classname: o-share) {
-	.#{$classname}__action a {
-		@if $border != null {
-			border: $border;
-		}
-		@if $radius != null {
-			@if unitless($radius) {
-				$radius: $radius + 0px;
-			}
-			border-radius: $radius;
-		}
-	}
-}
-
-/// The following mixin could be used to set every instance of `o-share` separately.
-
-// Use it to customise the look and feel of all icons,
-//
-// @example
-// oShareSetIconStyle {
-//	padding: 10px;
-// 	background-color: #000000;
-// 	border-radius: 50%;
-// 	i {
-// 		width: 30px;
-// 		height: 30px;
-// 	}
-// }
-@mixin oShareCustomBase($classname: o-share) {
-	.#{$classname}__action {
-		a {
-			@content;
-		}
-	}
-}
-
-// Some helper mixins.
-/// @param {Number} $padding - This is the padding of `a` element containing the icon element. You can also overwrite the global variable `$o-share-link-padding` at the beginning of you file.
-@mixin oShareSetLinkPadding($padding, $classname: o-share) {
-	.#{$classname}__action {
-		a {
-			padding: $padding + 0px;
-		}
-	}
-}
-
-/// @param {Number} $width - This is the width to set the icon containing element to. Defaults to 24px set by `$o-share-icon-size`.
-/// @param {Number} $height - This is the height to set the icon containing element to. Defaults to null, and will use the value of $width
-@mixin oShareSetIconSize($width, $height:null, $classname: o-share) {
-
-	@if ($height == null) {
-		$height: $width
-	}
-	.#{$classname}__action {
-		i {
-			width: $width + 0px;
-			height: $height + 0px;
-		}
-	}
-}
-
-// Themes
-@mixin _oShareThemeDefault {
-	@include oShareSetBackground($background: $o-share-icon-palette);
-	@include oShareSetHover($hover: $o-share-icon-palette);
-}
-
-@mixin _oShareThemeLight {
-	@include oShareSetBackground($background: 'grey-tint1')
-	@include oShareSetHover($hover: $o-share-icon-palette);
-}
-
-@mixin _oShareThemeDark {
-	@include oShareSetBackground($background: 'transparent');
-	@include oShareSetBorder($border: 1px solid #fff);
-}
-
-@mixin _oShareThemeTint {
-	@include oShareSetBackground($background: 'transparent');
-	@include oShareSetHover($hover: 'pink-tint2');
-	@include oShareSetBorder($radius: 3);
 }

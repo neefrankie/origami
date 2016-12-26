@@ -1,0 +1,36 @@
+// Themes
+// Here we just set background, border and hover on the <a> tag
+// Background image will be set separately on <i> tag
+@mixin oShareDefault {
+	.o-share--theme-default {
+		@include oShareSetIcons;
+		@include oShareSetLinkStyle($background: $o-share-icon-palette);
+	}	
+}
+
+@mixin oShareLight {
+	.o-share--theme-light {
+		@include oShareSetIcons($foreground: 'pink-tint4');
+		@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid oColorsGetPaletteColor('pink-tint2'));
+		@include oShareSetLinkHover($background: 'pink-tint2');	
+	}
+}
+
+@mixin oShareDark {
+	.o-share--theme-dark {
+		@include oShareSetIcons
+		@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid #fff);
+	}
+	
+}
+
+
+@mixin _oShareGetThemeMixin($theme) {
+	@if $theme == 'default' {
+		@include oShareDefault;
+	}@else if $theme == 'light' {
+		@include oShareLight;
+	}@else if $theme == 'dark' {
+		@include oShareDark;
+	}
+}
