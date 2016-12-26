@@ -5,11 +5,11 @@ body {
 }
 
 @include oShareSymbolBase;
-@include oShareSymbolDefault;
-@include oShareSymbolLight;
+// @include oShareSymbolDefault;
+// @include oShareSymbolLight;
 
-.o-share--symbol-dark {
-	background-color: #000;
-}
-@include oShareSymbolDark;
-@include oShareSymbolTint;
+// .o-share--symbol-dark {
+// 	background-color: #000;
+// }
+// @include oShareSymbolDark;
+// @include oShareSymbolTint;
