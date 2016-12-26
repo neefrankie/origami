@@ -42,7 +42,8 @@ function share(config) {
 
 if (require.main === module) {
 	share({
-		outDir: 'partials'
+		outDir: 'partials',
+		sprite: true
 	});
 }
 
