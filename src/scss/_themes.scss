@@ -3,14 +3,24 @@
 // Background image will be set separately on <i> tag
 @mixin oShareDefault {
 	.o-share--theme-default {
-		@include oShareSetIcons;
+		@if $o-share-use-sprite == false {
+			@include oShareSetIcons;
+		} @else {
+			@include oShareSetSprite;
+		}
+		
 		@include oShareSetLinkStyle($background: $o-share-icon-palette);
 	}	
 }
 
 @mixin oShareLight {
 	.o-share--theme-light {
-		@include oShareSetIcons($foreground: 'pink-tint4');
+		@if $o-share-use-sprite == false {
+			@include oShareSetIcons($color: 'pink-tint4');
+		} @else {
+			@include oShareSetSprite($color: 'pink-tint4');
+		}
+		
 		@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid oColorsGetPaletteColor('pink-tint2'));
 		@include oShareSetLinkHover($background: 'pink-tint2');	
 	}
@@ -18,7 +28,12 @@
 
 @mixin oShareDark {
 	.o-share--theme-dark {
-		@include oShareSetIcons
+		@if $o-share-use-sprite == false {
+			@include oShareSetIcons;
+		} @else {
+			@include oShareSetSprite;
+		}
+
 		@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid #fff);
 	}
 	

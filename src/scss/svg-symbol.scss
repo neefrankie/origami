@@ -1,4 +1,4 @@
-@mixin oShareSymbolBase($classname: o-share) {
+@mixin oShareSpriteBase($classname: o-share) {
 	.#{$classname} {
 		display: inline-block;
 		ul {
@@ -37,27 +37,8 @@
 	}
 }
 
-@mixin oShareSymbolDefault {
-	.o-share--symbol-default {
-		@include _oShareThemeDefault;
-	}
-}
-
-@mixin oShareSymbolLight {
-	.o-share--symbol-light {
-		@include _oShareThemeLight;
-	}
-}
-
-@mixin oShareSymbolDark {
-	.o-share--symbol-dark {
-		@include _oShareThemeDark;
-	}
-}
-
 @mixin oShareSymbolTint {
 	.o-share--symbol-tint {
-		@include _oShareThemeTint;
 
 		.o-share__action svg {
 			fill: oColorsGetPaletteColor('pink-tint4');

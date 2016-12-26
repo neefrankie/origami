@@ -20,19 +20,33 @@
 	// Float everything to avoid gaps in HTML.
 		float: left;
 		margin: 0 5px 0 0;
-		
-		i {
-			float: left;
-			background-size: 100% 100%;
-			background-repeat: no-repeat;
-			background-position: 50%;
+		@if $o-share-use-sprite == false {
+			i {
+				float: left;
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				background-position: 50%;
 
-			width: $o-share-icon-size;
-			height: $o-share-icon-size;
-			text-indent: -($o-share-icon-size * 1000);
-			white-space: nowrap;
-			overflow: hidden;
+				width: $o-share-icon-size;
+				height: $o-share-icon-size;
+				text-indent: -($o-share-icon-size * 1000);
+				white-space: nowrap;
+				overflow: hidden;
+			}			
+		} @else {
+			
+			svg {
+				float: left;
+				width: $o-share-icon-size;
+				height: $o-share-icon-size;
+				background-color: transparent;
+			}
+
+			svg + i {
+				display: none;
+			}
 		}
+
 		a {
 			float: left;
 			text-decoration: none;

@@ -1,8 +1,8 @@
 /// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
-@mixin oShareSetIcons($foreground: 'white', $classname: o-share) {
+@mixin oShareSetIcons($color: 'white', $classname: o-share) {
 // set the icon's shape and color
-	@if type-of($foreground) == map {
-		@each $icon, $fillcolor in $foreground {
+	@if type-of($color) == map {
+		@each $icon, $fillcolor in $color {
 			.#{$classname}__#{$icon} i {
 				// background-image: sassvg($icon, $fillcolor: $color);
 				@include socialImagesGetSassvg($icon, $color: $fillcolor, $apply-base-styles: false);
@@ -10,14 +10,24 @@
 		}
 	} @else {
 
-		$fillcolor: if(type-of($foreground) == string, oColorsGetPaletteColor($foreground), $foreground);
+		$fillcolor: if(type-of($color) == string, oColorsGetPaletteColor($color), $color);
 
 		@each $icon in $o-share-icon-names {
 
 			.#{$classname}__#{$icon} i {
-				// background-image: sassvg($icon, $fillcolor: $color);
 				@include socialImagesGetSassvg($icon, $color: $fillcolor, $apply-base-styles: false);
 			}
+		}			
+	}
+}
+
+@mixin oShareSetSprite($color: 'white', $classname: o-share) {
+
+	$fillcolor: if(type-of($color) == string, oColorsGetPaletteColor($color), $color);
+
+	.#{$classname}__action {
+		svg {
+			fill: $fillcolor
 		}
 	}
 }

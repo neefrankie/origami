@@ -8,10 +8,10 @@
 
 @import "src/scss/base";
 @import "src/scss/share";
-@import "src/scss/svg-symbol";
 
 @if $o-share-is-silent == false {
 	@include oShare;
 	
 	$o-share-is-silent: true !global;
+	$o-share-user-sprite: false !global;
 }
