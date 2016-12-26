@@ -18,9 +18,9 @@ function buildSocialList(socials, sprite) {
 // This is an arrow function. It accepts a `social` object, returns a constructed string.
   const listItem = (social) => `
   <li class="o-share__action o-share__${social.name}">
-    <a href="${social.url}" target="_blank" title="分享到${social.text}">
-      <i>${social.text}</i>
+    <a href="${social.url}" target="_blank" title="分享到${social.text}">    
       ${spriteUrl ? `<svg><use xlink:href="${spriteUrl}#${social.name}"></use></svg>` : ''}
+      <i>${social.text}</i>
     </a>
   </li>
  `;
