@@ -4,12 +4,14 @@
 @import "src/scss/variables";
 @import "src/scss/color";
 @import "src/scss/mixins";
+@import "src/scss/themes";
+
+@import "src/scss/base";
 @import "src/scss/share";
 @import "src/scss/svg-symbol";
 
-@if (not $o-share-is-silent) {
-	@include oShareBase;
-	@include oShareThemeDefault;
-	@include oShareThemeLight;
-	@include oShareThemeDark;
+@if $o-share-is-silent == false {
+	@include oShare;
+	
+	$o-share-is-silent: true !global;
 }
