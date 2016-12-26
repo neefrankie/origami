@@ -2,25 +2,50 @@ const fs = require('mz/fs');
 const path = require('path');
 const co = require('co');
 const deepMerge = require('deepmerge');
-const helper = require('./helper');
-const share = require('./demos/src/data');
+const nunjucks = require('nunjucks');
+const env = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(
+    [process.cwd()],
+    {noCache: true, }
+  ),
+  {autoescape: false}
+);
+
+function render(template, context, destName) {
+  return new Promise(function(resolve, reject) {
+    env.render(template, context, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({
+          name: destName,
+          content: result
+        });
+      }
+    });
+  });
+}
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
-
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
-
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
-
 const rollup = require('rollup').rollup;
-const buble = require('rollup-plugin-buble');
-var cache;
+const babel = require('rollup-plugin-babel');
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
+
+const share = {
+  title: encodeURIComponent("FTC share components"),
+  url: encodeURIComponent("http://interactive.ftchinese.com/components/ftc-share.html"),
+  summary: encodeURIComponent("This is the demo page for ftc share component")
+};
+
+var cache;
 
 process.env.NODE_ENV = 'dev';
 
@@ -56,7 +81,7 @@ gulp.task('html', () => {
       const context = deepMerge({share}, demo);
       Object.assign(context, {embedded});
 
-      return helper.render(template, context, demo.name);
+      return render(demo.template, context, demo.name);
     }));
 
     yield Promise.all(renderResults.map(result => {
@@ -102,6 +127,35 @@ gulp.task('eslint', () => {
     .pipe($.eslint.failAfterError());
 });
 
+gulp.task('scripts', () => {
+  
+  return rollup({
+    entry: 'demos/src/demo.js',
+    plugins: [
+      babel({
+        exclude: 'node_modules/**'
+      })
+    ],
+    cache: cache
+  }).then(function(bundle) {
+    // Cache for later use
+    cache = bundle;
+
+    // Or only use this
+    return bundle.write({
+      dest: '.tmp/scripts/demo.js',
+      format: 'iife',
+      sourceMap: true
+    });
+  })
+  .then(() => {
+    browserSync.reload();
+  })
+  .catch(err => {
+    console.log(err);
+  });
+});
+
 gulp.task('webpack', (done) => {
   if (process.env.NODE_ENV === 'prod') {
     delete webpackConfig.watch;
@@ -124,7 +178,7 @@ gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', gulp.parallel('html', 'styles', 'webpack', () => {
+gulp.task('serve', gulp.parallel('html', 'styles', 'scripts', () => {
   browserSync.init({
     server: {
       baseDir: ['.tmp'],
@@ -136,13 +190,23 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'webpack', () => {
     }
   });
 
-  gulp.watch(['demos/src/*.{html,json}', 'partials/*.html'], gulp.parallel('html'));
+  gulp.watch([
+    'demos/src/*.{html,json}', 
+    'partials/*.html'], 
+    gulp.parallel('html')
+  );
 
   gulp.watch([
     'demos/src/*.scss',
     'src/scss/*.scss',
     '*.scss'],
     gulp.parallel('styles')
+  );
+
+  gulp.watch([
+    'demos/src/*.js',
+    'src/js/*.js'],
+    gulp.parallel('scripts')
   );
 
 }));
@@ -171,3 +235,7 @@ gulp.task('rollup', () => {
     });
   });
 });
+
+gulp.task('cjs', gulp.series('rollup', () => {
+  return gulp.watch('./src/js/generateHtml.js', gulp.parallel('rollup'));
+}));
