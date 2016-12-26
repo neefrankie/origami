@@ -1,16 +1,19 @@
-const listItem = social => `
-	<li class="o-share__action o-share__${social.name}">
-		<a href="${social.url}" target="_blank" title="分享到${social.text}">
-			<i>${social.text}</i>
-		</a>
-	</li>
-`;
+function listItem(social) {
+  const list = `
+  <li class="o-share__action o-share__${social.name}">
+    <a href="${social.url}" target="_blank" title="分享到${social.text}">
+      <i>${social.text}</i>
+    </a>
+  </li>
+ `;
 
-const buildSocialList = socials => `
-	<ul>
-		${socials.map(listItem)}
-	</ul>
-`;
+  return list;
+}
+
+function buildSocialList(socials) {
+  const lists = socials.map(listItem);
+  return `<ul>${lists.join('')}</ul>`;
+}
 
 /*
  * @param {Object} config - optional
@@ -20,7 +23,7 @@ const buildSocialList = socials => `
  * @param {Array} config.links - ['wechat', 'weibo', 'linkedin', 'facebook', twitter], determine which social platform will be shown. If not specified, default to all.
  */
 function generateHtml (
-	{url='{{url}}', title='{{title}}', summary='{{summary}}', links=null} = config)  {
+	{url='{{share.url}}', title='{{share.title}}', summary='{{share.summary}}', links=null, sprite=false} = config)  {
 
 	const socialUrls = [
 		{
@@ -52,7 +55,7 @@ function generateHtml (
 	const socials = links 
 		? socialUrls.filter(social => links.indexOf(social.name) > -1)
 		: socialUrls;
-		
+
 	return buildSocialList(socials);
 };
 

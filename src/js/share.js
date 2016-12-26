@@ -8,12 +8,21 @@ function getOgContent(metaEl) {
 }
 
 // Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
-const defaultConfig = {
-	url: window.location.href || '',
+const shareConfigFallback = {
+	url: window.location.href,
 	summary: getOgContent('meta[property="og:description"]'),
 	title: getOgContent('meta[property="og:title"]')
 };
 
+/*
+ * @param {String | HTMLElement} rootEl - required
+ * @config {Object} config - optional
+ * @config {String} config.url - URL of the shared page.
+ * @config {String} config.summary - Story summary
+ * @config {String} config.title - Page title
+ * @config {Boolean | String} config.sprite - Use svg sprite in HTML tag. `true` to use default URL. `String` to customize the sprite file URL. Default `false`
+ * @config {Array} config.links - Optional. Determin which social platform to show. null for all. 
+ */
 class Share {
 	constructor(rootEl, config) {
 		if (!rootEl) {
@@ -24,7 +33,7 @@ class Share {
 
     if (!config) {
       config = {};
-      Array.prorotype.forEach.call(rootEl.attributes, function (attr) {
+      Array.prototype.forEach.call(rootEl.attributes, function (attr) {
       	if (attr.name.indexOf('data-o-share') === 0) {
           const key = attr.name.replace('data-o-share-', '');
           try {
@@ -37,7 +46,7 @@ class Share {
     }
 
     this.rootEl = rootEl;
-		this.config = Object.assign(config, defaultConfig);
+		this.config = Object.assign(config, shareConfigFallback);
 		this.openWindows = {};
 
 		if (rootEl.children.length === 0) {
