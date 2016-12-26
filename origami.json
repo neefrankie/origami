@@ -22,7 +22,7 @@
 			"template": "demos/src/share-js.html",
 			"description": "default theme",
 			"share": {
-				"useSvgSymbol": false,
+				"sprite": false,
 				"theme": "theme-default"
 			}
 		},
@@ -31,7 +31,7 @@
 			"template": "demos/src/share-js.html",
 			"description": "dark theme",
 			"share": {
-				"useSvgSymbol": false,
+				"spirte": false,
 				"theme": "theme-dark"
 			}
 		},
@@ -40,46 +40,36 @@
 			"template": "demos/src/share-js.html",
 			"description": "light theme",
 			"share": {
-				"useSvgSymbol": false,
+				"sprite": false,
 				"theme": "theme-light"
 			}
 		},
 		{
-			"name": "svg-symbol",
-			"template": "demos/src/share.html",
+			"name": "sprite",
+			"template": "demos/src/share-sprite.html",
 			"description": "use svg symbol as icon image",
 			"share": {
-				"useSvgSymbol": true,
-				"theme": "symbol-default"
+				"sprite": true,
+				"theme": "sprite-default"
 			}
 		},
 		{
-			"name": "svg-symbol-light",
-			"template": "demos/src/share.html",
+			"name": "sprite-dark",
+			"template": "demos/src/share-sprite.html",
 			"description": "use svg symbol as icon image",
 			"share": {
-				"useSvgSymbol": true,
-				"theme": "symbol-light"	
-			}
-			
-		},
-		{
-			"name": "svg-symbol-dark",
-			"template": "demos/src/share.html",
-			"description": "use svg symbol as icon image",
-			"share": {
-				"useSvgSymbol": true,
-				"theme": "symbol-dark"	
+				"sprite": true,
+				"theme": "sprite-dark"	
 			}
 			
 		},
 		{
-			"name": "svg-symbol-tint",
-			"template": "demos/src/share.html",
+			"name": "sprite-light",
+			"template": "demos/src/share-sprite.html",
 			"description": "use svg symbol as icon image",
 			"share": {
-				"useSvgSymbol": true,
-				"theme": "symbol-tint"
+				"sprite": true,
+				"theme": "sprite-light"	
 			}
 		}
 	]
