@@ -1,3 +1,4 @@
+import setDefault from './src/js/set-default.js';
 import generateHtml from './src/js/generateHtml.js';
 
 function getOgContent(metaEl) {
@@ -11,7 +12,8 @@ function getOgContent(metaEl) {
 const shareConfigFallback = {
   url: window.location.href,
   summary: getOgContent('meta[property="og:description"]'),
-  title: getOgContent('meta[property="og:title"]')
+  title: getOgContent('meta[property="og:title"]'),
+  sprite: false
 };
 
 /*
@@ -46,7 +48,7 @@ class Share {
     }
 
     this.rootEl = rootEl;
-    this.config = Object.assign(config, shareConfigFallback);
+    this.config = setDefault(config).to(shareConfigFallback);
     this.openWindows = {};
 
     if (rootEl.children.length === 0) {
