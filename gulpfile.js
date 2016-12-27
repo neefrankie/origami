@@ -99,7 +99,7 @@ gulp.task('html', () => {
 gulp.task('styles', function styles() {
   const DEST = '.tmp/styles';
 
-  return gulp.src('demos/src/*.scss')
+  return gulp.src('demos/src/demo.scss')
     .pipe($.changed(DEST))
     .pipe($.plumber())
     .pipe($.sourcemaps.init({loadMaps:true}))
