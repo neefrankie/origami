@@ -1,15 +1,21 @@
-@mixin oShare($theme: '') {
+@mixin oShare($themes: '', $sprite: false, $classname: 'o-share') {
 	@include oShareBase;
 
-	@if $theme == '' {
-		@each $theme-name in $_o-share-themes {
-			@include _oShareGetThemeMixin($theme-name);
-		}
+	$themes: if($themes == '', $_o-share-themes, $themes);
+
+	@if $sprite == false {
+		@each $theme in $themes {
+			.#{$classname}--theme-#{$theme} {
+				@include _oShareGetThemeMixin($theme);
+			}
+		}	
 	} @else {
-		@if index($_o-share-themes, $theme) {
-			@include _oShareGetThemeMixin($theme-name);
-		} @else {
-			@error "There is no theme '#{$theme}' available in ftc-share.";
+		$o-share-use-sprite: true !global;
+		@each $theme in $themes {
+			.#{$classname}--sprite-#{$theme} {
+				@include _oShareGetThemeMixin($theme);
+			}
 		}
+		$o-share-use-sprite: false !global;
 	}
 }

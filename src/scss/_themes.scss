@@ -2,50 +2,29 @@
 // Here we just set background, border and hover on the <a> tag
 // Background image will be set separately on <i> tag
 @mixin oShareDefault {
-	.o-share--theme-default {
-		@if $o-share-use-sprite == false {
-			@include oShareSetIcons;
-		} @else {
-			@include oShareSetSprite;
-		}
-		
-		@include oShareSetLinkStyle($background: $o-share-icon-palette);
-	}	
+	@include oShareSetIcons;
+	@include oShareSetLinkStyle($background: $o-share-icon-palette);
+	@include oShareSetLinkHover;
 }
 
 @mixin oShareLight {
-	.o-share--theme-light {
-		@if $o-share-use-sprite == false {
-			@include oShareSetIcons($color: 'pink-tint4');
-		} @else {
-			@include oShareSetSprite($color: 'pink-tint4');
-		}
-		
-		@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid oColorsGetPaletteColor('pink-tint2'));
-		@include oShareSetLinkHover($background: 'pink-tint2');	
-	}
+	@include oShareSetIcons($color: 'pink-tint4');
+	@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid oColorsGetPaletteColor('pink-tint2'));
+	@include oShareSetLinkHover($background: 'pink-tint2');	
 }
 
 @mixin oShareDark {
-	.o-share--theme-dark {
-		@if $o-share-use-sprite == false {
-			@include oShareSetIcons;
-		} @else {
-			@include oShareSetSprite;
-		}
-
-		@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid #fff);
-	}
-	
+	@include oShareSetIcons;
+	@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid #fff);
+	@include oShareSetLinkHover;
 }
-
 
 @mixin _oShareGetThemeMixin($theme) {
 	@if $theme == 'default' {
 		@include oShareDefault;
-	}@else if $theme == 'light' {
-		@include oShareLight;
-	}@else if $theme == 'dark' {
+	} @else if $theme == 'light' {
+		@include oShareLight;	
+	} @else if $theme == 'dark' {
 		@include oShareDark;
 	}
 }

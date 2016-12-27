@@ -2,7 +2,6 @@
 @import "ftc-social-images/main";
 
 @import "src/scss/variables";
-@import "src/scss/color";
 @import "src/scss/mixins";
 @import "src/scss/themes";
 
@@ -11,7 +10,6 @@
 
 @if $o-share-is-silent == false {
 	@include oShare;
-	
+	@include oShare($sprite: true);
 	$o-share-is-silent: true !global;
-	$o-share-user-sprite: false !global;
 }

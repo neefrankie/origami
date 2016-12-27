@@ -1,13 +1,13 @@
-$o-share-is-silent: false;
-
 @import "../../main";
 
 body {
 	@include oColorsFor(page);
 }
 
-.o-share--theme-dark {
+.o-share--theme-dark,
+.o-share--sprite-dark {
 	background-color: #000;
 }
 
 @include oShare;
+@include oShare($sprite: true);

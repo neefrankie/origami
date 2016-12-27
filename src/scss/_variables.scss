@@ -7,12 +7,12 @@
 /// @type Bool
 $o-share-is-silent: true !default;
 $o-share-use-sprite: false !default;
+$o-share-image-base-url: '/bower_components/ftc-social-images/static';
 
 $o-share-link-padding: 4px !default;
 // default to 32px - 2 * 4px = 24px.
 // $o-share-icon-size: $o-share-link-size - 2 * $o-share-link-padding !default;
 $o-share-icon-size: 24px !default;
-$o-share-icon-radius: 50% !default;
 
 /// Caculated from `$o-share-link-padding + $o-share-icon-size`;
 $o-share-link-size: $o-share-icon-size + $o-share-link-padding;
@@ -29,6 +29,4 @@ $o-share-icon-palette: (
 ) !default;
 
 $o-share-icon-names: map-keys($o-share-icon-palette) !default;
-
-
 $_o-share-themes: ('default', 'light', 'dark');

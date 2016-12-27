@@ -20,42 +20,39 @@
 	// Float everything to avoid gaps in HTML.
 		float: left;
 		margin: 0 5px 0 0;
-		@if $o-share-use-sprite == false {
-			i {
-				float: left;
-				background-size: 100% 100%;
-				background-repeat: no-repeat;
-				background-position: 50%;
-
-				width: $o-share-icon-size;
-				height: $o-share-icon-size;
-				text-indent: -($o-share-icon-size * 1000);
-				white-space: nowrap;
-				overflow: hidden;
-			}			
-		} @else {
-			
-			svg {
-				float: left;
-				width: $o-share-icon-size;
-				height: $o-share-icon-size;
-				background-color: transparent;
-			}
-
-			svg + i {
-				display: none;
-			}
-		}
 
 		a {
 			float: left;
 			text-decoration: none;
-			padding: 4px;			
-			border-radius: $o-share-icon-radius;
-			&:hover {
-				opacity: 0.8;
-			}
+			padding: $o-share-link-padding;
 		}
+
+		i {
+			float: left;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			background-position: 50%;
+
+			width: $o-share-icon-size;
+			height: $o-share-icon-size;
+			text-indent: -($o-share-icon-size * 1000);
+			white-space: nowrap;
+			overflow: hidden;
+		}			
+
+		svg {
+			float: left;
+			width: $o-share-icon-size;
+			height: $o-share-icon-size;
+			background-color: transparent;
+		}
+
+		svg + i {
+			display: none;
+		}
+
+
+
 	}
 }
 
