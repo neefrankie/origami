@@ -65,12 +65,14 @@ gulp.task('html', () => {
     const destDir = '.tmp';
 
     const embedded = process.env.NODE_ENV === 'prod';
-
-    try {
-      yield fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK);
-    } catch (err) {    
-      yield fs.mkdir(destDir);
-    }    
+// Note a catch must be attached after mkdir operation as other tasks may already created the directory and mkdir will throw error.
+    yield fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK)
+      .then(null, err => {
+        return fs.mkdir(destDir)
+      })
+      .catch(err => {
+        console.log('Directory already exists due to parallel operation.');
+      });
 
     const origami = yield fs.readFile('origami.json', 'utf8');
 
