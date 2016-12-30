@@ -82,6 +82,7 @@ function socialImages({names=defaultNames, feature='round', dest='public/images'
 // Output all variants for current `name`.
 			for (let theme of themesToUse) {
 				const svgOut = transform(body, theme);
+// If theme.name is null, or `default`, output file name is `wechat`, otherwise it's `wechat-round` or `wechat-pink`.
 				const fileName = (!theme.name || theme.name === 'default')
 					? name 
 					: `${name}-${theme.name}`;

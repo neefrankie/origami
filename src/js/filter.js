@@ -6,14 +6,18 @@ function filter(themes, feature) {
 	const defaultTheme = themes.filter(theme => {
 				return theme.name === 'default';
 			})[0];
-	
+// If feature is a string or object, nullify theme.name so that output filename do not have affix like -round or -pink.	
 	switch (kindof(feature)) {
 		case "string":
 			return themes.filter(theme => {
 				return theme.name === feature;
+			}).map(theme => {
+				theme.name = null;
+				return theme;
 			});
 
 		case "object":
+			feature.name = null;
 			return [Object.assign({}, defaultTheme, feature)]
 
 		case "null":
