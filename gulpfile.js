@@ -1,11 +1,30 @@
-const promisify = require('promisify-node')
-const fs = promisify('fs');
+const fs = require('mz/fs');
 const path = require('path');
-const isThere = require('is-there');
 const co = require('co');
-const mkdirp = require('mkdirp');
-const str = require('string-to-stream');
-const helper = require('./lib/helper');
+const deepMerge = require('deepmerge');
+const nunjucks = require('nunjucks');
+const env = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(
+    [process.cwd()],
+    {noCache: true, }
+  ),
+  {autoescape: false}
+);
+
+function render(template, context, destName) {
+  return new Promise(function(resolve, reject) {
+    env.render(template, context, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({
+          name: destName,
+          content: result
+        });
+      }
+    });
+  });
+}
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -13,20 +32,12 @@ const cssnext = require('postcss-cssnext');
 
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
+const mkdir = require('./lib/mkdir.js');
 
-const socialList = require('./social-list.json');
-
-const socialNames = socialList.map(item => item.name);
-
-var themeNames = socialList.map(item => {
-  const name = item.name;
-  const themes = Object.keys(item.themes);
-  return themes.map(theme => {
-    return (theme === 'default') ? item.name : `${item.name}-${theme}`;
-  });
+const settings = require('./src/js/settings.json');
+const images = settings.map(setting => {
+  return setting.name
 });
-
-themeNames = helper.zip(themeNames);
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
@@ -64,78 +75,43 @@ gulp.task('templates', () => {
     .pipe(gulp.dest('templates'));
 });
 
-gulp.task('sassvg', function() {
-  return gulp.src('svg/*.svg')
-    .pipe($.svgmin())
-    .pipe($.cheerio({
-      run: function($, file) {
-        $('.background').remove();
-        $('.foreground').removeAttr('fill').removeAttr('class');
-      },
-      parserOptions: {
-        xmlMode: true
-      }
-    }))
-    .pipe($.sassvg({
-      outputFolder: 'src/scss',
-      optimizeSvg: true
-    }));
-});
-
 gulp.task('svgstore', () => {
   return gulp.src('svg/*.svg')
     .pipe($.svgmin())
     .pipe($.cheerio({
       run: function($, file) {
         $('.background').remove();
-        $('.foreground').removeAttr('fill').removeAttr('class')
+        $('.foreground').removeAttr('fill').removeAttr('id')
       },
       parserOptions: {
         xmlMode: true
       }
     }))
     .pipe($.svgstore())
-    .pipe($.rename('all.svg'))
-    .pipe(gulp.dest('static/sprite'))
+    .pipe($.rename('social-images-sprite.svg'))
+    .pipe(gulp.dest('dist'))
 });
-
-gulp.task('build', gulp.parallel('svgstore', 'sassvg'));
 
 // /* demo tasks */
 gulp.task('html', () => {
-// determine whether include `/api/resize-iframe.js` listed in `ftc-components`.
-  var embedded = false;
-
   return co(function *() {
     const destDir = '.tmp';
+    const embedded = process.env.NODE_ENV === 'prod';
 
-    if (!isThere(destDir)) {
-      mkdirp(destDir, (err) => {
-        if (err) console.log(err);
-      });
-    }
-    if (process.env.NODE_ENV === 'prod') {
-      embedded = true;
-    }
+    yield mkdir(destDir);
 
-    const origami = yield helper.readJson('origami.json');
+    const origami = yield fs.readFile('origami.json', 'utf8');
 
-    const demos = origami.demos;
+    const demos = JSON.parse(origami).demos;
 
     const renderResults = yield Promise.all(demos.map(function(demo) {
 
-      const template = demo.template;
-      console.log(`Using template "${template}" for "${demo.name}"`);
+      const context = deepMerge({
+        images,
+        embedded
+      }, demo);
 
-      const context = {
-        pageTitle: demo.name,
-        description: demo.description,
-        socialNames: socialNames,
-        themeNames: themeNames,
-        embedded: embedded
-      };
-
-      return helper.render(template, context, demo.name);
+      return render(demo.template, context, demo.name);
     }));
 
     yield Promise.all(renderResults.map(result => {
@@ -150,7 +126,22 @@ gulp.task('html', () => {
   });
 });
 
-gulp.task('styles', function styles() {
+gulp.task('build-list', () => {
+  const dest = 'demos/src/_image-list.scss';
+
+  const images = settings.map(setting => {
+    return `'${setting.name}'`;
+  }).join('\n\t');
+
+  const sass = `$image-list: (\n\t${images}\n);`;
+
+  return fs.writeFile(dest, sass, 'utf8')
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+gulp.task('styles', () => {
   const DEST = '.tmp/styles';
 
   return gulp.src('demos/src/demo.scss')
@@ -174,19 +165,19 @@ gulp.task('styles', function styles() {
     .pipe(browserSync.stream({once: true}));
 });
 
-gulp.task('clean', function() {
+gulp.task('clean', () => {
   return del(['.tmp/**']).then(()=>{
-    console.log('Old files deleted');
+    console.log('.tmp directory deleted');
   });
 });
 
 gulp.task('serve', gulp.parallel('html', 'styles', () => {
   browserSync.init({
     server: {
-      baseDir: ['.tmp', '.'],
+      baseDir: ['.tmp'],
       directory: true,
       routes: {
-        '/bower_components': 'bower_components'
+        '/dist': 'dist'
       }
     }
   });
