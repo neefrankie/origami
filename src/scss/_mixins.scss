@@ -12,25 +12,10 @@
 	vertical-align: middle;
 }
 
-@mixin socialImagesGetSassvg($social-name, $color:null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
+@mixin socialImagesSetImageFor($social-name, $color: null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
 
-// if color is not set, default to black.
-	@if $color == null {
-		$color: #000000;
-	}
-
-	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", ftc-social-images));
-	background-image: sassvg($social-name, $fillcolor: $color);
-
-	@if ($apply-base-styles == true) {
-		@include _baseStyles($container-width);
-	}
-}
-
-@mixin socialImagesGetImage($social-name, $color: null, $container-width: 20, $container-height: null, $apply-base-styles: true) {
-
-	background-image: url(oAssetsResolve("static/png/#{$social-name}.png", ftc-social-images));
-	background-image: url(oAssetsResolve("static/svg/#{$social-name}.svg", ftc-social-images)), none;
+	background-image: url(oAssetsResolve("dist/#{$social-name}.png", ftc-social-images));
+	background-image: url(oAssetsResolve("dist/#{$social-name}.svg", ftc-social-images)), none;
 
 	@if ($apply-base-styles == true) {
 		@include _baseStyles($container-width);
@@ -38,7 +23,7 @@
 }
 
 // Set styles on `svg` elements. Its containing box should be `position:relative;`
-@mixin socialImagesGetSprite($icon-name, $color: null, $width: 20, $height:null) {
+@mixin socialImagesSetSpriteFor($icon-name, $color: null, $width: 20, $height:null) {
 
 	@if ($height == null) {
 		$height: $width;
