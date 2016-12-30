@@ -13,13 +13,19 @@
             "description": "Use svg image as background with fallback to png"
         },
         {
-          "name": "sassvg",
-          "template": "demos/src/sassvg.html",
-          "data": "",
-          "description": "Inline svg into css"
+            "name": "round",
+            "template": "demos/src/default.html",
+            "data": "demos/src/data.json",
+            "description": "Use svg image as background with fallback to png"
         },
         {
-          "name": "svg-sprite",
+            "name": "pink",
+            "template": "demos/src/default.html",
+            "data": "demos/src/data.json",
+            "description": "Use svg image as background with fallback to png"
+        },
+        {
+          "name": "sprite",
           "template": "demos/src/sprite.html",
           "data": "",
           "description": "SVG symbol sprite"
