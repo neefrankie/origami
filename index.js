@@ -31,7 +31,7 @@ const defaultNames = settings.map(setting => {
 	return setting.name;
 });
 
-const sourceDir = './svg';
+const sourceDir = path.resolve(__dirname, 'svg');
 /*
  * @param {Object} config - optional
  * @param {Array} config.images - one or more of ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter']
