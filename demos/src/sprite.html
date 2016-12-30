@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "demos/src/base.html" %}
 {% block body %}
 <div class="social-images__sprite">
   <ul>
-    {% for name in socialNames %}
+    {% for image in images %}
       <li>
-        <i class="{{name}}"><svg><use xlink:href="static/sprite/all.svg#{{name}}" /></svg></i>
+        <i class="{{image}}"><svg><use xlink:href="dist/social-images-sprite.svg#{{image}}" /></svg></i>
         <span>{{name}}</span>
       </li>
     {% endfor %}

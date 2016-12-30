@@ -1,9 +1,11 @@
 @import "../../main";
-@import "social-list";
+@import "image-list";
 
 @include oAssetsSetModulePaths((
 	ftc-social-images: '..',
 ));
+
+$social-images-themes: ('default', 'round', 'pink');
 
 body {
 	@include oColorsFor(page);
@@ -46,31 +48,25 @@ ul {
 	}
 }
 
-.social-images__default {
-	@each $name in $social-list {
-		.#{$name} {
-			&:after {
-				content: '';
-				@include socialImagesGetImage($name, $apply-base-styles: false);
+@each $theme in $social-images-themes {
+	.social-images__#{$theme} {
+		@each $name in $image-list {
+			$image-name: if($theme == "default", $name, "#{$name}-#{$theme}");
+
+			.#{$name} {
+				&:after {
+					content: '';
+					@include socialImagesSetImageFor($image-name, $apply-base-styles: false);
+				}
 			}
 		}
-	}
+	}	
 }
 
-$social-images: sassvg-list($folder: 'svg');
 
-.social-images__sassvg {
-	@each $name in $social-images {
-
-		.#{$name} {
-			background-color: socialImagesGetColor($name);
-			@include socialImagesGetSassvg($name, $color: #fff, $apply-base-styles: false);
-		}
-	}
-}
 // It's quite simple to style symbol sprite. You do not even need the minxins.
 .social-images__sprite {
-	@each $name in $social-images {
+	@each $name in $image-list {
 		.#{$name} {
 			background-color: socialImagesGetColor($name);
 			svg {

@@ -1,15 +1,13 @@
-{% extends "base.html" %}
+{% extends "demos/src/base.html" %}
 {% block body %}
-<div class="social-images__default">
-  {% for group in themeNames %}
+<div class="social-images__{{name}}">
   <ul>
-  	{% for name in group %}
+  	{% for image in images %}
     <li>
-      <i class="{{name}}"></i>
-      <span>{{name}}</span>
+      <i class="{{image}}"></i>
+      <span>{{image}}</span>
     </li>
     {% endfor %}
   </ul>
-  {% endfor %}
 </div>
 {% endblock %}
