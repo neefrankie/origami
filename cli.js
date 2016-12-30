@@ -24,7 +24,6 @@ console.log(argv);
 socialImages({
 	names: [argv.i],
 	feature: {
-		name: null,
 		fill: argv.f,
 		background: argv.b,
 		rx: argv.rx,
