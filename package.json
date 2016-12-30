@@ -1,6 +1,6 @@
 {
   "name": "social-images",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "FTC social images",
   "main": "build-list.js",
   "scripts": {
