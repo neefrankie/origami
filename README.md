@@ -7,7 +7,7 @@
 It can be used as a node module in you project.
 
 ```js
-npm install social-images --save-dev
+npm install @ftc/social-images --save-dev
 const socialImages = require('social-images');
 ```
 
