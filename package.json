@@ -1,5 +1,5 @@
 {
-  "name": "social-images",
+  "name": "@ftc/social-images",
   "version": "1.0.0",
   "description": "FTC social images",
   "main": "build-list.js",
