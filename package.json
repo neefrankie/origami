@@ -1,8 +1,8 @@
 {
-  "name": "@ftc/social-images",
+  "name": "social-images",
   "version": "1.0.1",
   "description": "FTC social images",
-  "main": "build-list.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postversion": "git push && git push --tags",
