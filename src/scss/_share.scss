@@ -1,3 +1,8 @@
+/* 
+ * @param {List} $themes - ('default', 'light', 'dark')
+ * @param {Boolean} $sprite - Use svg sprite or not. Default to `false`.
+ * @param {String} $classname - Container's class name.
+ */
 @mixin oShare($themes: '', $sprite: false, $classname: 'o-share') {
 	@include oShareBase;
 
