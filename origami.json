@@ -13,12 +13,6 @@
             "description": "Use svg image as background with fallback to png"
         },
         {
-            "name": "round",
-            "template": "demos/src/default.html",
-            "data": "demos/src/data.json",
-            "description": "Use svg image as background with fallback to png"
-        },
-        {
             "name": "pink",
             "template": "demos/src/default.html",
             "data": "demos/src/data.json",
@@ -26,9 +20,10 @@
         },
         {
           "name": "sprite",
-          "template": "demos/src/sprite.html",
+          "template": "demos/src/default.html",
           "data": "",
-          "description": "SVG symbol sprite"
+          "description": "SVG symbol sprite",
+          "sprite": true
         }
     ]
 }
