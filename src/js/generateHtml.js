@@ -11,7 +11,7 @@ function buildSocialList(socials, sprite) {
 // If sprite exits, then test whether it is a string. If sprite is a string, use it as URL, otherwise use the default URL.
 // If sprite does not exits, URL is null.
   const spriteUrl = sprite 
-    ? ((typeof sprite === 'string') ? sprite : '/bower_components/ftc-social-images/static/sprite/all.svg') 
+    ? ((typeof sprite === 'string') ? sprite : '/bower_components/ftc-social-images/dist/social-images-sprite.svg') 
     : null;
 // This is an arrow function. It accepts a `social` object, returns a constructed string.
   const listItem = (social) => `
@@ -35,7 +35,7 @@ function buildSocialList(socials, sprite) {
  * @param {Boolean | String} config.sprite
  */
 function generateHtml (
-	{url='{{share.url}}', title='{{share.title}}', summary='{{share.summary}}', links=null, sprite=false} = config)  {
+	{url='{{share.url}}', title='{{share.title}}', summary='{{share.summary}}', links=null, sprite=false} = {})  {
 
 	const socialUrls = [
 		{
