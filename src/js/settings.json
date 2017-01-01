@@ -10,13 +10,6 @@
         "ry": null
       },
       {
-        "name": "round",
-        "fill": "#fff",
-        "background": "#609700",
-        "rx": "50%",
-        "ry": "50%"
-      },
-      {
         "name": "pink",
         "fill": "#a7a59b",
         "background": null,
@@ -34,13 +27,6 @@
         "fill": "#fff",
         "rx": null,
         "ry": null
-      },
-      {
-        "name": "round",
-        "background": "#e6162d",
-        "fill": "#fff",
-        "rx": "50%",
-        "ry": "50%"
       },
       {
         "name": "pink",
@@ -62,13 +48,6 @@
         "ry": null
       },
       {
-        "name": "round",
-        "background": "#0977b6",
-        "fill": "#fff",
-        "rx": "50%",
-        "ry": "50%"
-      },
-      {
         "name": "pink",
         "background": null,
         "fill": "#a7a59b",
@@ -86,13 +65,6 @@
         "fill": "#fff",
         "rx": null,
         "ry": null
-      },
-      {
-        "name": "round",
-        "background": "#3c5a99",
-        "fill": "#fff",
-        "rx": "50%",
-        "ry": "50%"
       },
       {
         "name": "pink",
@@ -114,13 +86,6 @@
         "ry": null
       },
       {
-        "name": "round",
-        "background": "#6aa9e0",
-        "fill": "#fff",
-        "rx": "50%",
-        "ry": "50%"
-      },
-      {
         "name": "pink",
         "background": null,
         "fill": "#a7a59b",
@@ -138,13 +103,6 @@
         "fill": "#fff",
         "rx": null,
         "ry": null
-      },
-      {
-        "name": "round",
-        "background": "#27757b",
-        "fill": "#fff",
-        "rx": "50%",
-        "ry": "50%"
       },
       {
         "name": "pink",
