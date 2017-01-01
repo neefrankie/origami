@@ -126,21 +126,6 @@ gulp.task('html', () => {
   });
 });
 
-gulp.task('build-list', () => {
-  const dest = 'demos/src/_image-list.scss';
-
-  const images = settings.map(setting => {
-    return `'${setting.name}'`;
-  }).join('\n\t');
-
-  const sass = `$image-list: (\n\t${images}\n);`;
-
-  return fs.writeFile(dest, sass, 'utf8')
-    .catch(err => {
-      console.log(err);
-    });
-});
-
 gulp.task('styles', () => {
   const DEST = '.tmp/styles';
 
