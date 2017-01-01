@@ -56,20 +56,6 @@ The markup will be generated for that instance of `o-share`. The generated marku
 
 You can also instantiate all instances in your page by running the static method `Share.init` which returns an array with all of them.
 
-You can also use in the `script` tag of you HTML the compiled version for browsers in the directory `dist`. It has no external dependency and you can use it directly:
-
-```
-<script src="ftc-share/dist/ftc-share.js" />
-```
-
-### Events
-
-This module will trigger the following events on its root element:
-
-* `oShare.ready` - when a share links behaviour has been initialised
-* `oShare.open` - when a share link has been opened (popup/flyout opened as a result of button click)
-* `oShare.copy` - when the URL has been copied
-
 ### Sass
 
 ```scss
@@ -104,26 +90,22 @@ Serveral predefined themes were provided: `default`, `light`, `dark`. To use the
 ### Custom themes
 If you want to set the icons' color, background, borders, hovered state and size to whaterever you like, use these mixins:
 
-- `@mixin oShareSetIcons($foreground)` Set the icon's shape for each link using `sassvg`. But you'd better first disable `oShareBase` using the default icon by passing `$include-icon:false`. Otherwise the icon's svg code might be include multiple times resuting a large css file.
+* `@mixin oShareSetIcons($iconnames: $_o-share-icon-names, $theme: 'default', $classname: 'o-share')` 
 
-- `@mixin oShareSetBackground($background)` Set the icon's background color.
+Set background image.
 
-- `@mixin oShareSetHover($hover)` Background color when hovered.
+- `@mixin oShareSetLinkStyle(
+  $background: $_o-share-background-palette, 
+  $border: null, 
+  $radius: 50%, 
+  $classname: 'o-share')`
 
-- `@mixin oShareSetBorder($border: null, $radius: null)` Set border and border-radius.
-
-- `@mixin oShareSetLinkPadding($padding)` The gap between the icon shape and the edege of the link.
-
-- `@mixin oShareSetIconSize($width, $height:null)` The size of icon.
+- `@mixin oShareSetLinkHover($background: null, $opacity: 0.8, $classname: 'o-share')` 
 
 ### Use a svg symbol
-By default `ftc-share` uses svg as icon image. Each icon's svg source code was directly put into compiled css file. If you need the same icon on the same page with differnet colors, you have to include the same icon's svg code multiple times to have a diffence `fill` property on the icon. This is inefficient could bloat up you file.
+By default `ftc-share` uses png and svg images.
 
-To solve this problem, you can use svg symbol technique, which is similar to binary image's "sprite". One advantage is that you can set the image's color easily in you css with `fill: <color>`
-
-To use the default svg themes, add class to the container like `class="o-share--symbol-<default | light | dark | tint>`.
-
-The above mentioned mixins coulde also be used here execept `@mixin oShareSetIcons($foreground)` which is needless since you do not need to inline the svg code.
+You can also use svg symbol technique, which is similar to binary image's "sprite". One advantage is that you can set the image's color easily in you css with `fill: <color>`. Configu in JS API or include the `o-share.html` template.
 
 ## JS API
 
@@ -135,6 +117,7 @@ var config = {
     url: window.location.href,
     title: 'Syria oil map',
     summary: 'How the Isis oil economy works, explained through the journey of a barrel of oil in Syria',
+    sprite: true
 };
 ```
 
@@ -144,39 +127,5 @@ If you do not pass the `config`, the script will first search `data` attributes 
 <meta property="og:description" content="summary of the article" />
 ```
 
-## Data structure for templates
+## Nunjucks Template
 You can `include` the `partials/o-share.html` file in your template so that DOM structure was rendered on the server instead of on the client browser.
-
-Data for the templates should have these entries:
-```
-{
-    share: {
-      "theme": "theme-default",
-      "svgSymbol": false,
-      "items": [
-        {
-          "icon": "wechat",
-          "href": "",
-          "name": "微信"
-        },
-        {
-          "icon": "weibo",
-          "href": "",
-          "name": "微博"
-        },
-        {
-          "icon": "linkedin",
-          "name": "领英"
-        },
-        {
-          "icon": "facebook",
-          "name": "Facebook"
-        },
-        {
-          "icon": "twitter",
-          "name": "Twitter"
-        }
-      ]
-    }
-}
-```
