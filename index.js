@@ -1,19 +1,8 @@
 const path = require('path');
 const fs = require('mz/fs');
-const mkdirp = require('mkdirp');
-const generateHtml = require('./dist/generateHtml.js');
+const mkdir = require('./lib/mkdir.js');
+const generateHtml = require('./lib/generateHtml.js');
 
-function mkdir(dir, opts) {
-	return new Promise(function(resolve, reject) {
-		mkdirp(dir, opts, (err, made) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(made);
-			}
-		});
-	});
-}
 /*
  * @param {Object} config - optional
  * @param {String} config.outDir - output directory.
@@ -25,7 +14,7 @@ function share(config) {
 
 	out = path.resolve(process.cwd(), `${destDir}/o-share.html`);
 
-	fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK)
+	return fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK)
 		.then(null, err => {
 			return mkdir(destDir)
 		})
@@ -33,7 +22,8 @@ function share(config) {
 			return fs.writeFile(out, generateHtml(config), 'utf8')
 		})
 		.then(() => {
-			console.log(`${out} file is generated`);
+			console.log(`Generated: ${out}`);
+			return Promise.resolve();
 		})
 		.catch(err => {
 			console.log(err);

@@ -31,10 +31,9 @@ const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
-const webpack = require('webpack');
-const webpackConfig = require('./webpack.config.js');
 const rollup = require('rollup').rollup;
 const babel = require('rollup-plugin-babel');
+const mkdir = require('./lib/mkdir.js');
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
@@ -65,14 +64,6 @@ gulp.task('html', () => {
     const destDir = '.tmp';
 
     const embedded = process.env.NODE_ENV === 'prod';
-// Note a catch must be attached after mkdir operation as other tasks may already created the directory and mkdir will throw error.
-    yield fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK)
-      .then(null, err => {
-        return fs.mkdir(destDir)
-      })
-      .catch(err => {
-        console.log('Directory already exists due to parallel operation.');
-      });
 
     const origami = yield fs.readFile('origami.json', 'utf8');
 
@@ -85,6 +76,8 @@ gulp.task('html', () => {
 
       return render(demo.template, context, demo.name);
     }));
+
+    yield mkdir(destDir);
 
     yield Promise.all(renderResults.map(result => {
       const dest = `.tmp/${result.name}.html`;
@@ -233,7 +226,7 @@ gulp.task('rollup', () => {
   }).then(function(bundle) {
     return bundle.write({
       format: 'cjs',
-      dest: 'dist/generateHtml.js',
+      dest: 'lib/generateHtml.js',
     });
   });
 });
