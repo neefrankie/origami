@@ -1,10 +1,15 @@
 {% extends "demos/src/base.html" %}
 {% block body %}
-<div class="social-images__{{name}}">
+<div class="social-images--{{name}}">
   <ul>
   	{% for image in images %}
-    <li>
-      <i class="{{image}}"></i>
+    <li class="social-images__action social-images__{{image}}">
+    	<a href="#">
+    		{% if sprite %}
+    		<svg><use xlink:href="dist/social-images-sprite.svg#{{image}}" /></svg>
+    		{% endif %}
+	    	<i></i>  	
+    	</a>
       <span>{{image}}</span>
     </li>
     {% endfor %}
