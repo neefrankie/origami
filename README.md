@@ -69,48 +69,92 @@ $o-share-is-silent: false;
 @import 'o-share/main';
 ```
 
-If not, you can just use our mixins to set you custom class.
+If not, you can just use our mixins to set your custom class.
 
-## SASS API
-Each icon has a default color sampled from its official logo. You can override this variable to set your own color scheme: 
+## API
+### SCSS
+#### Use predefined themes
+```scss
+@include oShare($themes: '', $sprite: false, $classname: 'o-share');
+```
+
+Parameters:
+* {List} `$themes`. One of `('default', 'light', 'dark')`
+* {Boolean} `$sprite` - Use svg sprite or not. Default to `false`.
+* {String} $classname - Container's class name.
+
+Default class names for each theme:
+```css
+.o-share--theme-default
+.o-share--theme-light
+.o-share--theme-dark
+.o-share--sprite-default
+.o-share--sprite-light
+.o-share--sprite-dark
+```
+
+Examples:
+
+Use the light theme:
+```scss
+@include oShare($themes: ('dark'));
+```
+
+Use defalt theme with svg sprite:
+```
+@include oShare(('default'), sprite: true);
+```
+
+When using svg sprite, you could set the icons's style as you like:
+```scss
+@include oShareBase;
+.o-share__wechat {
+  a {
+    background-color: #609700;
+    border: 1px solid #e6162d;
+    radius: 5px;
+    &:hover {
+      background-color: #0977b6;
+      opacity: 0.8;
+    }
+  }
+  svg {
+    fill: #3c5a99;
+  }
+}
+```
+
+#### Vairalbes
+Each icon has a default color sampled from its official logo. 
 ```sass
-$o-share-icon-palette: (
+(
     "wechat": #609700,
     "weibo": #e6162d,
     "linkedin": #0977b6,
     "facebook": #3c5a99,
     "twitter": #6aa9e0
-) !default;
+);
 ```
 
-### Themes
-
-Serveral predefined themes were provided: `default`, `light`, `dark`. To use them add a class name `class="o-share--theme-<default | light | dark>"` to the outmost container.
-
-### Custom themes
-If you want to set the icons' color, background, borders, hovered state and size to whaterever you like, use these mixins:
-
-* `@mixin oShareSetIcons($iconnames: $_o-share-icon-names, $theme: 'default', $classname: 'o-share')` 
-
-Set background image.
-
-- `@mixin oShareSetLinkStyle(
-  $background: $_o-share-background-palette, 
-  $border: null, 
-  $radius: 50%, 
-  $classname: 'o-share')`
-
-- `@mixin oShareSetLinkHover($background: null, $opacity: 0.8, $classname: 'o-share')` 
-
-### Use a svg symbol
-By default `ftc-share` uses png and svg images.
-
-You can also use svg symbol technique, which is similar to binary image's "sprite". One advantage is that you can set the image's color easily in you css with `fill: <color>`. Configu in JS API or include the `o-share.html` template.
-
-## JS API
+### JS
 
 `oShare` accepted an optional config object which takes precedence over the `data` attributes set on the container:
+```js
+new Share(rootEl, config)
+```
 
+#### `rootEl`
+{String | HTMLElement} rootEl - required
+
+#### cofig
+An object with:
+* `links` {Array} - Optional. Determin which social platform to show. `null` for all. Default to `null`.
+* `url` {String} - URL of the shared page. Default to `window.location.href`.
+* `summary` {String} - Story summary
+* `title` {String} - Page title
+* `sprite` {Boolean | String} - Use svg sprite in HTML tag. Default to `false`. If set to `true`, `<svg>`element will be added with its `xlink:href` pointing to `/bower_components/ftc-social-images/dist/social-images-sprite.svg#<icon-name>.svg`. If a string provided, this string will replace the default path.
+
+Examples:
 ```javascript
 var config = {
     links: ['wechat', 'weibo', 'linkedin'],
@@ -119,13 +163,44 @@ var config = {
     summary: 'How the Isis oil economy works, explained through the journey of a barrel of oil in Syria',
     sprite: true
 };
+
+new Share(config)
 ```
 
-If you do not pass the `config`, the script will first search `data` attributes of container for related infomation. If no `data` is specified, it will use an internal fallback config object, which searched `meta` tag on the page used as open graph for `summary` and `<title>` value for `title`. You should at leat provide a `meta` tag with the following attributes and values in your HTML file:
-
+If you do not pass the `config`, the script will first search `data` attributes of container for related infomation. If no `data` is specified, it will fallback to search `<meta>` tag with open graph attributes.
 ```html
-<meta property="og:description" content="summary of the article" />
+// Same as config.title
+<meta property="og:title" content="{{ pageTitle }}"/>
+// Same as config.sumary
+<meta property="og:description" content="{{ description }}" />
 ```
 
 ## Nunjucks Template
 You can `include` the `partials/o-share.html` file in your template so that DOM structure was rendered on the server instead of on the client browser.
+
+If you install `ftc-share` in `bower_components`, you can include `bower_components/ftc-share` in nunjucks search path, and include `partials/o-share.html` file:
+```
+{% include "partials/o-share.html" %}
+```
+
+Or you can install it as a to `node_modules` and generate the partial file to you project:
+```js
+const share = require('ftc-share');
+share({
+  outDir: 'views/partials',
+  links: ['wechat', 'weibo', 'linkedin']
+});
+```
+
+You also need to specify a `share` object in you template data:
+```json
+{
+  share: {
+    url: 'http://www.ftchinese.com',
+    title: 'Syria oil map',
+    summary: 'How the Isis oil economy works, explained through the journey of a barrel of oil in Syria',
+  }
+}
+```
+
+This method does not rely on js. But you still need to use the sass mixin or wite css yourself.
