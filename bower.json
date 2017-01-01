@@ -29,8 +29,8 @@
     "demo"
   ],
   "dependencies": {
-    "o-colors": "^3.5.2",
-    "ftc-social-images": "^0.6.0"
+    "o-colors": "^3.5.4",
+    "ftc-social-images": "^1.2.1"
   },
   "devDependencies": {
     "ftc-logos": "^0.1.0"
