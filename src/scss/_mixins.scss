@@ -1,52 +1,43 @@
-/// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
-@mixin oShareSetIcons($color: 'white', $classname: 'o-share') {
-// set the icon's shape and color
-	@if type-of($color) == map {
-// each icon has its own color
-		@each $icon, $fillcolor in $color {
-			.#{$classname}__#{$icon} {
-				@if $o-share-use-sprite == false {
-					i {
-						@include socialImagesGetSassvg($icon, $color: $fillcolor, $apply-base-styles: false);
-					}	
-				} @else {
-					svg {
-						fill: $fillcolor;
-					}
-				}
-			}
-		}
-	} @else {
-// all icons use the same color
-		$fillcolor: if(type-of($color) == string, oColorsGetPaletteColor($color), $color);
-// When using sassvg, you need to set icon shape individually.
-		@if $o-share-use-sprite == false {
-			@each $icon in $o-share-icon-names {
+@function oShareGetIconColor($theme) {
+		$color: 'white';
 
-				.#{$classname}__#{$icon} i {
-					@include socialImagesGetSassvg($icon, $color: $fillcolor, $apply-base-styles: false);
-				}
-			}			
-		} @else {
-// When using svg sprite, the icon shape is external, just set their fill color collectively.
-			.#{$classname}__action svg {
-				fill: $fillcolor;
+		@if map-has-key($_o-share-foreground-palette, $theme) {
+			$color: map-get($_o-share-foreground-palette, $theme);
+		}
+
+		@return if(type-of($color) == 'color', $color, oColorsGetPaletteColor($color));
+}
+
+/// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
+@mixin oShareSetIcons($iconnames: $_o-share-icon-names, $theme: 'default', $classname: 'o-share') {
+	
+	@if $o-share-use-sprite == false {
+		@each $icon in $_o-share-icon-names {
+			.#{$classname}__#{$icon} i {
+				@include socialImagesSetImageFor($icon, $theme: $theme)
 			}
+		}		
+	} @else {
+
+		.#{$classname}__action svg {
+			fill: oShareGetIconColor($theme);
 		}
 	}
 }
 
+
 /// @param {String} $background - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
-@mixin oShareSetLinkStyle($background, $border: null, $radius: 50%, $classname: 'o-share') {
+@mixin oShareSetLinkStyle(
+	$background: $_o-share-background-palette, 
+	$border: null, 
+	$radius: 50%, 
+	$classname: 'o-share') {
 
 // Set background-color, individually for each icon or collectively for all with the same color.
 	@if type-of($background) == map {
 		@each $icon, $color in $background {
 			.#{$classname}__#{$icon} a {
-				background-color: $color;
-				@if $border != null {
-					border: $border;
-				}
+				@include oShareSetBackgroundColor($color);
 			}
 		}
 	}

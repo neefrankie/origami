@@ -3,18 +3,18 @@
 // Background image will be set separately on <i> tag
 @mixin oShareDefault {
 	@include oShareSetIcons;
-	@include oShareSetLinkStyle($background: $o-share-icon-palette);
+	@include oShareSetLinkStyle;
 	@include oShareSetLinkHover;
 }
 
 @mixin oShareLight {
-	@include oShareSetIcons($color: 'pink-tint4');
+	@include oShareSetIcons($theme: 'pink');
 	@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid oColorsGetPaletteColor('pink-tint2'));
 	@include oShareSetLinkHover($background: 'pink-tint2');	
 }
 
 @mixin oShareDark {
-	@include oShareSetIcons;
+	@include oShareSetIcons($theme: 'white');
 	@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid #fff);
 	@include oShareSetLinkHover;
 }

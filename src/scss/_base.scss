@@ -29,10 +29,9 @@
 
 		i {
 			float: left;
-			background-size: 100% 100%;
 			background-repeat: no-repeat;
 			background-position: 50%;
-
+			background-size: contain;
 			width: $o-share-icon-size;
 			height: $o-share-icon-size;
 			text-indent: -($o-share-icon-size * 1000);
@@ -50,8 +49,6 @@
 		svg + i {
 			display: none;
 		}
-
-
 
 	}
 }
