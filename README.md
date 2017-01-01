@@ -1,7 +1,12 @@
 ## Usage
 ### SCSS API
-* `socialImagesSetImageFor($social-name, $color: null, $container-width: 20, $container-height: null, $apply-base-styles: true)`
-* `socialImagesSetSpriteFor($icon-name, $color: null, $width: 20, $height:null)`
+`@mixin socialImagesSetImageFor($social-name, $theme: null)`
+
+parameters:
+- `$social-name` String. One of 'wechat', 'weibo', 'linkedin', 'facebook', or 'twitter'
+- `$theme` String. 'default' or 'pink' to distinguish image file names.
+
+`@mixin socialImagesBaseStyles`
 
 ## API
 It can be used as a node module in you project.
