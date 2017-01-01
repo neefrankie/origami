@@ -46,11 +46,11 @@ var shareInstance = new Share(document.querySelector('[data-o-component=o-share]
 The markup will be generated for that instance of `o-share`. The generated markup has the following structure:
 ```html
 <ul>
-    <li class="o-share__action o-share__wechat">
-        <a href="" title="分享到微信">
-            <i>微信</i>
-        </a>
-    </li>
+  <li class="o-share__action o-share__wechat">
+    <a href="" title="分享到微信">
+      <i>微信</i>
+    </a>
+  </li>
 </ul>
 ```
 
@@ -81,7 +81,7 @@ If not, you can just use our mixins to set your custom class.
 Parameters:
 * {List} `$themes`. One of `('default', 'light', 'dark')`
 * {Boolean} `$sprite` - Use svg sprite or not. Default to `false`.
-* {String} $classname - Container's class name.
+* {String} `$classname` - Container's class name.
 
 Default class names for each theme:
 ```css
@@ -124,7 +124,7 @@ When using svg sprite, you could set the icons's style as you like:
 }
 ```
 
-#### Vairalbes
+#### Icon colors
 Each icon has a default color sampled from its official logo. 
 ```sass
 (
