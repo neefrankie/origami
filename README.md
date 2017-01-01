@@ -195,10 +195,10 @@ share({
 You also need to specify a `share` object in you template data:
 ```json
 {
-  share: {
-    url: 'http://www.ftchinese.com',
-    title: 'Syria oil map',
-    summary: 'How the Isis oil economy works, explained through the journey of a barrel of oil in Syria',
+  "share": {
+    "url": "http://www.ftchinese.com",
+    "title": "Syria oil map",
+    "summary": "How the Isis oil economy works, explained through the journey of a barrel of oil in Syria"
   }
 }
 ```
