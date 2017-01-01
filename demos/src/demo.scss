@@ -1,11 +1,6 @@
+$social-images-base-url: "../dist";
+
 @import "../../main";
-@import "image-list";
-
-@include oAssetsSetModulePaths((
-	ftc-social-images: '..',
-));
-
-$social-images-themes: ('default', 'round', 'pink');
 
 body {
 	@include oColorsFor(page);
@@ -15,63 +10,62 @@ ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
-	li {
+	.social-images__action {
 		display: inline-block;
 		width: 180px;
 		margin: 0 0 20px;
 		text-align: center;
-		i {
+		a {
 			display: inline-block;
-			border: 1px dotted #333;
 			width: 100px;
 			height: 100px;
-
-			svg {
-				width: 100px;
-				height: 100px;
-			}
-
-			&:after {
-				display: inline-block;
-				width: 100px;
-				height: 100px;
-				background-repeat: no-repeat;
-				background-size: contain;
-				background-position: 50%;
-				background-color: transparent;
-				vertical-align: middle;
-			}
+			border-radius: 50%;
 		}
+		i {
+			display: block;
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: 50%;
+			background-color: transparent;
+		}
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+
 		span {
 			display: block;
 		}
 	}
 }
 
-@each $theme in $social-images-themes {
-	.social-images__#{$theme} {
-		@each $name in $image-list {
-			$image-name: if($theme == "default", $name, "#{$name}-#{$theme}");
+@each $theme in $_social-images-themes {
+	.social-images--#{$theme} {
 
-			.#{$name} {
-				&:after {
-					content: '';
-					@include socialImagesSetImageFor($image-name, $apply-base-styles: false);
-				}
+		@each $name in $_social-images {
+			
+			.social-images__#{$name} a i {
+				@include socialImagesSetImageFor($name, $theme: $theme);
 			}
 		}
 	}	
 }
 
-
-// It's quite simple to style symbol sprite. You do not even need the minxins.
-.social-images__sprite {
-	@each $name in $image-list {
-		.#{$name} {
+.social-images--sprite {
+	@each $name in $_social-images {
+		.social-images__#{$name} a {
 			background-color: socialImagesGetColor($name);
-			svg {
-				fill: #fff;
-			}
 		}
+	}
+	svg {
+		fill: #fff;
+	}
+	svg + i {
+		display: none;
 	}
 }
