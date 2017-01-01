@@ -21,10 +21,8 @@
     "tests",
     "demos"
   ],
-  "dependencies": {
-    "o-colors": "^3.5.4"
-  },
   "devDependencies": {
-    "ftc-logos": "^0.1.0"
+    "ftc-logos": "^0.1.0",
+    "o-colors": "^3.5.4"
   }
 }
