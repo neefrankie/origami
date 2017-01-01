@@ -1,6 +1,6 @@
 {
   "name": "social-images",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "FTC social images",
   "main": "index.js",
   "scripts": {
