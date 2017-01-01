@@ -1,8 +1,0 @@
-@function socialImagesGetColor($name) {
-		@if map-has-key($social-images-palette, $name) {
-			@return map-get($social-images-palette, $name);
-		} @else {
-			@warn "Color name '#{inspect($name)}' is not defined in the palette";
-			@return null;
-		}
-}

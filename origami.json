@@ -19,6 +19,12 @@
             "description": "Use svg image as background with fallback to png"
         },
         {
+            "name": "white",
+            "template": "demos/src/default.html",
+            "data": "demos/src/data.json",
+            "description": "Use svg image as background with fallback to png"
+        },
+        {
           "name": "sprite",
           "template": "demos/src/default.html",
           "data": "",

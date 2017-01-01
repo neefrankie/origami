@@ -56,10 +56,16 @@ ul {
 	}	
 }
 
+.social-images--white {
+	a {
+		background-color: #000;
+	}
+}
+
 .social-images--sprite {
-	@each $name in $_social-images {
+	@each $name, $color in $social-images-palette {
 		.social-images__#{$name} a {
-			background-color: socialImagesGetColor($name);
+			background-color: $color;
 		}
 	}
 	svg {

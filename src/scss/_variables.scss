@@ -10,4 +10,4 @@ $social-images-palette: (
 ) !default;
 
 $_social-images: map-keys($social-images-palette);
-$_social-images-themes: ('default', 'pink');
+$_social-images-themes: ('default', 'pink', 'white');
