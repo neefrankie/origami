@@ -10,6 +10,7 @@
 
 @if $o-share-is-silent == false {
 	@include oShare;
-	@include oShare($sprite: true);
+	@include oShare($theme: 'light');
+	@include oShare($theme: 'dark');
 	$o-share-is-silent: true !global;
 }

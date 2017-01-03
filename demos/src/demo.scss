@@ -10,4 +10,8 @@ body {
 }
 
 @include oShare;
+@include oShare('light');
+@include oShare('dark');
 @include oShare($sprite: true);
+@include oShare('light', $sprite: true);
+@include oShare('dark', $sprite: true);

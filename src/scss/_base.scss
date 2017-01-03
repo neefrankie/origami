@@ -4,10 +4,12 @@
 @mixin oShareBase($classname: o-share) {
 	.#{$classname} {
 		display: inline-block;
+		text-align: left;
 		ul {
 			margin: 0;
 			padding: 0;
 			list-style-type: none;
+			display: inline-block;
 			// Clearfix
 			&:after {
 				clear: both;
@@ -34,6 +36,7 @@
 			background-size: contain;
 			width: $o-share-icon-size;
 			height: $o-share-icon-size;
+			text-align: left;
 			text-indent: -($o-share-icon-size * 1000);
 			white-space: nowrap;
 			overflow: hidden;
