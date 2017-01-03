@@ -22,8 +22,8 @@
     "webpack.config.js"
   ],
   "dependencies": {
-    "o-colors": "^3.5.2",
-    "o-grid": "^4.2.2"
+    "o-colors": "^3.5.4",
+    "o-grid": "^4.3.0"
   },
   "devDependencies": {
     "ftc-icons": "^2.0.2"
