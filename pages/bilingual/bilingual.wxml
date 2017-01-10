@@ -1,0 +1,18 @@
+<!--pages/bilingual/bilingual.wxml-->
+<view class="container">
+  <view wx:for="{{coverItems}}" class="top-story__section">
+    <view class="top-story__image-container">
+      <image src="{{item.image}}" class="top-story__image" mode="aspectFill"></image>
+    </view>
+
+    <navigator url="../article/article?id={{item.id}}" open-type="navigate">
+      <view class="top-story__heading">
+        <text>{{item.headline}}</text>
+      </view>
+      <view class="top-story__standfirst">
+        <text>{{item.longlead}}</text>
+      </view>   
+    </navigator>
+
+  </view>
+</view>

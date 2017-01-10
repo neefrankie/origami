@@ -1,0 +1,25 @@
+<!--index.wxml-->
+<view class="container">
+  <!--<view  bindtap="bindViewTap" class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>-->
+  <view wx:for="{{coverItems}}" class="top-story__section">
+    <view class="top-story__image-container">
+      <image src="{{item.image}}" class="top-story__image" mode="aspectFill"></image>
+    </view>
+
+    <navigator url="../article/article?id={{item.id}}" open-type="navigate">
+      <view class="top-story__heading">
+        <text>{{item.headline}}</text>
+      </view>
+      <view class="top-story__standfirst">
+        <text>{{item.longlead}}</text>
+      </view>   
+    </navigator>
+
+  </view>
+</view>

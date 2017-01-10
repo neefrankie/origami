@@ -1,0 +1,27 @@
+<!--story.wxml-->
+<import src="../../wxParse/wxParse.wxml"/>
+
+<view class="container">
+    <view class="article">
+        <view class="article__header">
+            <text>{{title}}</text>
+        </view>
+
+        <view class="article__stand-first">
+            <text>{{standfirst}}</text>
+        </view>
+
+        <view class="article__image-container">
+        <image src="{{mainImage}}" class="article__main-image" mode="scaleToFit"></image>
+        </view>
+
+        <view class="article__time-byline">
+            <text class="article__timestamp">更新于{{publishDate}}</text>
+            <text class="article__byline">{{byline}}</text>
+        </view>
+
+        <view class="article__body">
+            <template is="wxParse" data="{{wxParseData:body.nodes}}" />
+        </view>    
+    </view>
+</view>
