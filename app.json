@@ -12,9 +12,10 @@
     "navigationBarTextStyle":"white"
   },
   "tabBar": {
-    "color": "#505050",
+    "color": "white",
     "selectedColor": "#2c8389",
-    "backgroundColor": "#fff1e0",
+    "backgroundColor": "black",
+   "borderStyle": "black",
     "list": [{
       "pagePath": "pages/index/index",
       "text": "今日焦点"

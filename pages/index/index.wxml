@@ -7,7 +7,7 @@
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
   </view>-->
-  <view wx:for="{{coverItems}}" class="top-story__section">
+  <view wx:for="{{articleList}}" class="top-story__section">
     <view class="top-story__image-container">
       <image src="{{item.image}}" class="top-story__image" mode="aspectFill"></image>
     </view>

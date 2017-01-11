@@ -1,9 +1,10 @@
 //index.js
 //获取应用实例
-var app = getApp()
+var app = getApp();
+
 Page({
   data: {
-    coverItems: []
+    articleList: []
   },
   //事件处理函数
   bindViewTap: function(e) {
@@ -24,34 +25,30 @@ Page({
     //   })
     // })
 
-    wx.request({
-      url: 'https://api.ftmailbox.com/index.php/jsapi/home',
-      data: {},
-      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      dataType: 'json',
-      header: {
-        'Accept': 'application/json'
-      }, // 设置请求的 header
-      success: function(res){
+    app.fetchData('https://api.ftmailbox.com/index.php/jsapi/home', (err, data) => {
+      if (err) {return err;}
+      const articleList = data.sections.filter(section => {
+          return section.name === 'Cover'
+        }).map(section => {
+          return section.lists.map(list => {
+            return list.items;
+          });
+        })[0][0];
 
-        const sections = res.data.sections.filter(section => {
-          return section.hasOwnProperty('lists');
-        });
+      this.setData({
+        articleList
+      });
+    });
 
-        const coverItems = sections[0].lists[0].items;
+  },
 
-        that.setData({
-          coverItems: coverItems
-        });
+  onShow: function() {
+    console.log('onShow');
+    
+  },
 
-        // success
-      },
-      fail: function() {
-        // fail
-      },
-      complete: function() {
-        // complete
-      }
-    })
+  onPullDownRefresh: function() {
+    // update data
+    
   }
 })

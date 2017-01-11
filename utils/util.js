@@ -16,18 +16,6 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
-// function convertTime (number) {
-//   const time = new Date(number * 1000);
-//   const year = time.getFullYear();
-//   const month = time.getMonth() + 1;
-//   const date = time.getDate();
-//   let hour = time.getHours();
-//   let minute = time.getMinutes();
-//   hour = hour < 10 ? '0' + hour : hour;
-//   minute = minute < 10 ? '0' + minute : minute;
-//   return `${year}年${month}月${date}日 ${hour}:${minute}`;
-// }
-
 function convertByline(authors, locations) {
   if (locations.indexOf(',') === -1) {
     return authors.replace(',', ' ') + ' ' + locations;

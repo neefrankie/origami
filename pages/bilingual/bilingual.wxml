@@ -1,16 +1,16 @@
 <!--pages/bilingual/bilingual.wxml-->
 <view class="container">
-  <view wx:for="{{coverItems}}" class="top-story__section">
+  <view wx:for="{{articleList}}" class="top-story__section">
     <view class="top-story__image-container">
-      <image src="{{item.image}}" class="top-story__image" mode="aspectFill"></image>
+      <image src="{{item.story_pic.other}}" class="top-story__image" mode="aspectFill"></image>
     </view>
 
-    <navigator url="../article/article?id={{item.id}}" open-type="navigate">
+    <navigator url="../article/article?id={{item.id}}&bilingual=true" open-type="navigate">
       <view class="top-story__heading">
-        <text>{{item.headline}}</text>
+        <text>{{item.cheadline}}</text>
       </view>
       <view class="top-story__standfirst">
-        <text>{{item.longlead}}</text>
+        <text>{{item.clongleadbody}}</text>
       </view>   
     </navigator>
 

@@ -1,11 +1,15 @@
 // pages/bilingual/bilingual.js
+//获取应用实例
+var app = getApp();
+
 Page({
   data:{},
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     var that = this;
+    
     wx.request({
-      url: 'https://api.ftmailbox.com/index.php/jsapi/home',
+      url: 'https://api.ftmailbox.com/index.php/jsapi/sod',
       data: {},
       method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       dataType: 'json',
@@ -13,24 +17,21 @@ Page({
         'Accept': 'application/json'
       }, // 设置请求的 header
       success: function(res){
-
-        const sections = res.data.sections.filter(section => {
-          return section.hasOwnProperty('lists');
-        });
-
-        const coverItems = sections[0].lists[0].items;
+        console.log(res);
 
         that.setData({
-          coverItems: coverItems
+          articleList: res.data
         });
 
         // success
       },
       fail: function() {
         // fail
+        console.log('request failed.');
       },
       complete: function() {
         // complete
+        console.log('request completed.');
       }
     })    
   },
