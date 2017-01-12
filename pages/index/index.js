@@ -61,7 +61,7 @@ Page({
   fetchAndCacheData: function() {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/home', (err, data) => {
       if (err) {return err;}
-      // Get cover's article list. This is specifi to the data structure returned from API.
+// Get cover's article list. This is specific to the data structure returned from API.
       const articleList = data.sections.filter(section => {
           return section.name === 'Cover'
         }).map(section => {
@@ -74,13 +74,8 @@ Page({
         articleList
       });
       console.log(articleList);
-      // Cache data
-      app.cacheData('articleList', articleList, (err, key) => {
-        if (err) {
-          console.log('Cache article list failed.');
-          return;
-        }
-      });
+// Cache data
+      app.cacheData('articleList', articleList);
 // Tracking
       app.ga('/', '今日焦点');
     });

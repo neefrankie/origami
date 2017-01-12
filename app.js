@@ -1,4 +1,5 @@
 //app.js
+const uuid = require('./uuid/index.js');
 
 App({
   onLaunch: function () {
@@ -7,17 +8,15 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs);
 
-    wx.login({
-      success: function(res){
-        
-      },
-      fail: function() {
-        // fail
-      },
-      complete: function() {
-        // complete
+    this.retrieveData('cid', (err, data) => {
+      if (!err) {
+        this.globalData.cid = data;
+        return;
       }
-    })
+
+      const cid = uuid();
+      this.cacheData('cid', cid);
+    });
   },
 
   onShow: function() {
@@ -164,6 +163,7 @@ App({
  * See: https://developers.google.com/analytics/devguides/collection/protocol/v1/
  */
   ga: function (documentPath, documentTitle) {
+    console.log(this.globalData.cid);
     wx.request({
       url: 'https://www.google-analytics.com/collect',
       method: 'POST',
@@ -173,6 +173,7 @@ App({
       data: {
         v: 1,
         tid: 'UA-1608715-1',
+        cid: this.globalData.cid,
         t: 'pageview',
         dh: 'ftchinese.com',
         dp: documentPath,
