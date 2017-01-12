@@ -1,5 +1,4 @@
 //app.js
-const utils = require('./utils/util.js');
 
 App({
   onLaunch: function () {
@@ -8,15 +7,21 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs);
 
-    wx.getNetworkType({
-      success: function(res) {
-        console.log(res);
+    wx.login({
+      success: function(res){
+        
+      },
+      fail: function() {
+        // fail
+      },
+      complete: function() {
+        // complete
       }
-    });
+    })
   },
 
   onShow: function() {
-    // check cache. If exists, use cached data
+    
   },
 
   onHide: function() {
@@ -48,10 +53,16 @@ App({
   },
 
   globalData:{
-    userInfo:null
+    userInfo:null,
+    cid: null
   },
 
+// The following are custom methods used by all pages.
 // All callback follow node.js style callback of receiving error as first parameter
+/*
+ * @param {String} url - the destination to request data
+ * @param {Function} cb - (err, data) Receive request error or retruned data
+ */
   fetchData: function(url, cb) {
     wx.request({
       url: url,
@@ -63,12 +74,10 @@ App({
       }, // 设置请求的 header
       success: function(res){
         // success
-        console.log(res);
         typeof cb == 'function' && cb(null, res.data);
       },
       fail: function() {
         // fail
-        console.log(`request to ${url} failed`);
         typeof cb == 'function' && cb(new Error('EREQUEST'));
       },
       complete: function() {
@@ -78,31 +87,24 @@ App({
     });
   },
 
-  fetchArticle: function(url, cb) {
-    this.fetchData(url, (err, data) => {
-      if (err) { return err;}
-      const articleData = {
-        title: data.cheadline,
-        standfirst: data.clongleadbody,
-        mainImage: data.story_pic.other,
-        publishDate: utils.formatTime(new Date(data.last_publish_time * 1000)),
-        byline: data.cbyline_description + ' ' + utils.convertByline(data.cauthor, data.cbyline_status),
-        cbody: data.cbody,
-        ebody: data.ebody
-      };
-
-      typeof cb == 'function' && cb(articleData);
-    });
-  },
-
-  checkNetwork: function(cb) {
+/* 
+ * @param {Function} wifiCb - do whatever if user device is connected via wifi
+ * @param {Function} dataLinkCb - do whatever if user device is connected via data link
+ */
+  checkNetwork: function(wifiCb, dataLinkCb) {
     wx.getNetworkType({
       success: function(res) {
         // success
-        typeof cb == 'function' && cb(null, res.networkType);
+        
+        if (res.networkType === 'wifi') {
+          typeof wifiCb == 'function' && wifiCb(null, res.networkType);
+        } else {
+          typeof dataLinkCb == 'function' && dataLinkCb(null, res.networkType);
+        }
       },
       fail: function() {
-        typeof cb == 'function' && cb(new Error('EACCESSNET'));
+        typeof wifiCb == 'function' && wifiCb(new Error('EACCESSNET'));
+        typeof dataLinkCb == 'function' && dataLinkCb(new Error('EACCESSNET'));
       },
       complete: function() {
         console.log('Check networkType');
@@ -110,41 +112,34 @@ App({
     });
   },
 
-  storeData(key, value, cb) {
+/*
+ * @param {String} key
+ * @param {Object | String} value
+ * @param {Function} cb - used to handle error (err, key).
+ */ 
+  cacheData(key, value, cb) {
     wx.setStorage({
-      key: key,
+      key: String(key),
       data: value,
       success: function(res){
         // success
-        console.log(`Store data ${key} success.`);
+        // Pass key to cb
+        typeof cb == 'function' && cb(null, key);
       },
       fail: function() {
         // fail
-        console.log(`failed to cache ${key}`)
-        typeof cb == 'function' && cb(new Error({
-          errMsg: 'ECACHE',
-          key: key
-        }));
+        typeof cb == 'function' && cb(new Error('ECACHE'));
       },
       complete: function() {
         // complete
-        console.log(`Store data ${key} completed`);
+        console.log(`Cache ${key} completed`);
       }
     });
   },
 
 /*
- * Usage: 
- * retrieveData(key, function(res) {
- *    if (res) {
- *      //set data using res;
- *      return;
- *    }
- *    getData(url, function(data) {
- *      // set data using data
- *      storeData(key, data);
- *    });
- * })
+ * @param {String} key
+ * @param {Function} cb - (err, data)
  */
   retrieveData: function(key, cb) {
     wx.getStorage({
@@ -155,15 +150,41 @@ App({
       },
       fail: function() {
         // fail
-        typeof cb == 'function' && cb({
-          errMsg: 'ERTRV',
-          key: key
-        });
+        typeof cb == 'function' && cb(new Error('ERTRV'));
       },
       complete: function() {
         // complete
         console.log('Retrieving Completed.')
       }
     })
-  }
-})
+  },
+
+/*
+ * Use ga `Meassurment Protocol` for trakcing.
+ * See: https://developers.google.com/analytics/devguides/collection/protocol/v1/
+ */
+  ga: function (documentPath, documentTitle) {
+    wx.request({
+      url: 'https://www.google-analytics.com/collect',
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        v: 1,
+        tid: 'UA-1608715-1',
+        t: 'pageview',
+        dh: 'ftchinese.com',
+        dp: documentPath,
+        dt: documentTitle,
+        an: 'FTCWXAPP'
+      },
+      success: function(res) {
+        console.log(res);
+      },
+      fail: function() {
+        console.log('Sending ga failed.');
+      }
+    });
+  } 
+});

@@ -1,5 +1,12 @@
 .article__header {
     font-size: 1.2em;
+    font-weight: 700;
+}
+
+.article__header text {
+    display: block;
+    width: 100%;
+    margin-top: 30rpx;
 }
 
 .article__stand-first {
@@ -18,6 +25,7 @@
 .article__time-byline {
     font-size: .8em;
     margin: 30rpx 0;
+    line-height: 1.5;
 }
 
 .article__timestamp {

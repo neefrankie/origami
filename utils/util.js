@@ -17,6 +17,10 @@ function formatNumber(n) {
 }
 
 function convertByline(authors, locations) {
+  if (!locations) {
+    return authors.replace(',', ' ');
+  }
+
   if (locations.indexOf(',') === -1) {
     return authors.replace(',', ' ') + ' ' + locations;
   }
@@ -58,8 +62,22 @@ function zipBilingual(en, cn) {
   return bilingual.join('');
 }
 
+function filterArticleData(data) {
+  return {
+    englishTitle: data.eheadline,
+    chineseTitle: data.cheadline,
+    standfirst: data.clongleadbody,
+    mainImage: data.story_pic.other,
+    publishDate: formatTime(new Date(data.last_publish_time * 1000)),
+    byline: data.cbyline_description + ' ' + convertByline(data.cauthor, data.cbyline_status),
+    cbody: data.cbody,
+    ebody: data.ebody
+  }
+}
+
 module.exports = {
   formatTime: formatTime,
   convertByline: convertByline,
-  zipBilingual: zipBilingual
-}
+  zipBilingual: zipBilingual,
+  filterArticleData: filterArticleData
+};

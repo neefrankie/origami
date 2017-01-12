@@ -24,9 +24,44 @@ Page({
     //     userInfo:userInfo
     //   })
     // })
+    app.checkNetwork((err, type) => {
+      // If wifi connection, always request to server
+      this.fetchAndCacheData();
 
+    }, (err, type) => {
+      // If data connection, try to get data from cache first. If failed, then asking server for data.
+      app.retrieveData('articleList', (err, data) => {
+        // If there is no error, data is retrieved from cache
+        if (!err) {
+          console.log('article list retrieved from cache');
+          this.setData({
+            articleList: data
+          });
+// Tracking          
+          app.ga('/', '今日焦点');
+
+          return;
+        }
+
+        // If there is error, request data to server
+        this.fetchAndCacheData();
+      });
+    });
+  },
+
+  onShow: function() {
+    console.log('onShow');
+  },
+
+  onPullDownRefresh: function() {
+    // Manually request data
+    this.fetchAndCacheData();
+  },
+
+  fetchAndCacheData: function() {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/home', (err, data) => {
       if (err) {return err;}
+      // Get cover's article list. This is specifi to the data structure returned from API.
       const articleList = data.sections.filter(section => {
           return section.name === 'Cover'
         }).map(section => {
@@ -38,17 +73,16 @@ Page({
       this.setData({
         articleList
       });
+      console.log(articleList);
+      // Cache data
+      app.cacheData('articleList', articleList, (err, key) => {
+        if (err) {
+          console.log('Cache article list failed.');
+          return;
+        }
+      });
+// Tracking
+      app.ga('/', '今日焦点');
     });
-
-  },
-
-  onShow: function() {
-    console.log('onShow');
-    
-  },
-
-  onPullDownRefresh: function() {
-    // update data
-    
   }
 })

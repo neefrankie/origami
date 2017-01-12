@@ -4,7 +4,8 @@
 <view class="container">
     <view class="article">
         <view class="article__header">
-            <text>{{title}}</text>
+            <text>{{englishTitle}}</text>
+            <text>{{chineseTitle}}</text>
         </view>
 
         <view class="article__stand-first">
