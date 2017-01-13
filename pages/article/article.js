@@ -1,6 +1,7 @@
 const WxParse = require('../../wxParse/wxParse.js');
 const utils = require('../../utils/util.js');
 const app = getApp();
+const gaBasePath = '/wx/story';
 
 Page({
     data: {
@@ -13,59 +14,72 @@ Page({
     },
     
     onLoad: function(options) {
+// `options` to be used by other methods.
       this.options = options;
 
       app.retrieveData(options.id, (err, data) => {
 // If no error, then use cached data        
         if (!err) {
-          console.log(`Find cache for article ${options.id}`);
-          console.log(data);
           this.setArticleData(data);
 
-// Need the retrieved data's title field to set tracking info.
+// Tracking
           this.sendTracking(data.chineseTitle);
 
           return;
         }
 // If error, no data in cache, got to fetch it and store it.
-        console.log(`No cache for article ${options.id}. Fetch it.`);
-
         this.fetchAndCacheData();
       });
     },
 
-// Custom methods
+// On pull down, request data from server
+    onPullDownRefesh: function() {
+      this.fetchAndCacheArticle();
+    },
+
+/**
+  * The following are methods specific to this page.
+  */ 
     fetchAndCacheData: function() {
       app.fetchData(`https://api.ftmailbox.com/index.php/jsapi/get_story_more_info/${this.options.id}`, (err, data) => {
         if (err) { return err;}
 
         const articleData = utils.filterArticleData(data);
-        console.log(articleData);
+
         this.setArticleData(articleData);
 
 // Cache the filtered data, not requested data.
         app.cacheData(this.options.id, articleData);
 
-// Need the requested data's title field
+// Tracking
         this.sendTracking(articleData.chineseTitle);
 
       });        
     },
 
+/*
+ * @param {Object} data - data from cache or server 
+ */
     setArticleData: function (data) {
       this.setData(data);
+
+// Tell the view whether it is used for bilingual story      
+      this.setData({
+        bilingual: this.options.bilingual
+      });
 
       const body = this.options.bilingual ? utils.zipBilingual(data.ebody, data.cbody) : data.cbody;
       WxParse.wxParse('body', 'html', body, this);
     },
 
+/**
+ * @param {String} title - current aritcle's title
+ */
     sendTracking: function(title) {
-      const documentPath = this.options.bilingual ? `/story/${this.options.id}/ce` : `/story/${this.options.id}`;
+// For chinese text page, use `/wx/story/<id>`
+// For binlingual text page, use `/wx/story/<id>/ce`      
+      const documentPath = this.options.bilingual ? `${gaBasePath}/${this.options.id}/ce` : `${gaBasePath}/${this.options.id}`;
 
       app.ga(documentPath, title);
-    },
-
-    onPullDownRefesh: function() {
-      this.fetchAndCacheArticle();
     }
 });

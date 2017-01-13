@@ -1,5 +1,8 @@
 //index.js
 //获取应用实例
+const gaPath = '/wx/today-focus';
+const gaTitle = '今日焦点';
+
 var app = getApp();
 
 Page({
@@ -38,12 +41,12 @@ Page({
             articleList: data
           });
 // Tracking          
-          app.ga('/', '今日焦点');
+          app.ga(gaPath, gaTitle);
 
           return;
         }
 
-        // If there is error, request data to server
+// If there is error, request data to server
         this.fetchAndCacheData();
       });
     });
@@ -54,7 +57,7 @@ Page({
   },
 
   onPullDownRefresh: function() {
-    // Manually request data
+// Manually request data
     this.fetchAndCacheData();
   },
 
@@ -73,11 +76,12 @@ Page({
       this.setData({
         articleList
       });
-      console.log(articleList);
+
 // Cache data
       app.cacheData('articleList', articleList);
+
 // Tracking
-      app.ga('/', '今日焦点');
+      app.ga(gaPath, gaTitle);
     });
   }
-})
+});

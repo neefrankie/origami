@@ -28,7 +28,6 @@ App({
   },
 
   onError: function(msg) {
-    console.log('App launch error');
     console.log(msg);
   },
 
@@ -81,7 +80,7 @@ App({
       },
       complete: function() {
         // complete
-        console.log(`request to ${url} completed`);
+        // console.log(`request to ${url} completed`);
       }
     });
   },
@@ -106,7 +105,7 @@ App({
         typeof dataLinkCb == 'function' && dataLinkCb(new Error('EACCESSNET'));
       },
       complete: function() {
-        console.log('Check networkType');
+        // console.log('Check networkType');
       }
     });
   },
@@ -131,7 +130,7 @@ App({
       },
       complete: function() {
         // complete
-        console.log(`Cache ${key} completed`);
+        // console.log(`Cache ${key} completed`);
       }
     });
   },
@@ -153,7 +152,7 @@ App({
       },
       complete: function() {
         // complete
-        console.log('Retrieving Completed.')
+        // console.log('Retrieving Completed.')
       }
     })
   },
@@ -163,7 +162,7 @@ App({
  * See: https://developers.google.com/analytics/devguides/collection/protocol/v1/
  */
   ga: function (documentPath, documentTitle) {
-    console.log(this.globalData.cid);
+
     wx.request({
       url: 'https://www.google-analytics.com/collect',
       method: 'POST',
@@ -171,7 +170,7 @@ App({
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       data: {
-        v: 1,
+        v: String(1),
         tid: 'UA-1608715-1',
         cid: this.globalData.cid,
         t: 'pageview',
@@ -181,10 +180,9 @@ App({
         an: 'FTCWXAPP'
       },
       success: function(res) {
-        console.log(res);
       },
       fail: function() {
-        console.log('Sending ga failed.');
+        console.log(`Tracking failed: ${documentPath}, ${docuemntTitle}`);
       }
     });
   } 

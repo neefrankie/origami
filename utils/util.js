@@ -46,8 +46,6 @@ function zipBilingual(en, cn) {
 
   const maxLength = Math.max(cnArr.length, enArr.length);
 
-  console.log(maxLength);
-
   for (let i = 0; i < maxLength; i++) {
     if (!enArr[i]) {
       enArr[i] = '';
