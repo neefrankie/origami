@@ -6,7 +6,7 @@
     "pages/logs/logs"
   ],
   "window":{
-    "navigationBarBackgroundColor": "#000",
+    "navigationBarBackgroundColor": "#333",
     "navigationBarTextStyle":"white",
     "navigationBarTitleText": "FT中文网",
     "backgroundColor": "#fff1e0",
@@ -15,15 +15,17 @@
   },
   "tabBar": {
     "color": "#fff",
-    "selectedColor": "#2c8389",
-    "backgroundColor": "#000",
-   
+    "selectedColor": "#2bbbbf",
+    "backgroundColor": "#333",
+    "borderStyle": "black",
     "list": [{
       "pagePath": "pages/index/index",
       "text": "今日焦点"
+
     }, {
       "pagePath": "pages/bilingual/bilingual",
       "text": "双语阅读"
+
     }]
   }
 }
