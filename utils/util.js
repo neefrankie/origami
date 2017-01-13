@@ -73,9 +73,23 @@ function filterArticleData(data) {
   }
 }
 
+function stringify(obj) {
+  const sep = '&';
+  const eq = '=';
+  const qs = [];
+
+  for (let k in obj) {
+    if (obj.hasOwnProperty(k)) {
+      qs.push(`${encodeURIComponent(k)}${eq}${encodeURIComponent(obj[k])}`);
+    }
+  }
+  return qs.join(sep);
+}
+
 module.exports = {
   formatTime: formatTime,
   convertByline: convertByline,
   zipBilingual: zipBilingual,
-  filterArticleData: filterArticleData
+  filterArticleData: filterArticleData,
+  stringify: stringify
 };

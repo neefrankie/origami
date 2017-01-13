@@ -27,9 +27,17 @@ Page({
     //     userInfo:userInfo
     //   })
     // })
+    wx.showToast({
+      title: '加载中...',
+      icon: 'loading',
+      duration: 1500,
+    });
+
     app.checkNetwork((err, type) => {
       // If wifi connection, always request to server
-      this.fetchAndCacheData();
+      this.fetchAndCacheData(() => {
+        wx.hideToast();
+      });
 
     }, (err, type) => {
       // If data connection, try to get data from cache first. If failed, then asking server for data.
@@ -47,7 +55,10 @@ Page({
         }
 
 // If there is error, request data to server
-        this.fetchAndCacheData();
+        this.fetchAndCacheData(() => {
+          wx.hideToast();
+        });
+        
       });
     });
   },
@@ -58,12 +69,33 @@ Page({
 
   onPullDownRefresh: function() {
 // Manually request data
-    this.fetchAndCacheData();
+    wx.showNavigationBarLoading();
+    this.fetchAndCacheData(() => {
+      wx.stopPullDownRefresh();
+      wx.hideNavigationBarLoading();
+    });
   },
 
-  fetchAndCacheData: function() {
+/**
+ * `path` is the path of the js file. Lik `pages` in app.json but an start with `/`
+ */
+  onShareAppMessage: function() {
+    return {
+      title: 'FT今日焦点',
+      desc: 'FT中文网今日焦点',
+      path: '/pages/index/index'
+    }
+  },
+
+/**
+ * Page specific methods
+ */
+  fetchAndCacheData: function(cb) {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/home', (err, data) => {
       if (err) {return err;}
+// Call cb if it exists. Mainly to be used fro onPullDownRefersh
+      typeof cb == 'function' && cb();
+
 // Get cover's article list. This is specific to the data structure returned from API.
       const articleList = data.sections.filter(section => {
           return section.name === 'Cover'

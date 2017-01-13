@@ -7,11 +7,18 @@ var app = getApp();
 
 Page({
   data:{},
-  onLoad:function(options){
-    // 页面初始化 options为页面跳转所带来的参数
+  onLoad:function(){
+    wx.showToast({
+      title: '加载中...',
+      icon: 'loading',
+      duration: 1500,
+    });
+
     app.checkNetwork((err, type) => {
 // If wifi connection, always request to server
-      this.fetchAndCacheData();
+      this.fetchAndCacheData(() => {
+        wx.hideToast();
+      });
 
     }, (err, type) => {
 // If data connection, try to get data from cache first. If failed, then asking server for data.
@@ -27,8 +34,11 @@ Page({
           return;
         }
 
-        // If there is error, request data to server
-        this.fetchAndCacheData();
+// If there is error, request data to server
+        this.fetchAndCacheData(() => {
+          wx.hideToast();
+        });
+
       });
     });
   },
@@ -45,15 +55,34 @@ Page({
     // 页面关闭
   },
 
+  onPullDownRefresh: function() {
+// Manually request data
+    wx.showNavigationBarLoading();
+    this.fetchAndCacheData(() => {
+      wx.stopPullDownRefresh();
+      wx.hideNavigationBarLoading();
+    });
+  },
+
+  onShareAppMessage: function() {
+    return {
+      title: 'FT双语阅读',
+      desc: 'FT中文网双语阅读',
+      path: '/pages/bilingual/bilingual'
+    }
+  },
 
 /**
  * Page specific methods
  */
-  fetchAndCacheData: function() {
+  fetchAndCacheData: function(cb) {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/sod', (err, data) => {
       if (err) {return err;}
-// Get bilingual reading's article list.
 
+// Call cb if it exists. Mainly to be used fro onPullDownRefersh
+      typeof cb == 'function' && cb();
+
+// Set bilingual reading's article list.
       this.setData({
         articleList: data
       });

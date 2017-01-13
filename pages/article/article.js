@@ -24,7 +24,6 @@ Page({
 
 // Tracking
           this.sendTracking(data.chineseTitle);
-
           return;
         }
 // If error, no data in cache, got to fetch it and store it.
@@ -34,9 +33,17 @@ Page({
 
 // On pull down, request data from server
     onPullDownRefesh: function() {
-      this.fetchAndCacheArticle();
+      this.fetchAndCacheData(wx.stopPullDownRefresh);
     },
 
+    onShareAppMessage: function() {
+      const basePath = '/pages/article/article';
+      return {
+        title: `${this.data.chineseTitle} - FT中文网`,
+        desc: this.options.bilingual ? 'FT双语阅读' : 'FT今日焦点',
+        path: `/pages/article/article?${utils.stringify(this.options)}`
+      }
+    },
 /**
   * The following are methods specific to this page.
   */ 

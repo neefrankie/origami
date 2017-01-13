@@ -1,6 +1,6 @@
 <!--pages/bilingual/bilingual.wxml-->
 <view class="container">
-  <view wx:for="{{articleList}}" class="top-story__section">
+  <view wx:for="{{articleList}}" wx:key="id" class="top-story__section">
     <view class="top-story__image-container">
       <image src="{{item.story_pic.other}}" class="top-story__image" mode="aspectFill"></image>
     </view>

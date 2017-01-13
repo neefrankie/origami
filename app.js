@@ -16,7 +16,7 @@ App({
 
       const cid = uuid();
       this.cacheData('cid', cid);
-    });
+    }); 
   },
 
   onShow: function() {
@@ -74,9 +74,10 @@ App({
         // success
         typeof cb == 'function' && cb(null, res.data);
       },
-      fail: function() {
+      fail: function(err) {
         // fail
         typeof cb == 'function' && cb(new Error('EREQUEST'));
+        console.log(err);
       },
       complete: function() {
         // complete

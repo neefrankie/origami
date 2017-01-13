@@ -6,17 +6,17 @@
     "pages/logs/logs"
   ],
   "window":{
-    "navigationBarBackgroundColor": "black",
+    "navigationBarBackgroundColor": "#000",
     "navigationBarTitleText": "FT中文网",
     "navigationBarTextStyle":"white",
     "backgroundTextStyle":"light",
     "enablePullDownRefresh": true
   },
   "tabBar": {
-    "color": "black",
+    "color": "#fff",
     "selectedColor": "#2c8389",
-    "backgroundColor": "white",
-   "borderStyle": "white",
+    "backgroundColor": "#000",
+   
     "list": [{
       "pagePath": "pages/index/index",
       "text": "今日焦点"
