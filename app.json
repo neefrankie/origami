@@ -7,9 +7,10 @@
   ],
   "window":{
     "navigationBarBackgroundColor": "#000",
-    "navigationBarTitleText": "FT中文网",
     "navigationBarTextStyle":"white",
-    "backgroundTextStyle":"light",
+    "navigationBarTitleText": "FT中文网",
+    "backgroundColor": "#fff1e0",
+    "backgroundTextStyle":"dark",
     "enablePullDownRefresh": true
   },
   "tabBar": {

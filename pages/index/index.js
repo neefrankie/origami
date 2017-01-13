@@ -27,17 +27,10 @@ Page({
     //     userInfo:userInfo
     //   })
     // })
-    wx.showToast({
-      title: '加载中...',
-      icon: 'loading',
-      duration: 1500,
-    });
 
     app.checkNetwork((err, type) => {
       // If wifi connection, always request to server
-      this.fetchAndCacheData(() => {
-        wx.hideToast();
-      });
+      this.fetchAndCacheData();
 
     }, (err, type) => {
       // If data connection, try to get data from cache first. If failed, then asking server for data.
@@ -55,9 +48,7 @@ Page({
         }
 
 // If there is error, request data to server
-        this.fetchAndCacheData(() => {
-          wx.hideToast();
-        });
+        this.fetchAndCacheData();
         
       });
     });
@@ -69,11 +60,7 @@ Page({
 
   onPullDownRefresh: function() {
 // Manually request data
-    wx.showNavigationBarLoading();
-    this.fetchAndCacheData(() => {
-      wx.stopPullDownRefresh();
-      wx.hideNavigationBarLoading();
-    });
+    this.fetchAndCacheData(wx.stopPullDownRefresh);
   },
 
 /**
