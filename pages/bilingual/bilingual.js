@@ -8,10 +8,15 @@ var app = getApp();
 Page({
   data:{},
   onLoad:function(){
+    wx.showToast({
+      title: '加载中...',
+      icon: 'loading',
+      duration: 1500,
+    });
 
     app.checkNetwork((err, type) => {
 // If wifi connection, always request to server
-      this.fetchAndCacheData();
+      this.fetchAndCacheData(wx.hideToast);
 
     }, (err, type) => {
 // If data connection, try to get data from cache first. If failed, then asking server for data.
@@ -28,7 +33,7 @@ Page({
         }
 
 // If there is error, request data to server
-        this.fetchAndCacheData();
+        this.fetchAndCacheData(wx.hideToast);
 
       });
     });

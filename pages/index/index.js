@@ -27,13 +27,18 @@ Page({
     //     userInfo:userInfo
     //   })
     // })
+    wx.showToast({
+      title: '加载中...',
+      icon: 'loading',
+      duration: 1500,
+    });
 
     app.checkNetwork((err, type) => {
-      // If wifi connection, always request to server
-      this.fetchAndCacheData();
+// If wifi connection, always request to server
+      this.fetchAndCacheData(wx.hideToast);
 
     }, (err, type) => {
-      // If data connection, try to get data from cache first. If failed, then asking server for data.
+// If data connection, try to get data from cache first. If failed, then asking server for data.
       app.retrieveData('articleList', (err, data) => {
         // If there is no error, data is retrieved from cache
         if (!err) {
@@ -48,7 +53,7 @@ Page({
         }
 
 // If there is error, request data to server
-        this.fetchAndCacheData();
+        this.fetchAndCacheData(wx.hideToast);
         
       });
     });
@@ -81,7 +86,7 @@ Page({
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/home', (err, data) => {
       if (err) {return err;}
 // Call cb if it exists. Mainly to be used fro onPullDownRefersh
-      typeof cb == 'function' && cb();
+      
 
 // Get cover's article list. This is specific to the data structure returned from API.
       const articleList = data.sections.filter(section => {
@@ -95,6 +100,8 @@ Page({
       this.setData({
         articleList
       });
+      
+      typeof cb == 'function' && cb();
 
 // Cache data
       app.cacheData('articleList', articleList);
