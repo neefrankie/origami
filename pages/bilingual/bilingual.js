@@ -69,15 +69,14 @@ Page({
  */
   fetchAndCacheData: function(cb) {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/sod', (err, data) => {
-      if (err) {return err;}
-
-// Call cb if it exists. Mainly to be used fro onPullDownRefersh
-      typeof cb == 'function' && cb();
+      if (err) {return err;}      
 
 // Set bilingual reading's article list.
       this.setData({
         articleList: data
       });
+
+      typeof cb == 'function' && cb();
 
 // Cache data. Use a different key than the `articleList`
       app.cacheData('bilingualList', data, (err, key) => {
