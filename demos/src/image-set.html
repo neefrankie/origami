@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% block body %}
 <div>
+	<h2>SVG</h2>
   <ul>
     {% for logo in logos %}
     <li class="{{logo}}"><img src="dist/{{logo}}.svg"><span>{{logo}}</span></li>
+    {% endfor %}
+  </ul>
+
+  <h2>PNG</h2>
+  <ul>
+    {% for logo in logos %}
+    <li class="{{logo}}"><img src="dist/{{logo}}.png"><span>{{logo}}</span></li>
     {% endfor %}
   </ul>
 </div>

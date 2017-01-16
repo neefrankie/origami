@@ -1,10 +1,30 @@
-const promisify = require('promisify-node')
-const fs = promisify('fs');
+const fs = require('mz/fs');
 const path = require('path');
-const isThere = require('is-there');
 const co = require('co');
-const mkdirp = require('mkdirp');
-const helper = require('./lib/helper');
+const nunjucks = require('nunjucks');
+const env = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(
+    [process.cwd()],
+    {noCache: true, }
+  ),
+  {autoescape: false}
+);
+
+function render(template, context, destName) {
+  return new Promise(function(resolve, reject) {
+    env.render(template, context, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({
+          name: destName,
+          content: result
+        });
+      }
+    });
+  });
+}
+const mkdirp = require('./lib/mkdirp.js');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -32,19 +52,12 @@ gulp.task('dev', function(done) {
 // /* demo tasks */
 gulp.task('html', () => {
 // determine whether include `/api/resize-iframe.js` listed in `ftc-components`.
-  var embedded = false;
+  var embedded = process.env.NODE_ENV === 'prod';
 
   return co(function *() {
     const destDir = '.tmp';
 
-    if (!isThere(destDir)) {
-      mkdirp(destDir, (err) => {
-        if (err) console.log(err);
-      });
-    }
-    if (process.env.NODE_ENV === 'prod') {
-      embedded = true;
-    }
+    yield mkdirp(destDir);
 
     const origami = yield helper.readJson('origami.json');
 
@@ -52,14 +65,11 @@ gulp.task('html', () => {
 
     const renderResults = yield Promise.all(demos.map(function(demo) {
 
-      const template = demo.template;
-      console.log(`Using template "${template}" for "${demo.name}"`);
-
       const context = Object.assign({}, demo, {
         logos: data,
-        embedded: embedded
+        embedded
       });
-      return helper.render(template, context, demo.name);
+      return helper.render(demo.template, context, demo.name);
     }));
 
     yield Promise.all(renderResults.map(result => {
