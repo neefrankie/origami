@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 
-/*
+/* Convert an svg's style using `setting`
  * @param {String} svg - svg file's content
  * @param {Object} setting
  * @param {String} setting.fill - requried. svg shape's fill color
@@ -15,7 +15,7 @@ function transform(svg, setting) {
 
 	const rectEl = $(setting.rect ? setting.rect : '#background');
   const pathEl = $(setting.path ? setting.path : '#path');
-	
+
 	if (rectEl.length) {
 		setting.background
 			? rectEl
@@ -23,11 +23,11 @@ function transform(svg, setting) {
 				.attr('rx', setting.rx)
 				.attr('ry', setting.ry)
 				.attr('id', null)
-			: rectEl.remove();	
+			: rectEl.remove();
 	} else {
 		console.log('No background element');
 	}
-	
+
 	if (pathEl.length) {
 		setting.fill
 		 ? pathEl

@@ -1,6 +1,10 @@
 const fs = require('mz/fs');
 const convert = require('./convert.js');
 
+/*
+ * @param {String} svg - Input string of the svg content
+ * @param {String} to - Destination filename.
+ */
 function output(svg, to) {
 	console.log(`Generating ${to}.svg`);
 
@@ -16,7 +20,7 @@ function output(svg, to) {
 		})
 		.catch(err => {
 			console.log(err);
-		});	
+		});
 }
 
 module.exports = output;
