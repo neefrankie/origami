@@ -1,5 +1,4 @@
 @import "o-assets/main";
-@import "o-colors/main";
 
 @mixin oLogosGetLogo($logo-name, $apply-base-style: true) {
 	background-image: url(oAssetsResolve("static/png/#{$logo-name}.png", ftc-logos));
@@ -10,6 +9,6 @@
 		margin: 16px auto;
 		background-size: contain;
 		background-position: 50%;
-		background-repeat: no-repeat;		
+		background-repeat: no-repeat;
 	}
 }
