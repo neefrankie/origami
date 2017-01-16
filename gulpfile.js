@@ -24,7 +24,7 @@ function render(template, context, destName) {
     });
   });
 }
-const mkdirp = require('./lib/mkdirp.js');
+const mkdirp = require('./lib/mkdir.js');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -33,7 +33,14 @@ const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
-const data = require('./demos/src/data.json');
+const settings = require('./src/js/settings.json');
+const logos = settings.map(setting => {
+  return setting.themes.map(theme => {
+    return theme.type === 'default' ? setting.name : `${setting.name}-${theme.type}`;
+  });
+});
+
+console.log(logos);
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
@@ -59,17 +66,17 @@ gulp.task('html', () => {
 
     yield mkdirp(destDir);
 
-    const origami = yield helper.readJson('origami.json');
+    const origami = yield fs.readFile('origami.json', 'utf8');
 
-    const demos = origami.demos;
+    const demos = JSON.parse(origami).demos;
 
     const renderResults = yield Promise.all(demos.map(function(demo) {
 
       const context = Object.assign({}, demo, {
-        logos: data,
+        logos,
         embedded
       });
-      return helper.render(demo.template, context, demo.name);
+      return render(demo.template, context, demo.name);
     }));
 
     yield Promise.all(renderResults.map(result => {
