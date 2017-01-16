@@ -37,8 +37,10 @@
 }
 
 .wxParse-p {
-    line-height: 161.8%;
+    /*line-height: 161.8%;*/
+    line-height: 1.7;
     padding-bottom: 1em;
+    font-size: 18px;
 }
 /* override wxParse inline style */
 .wxParse-img {
