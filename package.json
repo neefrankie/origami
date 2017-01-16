@@ -6,8 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postversion": "git push && git push --tags",
-    "svgpng": "node ./lib/svg-png.js",
-    "single": "node ./lib/single-image.js",
     "fav": "node ./lib/fav.js"
   },
   "repository": {
@@ -26,9 +24,7 @@
   "homepage": "https://github.com/FTChinese/ftc-logos#readme",
   "devDependencies": {
     "browser-sync": "^2.16.0",
-    "co": "^4.6.0",
-    "del": "^2.2.2",
-    "favicons": "^4.8.3",
+    "del": "^2.2.2", 
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-changed": "^1.3.2",
     "gulp-cheerio": "^0.6.2",
@@ -36,16 +32,17 @@
     "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^6.2.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.3.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "is-there": "^4.3.3",
-    "junk": "^2.0.0",
-    "minimist": "^1.2.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.0",
+    "nunjucks": "^3.0.0",
+    "postcss-cssnext": "^2.8.0"
+  },
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "co": "^4.6.0",
+    "favicons": "^4.8.3",
     "mkdirp": "^0.5.1",
-    "nunjucks": "^2.5.2",
-    "postcss-cssnext": "^2.8.0",
-    "promisify-node": "^0.4.0",
-    "string-to-stream": "^1.1.0",
-    "svg2png": "^4.0.0"
+    "mz": "^2.6.0",
+    "sharp": "^0.17.1"
   }
 }

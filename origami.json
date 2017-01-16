@@ -7,13 +7,7 @@
     "supportStatus": "active",
     "demos": [
         {
-            "name": "background",
-            "template": "demos/src/logos.html",
-            "data": "demos/src/data.json",
-            "description": "Used on light theme"
-        },
-        {
-            "name": "img-src",
+            "name": "image-set",
             "template": "demos/src/logos-img.html",
             "data": "demos/src/data.json",
             "description": "Used on dark theme"
