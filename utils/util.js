@@ -1,3 +1,5 @@
+const app = getApp();
+
 function formatTime(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
@@ -8,7 +10,7 @@ function formatTime(date) {
   var second = date.getSeconds()
 
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute].map(formatNumber).join(':')
 }
 
 function formatNumber(n) {
@@ -65,7 +67,7 @@ function filterArticleData(data) {
     englishTitle: data.eheadline,
     chineseTitle: data.cheadline,
     standfirst: data.clongleadbody,
-    mainImage: data.story_pic.other,
+    mainImage: app.imageService(data.story_pic.other),
     publishDate: formatTime(new Date(data.last_publish_time * 1000)),
     byline: data.cbyline_description + ' ' + convertByline(data.cauthor, data.cbyline_status),
     cbody: data.cbody,

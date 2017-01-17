@@ -1,9 +1,10 @@
 //index.js
 //获取应用实例
+const app = getApp();
+const utils = require('../../utils/util.js');
+
 const gaPath = '/wx/today-focus';
 const gaTitle = '今日焦点';
-
-var app = getApp();
 
 Page({
   data: {
@@ -18,7 +19,7 @@ Page({
   },
 
   onLoad: function () {
-    console.log('onLoad')
+    console.log('onLoad');
     var that = this;
     //调用应用实例的方法获取全局数据
     // app.getUserInfo(function(userInfo){
@@ -85,17 +86,32 @@ Page({
   fetchAndCacheData: function(cb) {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/home', (err, data) => {
       if (err) {return err;}
-// Call cb if it exists. Mainly to be used fro onPullDownRefersh
+      console.log(data);
       
-
 // Get cover's article list. This is specific to the data structure returned from API.
-      const articleList = data.sections.filter(section => {
+      let items = data.sections.filter(section => {
           return section.name === 'Cover'
         }).map(section => {
           return section.lists.map(list => {
             return list.items;
           });
         })[0][0];
+
+// Filter out everything whose type is not `story`
+      items = items.filter(item => {
+        return item.type === 'story';
+      });
+
+      const articleList = items.map(item => {
+        return {
+          id: item.id,
+          image: app.imageService(item.image),
+          heading: item.headline,
+          standfirst: item.longlead,
+          publishDate: utils.formatTime(new Date(item.timeStamp * 1000)),
+          tags: items.tag
+        }
+      });
 
       this.setData({
         articleList

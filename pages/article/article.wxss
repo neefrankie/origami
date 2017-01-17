@@ -15,12 +15,6 @@
     line-height: 161.8%;
     color: #777;
 }
-/*.article__image-container {
-    width: 100%;
-}*/
-.article__main-image {
-    width: 100%;
-}
 
 .article__time-byline {
     font-size: .8em;

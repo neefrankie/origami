@@ -4,9 +4,6 @@
   margin-bottom: 30rpx;
   border-bottom: 1px solid #ccc1b3;
 }
-.top-story__image {
-  width: 100%;
-}
 .top-story__heading {
   font-weight: 700;
   font-size: 1.05em;

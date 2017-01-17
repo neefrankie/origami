@@ -69,17 +69,27 @@ Page({
  */
   fetchAndCacheData: function(cb) {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/sod', (err, data) => {
-      if (err) {return err;}      
+      if (err) {return err;} 
+
+// Get only the needed data for cover list
+      const bilingualList = data.map(item => {
+        return {
+          id: item.id,
+          image: app.imageService(item.story_pic.other),
+          heading: item.cheadline,
+          standfirst: item.clongleadbody
+        }
+      });
 
 // Set bilingual reading's article list.
       this.setData({
-        articleList: data
+        bilingualList
       });
 
       typeof cb == 'function' && cb();
 
-// Cache data. Use a different key than the `articleList`
-      app.cacheData('bilingualList', data, (err, key) => {
+// Cache cover list.
+      app.cacheData('bilingualList', bilingualList, (err, key) => {
         if (err) {
           console.log('Cache bilingual list failed.');
           return;

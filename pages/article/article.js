@@ -72,7 +72,7 @@ Page({
 
 // Tell the view whether it is used for bilingual story      
       this.setData({
-        bilingual: this.options.bilingual
+        isBilingual: this.options.bilingual
       });
 
       const body = this.options.bilingual ? utils.zipBilingual(data.ebody, data.cbody) : data.cbody;

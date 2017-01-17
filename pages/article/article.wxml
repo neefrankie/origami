@@ -4,7 +4,7 @@
 <view class="container">
     <view class="article">
         <view class="article__header">
-            <text wx:if="{{bilingual}}">{{englishTitle}}</text>
+            <text wx:if="{{isBilingual}}">{{englishTitle}}</text>
             <text>{{chineseTitle}}</text>
         </view>
 
@@ -12,8 +12,10 @@
             <text>{{standfirst}}</text>
         </view>
 
-        <view class="article__image-container">
-        <image src="{{mainImage}}" class="article__main-image" mode="scaleToFit"></image>
+        <view class="media-holder__outer">
+            <view class="media-holder__inner">
+            <image src="{{mainImage}}" class="media-holder__image" mode="aspectFill"></image>
+            </view>
         </view>
 
         <view class="article__time-byline">
