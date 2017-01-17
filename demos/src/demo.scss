@@ -32,14 +32,8 @@ ul {
 	}
 }
 
-@each $logo in $logo-list {
-	.#{$logo} i {
-		@include oLogosGetLogo($logo, $apply-base-style: false);
-	}
-}
-
-.brand-masthead-white {
-	i, img {
+.brand-ftc-masthead-white {
+	img {
 		background-color: #333;
 	}
 }

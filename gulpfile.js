@@ -24,6 +24,7 @@ function render(template, context, destName) {
     });
   });
 }
+const _ = require('lodash');
 const mkdirp = require('./lib/mkdir.js');
 
 const del = require('del');
@@ -39,8 +40,6 @@ const logos = settings.map(setting => {
     return theme.type === 'default' ? setting.name : `${setting.name}-${theme.type}`;
   });
 });
-
-console.log(logos);
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
@@ -73,7 +72,7 @@ gulp.task('html', () => {
     const renderResults = yield Promise.all(demos.map(function(demo) {
 
       const context = Object.assign({}, demo, {
-        logos,
+        logos: _.flatten(logos),
         embedded
       });
       return render(demo.template, context, demo.name);
