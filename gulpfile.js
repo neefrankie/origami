@@ -123,10 +123,10 @@ gulp.task('clean', function() {
 gulp.task('serve', gulp.parallel('html', 'styles', () => {
   browserSync.init({
     server: {
-      baseDir: ['.tmp', '.'],
+      baseDir: ['.tmp', 'dist'],
       directory: true,
       routes: {
-        '/bower_components': 'bower_components'
+        '/dist': 'dist'
       }
     }
   });
@@ -145,7 +145,7 @@ gulp.task('serve', gulp.parallel('html', 'styles', () => {
 gulp.task('copy', () => {
   const DEST = path.resolve(__dirname, demosDir, projectName);
   console.log(`Deploying to ${DEST}`);
-  return gulp.src(['.tmp/**/*', 'static*/**/*.{svg,png,ico}',])
+  return gulp.src(['.tmp/**/*', 'dist*/**/*.{svg,png,ico}',])
     .pipe(gulp.dest(DEST));
 });
 
