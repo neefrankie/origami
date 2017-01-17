@@ -86,7 +86,6 @@ Page({
   fetchAndCacheData: function(cb) {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/home', (err, data) => {
       if (err) {return err;}
-      console.log(data);
       
 // Get cover's article list. This is specific to the data structure returned from API.
       let items = data.sections.filter(section => {
