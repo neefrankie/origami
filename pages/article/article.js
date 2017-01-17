@@ -1,7 +1,7 @@
 const WxParse = require('../../wxParse/wxParse.js');
 const utils = require('../../utils/util.js');
-const app = getApp();
 const gaBasePath = '/wx/story';
+const app = getApp();
 
 Page({
     data: {

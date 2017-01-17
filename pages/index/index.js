@@ -1,33 +1,13 @@
-//index.js
-//获取应用实例
-const app = getApp();
+// pages/bilingual/bilingual.js
 const utils = require('../../utils/util.js');
-
-const gaPath = '/wx/today-focus';
-const gaTitle = '今日焦点';
+const gaPath = '/wx/bilingual-reading'
+const gaTitle = '双语阅读';
+//获取应用实例
+var app = getApp();
 
 Page({
-  data: {
-    articleList: []
-  },
-  //事件处理函数
-  bindViewTap: function(e) {
-    // wx.navigateTo({
-    //   url: '../logs/logs'
-    // })
-    // Get the article's ID
-  },
-
-  onLoad: function () {
-    console.log('onLoad');
-    var that = this;
-    //调用应用实例的方法获取全局数据
-    // app.getUserInfo(function(userInfo){
-    //   //更新数据
-    //   that.setData({
-    //     userInfo:userInfo
-    //   })
-    // })
+  data:{},
+  onLoad:function(){
     wx.showToast({
       title: '加载中...',
       icon: 'loading',
@@ -41,27 +21,34 @@ Page({
     }, (err, type) => {
 // If data connection, try to get data from cache first. If failed, then asking server for data.
       app.retrieveData('articleList', (err, data) => {
-        // If there is no error, data is retrieved from cache
+// If there is no error, data is retrieved from cache
         if (!err) {
           console.log('article list retrieved from cache');
           this.setData({
             articleList: data
           });
-// Tracking          
+// Tracking
           app.ga(gaPath, gaTitle);
-
           return;
         }
 
 // If there is error, request data to server
         this.fetchAndCacheData(wx.hideToast);
-        
+
       });
     });
   },
-
-  onShow: function() {
-    console.log('onShow');
+  onReady:function(){
+    // 页面渲染完成
+  },
+  onShow:function(){
+    // 页面显示
+  },
+  onHide:function(){
+    // 页面隐藏
+  },
+  onUnload:function(){
+    // 页面关闭
   },
 
   onPullDownRefresh: function() {
@@ -69,14 +56,11 @@ Page({
     this.fetchAndCacheData(wx.stopPullDownRefresh);
   },
 
-/**
- * `path` is the path of the js file. Lik `pages` in app.json but an start with `/`
- */
   onShareAppMessage: function() {
     return {
-      title: 'FT今日焦点',
-      desc: 'FT中文网今日焦点',
-      path: '/pages/index/index'
+      title: 'FT双语阅读',
+      desc: 'FT中文网双语阅读',
+      path: '/pages/bilingual/bilingual'
     }
   },
 
@@ -84,45 +68,42 @@ Page({
  * Page specific methods
  */
   fetchAndCacheData: function(cb) {
-    app.fetchData('https://api.ftmailbox.com/index.php/jsapi/home', (err, data) => {
-      if (err) {return err;}
-      
-// Get cover's article list. This is specific to the data structure returned from API.
-      let items = data.sections.filter(section => {
-          return section.name === 'Cover'
-        }).map(section => {
-          return section.lists.map(list => {
-            return list.items;
-          });
-        })[0][0];
+    app.fetchData('https://api.ftmailbox.com/index.php/jsapi/sod', (err, data) => {
+      if (err) {return err;} 
 
-// Filter out everything whose type is not `story`
-      items = items.filter(item => {
-        return item.type === 'story';
-      });
-
-      const articleList = items.map(item => {
+// Get only the needed data for cover list
+      const bilingualList = data.map(item => {
         return {
           id: item.id,
-          image: utils.imageService(item.image),
-          heading: item.headline,
-          standfirst: item.longlead,
-          publishDate: utils.formatTime(new Date(item.timeStamp * 1000)),
-          tags: items.tag
+          image: utils.imageService(item.story_pic.other),
+          heading: item.cheadline,
+          standfirst: item.clongleadbody
         }
       });
 
+// Set bilingual reading's article list.
       this.setData({
-        articleList
+        bilingualList
       });
-      
+
       typeof cb == 'function' && cb();
 
-// Cache data
-      app.cacheData('articleList', articleList);
+// Cache cover list.
+      app.cacheData('bilingualList', bilingualList, (err, key) => {
+        if (err) {
+          console.log('Cache bilingual list failed.');
+          return;
+        }
+      });
+
+// Cache individual article
+      data.map(entry => {
+        app.cacheData(entry.id, utils.filterArticleData(entry));
+      });
 
 // Tracking
       app.ga(gaPath, gaTitle);
     });
   }
-});
+
+})

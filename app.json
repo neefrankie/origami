@@ -2,7 +2,7 @@
   "pages":[
     "pages/index/index",
     "pages/article/article",
-    "pages/bilingual/bilingual",
+    "pages/focus/focus",
     "pages/logs/logs"
   ],
   "window":{
@@ -20,14 +20,14 @@
     "borderStyle": "white",
     "list": [{
       "pagePath": "pages/index/index",
-      "text": "今日焦点",
-      "iconPath": "assets/focus.png",
-      "selectedIconPath": "assets/focus-selected.png"
-    }, {
-      "pagePath": "pages/bilingual/bilingual",
       "text": "双语阅读",
       "iconPath": "assets/bilingual.png",
       "selectedIconPath": "assets/bilingual-selected.png"
+    }, {
+      "pagePath": "pages/focus/focus",
+      "text": "今日焦点",
+      "iconPath": "assets/focus.png",
+      "selectedIconPath": "assets/focus-selected.png"
     }]
   }
 }

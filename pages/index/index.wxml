@@ -1,18 +1,8 @@
-<!--index.wxml-->
+<!--pages/bilingual/bilingual.wxml-->
 <view class="container">
-  <!--<view  bindtap="bindViewTap" class="userinfo">
-    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>-->
-  <view wx:for="{{articleList}}" wx:key="id" class="top-story__section">
+  <view wx:for="{{bilingualList}}" wx:key="id" class="top-story__section">
 
-    <navigator url="../article/article?id={{item.id}}" open-type="navigate">
-      <!--<view class="top-story__image-container">
-        <image src="{{item.image}}" class="top-story__image" mode="aspectFill"></image>
-      </view>-->
+    <navigator url="../article/article?id={{item.id}}&bilingual=true" open-type="navigate">
       <view class="media-holder__outer">
         <view class="media-holder__inner">
           <image src="{{item.image}}" class="media-holder__image" mode="aspectFill"></image>
@@ -26,8 +16,6 @@
         <text>{{item.standfirst}}</text>
       </view>   
     </navigator>
-    <view class="top-story__time">
-          <text class="top-story__timestamp">{{item.publishDate}}</text>
-    </view>
+
   </view>
 </view>
