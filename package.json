@@ -5,8 +5,7 @@
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postversion": "git push && git push --tags",
-    "fav": "node ./lib/fav.js"
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
