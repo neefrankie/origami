@@ -1,5 +1,3 @@
-const app = getApp();
-
 function formatTime(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
@@ -67,7 +65,7 @@ function filterArticleData(data) {
     englishTitle: data.eheadline,
     chineseTitle: data.cheadline,
     standfirst: data.clongleadbody,
-    mainImage: app.imageService(data.story_pic.other),
+    mainImage: imageService(data.story_pic.other),
     publishDate: formatTime(new Date(data.last_publish_time * 1000)),
     byline: data.cbyline_description + ' ' + convertByline(data.cauthor, data.cbyline_status),
     cbody: data.cbody,
@@ -88,10 +86,17 @@ function stringify(obj) {
   return qs.join(sep);
 }
 
+function imageService(url) {
+  const width = 600;
+  const height = Math.floor(width * 9 / 16);
+  return `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(url)}?width=${width}&height=${height}&fit=cover&source=ftchinese`;
+}
+
 module.exports = {
   formatTime: formatTime,
   convertByline: convertByline,
   zipBilingual: zipBilingual,
   filterArticleData: filterArticleData,
-  stringify: stringify
+  stringify: stringify,
+  imageService: imageService
 };

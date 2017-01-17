@@ -75,7 +75,7 @@ Page({
       const bilingualList = data.map(item => {
         return {
           id: item.id,
-          image: app.imageService(item.story_pic.other),
+          image: utils.imageService(item.story_pic.other),
           heading: item.cheadline,
           standfirst: item.clongleadbody
         }

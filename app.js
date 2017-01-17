@@ -17,11 +17,6 @@ App({
       const cid = uuid();
       this.cacheData('cid', cid);
     });
-
-    this.getSystemInfo((res) => {
-      this.globalData.imageWidth = res.windowWidth;
-      this.globalData.imageHeight = Math.floor(res.windowWidth * 9 / 16);
-    });
   },
 
   onShow: function() {
@@ -199,9 +194,5 @@ App({
         console.log(`Tracking failed: ${documentPath}, ${docuemntTitle}`);
       }
     });
-  },
-
-  imageService: function(url) {
-    return `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(url)}?width=${this.globalData.imageWidth}&height=${this.globalData.imageHeight}&fit=cover&source=ftchinese`;
   }
 });

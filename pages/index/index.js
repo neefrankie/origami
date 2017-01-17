@@ -105,7 +105,7 @@ Page({
       const articleList = items.map(item => {
         return {
           id: item.id,
-          image: app.imageService(item.image),
+          image: utils.imageService(item.image),
           heading: item.headline,
           standfirst: item.longlead,
           publishDate: utils.formatTime(new Date(item.timeStamp * 1000)),
