@@ -10,7 +10,19 @@
         "ry": null
       }
     ]
-  }, 
+  },
+  {
+    "name": "brand-ftc-logo-round",
+    "themes": [
+      {
+        "type": "default",
+        "fill": "default",
+        "background": "default",
+        "rx": null,
+        "ry": null
+      }
+    ]
+  },
   {
     "name": "brand-ftc-masthead",
     "themes": [
