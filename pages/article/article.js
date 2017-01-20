@@ -1,6 +1,6 @@
 const WxParse = require('../../wxParse/wxParse.js');
 const utils = require('../../utils/util.js');
-const gaBasePath = '/wx/story';
+const gaBasePath = '/wx/life-style';
 const app = getApp();
 
 Page({
@@ -43,7 +43,6 @@ Page({
     },
 
     onShareAppMessage: function() {
-      const basePath = '/pages/article/article';
       return {
         title: `${this.data.title} - FT中文网`,
         desc: 'FT生活时尚',
@@ -60,7 +59,7 @@ Page({
         const articleData = utils.filterArticleData(data);
 
         this.setArticleData(articleData);
-        
+
         typeof cb == 'function' && cb();
 // Cache the filtered data, not requested data.
         app.cacheData(this.options.id, articleData);

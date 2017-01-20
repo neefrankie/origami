@@ -61,7 +61,6 @@ Page({
   fetchAndCacheData: function(cb) {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/lifestyle', (err, data) => {
       if (err) {return err;} 
-      console.log(data);
 // Get only the needed data for cover list
       const coverList = data.map(item => {
         const pic = item.story_pic;
