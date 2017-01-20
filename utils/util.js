@@ -1,14 +1,14 @@
 function formatTime(date) {
-  var year = date.getFullYear()
-  var month = date.getMonth() + 1
-  var day = date.getDate()
+  var year = date.getFullYear() + '年';
+  var month = date.getMonth() + 1 + '月';
+  var day = date.getDate() + '日';
 
   var hour = date.getHours()
   var minute = date.getMinutes()
   var second = date.getSeconds()
 
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  return [year, month, day].map(formatNumber).join('') + ' ' + [hour, minute].map(formatNumber).join(':')
 }
 
 function formatNumber(n) {
@@ -19,12 +19,16 @@ function formatNumber(n) {
 function filterArticleData(data) {
   const pic = data.story_pic;
   const imageUrl = pic.cover ? pic.cover : pic.other;
+  const byline = data.cbyline_description 
+    ? data.cbyline_description + ' ' + data.cauthor 
+    : data.cauthor;
+
   return {
     title: data.cheadline,
     standfirst: data.clongleadbody,
     mainImage: imageService(imageUrl),
-    publishDate: formatTime(new Date(data.last_publish_time * 1000)),
-    byline: data.cbyline_description + ' ' + data.cauthor,
+    publishDate: '更新于' + formatTime(new Date(data.last_publish_time * 1000)),
+    byline: byline,
     cbody: data.cbody
   }
 }

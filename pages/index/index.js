@@ -12,7 +12,7 @@ Page({
     wx.showToast({
       title: '加载中...',
       icon: 'loading',
-      duration: 1500,
+      duration: 10000,
     });
 
     app.checkNetwork((err, type) => {
@@ -28,6 +28,8 @@ Page({
           this.setData({
             coverList: data
           });
+
+          wx.hideToast();
 // Tracking
           app.ga(gaPath, gaTitle);
           return;
