@@ -10,9 +10,9 @@ function getOgContent(metaEl) {
 
 // Get page meta content statically. Should not put this inside the `Share` object in order to reduce DOM traverse.
 const shareConfigFallback = {
-  url: window.location.href,
-  summary: getOgContent('meta[property="og:description"]'),
-  title: getOgContent('meta[property="og:title"]'),
+  url: encodeURIComponent(window.location.href),
+  summary: encodeURIComponent(getOgContent('meta[property="og:description"]')),
+  title: encodeURIComponent(getOgContent('meta[property="og:title"]')),
   sprite: false
 };
 
@@ -38,11 +38,7 @@ class Share {
       Array.prototype.forEach.call(rootEl.attributes, function (attr) {
         if (attr.name.indexOf('data-o-share') === 0) {
           const key = attr.name.replace('data-o-share-', '');
-          try {
-            config[key] = JSON.parse(attr.value.replace(/\'/g, '"'));
-          } catch (e) {
-            config[key] = attr.value;
-          }
+          config[key] = encodeURIComponent(attr.value);
         }
       });
     }
