@@ -1,0 +1,21 @@
+<!--index.wxml-->
+<view class="container">
+  <view wx:for="{{coverList}}" wx:key="id" class="cover-section">
+
+    <navigator url="../article/article?id={{item.id}}" open-type="navigate">
+      <view class="media-holder__outer">
+        <view class="media-holder__inner">
+          <image src="{{item.image}}" class="media-holder__image" mode="aspectFill"></image>
+        </view>
+      </view>
+
+      <view class="cover-section__heading">
+        <text>{{item.heading}}</text>
+      </view>
+      <view class="cover-section__standfirst">
+        <text>{{item.standfirst}}</text>
+      </view>   
+    </navigator>
+
+  </view>
+</view>
