@@ -4,7 +4,7 @@ var app = getApp()
 
 const utils = require('../../utils/util.js');
 const gaPath = '/wx/life-style'
-const gaTitle = '生活时尚';
+const gaTitle = 'FT英语-生活时尚';
 
 Page({
   data:{},
@@ -49,8 +49,8 @@ Page({
 
   onShareAppMessage: function() {
     return {
-      title: 'FT生活时尚',
-      desc: 'FT生活时尚',
+      title: 'FT英语',
+      desc: '看时尚，学英语',
       path: '/pages/index/index'
     }
   },
@@ -60,7 +60,8 @@ Page({
  */
   fetchAndCacheData: function(cb) {
     app.fetchData('https://api.ftmailbox.com/index.php/jsapi/lifestyle', (err, data) => {
-      if (err) {return err;} 
+      if (err) {return err;}
+      console.log(data);
 // Get only the needed data for cover list
       const coverList = data.map(item => {
         const pic = item.story_pic;

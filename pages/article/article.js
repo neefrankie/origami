@@ -44,8 +44,8 @@ Page({
 
     onShareAppMessage: function() {
       return {
-        title: `${this.data.title} - FT中文网`,
-        desc: 'FT生活时尚',
+        title: `${this.data.chineseTitle}`,
+        desc: 'FT英语',
         path: `/pages/article/article?id=${this.options.id}`
       }
     },
@@ -75,9 +75,9 @@ Page({
  */
     setArticleData: function (data) {
       this.setData(data);
-
+      const body = data.ebody ? utils.zipBilingual(data.ebody, data.cbody) : data.cbody;
 // Tell the view whether it is used for bilingual story      
-      WxParse.wxParse('body', 'html', data.cbody, this);
+      WxParse.wxParse('body', 'html', body, this);
     },
 
 /**
