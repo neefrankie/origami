@@ -19,7 +19,13 @@
     "bower_components",
     "test",
     "tests",
-    "demos"
+    "demos",
+    "lib",
+    "yarn.lock",
+    "svg",
+    "src",
+    "*.js",
+    "origami.json"
   ],
   "dependencies": {
     "o-assets": "^3.0.2"
