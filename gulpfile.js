@@ -150,3 +150,8 @@ gulp.task('copy', () => {
 });
 
 gulp.task('demo', gulp.series('clean', 'prod', gulp.parallel('html', 'styles'), 'copy', 'dev'));
+
+gulp.task('deploy', () => {
+  return gulp.src('dist/*')
+    .pipe(gulp.dest(path.revole(__dirname, '../ft-interact/bower_components/ftc-logos/')))
+});
