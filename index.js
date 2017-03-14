@@ -1,40 +1,32 @@
 const path = require('path');
-const fs = require('mz/fs');
-const mkdir = require('./lib/mkdir.js');
-const generateHtml = require('./lib/generateHtml.js');
+const fs = require('fs-jetpack');
+const Share = require('./lib/share.node.js');
+const jsdom = require('jsdom');
 
 /*
  * @param {Object} config - optional
  * @param {String} config.outDir - output directory.
  * @param {Array} config.links - social paltforms name.
  */
-function share(config) {
-	config = config === undefined ? {} : config;
-	let destDir = config.outDir === undefined ? 'views/partials' : config.outDir;
-
-	out = path.resolve(process.cwd(), `${destDir}/o-share.html`);
-
-	return fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK)
-		.then(null, err => {
-			return mkdir(destDir)
-		})
-		.then(() => {
-			return fs.writeFile(out, generateHtml(config), 'utf8')
-		})
-		.then(() => {
-			console.log(`Generated: ${out}`);
-			return Promise.resolve();
-		})
-		.catch(err => {
-			console.log(err);
-		});
+function createPartials(config = {
+  url: '{{share.url}}', 
+  title:'{{share.title}}', 
+  summary:'{{share.summary}}'
+}) {
+  return new Promise(function(resolve, reject) {
+    jsdom.env("<html><body></body></html>", function(err, window) {
+      if (err) reject(err);
+      new Share(window.document.body, config);
+      resolve(String(body.html()));
+	  });
+  });
 }
 
 if (require.main === module) {
-	share({
-		outDir: 'partials',
-		sprite: true
-	});
+  createPartials()
+    .then(html => {
+      fs.writeAsync('share.html', html);
+    });
 }
 
-module.exports = share;
+// module.exports = share;

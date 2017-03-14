@@ -41,5 +41,8 @@
     "postcss-cssnext": "^2.9.0",
     "rollup": "^0.41.5",
     "rollup-plugin-babel": "^2.7.1"
+  },
+  "dependencies": {
+    "jsdom": "^9.12.0"
   }
 }

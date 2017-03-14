@@ -1,7 +1,7 @@
-const fs = require('mz/fs');
+const fs = require('fs-jetpack');
 const path = require('path');
 const co = require('co');
-const deepMerge = require('deepmerge');
+// const deepMerge = require('deepmerge');
 const nunjucks = require('nunjucks');
 const env = new nunjucks.Environment(
   new nunjucks.FileSystemLoader(
@@ -65,7 +65,7 @@ gulp.task('html', () => {
 
     const embedded = process.env.NODE_ENV === 'prod';
 
-    const origami = yield fs.readFile('origami.json', 'utf8');
+    const origami = yield fs.readAsync('origami.json', 'utf8');
 
     const demos = JSON.parse(origami).demos;
 
@@ -221,16 +221,16 @@ gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
 // dist js to be directly used in the browser.
 gulp.task('rollup', () => {
   return rollup({
-    entry: './src/js/generateHtml.js',
+    entry: './main.js',
     cache: cache,
   }).then(function(bundle) {
     return bundle.write({
       format: 'cjs',
-      dest: 'lib/generateHtml.js',
+      dest: 'lib/share.node.js',
     });
   });
 });
 
 gulp.task('cjs', gulp.series('rollup', () => {
-  return gulp.watch('./src/js/generateHtml.js', gulp.parallel('rollup'));
+  return gulp.watch('./main.js', gulp.parallel('rollup'));
 }));
