@@ -1,46 +1,17 @@
-const socials = [
-  {
-    name: "wechat",
-    text: "微信",
-    url: `http://www.ftchinese.com/m/corp/qrshare.html?title={{title}}&url={{url}}&ccode=2C1A1408`
-  },
-  {name: "weibo",
-    text: "微博",
-    url: `http://service.weibo.com/share/share.php?&appkey=4221537403&url={{url}}&title=【{{title}}】{{summary}}&ralateUid=1698233740&source=FT中文网&sourceUrl=http://www.ftchinese.com/&content=utf8&ccode=2G139005`
-  },
-  {
-    name: "linkedin",
-    text: "领英",
-    url: `http://www.linkedin.com/shareArticle?mini=true&url={{url}}&title={{title}}&summary={{summary}}&source=FT中文网`
-  },
-  {
-    name: "facebook",
-    text: "Facebook",
-    url: `http://www.facebook.com/sharer.php?u={{url}}`
-  },
-  {
-    name: "twitter",
-    text: "Twitter",
-    url: `https://twitter.com/intent/tweet?url={{url}}&amp;text=【{{title}}】{{summary}}&amp;via=FTChinese`
-  }
-];
+import getSocials from './src/js/get-socials.js';
+
+const defaultConfig =  {
+  url: window.location.href || '',
+  summary: getOgContent('meta[property="og:description"]'),
+  title: getOgContent('meta[property="og:title"]'),
+  links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter']
+};
 
 function getOgContent(metaEl) {
   if (!(metaEl instanceof HTMLElement)) {
     metaEl = document.querySelector(metaEl);
   }
   return metaEl.hasAttribute('content') ? metaEl.getAttribute('content') : '';
-}
-
-function gatherConfig() {
-  return {
-    url: window.location.href || '',
-    summary: getOgContent('meta[property="og:description"]') || '',
-    title: getOgContent('meta[property="og:title"]') || '',
-    links: socials.map(function(social) {
-      return social.name
-    })
-  };
 }
 
 /*
@@ -81,18 +52,17 @@ class Share {
   }
 
   render() {
+    const socials = getSocials(this.config);
     const ulElement = document.createElement('ul');
-    socials.filter((social) => {
-      return this.config.links.indexOf(social.name) > -1
-    }).forEach((social) => {
+    socials.forEach(social => {
       const liElement = document.createElement('li');
       liElement.classList.add('o-share__action', `o-share__${social.name}`);
+      
       const aElement = document.createElement('a');
-      aElement.href = social.url.replace('{{url}}', this.config.url)
-        .replace('{{title}}', encodeURIComponent(this.config.title))
-        .replace('{{summary}}', encodeURIComponent(this.config.summary));
+      aElement.href = social.url;
       aElement.setAttribute('target', '_blank');
-      aElement.setAttribute('title', `分享到${social.text}`)
+      aElement.setAttribute('title', `分享到${social.text}`);
+
       liElement.appendChild(aElement);
       ulElement.appendChild(liElement);
     });

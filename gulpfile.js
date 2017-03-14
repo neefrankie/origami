@@ -33,7 +33,6 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const rollup = require('rollup').rollup;
 const babel = require('rollup-plugin-babel');
-const mkdir = require('./lib/mkdir.js');
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
@@ -151,24 +150,6 @@ gulp.task('scripts', () => {
   });
 });
 
-gulp.task('webpack', (done) => {
-  if (process.env.NODE_ENV === 'prod') {
-    delete webpackConfig.watch;
-  }
-
-  webpack(webpackConfig, function(err, stats) {
-    if (err) throw new $.util.PluginError('webpack', err);
-    $.util.log('[webpack]', stats.toString({
-      colors: $.util.colors.supportsColor,
-      chunks: false,
-      hash: false,
-      version: false
-    }));
-    browserSync.reload('demo.js');
-    done();
-  });
-});
-
 gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
@@ -206,7 +187,7 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'scripts', () => {
 
 }));
 
-gulp.task('build', gulp.parallel('html', 'styles', 'webpack'));
+gulp.task('build', gulp.parallel('html', 'styles', 'scripts'));
 
 gulp.task('copy', () => {
   const DEST = path.resolve(__dirname, demosDir, projectName);
@@ -219,18 +200,57 @@ gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
 
 
 // dist js to be directly used in the browser.
-gulp.task('rollup', () => {
+gulp.task('build:node', () => {
   return rollup({
-    entry: './main.js',
+    entry: './src/js/get-socials.js',
     cache: cache,
   }).then(function(bundle) {
     return bundle.write({
       format: 'cjs',
-      dest: 'lib/share.node.js',
+      dest: 'lib/get-socials.js',
     });
   });
 });
 
-gulp.task('cjs', gulp.series('rollup', () => {
-  return gulp.watch('./main.js', gulp.parallel('rollup'));
-}));
+// Transpiled with babel but keeps import/export to be used by rollup or webpack.
+// Transpile it so that when used as dependecy, build tools do not need to re-transpile it on every change.
+// Keeps import/export so that it could be used as a module.
+gulp.task('build:module', () => {
+  return rollup({
+    entry: './main.js',
+    plugins: [
+      babel({
+        exclude: 'node_modules/**'
+      })
+    ]
+  }).then(function(bundle) {
+    return bundle.write({
+      dest: 'dist/share.es2015.js',
+      format: 'es'
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
+})
+
+// IIFE that can be run directly in browser
+gulp.task('build:browser', () => {
+  return rollup({
+    entry: './main.js',
+    plugins: [
+      babel({
+        exclude: 'node_modules/**'
+      })
+    ]
+  }).then(function(bundle) {
+    return bundle.write({
+      dest: 'dist/share.browser.js',
+      format: 'iife',
+      moduleName: 'Share'
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
+})
