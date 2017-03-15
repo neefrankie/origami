@@ -33,6 +33,7 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const rollup = require('rollup').rollup;
 const babel = require('rollup-plugin-babel');
+const buble = require('rollup-plugin-buble');
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
@@ -219,9 +220,7 @@ gulp.task('build:module', () => {
   return rollup({
     entry: './main.js',
     plugins: [
-      babel({
-        exclude: 'node_modules/**'
-      })
+      buble()
     ]
   }).then(function(bundle) {
     return bundle.write({
@@ -239,9 +238,7 @@ gulp.task('build:browser', () => {
   return rollup({
     entry: './main.js',
     plugins: [
-      babel({
-        exclude: 'node_modules/**'
-      })
+      buble()
     ]
   }).then(function(bundle) {
     return bundle.write({
