@@ -1,26 +1,24 @@
-const fs = require('fs-jetpack');
 const path = require('path');
-const co = require('co');
-// const deepMerge = require('deepmerge');
+const fs = require('fs-jetpack');
+const loadJsonFile = require('load-json-file');
+const _ = require('lodash');
 const nunjucks = require('nunjucks');
-const env = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader(
-    [process.cwd()],
-    {noCache: true, }
-  ),
-  {autoescape: false}
-);
 
-function render(template, context, destName) {
+function render(template, context) {
+  const env = new nunjucks.Environment(
+    new nunjucks.FileSystemLoader(
+      [process.cwd()],
+      {noCache: true}
+    ),
+    {autoescape: false}
+  );
+
   return new Promise(function(resolve, reject) {
     env.render(template, context, function(err, result) {
       if (err) {
         reject(err);
       } else {
-        resolve({
-          name: destName,
-          content: result
-        });
+        resolve(result);
       }
     });
   });
@@ -38,6 +36,7 @@ const buble = require('rollup-plugin-buble');
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
 
+// The data is used to render nunjucks templates.
 const share = {
   title: encodeURIComponent("FTC share components"),
   url: encodeURIComponent("http://interactive.ftchinese.com/components/ftc-share.html"),
@@ -46,49 +45,47 @@ const share = {
 
 var cache;
 
-process.env.NODE_ENV = 'dev';
+process.env.NODE_ENV = 'development';
 
 // change NODE_ENV between tasks.
-gulp.task('prod', function(done) {
-  process.env.NODE_ENV = 'prod';
-  done();
+gulp.task('prod', function() {
+  return Promise.resolve(process.env.NODE_ENV = 'production');
 });
 
-gulp.task('dev', function(done) {
-  process.env.NODE_ENV = 'dev';
-  done();
+gulp.task('dev', function() {
+  return Promise.reoslve(process.env.NODE_ENV = 'development');
 });
 
+async function buildPages() {
+  try {
+    const isProduction = process.env.NODE_ENV === 'production';
+    const origami = await loadJsonFile('origami.json');
+    const demos = origami.demos;
+
+    await Promise.all(demos.map(demo => {
+      const dest = `.tmp/${demo.name}.html`;
+
+      const context = _.merge({share}, demo, {isProduction});
+
+      return render(demo.template, context)
+        .then(html => {
+          console.log(`Generating page ${dest}`);
+          return fs.writeAsync(dest, html)
+        })
+        .catch(err => {
+          throw err;
+        });
+    })); 
+
+  } catch(e) {
+    throw e;
+  }
+}
 gulp.task('html', () => {
-  return co(function *() {
-    const destDir = '.tmp';
-
-    const embedded = process.env.NODE_ENV === 'prod';
-
-    const origami = yield fs.readAsync('origami.json', 'utf8');
-
-    const demos = JSON.parse(origami).demos;
-
-    const renderResults = yield Promise.all(demos.map(demo => {
-
-      const context = deepMerge({share}, demo);
-      Object.assign(context, {embedded});
-
-      return render(demo.template, context, demo.name);
-    }));
-
-    yield mkdir(destDir);
-
-    yield Promise.all(renderResults.map(result => {
-      const dest = `.tmp/${result.name}.html`;
-      return fs.writeFile(dest, result.content, 'utf8');
-    }));
-  })
-  .then(function(){
-    browserSync.reload('*.html');
-  }, function(err) {
-    console.error(err.stack);
-  });
+  return buildPages()
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 gulp.task('styles', function styles() {
@@ -113,13 +110,6 @@ gulp.task('styles', function styles() {
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest(DEST))
     .pipe(browserSync.stream({once: true}));
-});
-
-gulp.task('eslint', () => {
-  return gulp.src('client/js/*.js')
-    .pipe($.eslint())
-    .pipe($.eslint.format())
-    .pipe($.eslint.failAfterError());
 });
 
 gulp.task('scripts', () => {
