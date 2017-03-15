@@ -83,6 +83,10 @@ async function buildPages() {
 }
 gulp.task('html', () => {
   return buildPages()
+    .then(() => {
+      browserSync.reload('*.html');
+      return Promise.resolve();
+    })
     .catch(err => {
       console.log(err);
     });
