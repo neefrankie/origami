@@ -1,46 +1,34 @@
 var Share = (function () {
 'use strict';
 
-function getSocials(ref) {
-  if ( ref === void 0 ) ref = {};
-  var url = ref.url; if ( url === void 0 ) url = '{{share.url}}';
-  var title = ref.title; if ( title === void 0 ) title = '{{share.title}}';
-  var summary = ref.summary; if ( summary === void 0 ) summary = '{{share.summary}}';
-  var links = ref.links; if ( links === void 0 ) links = [];
-  var encode = ref.encode; if ( encode === void 0 ) encode = true;
-
-  if (encode) {
-    url = encodeURIComponent(url);
-    title = encodeURIComponent(title);
-    summary = encodeURIComponent(summary);
-  }
+function getSocials(config) {
   return [
     {
         name: "wechat",
         text: "微信",
-        url: ("http://www.ftchinese.com/m/corp/qrshare.html?title=" + title + "&url=" + url + "&ccode=2C1A1408")
+        url: ("http://www.ftchinese.com/m/corp/qrshare.html?title=" + (config.title) + "&url=" + (config.url) + "&ccode=2C1A1408")
     },
     {name: "weibo",
         text: "微博",
-        url: ("http://service.weibo.com/share/share.php?&appkey=4221537403&url=" + url + "&title=【" + title + "】" + summary + "&ralateUid=1698233740&source=FT中文网&sourceUrl=http://www.ftchinese.com/&content=utf8&ccode=2G139005")
+        url: ("http://service.weibo.com/share/share.php?&appkey=4221537403&url=" + (config.url) + "&title=【" + (config.title) + "】" + (config.summary) + "&ralateUid=1698233740&source=FT中文网&sourceUrl=http://www.ftchinese.com/&content=utf8&ccode=2G139005")
     },
     {
         name: "linkedin",
         text: "领英",
-        url: ("http://www.linkedin.com/shareArticle?mini=true&url=" + url + "&title=" + title + "&summary=" + summary + "&source=FT中文网")
+        url: ("http://www.linkedin.com/shareArticle?mini=true&url=" + (config.url) + "&title=" + (config.title) + "&summary=" + (config.summary) + "&source=FT中文网")
     },
     {
         name: "facebook",
         text: "Facebook",
-        url: ("http://www.facebook.com/sharer.php?u=" + url)
+        url: ("http://www.facebook.com/sharer.php?u=" + (config.url))
     },
     {
         name: "twitter",
         text: "Twitter",
-        url: ("https://twitter.com/intent/tweet?url=" + url + "&amp;text=【" + title + "】" + summary + "&amp;via=FTChinese")
+        url: ("https://twitter.com/intent/tweet?url=" + (config.url) + "&amp;text=【" + (config.title) + "】" + (config.summary) + "&amp;via=FTChinese")
     }
   ].filter(function (social) {
-    return links.indexOf(social.name) > -1
+    return config.links.indexOf(social.name) > -1
   });
 }
 
@@ -75,13 +63,23 @@ var Share = function Share(rootEl, config) {
 
   if (!config) {
     config = {};
-    var defaultConfig = gatherConfig();
     config.links = rootEl.hasAttribute('data-o-share-links') ?
 					rootEl.getAttribute('data-o-share-links').split(' ') : defaultConfig.links;
     config.url = rootEl.getAttribute('data-o-share-url') || defaultConfig.url;
     config.title = rootEl.getAttribute('data-o-share-title') || defaultConfig.title;
     config.summary = rootEl.getAttribute('data-o-share-summary') || defaultConfig.summary;
   }
+
+  for (var k in config) {
+    if (!config.hasOwnProperty(k)) {
+      continue;
+    }
+    if (typeof config[k] !== 'string') {
+      continue;
+    }
+    config[k] = encodeURIComponent(config[k]);
+  }
+    
   this.config = config;
   this.rootEl = rootEl;
   this.openWindows = {};
@@ -105,6 +103,11 @@ Share.prototype.render = function render () {
     aElement.href = social.url;
     aElement.setAttribute('target', '_blank');
     aElement.setAttribute('title', ("分享到" + (social.text)));
+
+    var iElement = document.createElement('i');
+    iElement.textContent = social.text;
+
+    aElement.appendChild(iElement);
 
     liElement.appendChild(aElement);
     ulElement.appendChild(liElement);

@@ -191,53 +191,43 @@ gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
 
 
 // dist js to be directly used in the browser.
-gulp.task('build:node', () => {
-  return rollup({
-    entry: './src/js/get-socials.js',
-    cache: cache,
-  }).then(function(bundle) {
-    return bundle.write({
-      format: 'cjs',
-      dest: 'lib/get-socials.js',
-    });
-  });
-});
-
 // Transpiled with babel but keeps import/export to be used by rollup or webpack.
 // Transpile it so that when used as dependecy, build tools do not need to re-transpile it on every change.
 // Keeps import/export so that it could be used as a module.
-gulp.task('build:module', () => {
-  return rollup({
-    entry: './main.js',
-    plugins: [
-      buble()
-    ]
-  }).then(function(bundle) {
-    return bundle.write({
-      dest: 'dist/share.es2015.js',
-      format: 'es'
+
+const mainjsOption = {
+  entry: './main.js',
+  plugins: [
+    buble()
+  ]
+};
+
+gulp.task('js:module', () => {
+  return rollup(mainjsOption)
+    .then(function(bundle) {
+      return bundle.write({
+        dest: 'dist/share.es2015.js',
+        format: 'es'
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  })
-  .catch(err => {
-    console.log(err);
-  });
-})
+});
 
 // IIFE that can be run directly in browser
-gulp.task('build:browser', () => {
-  return rollup({
-    entry: './main.js',
-    plugins: [
-      buble()
-    ]
-  }).then(function(bundle) {
-    return bundle.write({
-      dest: 'dist/share.browser.js',
-      format: 'iife',
-      moduleName: 'Share'
+gulp.task('js:browser', () => {
+  return rollup(mainjsOption)
+    .then(function(bundle) {
+      return bundle.write({
+        dest: 'dist/share.browser.js',
+        format: 'iife',
+        moduleName: 'Share'
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  })
-  .catch(err => {
-    console.log(err);
-  });
-})
+});
+
+gulp.task('dist:js', gulp.parallel('js:module', 'js:browser'));
