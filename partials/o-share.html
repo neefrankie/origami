@@ -1,34 +1,34 @@
 <ul>
   <li class="o-share__action o-share__wechat">
-    <a href="http://www.ftchinese.com/m/corp/qrshare.html?title={{share.title}}&url={{share.url}}&ccode=2C1A1408" target="_blank" title="分享到微信">    
+    <a href="http://www.ftchinese.com/m/corp/qrshare.html?title={{share.title | escape}}&url={{share.url | escape}}&ccode=2C1A1408" target="_blank" title="分享到微信">    
       <svg><use xlink:href="/bower_components/ftc-social-images/dist/social-images-sprite.svg#wechat"></use></svg>
       <i>微信</i>
     </a>
   </li>
  
   <li class="o-share__action o-share__weibo">
-    <a href="http://service.weibo.com/share/share.php?&appkey=4221537403&url={{share.url}}&title=【{{share.title}}】{{share.summary}}&ralateUid=1698233740&source=FT中文网&sourceUrl=http://www.ftchinese.com/&content=utf8&ccode=2G139005" target="_blank" title="分享到微博">    
+    <a href="http://service.weibo.com/share/share.php?&appkey=4221537403&url={{share.url | escape}}&title=【{{share.title | escape}}】{{share.summary | escape}}&ralateUid=1698233740&source=FT中文网&sourceUrl=http://www.ftchinese.com/&content=utf8&ccode=2G139005" target="_blank" title="分享到微博">    
       <svg><use xlink:href="/bower_components/ftc-social-images/dist/social-images-sprite.svg#weibo"></use></svg>
       <i>微博</i>
     </a>
   </li>
  
   <li class="o-share__action o-share__linkedin">
-    <a href="http://www.linkedin.com/shareArticle?mini=true&url={{share.url}}&title={{share.title}}&summary={{share.summary}}&source=FT中文网" target="_blank" title="分享到领英">    
+    <a href="http://www.linkedin.com/shareArticle?mini=true&url={{share.url | escape}}&title={{share.title | escape}}&summary={{share.summary | escape}}&source=FT中文网" target="_blank" title="分享到领英">    
       <svg><use xlink:href="/bower_components/ftc-social-images/dist/social-images-sprite.svg#linkedin"></use></svg>
       <i>领英</i>
     </a>
   </li>
  
   <li class="o-share__action o-share__facebook">
-    <a href="http://www.facebook.com/sharer.php?u={{share.url}}" target="_blank" title="分享到Facebook">    
+    <a href="http://www.facebook.com/sharer.php?u={{share.url | escape}}" target="_blank" title="分享到Facebook">    
       <svg><use xlink:href="/bower_components/ftc-social-images/dist/social-images-sprite.svg#facebook"></use></svg>
       <i>Facebook</i>
     </a>
   </li>
  
   <li class="o-share__action o-share__twitter">
-    <a href="https://twitter.com/intent/tweet?url={{share.url}}&amp;text=【{{share.title}}】{{share.summary}}&amp;via=FTChinese" target="_blank" title="分享到Twitter">    
+    <a href="https://twitter.com/intent/tweet?url={{share.url | escape}}&amp;text=【{{share.title | escape}}】{{share.summary | escape}}&amp;via=FTChinese" target="_blank" title="分享到Twitter">    
       <svg><use xlink:href="/bower_components/ftc-social-images/dist/social-images-sprite.svg#twitter"></use></svg>
       <i>Twitter</i>
     </a>

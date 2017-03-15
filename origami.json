@@ -22,7 +22,6 @@
 			"template": "demos/src/share-js.html",
 			"description": "default theme",
 			"share": {
-				"sprite": false,
 				"theme": "theme-default"
 			}
 		},
@@ -31,7 +30,6 @@
 			"template": "demos/src/share-js.html",
 			"description": "dark theme",
 			"share": {
-				"spirte": false,
 				"theme": "theme-dark"
 			}
 		},
@@ -40,7 +38,6 @@
 			"template": "demos/src/share-js.html",
 			"description": "light theme",
 			"share": {
-				"sprite": false,
 				"theme": "theme-light"
 			}
 		},
@@ -49,7 +46,6 @@
 			"template": "demos/src/share-sprite.html",
 			"description": "use svg symbol as icon image",
 			"share": {
-				"sprite": true,
 				"theme": "sprite-default"
 			}
 		},
@@ -58,7 +54,6 @@
 			"template": "demos/src/share-sprite.html",
 			"description": "use svg symbol as icon image",
 			"share": {
-				"sprite": true,
 				"theme": "sprite-dark"	
 			}
 			
@@ -68,7 +63,6 @@
 			"template": "demos/src/share-sprite.html",
 			"description": "use svg symbol as icon image",
 			"share": {
-				"sprite": true,
 				"theme": "sprite-light"	
 			}
 		}

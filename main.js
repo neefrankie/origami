@@ -39,6 +39,17 @@ class Share {
       config.title = rootEl.getAttribute('data-o-share-title') || defaultConfig.title;
       config.summary = rootEl.getAttribute('data-o-share-summary') || defaultConfig.summary;
     }
+
+    for (const k in config) {
+      if (!config.hasOwnProperty(k)) {
+        continue;
+      }
+      if (typeof config[k] !== 'string') {
+        continue;
+      }
+      config[k] = encodeURIComponent(config[k]);
+    }
+    
     this.config = config;
     this.rootEl = rootEl;
     this.openWindows = {};

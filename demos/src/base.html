@@ -9,8 +9,8 @@
   <meta name="author" content="ftc">
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta property="og:title" content="{{ pageTitle }}"/>
-  <meta property="og:description" content="{{ description }}" />
+  <meta property="og:title" content="FTC Share"/>
+  <meta property="og:description" content="The share component demo page" />
 
   {% set iconsPath = "/bower_components/ftc-logos/static/favicons" %}
   <link rel="apple-touch-icon" sizes="180x180" href="{{iconsPath}}/apple-touch-icon-180x180.png">
@@ -28,7 +28,7 @@
 {% block body %}{% endblock%}
 
 <script type="text/javascript" src="scripts/demo.js"></script>
-{% if embedded %}
+{% if production %}
 <script type="text/javascript" src="/api/resize-iframe.js"></script>
 {% endif %}
 </body>
