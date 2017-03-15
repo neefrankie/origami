@@ -32,7 +32,6 @@ class Share {
 
     if (!config) {
       config = {};
-      const defaultConfig = gatherConfig();
       config.links = rootEl.hasAttribute('data-o-share-links') ?
 					rootEl.getAttribute('data-o-share-links').split(' ') : defaultConfig.links;
       config.url = rootEl.getAttribute('data-o-share-url') || defaultConfig.url;
@@ -73,6 +72,11 @@ class Share {
       aElement.href = social.url;
       aElement.setAttribute('target', '_blank');
       aElement.setAttribute('title', `分享到${social.text}`);
+
+      const iElement = document.createElement('i');
+      iElement.textContent = social.text;
+
+      aElement.appendChild(iElement);
 
       liElement.appendChild(aElement);
       ulElement.appendChild(liElement);
