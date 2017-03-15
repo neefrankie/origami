@@ -6,5 +6,5 @@ export default {
     buble()
   ],
   format: 'es',
-  dest: './dist/toggle.js',
+  dest: './dist/toggle.es2015.js',
 }
