@@ -1,85 +1,89 @@
-const promisify = require('promisify-node')
-const fs = promisify('fs');
 const path = require('path');
-const isThere = require('is-there');
-const co = require('co');
-const mkdirp = require('mkdirp');
-const helper = require('./helper');
+const fs = require('fs-jetpack');
+const loadJsonFile = require('load-json-file');
+const nunjucks = require('nunjucks');
+
+function render(template, context) {
+  const env = new nunjucks.Environment(
+    new nunjucks.FileSystemLoader(
+      [process.cwd()],
+      {noCache: true}
+    ),
+    {autoescape: false}
+  );
+
+  return new Promise(function(resolve, reject) {
+    env.render(template, context, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
-
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
-const webpack = require('webpack');
-const webpackConfig = require('./webpack.config.js');
-
 const rollup = require('rollup').rollup;
+const babel = require('rollup-plugin-babel');
 const buble = require('rollup-plugin-buble');
-var cache;
 
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
 
-process.env.NODE_ENV = 'dev';
+var cache;
+
+process.env.NODE_ENV = 'development';
 
 // change NODE_ENV between tasks.
-gulp.task('prod', function(done) {
-  process.env.NODE_ENV = 'prod';
-  done();
+gulp.task('prod', function() {
+  return Promise.resolve(process.env.NODE_ENV = 'production');
 });
 
-gulp.task('dev', function(done) {
-  process.env.NODE_ENV = 'dev';
-  done();
+gulp.task('dev', function() {
+  return Promise.reoslve(process.env.NODE_ENV = 'development');
 });
 
-gulp.task('html', () => {
-// determine whether include `/api/resize-iframe.js` listed in `ftc-components`.
-  var embedded = false;
-
-  return co(function *() {
-    const destDir = '.tmp';
-
-    if (!isThere(destDir)) {
-      mkdirp(destDir, (err) => {
-        if (err) console.log(err);
-      });
-    }
-    if (process.env.NODE_ENV === 'prod') {
-      embedded = true;
-    }
-
-    const origami = yield helper.readJson('origami.json');
-
+async function buildPages() {
+  try {
+    const isProduction = process.env.NODE_ENV === 'production';
+    const origami = await loadJsonFile('origami.json');
     const demos = origami.demos;
 
-    const renderResults = yield Promise.all(demos.map(function(demo) {
+    await Promise.all(demos.map(demo => {
+      const dest = `.tmp/${demo.name}.html`;
 
-      const template = demo.template;
-      console.log(`Using template "${template}" for "${demo.name}"`);
+      const context = Object.assign({isProduction}, demo);;
 
-      const context = {
-        pageTitle: demo.name,
-        description: demo.description,
-        embedded: embedded
-      };
+      return render(demo.template, context)
+        .then(html => {
+          console.log(`Generating page ${dest}`);
+          return fs.writeAsync(dest, html)
+        })
+        .catch(err => {
+          throw err;
+        });
+    })); 
 
-      return helper.render(template, context, demo.name);
-    }));
+  } catch(e) {
+    throw e;
+  }
+}
 
-    yield Promise.all(renderResults.map(result => {
-      const dest = `.tmp/${result.name}.html`;
-      return fs.writeFile(dest, result.content, 'utf8');
-    }));
-  })
-  .then(function(){
-    browserSync.reload('*.html');
-  }, function(err) {
-    console.error(err.stack);
-  });
+gulp.task('html', () => {
+  return buildPages()
+    .then(() => {
+      browserSync.reload('*.html');
+      return Promise.resolve();
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 gulp.task('styles', function styles() {
@@ -106,28 +110,32 @@ gulp.task('styles', function styles() {
     .pipe(browserSync.stream({once: true}));
 });
 
-gulp.task('eslint', () => {
-  return gulp.src('client/js/*.js')
-    .pipe($.eslint())
-    .pipe($.eslint.format())
-    .pipe($.eslint.failAfterError());
-});
+gulp.task('scripts', () => {
+  
+  return rollup({
+    entry: 'demos/src/demo.js',
+    plugins: [
+      babel({
+        exclude: 'node_modules/**'
+      })
+    ],
+    cache: cache
+  }).then(function(bundle) {
+    // Cache for later use
+    cache = bundle;
 
-gulp.task('webpack', (done) => {
-  if (process.env.NODE_ENV === 'prod') {
-    delete webpackConfig.watch;
-  }
-
-  webpack(webpackConfig, function(err, stats) {
-    if (err) throw new $.util.PluginError('webpack', err);
-    $.util.log('[webpack]', stats.toString({
-      colors: $.util.colors.supportsColor,
-      chunks: false,
-      hash: false,
-      version: false
-    }));
-    browserSync.reload('demo.js');
-    done();
+    // Or only use this
+    return bundle.write({
+      dest: '.tmp/scripts/demo.js',
+      format: 'iife',
+      sourceMap: true
+    });
+  })
+  .then(() => {
+    browserSync.reload();
+  })
+  .catch(err => {
+    console.log(err);
   });
 });
 
@@ -135,7 +143,7 @@ gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', gulp.parallel('html', 'styles', 'webpack', () => {
+gulp.task('serve', gulp.parallel('html', 'styles', 'scripts', () => {
   browserSync.init({
     server: {
       baseDir: ['.tmp'],
@@ -150,9 +158,14 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'webpack', () => {
   gulp.watch(['demos/src/*.{html,json}', 'partials/*.html'], gulp.parallel('html'));
 
   gulp.watch('demos/src/*.scss',gulp.parallel('styles'));
+  gulp.watch([
+    'demos/src/*.js',
+    'src/js/*.js'],
+    gulp.parallel('scripts')
+  );
 }));
 
-gulp.task('build', gulp.parallel('html', 'styles', 'webpack'));
+gulp.task('build', gulp.parallel('html', 'styles', 'scripts'));
 
 gulp.task('copy', () => {
   const DEST = path.resolve(__dirname, demosDir, projectName);
@@ -186,3 +199,5 @@ gulp.task('rollup', () => {
     });
   });
 });
+
+

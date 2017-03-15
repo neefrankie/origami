@@ -81,12 +81,13 @@ class Toggle {
     const toggleEls = el.querySelectorAll('[data-o-component="o-toggle"]');
     const toggles = [];
 
-    for (let toggleEl of toggleEls) {
+    for (let i = 0; i < toggleEls.length; i++) {
+      const toggleEl = toggleEls[i];
       if (!toggleEl.hasAttribute('data-o-toggle--js')) {
         toggles.push(new Toggle(toggleEl, config));
       }
     }
-    console.log(toggles);
+
     return toggles;
   }
 };
