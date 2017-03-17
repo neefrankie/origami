@@ -16,7 +16,9 @@
   ],
   "scripts": {
     "gulp": "./node_modules/gulp/bin/gulp.js",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "build": "rollup -c",
+    "prebuild": "rm -rf dist/*"
   },
   "author": "weiguo.ni",
   "license": "MIT",
