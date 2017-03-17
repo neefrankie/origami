@@ -139,6 +139,7 @@ gulp.task('scripts', () => {
   })
   .then(() => {
     browserSync.reload();
+    return Promise.resolve();
   })
   .catch(err => {
     console.log(err);
@@ -192,46 +193,3 @@ gulp.task('copy', () => {
 });
 
 gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
-
-
-// dist js to be directly used in the browser.
-// Transpiled with babel but keeps import/export to be used by rollup or webpack.
-// Transpile it so that when used as dependecy, build tools do not need to re-transpile it on every change.
-// Keeps import/export so that it could be used as a module.
-
-const mainjsOption = {
-  entry: './main.js',
-  plugins: [
-    buble()
-  ]
-};
-
-gulp.task('js:module', () => {
-  return rollup(mainjsOption)
-    .then(function(bundle) {
-      return bundle.write({
-        dest: 'dist/share.es2015.js',
-        format: 'es'
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
-// IIFE that can be run directly in browser
-gulp.task('js:browser', () => {
-  return rollup(mainjsOption)
-    .then(function(bundle) {
-      return bundle.write({
-        dest: 'dist/share.browser.js',
-        format: 'iife',
-        moduleName: 'Share'
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
-gulp.task('dist:js', gulp.parallel('js:module', 'js:browser'));
