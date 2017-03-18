@@ -30,7 +30,6 @@ const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const rollup = require('rollup').rollup;
-const babel = require('rollup-plugin-babel');
 const buble = require('rollup-plugin-buble');
 
 const demosDir = '../ft-interact/demos';
@@ -117,18 +116,24 @@ gulp.task('styles', function styles() {
 });
 
 gulp.task('scripts', () => {
-  
+  const dest = '.tmp/scripts/demo.js';
   return rollup({
     entry: 'demos/src/demo.js',
     plugins: [
-      babel({
-        exclude: 'node_modules/**'
-      })
+      buble()
     ],
     cache: cache
   }).then(function(bundle) {
     // Cache for later use
     cache = bundle;
+    // let {code, map} = bundle.generate({
+    //   format: 'iife',
+    //   sourceMap: true,
+    //   sourceMapFile: path.basename('dest')
+    // });
+
+    // code += `//# sourceMappingURL=${path.basename(dest)}.map\n`;
+    // return fs.writeAsync('bundl.js', code);
 
     // Or only use this
     return bundle.write({
