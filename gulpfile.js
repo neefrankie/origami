@@ -1,96 +1,74 @@
-const fs = require('mz/fs');
+const pify = require('pify');
+const fs = require('fs-jetpack');
 const path = require('path');
-const url = require('url');
-const isThere = require('is-there');
-const co = require('co');
-const nunjucks = require('nunjucks');
-const footer = require('./src/js/data.js');
-
+const loadJsonFile = require('load-json-file');
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
 
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
-
+const getFooterData = require('./lib/index.js');
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
 
+const nunjucks = require('nunjucks');
 nunjucks.configure(process.cwd(), {
   noCache: true,
   watch: false
 });
 
-function render(view, context, destFile) {
-  return new Promise(function(resolve, reject) {
-    nunjucks.render(view, context, function(err, result) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({
-          name: destFile,
-          content: result
-        });
-      }
-    });
-  });
-}
+const render = pify(nunjucks.render);
 
-process.env.NODE_ENV = 'dev';
+process.env.NODE_ENV = 'development';
 
 // change NODE_ENV between tasks.
 gulp.task('prod', function(done) {
-  process.env.NODE_ENV = 'prod';
+  process.env.NODE_ENV = 'production';
   done();
 });
 
 gulp.task('dev', function(done) {
-  process.env.NODE_ENV = 'dev';
+  process.env.NODE_ENV = 'development';
   done();
 });
 
+function buildPages(demos) {
+  const env = {
+    isProduction: process.env.NODE_ENV === 'production'
+  };
+
+  return Promise.all(demos.map(demo => {
+    const footer = getFooterData({
+      theme: demo.theme,
+      type: demo.type
+    });
+    const context = Object.assign(demo, {
+      footer,
+      env
+    })
+    return render(demo.template, context)
+      .then(html => {
+        return fs.writeAsync(`.tmp/${demo.name}.html`, html);
+      })
+      .catch(err => {
+        throw err;
+      });
+  }));
+}
+
 gulp.task('html', () => {
-  var embedded = false;
-
-  return co(function *() {
-    const destDir = '.tmp';
-
-    const embedded = process.env.NODE_ENV === 'prod';
-
-    try {
-      yield fs.access(destDir, fs.constants.R_OK | fs.constants.W_OK);
-    } catch (err) {    
-      yield fs.mkdir(destDir);
-    }
-
-    const origami = yield fs.readFile('origami.json', 'utf8');
-
-    const demos = JSON.parse(origami).demos;
-
-    const renderResults = yield Promise.all(demos.map(demo => {
-      // Use demo.theme to override default theme
-      Object.assign(footer, demo);
-      const context = {
-        pageTitle: demo.name,
-        footer,
-        embedded
-      }
-      // const context = deepMerge({footer}, demo);
-      // Object.assign(context, {embedded});
-
-      return render(demo.template, context, demo.name);
-    }));
-
-    yield Promise.all(renderResults.map(result => {
-      const dest = `.tmp/${result.name}.html`;
-      return fs.writeFile(dest, result.content, 'utf8');
-    }));  
-  })
-  .then(function(){
-    browserSync.reload('*.html');
-  }, function(err) {
-    console.error(err.stack);
-  });
+  return loadJsonFile('origami.json')
+    .then(json => {
+      return buildPages(json.demos)
+    })
+    .then(() => {
+      browserSync.reload('*.html');
+      return Promise.resolve();
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 gulp.task('styles', function styles() {

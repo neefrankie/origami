@@ -18,18 +18,21 @@
 			"name": "footer",
 			"template": "demos/src/footer.html",
 			"theme": "theme-dark",
+			"type": "matrix",
 			"description": ""
 		},
 		{
 			"name": "footer-light",
 			"template": "demos/src/footer.html",
 			"theme": "theme-light",
+			"type": "matrix",
 			"description": ""
 		},
 		{
 			"name": "simple-footer",
 			"template": "demos/src/simple-footer.html",
 			"theme": "theme-light",
+			"type": "simple",
 			"description": ""
 		}
 	]
