@@ -1,5 +1,5 @@
 {
-  "name": "ftc-footer",
+  "name": "@ftchinese/ftc-footer",
   "version": "0.1.1",
   "description": "Responsive FTC page footer",
   "main": "./lib/index.js",
@@ -33,7 +33,6 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.4.1",
     "load-json-file": "^2.0.0",
-    "mz": "^2.6.0",
     "nunjucks": "^3.0.0",
     "pify": "^2.3.0",
     "postcss-cssnext": "^2.8.0"
