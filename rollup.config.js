@@ -1,5 +1,17 @@
+import buble from 'rollup-plugin-buble';
+
 export default {
-  entry: './src/js/get-socials.js',
-  format: 'cjs',
-  dest: './lib/get-socials.js',
+  entry: 'main.js',
+  plugins: [buble()],
+  targets: [
+    {
+      dest: 'dist/share.es.js',
+      format: 'es'
+    },
+    {
+      dest: 'dist/share.browser.js',
+      format: 'iife',
+      moduleName: 'Share'
+    }
+  ]
 }
