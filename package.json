@@ -1,5 +1,5 @@
 {
-  "name": "ftc-share",
+  "name": "@ftchinese/ftc-share",
   "version": "3.4.0",
   "main": "./lib/index.js",
   "browser": "dist/share.web.js",
