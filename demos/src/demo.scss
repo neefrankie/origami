@@ -1,8 +1,5 @@
 @import "o-colors/main";
 
-$social-images-base-url: "../dist";
-@import "../../main";
-
 body {
 	@include oColorsFor(page);
 }
@@ -11,68 +8,23 @@ ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
-	.social-images__action {
+	.social-image {
 		display: inline-block;
 		width: 180px;
 		margin: 0 0 20px;
 		text-align: center;
-		a {
+		img {
 			display: inline-block;
+			border: 1px dotted;
 			width: 100px;
 			height: 100px;
-			border-radius: 50%;
-		}
-		i {
-			display: block;
-			width: 100px;
-			height: 100px;
-			border-radius: 50%;
-			background-size: 100% 100%;
-			background-repeat: no-repeat;
-			background-size: contain;
-			background-position: 50%;
-			background-color: transparent;
-		}
-
-		svg {
-			width: 100%;
-			height: 100%;
 		}
 
 		span {
 			display: block;
 		}
-	}
-}
-
-@each $theme in $_social-images-themes {
-	.social-images--#{$theme} {
-
-		@each $name in $_social-images {
-			
-			.social-images__#{$name} a i {
-				@include socialImagesSetImageFor($name, $theme: $theme);
-			}
+		input {
+			cursor: text;
 		}
-	}	
-}
-
-.social-images--white {
-	a {
-		background-color: #000;
-	}
-}
-
-.social-images--sprite {
-	@each $name, $color in $social-images-palette {
-		.social-images__#{$name} a {
-			background-color: $color;
-		}
-	}
-	svg {
-		fill: #fff;
-	}
-	svg + i {
-		display: none;
 	}
 }
