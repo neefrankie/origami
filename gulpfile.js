@@ -2,6 +2,7 @@ const pify = require('pify');
 const fs = require('fs-jetpack');
 const path = require('path');
 const loadJsonFile = require('load-json-file');
+const inline = pify(require('inline-source'));
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
@@ -19,6 +20,14 @@ const socialImages = require('./lib/index.js');
 
 const deployDest = path.resolve(__dirname, '../ft-interact/social-images');
 
+const images = [
+  "wechat",
+  "weibo",
+  "linkedin",
+  "facebook",
+  "twitter"
+];
+
 process.env.NODE_ENV = 'development';
 
 // change NODE_ENV between tasks.
@@ -27,7 +36,7 @@ gulp.task('prod', function() {
 });
 
 gulp.task('dev', function() {
-  return Promise.reoslve(process.env.NODE_ENV = 'development');
+  return Promise.resolve(process.env.NODE_ENV = 'development');
 });
 
 // minify svg
@@ -43,8 +52,16 @@ function buildPages(demos) {
   };
 
   return Promise.all(demos.map(demo => {
-    const context = demo;
-    return render(demo.template, context)
+    return render(demo.template, {images, env})
+      .then(html => {
+        if (process.env.NODE_ENV === 'production') {
+          return inline(html, {
+            compress: true,
+            rootpath: path.resolve(process.cwd(), '.tmp')
+          });
+        }    
+        return html;      
+      })    
       .then(html => {
         return fs.writeAsync(`.tmp/${demo.name}.html`, html);
       })
@@ -121,13 +138,13 @@ gulp.task('serve', gulp.parallel('html', 'styles', () => {
 }));
 
 gulp.task('copy', () => {
-  const dest = path.resolve(__dirname, '../ft-interact/demos/social-images');
+  const dest = path.resolve(__dirname, '../ft-interact/demos/ftc-social-images');
   console.log(`Deploying to ${dest}`);
-  return gulp.src(['.tmp/**/*', 'static*/**/*.{svg,png}',])
+  return gulp.src('.tmp/*.html')
     .pipe(gulp.dest(dest));
 });
 
-gulp.task('demo', gulp.series('clean', 'prod', gulp.parallel('html', 'styles'), 'copy', 'dev'));
+gulp.task('demo', gulp.series('clean', 'prod', 'styles', 'html', 'copy', 'dev'));
 
 gulp.task('deploy', () => {
 

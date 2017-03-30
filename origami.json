@@ -10,26 +10,7 @@
             "name": "default",
             "template": "demos/src/default.html",
             "data": "demos/src/data.json",
-            "description": "Use svg image as background with fallback to png"
-        },
-        {
-            "name": "pink",
-            "template": "demos/src/default.html",
-            "data": "demos/src/data.json",
-            "description": "Use svg image as background with fallback to png"
-        },
-        {
-            "name": "white",
-            "template": "demos/src/default.html",
-            "data": "demos/src/data.json",
-            "description": "Use svg image as background with fallback to png"
-        },
-        {
-          "name": "sprite",
-          "template": "demos/src/default.html",
-          "data": "",
-          "description": "SVG symbol sprite",
-          "sprite": true
+            "description": "FTC social images"
         }
     ]
 }
