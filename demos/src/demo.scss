@@ -4,14 +4,14 @@ body {
 	@include oColorsFor(page);
 }
 
-.o-share--theme-dark,
-.o-share--sprite-dark {
+.o-share--theme-dark {
 	background-color: #000;
 }
 
-@include oShare;
-@include oShare('light');
-@include oShare('dark');
-@include oShare($sprite: true);
-@include oShare('light', $sprite: true);
-@include oShare('dark', $sprite: true);
+@include oShareBase;
+.o-share {
+	display: block;
+}
+@include oSharePreset($theme: 'default');
+@include oSharePreset($theme: 'light');
+@include oSharePreset($theme: 'dark');
