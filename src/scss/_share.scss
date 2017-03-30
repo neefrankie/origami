@@ -3,18 +3,10 @@
  * @param {Boolean} $sprite - Use svg sprite or not. Default to `false`.
  * @param {String} $classname - Container's class name.
  */
-@mixin oShare($theme: 'default', $sprite: false, $classname: 'o-share') {
+@mixin oShare($theme: 'default', $classname: 'o-share') {
 	@include oShareBase;
 
-	@if $sprite == false {
-		.#{$classname}--theme-#{$theme} {
-			@include _oShareGetThemeMixin($theme);
-		}
-	} @else {
-		$o-share-use-sprite: true !global;
-		.#{$classname}--sprite-#{$theme} {
-			@include _oShareGetThemeMixin($theme);
-		}
-		$o-share-use-sprite: false !global;
+	.#{$classname}--theme-#{$theme} {
+		@include _oShareGetThemeMixin($theme);
 	}
 }

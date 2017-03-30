@@ -1,34 +1,42 @@
-@function oShareGetIconColor($theme) {
-		$color: 'white';
+@function oShareGetThemeColor($theme) {
+	$color: map-get($o-share-themes-palette, 'default');
 
-		@if map-has-key($_o-share-foreground-palette, $theme) {
-			$color: map-get($_o-share-foreground-palette, $theme);
-		}
+	@if map-has-key($o-share-themes-palette, $theme) {
+		$color: map-get($_o-share-foreground-palette, $theme);
+	}
 
-		@return if(type-of($color) == 'color', $color, oColorsGetPaletteColor($color));
+	@return $color;
 }
 
 /// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
-@mixin oShareSetIcons($iconnames: $_o-share-icon-names, $theme: 'default', $classname: 'o-share') {
+@mixin oShareSetIcons(
+	$iconnames: $o-share-icon-names,
+	$size: $o-share-icon-size,
+	$theme: 'default',
+	$classname: 'o-share') {
 	
-	@if $o-share-use-sprite == false {
-		@each $icon in $_o-share-icon-names {
-			.#{$classname}__#{$icon} i {
-				@include socialImagesSetImageFor($icon, $theme: $theme)
-			}
-		}		
-	} @else {
+	$tint: oShareGetThemeColor($theme);
 
-		.#{$classname}__action svg {
-			fill: oShareGetIconColor($theme);
+	@each $icon in $o-share-icon-names {
+		.#{$classname}__#{$icon} i {
+			@include socialImagesSetImageFor($icon, $theme: $theme)
+			background-image: url("#{$image-service-url}/#{$icon}.svg?width=#{$size}&height=#{$size}&tint=#{$tint}&format=png&source=ftchinese");
+			background-image: url("#{$image-service-url}/#{$icon}.svg?width=#{$size}&height=#{$size}&tint=#{$tint}&format=svg&source=ftchinese"), none;
 		}
 	}
 }
 
+@mixin oShareSetBackgroundColor($color) {
+	@if type-of($color) == string {
+		background-color: oColorsGetPaletteColor($color);
+	} @else if type-of($color) == color {
+		background-color: $color;
+	}
+}
 
 /// @param {String} $background - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
 @mixin oShareSetLinkStyle(
-	$background: $_o-share-background-palette, 
+	$background: $o-share-icons-palette, 
 	$border: null, 
 	$radius: 50%, 
 	$classname: 'o-share') {
@@ -54,37 +62,5 @@
 		@if $radius != null {
 			border-radius: $radius;
 		}
-	}
-}
-
-
-// Set foreground and background color on <a> tag.
-@mixin oShareSetLinkHover($background: null, $opacity: 0.8, $classname: 'o-share') {
-
-	@if type-of($background) == map {
-
-		@each $icon, $color in $background {
-			.#{$classname}__#{$icon} a:hover {
-				background-color: $color;
-			}
-		}
-	}
-
-	.#{$classname}__action a:hover {
-		@if $background != null {
-			@include oShareSetBackgroundColor($background);
-		}
-
-		@if $opacity != null {
-			opacity: $opacity;
-		}
-	}
-}
-
-@mixin oShareSetBackgroundColor($color) {
-	@if type-of($color) == string {
-		background-color: oColorsGetPaletteColor($color);
-	} @else if type-of($color) == color {
-		background-color: $color;
 	}
 }

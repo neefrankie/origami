@@ -27,6 +27,9 @@
 			float: left;
 			text-decoration: none;
 			padding: $o-share-link-padding;
+			&:hover {
+				opacity: 0.8;
+			}
 		}
 
 		i {
@@ -40,19 +43,7 @@
 			text-indent: -($o-share-icon-size * 1000);
 			white-space: nowrap;
 			overflow: hidden;
-		}			
-
-		svg {
-			float: left;
-			width: $o-share-icon-size;
-			height: $o-share-icon-size;
-			background-color: transparent;
 		}
-
-		svg + i {
-			display: none;
-		}
-
 	}
 }
 

@@ -4,19 +4,16 @@
 @mixin oShareDefault {
 	@include oShareSetIcons;
 	@include oShareSetLinkStyle;
-	@include oShareSetLinkHover;
 }
 
 @mixin oShareLight {
 	@include oShareSetIcons($theme: 'pink');
-	@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid oColorsGetPaletteColor('pink-tint2'));
-	@include oShareSetLinkHover($background: 'pink-tint2');	
+	@include oShareSetLinkStyle($background: 'transparent');
 }
 
 @mixin oShareDark {
-	@include oShareSetIcons($theme: 'white');
+	@include oShareSetIcons;
 	@include oShareSetLinkStyle($background: 'transparent', $border: 1px solid #fff);
-	@include oShareSetLinkHover;
 }
 
 @mixin _oShareGetThemeMixin($theme) {
