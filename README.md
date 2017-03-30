@@ -205,7 +205,7 @@ You also need to specify a `share` object in you template data:
 
 This method does not rely on js. But you still need to use the sass mixin or wite css yourself.
 
-## Image Service
+## Image Service Example
 ```
 https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2Fwechat.svg?source=ftchinese&width=24&height=24&tint=%23a7a59b
 ```
