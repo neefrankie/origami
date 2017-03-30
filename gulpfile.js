@@ -1,58 +1,33 @@
-const fs = require('mz/fs');
+const pify = require('pify');
+const fs = require('fs-jetpack');
 const path = require('path');
-const co = require('co');
-const deepMerge = require('deepmerge');
-const nunjucks = require('nunjucks');
-const env = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader(
-    [process.cwd()],
-    {noCache: true, }
-  ),
-  {autoescape: false}
-);
-
-function render(template, context, destName) {
-  return new Promise(function(resolve, reject) {
-    env.render(template, context, function(err, result) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({
-          name: destName,
-          content: result
-        });
-      }
-    });
-  });
-}
-
+const loadJsonFile = require('load-json-file');
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
-
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
-const mkdir = require('./lib/mkdir.js');
 
-const settings = require('./src/js/settings.json');
-const images = settings.map(setting => {
-  return setting.name
+const nunjucks = require('nunjucks');
+nunjucks.configure(process.cwd(), {
+  noCache: true,
+  watch: false
 });
+const render = pify(nunjucks.render);
 
-const demosDir = '../ft-interact/demos';
-const projectName = path.basename(__dirname);
+const socialImages = require('./lib/index.js');
 
-process.env.NODE_ENV = 'dev';
+const deployDest = path.resolve(__dirname, '../ft-interact/social-images');
+
+process.env.NODE_ENV = 'development';
 
 // change NODE_ENV between tasks.
-gulp.task('prod', function(done) {
-  process.env.NODE_ENV = 'prod';
-  done();
+gulp.task('prod', function() {
+  return Promise.resolve(process.env.NODE_ENV = 'production');
 });
 
-gulp.task('dev', function(done) {
-  process.env.NODE_ENV = 'dev';
-  done();
+gulp.task('dev', function() {
+  return Promise.reoslve(process.env.NODE_ENV = 'development');
 });
 
 // minify svg
@@ -62,68 +37,35 @@ gulp.task('svgmin', () => {
     .pipe(gulp.dest('svg'));
 });
 
-// generate nunjucks templates for image-services.
-gulp.task('templates', () => {
-  return gulp.src('svg/*.svg')
-    .pipe($.svgmin())
-    .pipe($.cheerio({
-      run: function($, file) {
-        $('.background').attr('fill', '{{background}}');
-        $('.foreground').attr('fill', '{{foreground}}');
-      }
-    }))
-    .pipe(gulp.dest('templates'));
-});
+function buildPages(demos) {
+  const env = {
+    isProduction: process.env.NODE_ENV === 'production'
+  };
 
-gulp.task('svgstore', () => {
-  return gulp.src('svg/*.svg')
-    .pipe($.svgmin())
-    .pipe($.cheerio({
-      run: function($, file) {
-        $('.background').remove();
-        $('.foreground').removeAttr('fill').removeAttr('id')
-      },
-      parserOptions: {
-        xmlMode: true
-      }
-    }))
-    .pipe($.svgstore())
-    .pipe($.rename('social-images-sprite.svg'))
-    .pipe(gulp.dest('dist'))
-});
+  return Promise.all(demos.map(demo => {
+    const context = demo;
+    return render(demo.template, context)
+      .then(html => {
+        return fs.writeAsync(`.tmp/${demo.name}.html`, html);
+      })
+      .catch(err => {
+        throw err;
+      });
+  }));
+}
 
-// /* demo tasks */
 gulp.task('html', () => {
-  return co(function *() {
-    const destDir = '.tmp';
-    const embedded = process.env.NODE_ENV === 'prod';
-
-    yield mkdir(destDir);
-
-    const origami = yield fs.readFile('origami.json', 'utf8');
-
-    const demos = JSON.parse(origami).demos;
-
-    const renderResults = yield Promise.all(demos.map(function(demo) {
-
-      const context = deepMerge({
-        images,
-        embedded
-      }, demo);
-
-      return render(demo.template, context, demo.name);
-    }));
-
-    yield Promise.all(renderResults.map(result => {
-      const dest = `.tmp/${result.name}.html`;
-      return fs.writeFile(dest, result.content, 'utf8');
-    }));
-  })
-  .then(function(){
-    browserSync.reload('*.html');
-  }, function(err) {
-    console.error(err.stack);
-  });
+  return loadJsonFile('origami.json')
+    .then(json => {
+      return buildPages(json.demos)
+    })
+    .then(() => {
+      browserSync.reload('*.html');
+      return Promise.resolve();
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 gulp.task('styles', () => {
@@ -179,10 +121,29 @@ gulp.task('serve', gulp.parallel('html', 'styles', () => {
 }));
 
 gulp.task('copy', () => {
-  const DEST = path.resolve(__dirname, demosDir, projectName);
-  console.log(`Deploying to ${DEST}`);
+  const dest = path.resolve(__dirname, '../ft-interact/demos/social-images');
+  console.log(`Deploying to ${dest}`);
   return gulp.src(['.tmp/**/*', 'static*/**/*.{svg,png}',])
-    .pipe(gulp.dest(DEST));
+    .pipe(gulp.dest(dest));
 });
 
 gulp.task('demo', gulp.series('clean', 'prod', gulp.parallel('html', 'styles'), 'copy', 'dev'));
+
+gulp.task('deploy', () => {
+
+  return Promise.all([
+    socialImages({
+      to: `${deployDest}/default`
+    }),
+    socialImages({
+      to: deployDest,
+      png: false,
+      color: null,
+      background: null
+    })
+  ])
+  .catch(err => {
+    console.log(err);
+  });
+});
+
