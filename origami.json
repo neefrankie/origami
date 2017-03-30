@@ -19,52 +19,8 @@
 	"demos": [
 		{
 			"name": "share",
-			"template": "demos/src/share-js.html",
-			"description": "default theme",
-			"share": {
-				"theme": "theme-default"
-			}
-		},
-		{
-			"name": "share-dark",
-			"template": "demos/src/share-js.html",
-			"description": "dark theme",
-			"share": {
-				"theme": "theme-dark"
-			}
-		},
-		{
-			"name": "share-light",
-			"template": "demos/src/share-js.html",
-			"description": "light theme",
-			"share": {
-				"theme": "theme-light"
-			}
-		},
-		{
-			"name": "sprite",
-			"template": "demos/src/share-sprite.html",
-			"description": "use svg symbol as icon image",
-			"share": {
-				"theme": "sprite-default"
-			}
-		},
-		{
-			"name": "sprite-dark",
-			"template": "demos/src/share-sprite.html",
-			"description": "use svg symbol as icon image",
-			"share": {
-				"theme": "sprite-dark"	
-			}
-			
-		},
-		{
-			"name": "sprite-light",
-			"template": "demos/src/share-sprite.html",
-			"description": "use svg symbol as icon image",
-			"share": {
-				"theme": "sprite-light"	
-			}
+			"template": "demos/src/share.html",
+			"description": "FTC social share"
 		}
 	]
 }
