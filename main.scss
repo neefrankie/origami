@@ -1,15 +1,10 @@
 @import "o-colors/main";
 
 @import "src/scss/variables";
-@import "src/scss/mixins";
-@import "src/scss/themes";
-
-@import "src/scss/base";
+@import "src/scss/functions";
 @import "src/scss/share";
 
-@if $o-share-is-silent == false {
+@if (not $o-share-is-silent) {
 	@include oShare;
-	@include oShare($theme: 'light');
-	@include oShare($theme: 'dark');
-	$o-share-is-silent: true !global;
+	@include oShareIcon;
 }
