@@ -1,0 +1,13 @@
+@function oShareGetThemeColor($theme) {
+	$color: map-get($o-share-themes, 'default');
+
+	@if map-has-key($o-share-themes, $theme) {
+		$color: map-get($o-share-themes, $theme);
+	}
+
+	@return $color;
+}
+
+@function oShareImageUrl($name, $size, $tint, $format) {
+	@return "https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2F#{$name}.svg?source=ftchinese&width=#{$size}&tint=%23#{$tint}&format=#{$format}";
+}

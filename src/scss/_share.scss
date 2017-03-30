@@ -1,12 +1,108 @@
+/// Generate base share styles
+/// @param {String} $classname [o-share] - base class name
+/// If you want to customize the look and feel of all icons, pass content block to mixin `oShareCustomBase {}`.
+@mixin oShareBase($classname: o-share) {
+	.#{$classname} {
+		display: inline-block;
+		text-align: left;
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+			display: inline-block;
+			// Clearfix
+			&:after {
+				clear: both;
+				content: '';
+				display: table;
+			}
+		}
+	}
+	.#{$classname}__action {
+	// Float everything to avoid gaps in HTML.
+		float: left;
+		margin: 0 5px 0 0;
+
+		a {
+			float: left;
+			text-decoration: none;
+			padding: $o-share-link-padding;
+			border-radius: 50%;
+			&:hover {
+				opacity: 0.8;
+			}
+		}
+
+		i {
+			float: left;
+			background-repeat: no-repeat;
+			background-position: 50%;
+			background-size: contain;
+			width: $o-share-icon-size;
+			height: $o-share-icon-size;
+			text-align: left;
+			text-indent: -($o-share-icon-size * 1000);
+			white-space: nowrap;
+			overflow: hidden;
+		}
+	}
+}
+
+/// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
+@mixin oShareIcon(
+	$size: $o-share-icon-size,
+	$color: #fff,
+	$background: $o-share-colors,
+	$hover-color: null,
+	$border: null, 
+	$classname: 'o-share') {
+	
+	$icon-color: if(type-of($color) == color, $color, oShareGetThemeColor($color));
+// Convert color to string.	
+	$tint: str-slice("#{$icon-color}", 2);
+	$size: str-slice("#{$size}", 1, -3);
+
+	@each $icon in $o-share-icon-names {
+		.#{$classname}__#{$icon} i {
+			background-image: url(oShareImageUrl($name: $icon, $size: $size, $tint: $tint, $format: "png"));
+			background-image: url(oShareImageUrl($name: $icon, $size: $size, $tint: $tint, $format: "svg")), none;
+		}
+	}
+
+	@if type-of($background) == map {
+		@each $icon, $color in $background {
+			.#{$classname}__#{$icon} a {
+				background-color: $color;
+			}
+		}
+	} @else {
+		.#{$classname}__action a {
+			background-color: $background;
+			@if $hover-color != null {
+				&:hover {
+					background-color: $hover-color;
+				}
+			}			
+			@if $border != null {
+				border: 1px solid $icon-color;
+			}
+		}		
+	}
+}
+
 /* 
  * @param {List} $themes - ('default', 'light', 'dark')
  * @param {Boolean} $sprite - Use svg sprite or not. Default to `false`.
  * @param {String} $classname - Container's class name.
  */
-@mixin oShare($theme: 'default', $classname: 'o-share') {
-	@include oShareBase;
-
+@mixin oSharePreset($theme: 'default', $classname: 'o-share') {
 	.#{$classname}--theme-#{$theme} {
-		@include _oShareGetThemeMixin($theme);
+		@if $theme == 'default' {
+			@include oShareIcon;
+		} @else if $theme == 'light' {
+			@include oShareIcon($color: 'pink', $background: transparent, $hover-color: #e9decf);
+		} @else if $theme == 'dark' {
+			@include oShareIcon($background: transparent, $border: true);
+		}
 	}
 }
