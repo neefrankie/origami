@@ -207,5 +207,5 @@ This method does not rely on js. But you still need to use the sass mixin or wit
 
 ## Image Service
 ```
-https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2Fwechat.svg?width=24&height=24&tint=a7a59b&format=png&source=ftchinese
+https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2Fwechat.svg?source=ftchinese&width=24&height=24&tint=%23a7a59b
 ```
