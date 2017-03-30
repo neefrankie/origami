@@ -5,6 +5,6 @@
 @import "src/scss/share";
 
 @if (not $o-share-is-silent) {
-	@include oShare;
+	@include oShareBase;
 	@include oShareIcon;
 }
