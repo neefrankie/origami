@@ -1,10 +1,6 @@
-Social media and URL sharing buttons modified from Financial Times o-share component.
+# FTC Social Share Component
 
-- Provides the ability to share a URL provided by the product
-- Uses a standard set of social media icons.
-- Provides a copyable representation of a link
-
-## Getting started
+## HTML
 
 The simplest markup you might need looks like this:
 
@@ -20,30 +16,44 @@ The simplest markup you might need looks like this:
 
 The different options are:
 
-* `links`: List of lower case social networks to be added separated by a space.
-* `url`: The URL to be shared.
-* `title`: The title of the content to be shared
-* `summary`: Summary text to be shared.
+* `links`: List of lower case social networks to be added separated by a space, e.g. `data-o-share-links="wechat weibo"`. Values you could use: `wechat weibo linkedin facebook twitter`.
+* `url`: The URL to be shared, e.g. `data-o-share-url="http://example.com"`.
+* `title`: The title of the content to be shared, e.g. `data-o-share-title="FTC Share Component"`.
+* `summary`: Summary text to be shared, e.g. `data-o-share-summary="This is the doumentation of ftc-share."`.
 
-The different social networks are (in the order frequency used in China):
+Those values could be set in JS constructor, which take precedence.
 
-* Wechat
-* Weibo
-* Linkedin
-* Facebook
-* Twitter
+## JS
 
-You can take a look at the example by running `gulp serve`.
-
-### Javascript
 To instantiate the JavaScript:
 
 ```javascript
-import Share from 'ftc-share'
-var shareInstance = new Share(document.querySelector('[data-o-component=o-share]'));
+import Share from 'ftc-share';
+new Share(rootEl, config);
 ```
 
-The markup will be generated for that instance of `o-share`. The generated markup has the following structure:
+* `rootEl` String | HTMLElement. The selector of containing HTML or the HTML element. If it is a string, the string will be passed to `querySelector`.
+* `config` Object. Information needed for social share. Take precedence over those you set on HTML attributes.
+  * `links` Array. An array of social platform names.
+  * `url` String. To url to share.
+  * `title` String. The title of the content to be shared.
+  * `summary` String. Summary text to be shared.
+
+`config` is the same as you set on HTML attributes in the preceding section, but takes precedence over HTML attributes. If you set neither of them, it will fallback to:
+
+```js
+{
+  links: ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter'],
+  url: window.location.href || '',
+  summary: document.querySelector('meta[property="og:description"]').getAttribute('content') : '',
+  title: document.querySelector('meta[property="og:title"]').getAttribute('content') : ''
+}
+```
+
+We use Open Graph Protocol set on `meta` tags.
+
+The constructor will generate HTML markup in the `rootEl`. The generated markup has the following structure:
+
 ```html
 <ul>
   <li class="o-share__action o-share__wechat">
@@ -54,79 +64,95 @@ The markup will be generated for that instance of `o-share`. The generated marku
 </ul>
 ```
 
-You can also instantiate all instances in your page by running the static method `Share.init` which returns an array with all of them.
+If `rootEl` has children any child element, no markup will be generated. 
 
-### Sass
+You can also instantiate all instances in your page by running the static method `Share.init()` which returns an array with all of them. If you use this method, make sure all the containing HTML has attribute `data-o-component="o-share"` set on it.
 
-```scss
+## SCSS
+
+```css
 @import 'o-share/main';
 ```
 
 We also support silent mode. So if you want to use all the default `o-share` classes, you need to set it to false:
 
-```scss
+```css
 $o-share-is-silent: false;
 @import 'o-share/main';
 ```
 
 If not, you can just use our mixins to set your custom class.
 
-## API
-### SCSS
-#### Use predefined themes
+### Variables
+
+That you could override:
+
+* `$o-share-is-silent: true`
+* `$o-share-icon-size: 24px`
+
+### Mixins
+
+#### `oShareBase`
+
 ```scss
-@include oShare($themes: '', $sprite: false, $classname: 'o-share');
+@mixin oShareBase($classname: o-share)
 ```
 
-Parameters:
-* {List} `$themes`. One of `('default', 'light', 'dark')`
-* {Boolean} `$sprite` - Use svg sprite or not. Default to `false`.
-* {String} `$classname` - Container's class name.
+`$classname` The class name of containg HTML. Default `o-share`.
 
-Default class names for each theme:
-```css
-.o-share--theme-default
-.o-share--theme-light
-.o-share--theme-dark
-.o-share--sprite-default
-.o-share--sprite-light
-.o-share--sprite-dark
-```
+Example:
 
-Examples:
-
-Use the light theme:
 ```scss
-@include oShare($themes: ('dark'));
+@include oShare;
 ```
 
-Use defalt theme with svg sprite:
-```
-@include oShare(('default'), sprite: true);
+#### `oShareIcon`
+
+```scss
+@mixin oShareIcon(
+$size: $o-share-icon-size,
+$color: #fff,
+$background: $o-share-colors,
+$hover-color: null,
+$border: null,
+$classname: 'o-share')
 ```
 
-When using svg sprite, you could set the icons's style as you like:
+* `$size` Icon's size.
+* `$color` Icon's color.
+* `$background` Icon's background color.
+* `$hover-color` Icon's background color when hovered.
+* `$border`. `true` will show one pixel rounded border.
+
+#### `oSharePreset`
+
+```scss
+@mixin oSharePreset($theme: 'default', $classname: 'o-share')
+```
+
+`$theme` could be `default`, `light`, `dark`. Under the hood they are just calling `oShareIcon` with different settings.
+
+### Example
+
+You should at least include `oShareBase` and `oShareIcon` to have complte styles
+
 ```scss
 @include oShareBase;
-.o-share__wechat {
-  a {
-    background-color: #609700;
-    border: 1px solid #e6162d;
-    radius: 5px;
-    &:hover {
-      background-color: #0977b6;
-      opacity: 0.8;
-    }
-  }
-  svg {
-    fill: #3c5a99;
-  }
-}
+@include oShareIcon;
 ```
 
-#### Icon colors
-Each icon has a default color sampled from its official logo. 
-```sass
+Or use the presets:
+
+```scss
+@include oShareBase;
+@include oSharePreset($theme: 'dark');
+```
+
+### Icon colors
+
+Each icon has a default color sampled from its official logo.
+
+```scss
 (
     "wechat": #609700,
     "weibo": #e6162d,
@@ -136,76 +162,51 @@ Each icon has a default color sampled from its official logo.
 );
 ```
 
-### JS
-
-`oShare` accepted an optional config object which takes precedence over the `data` attributes set on the container:
-```js
-new Share(rootEl, config)
-```
-
-#### `rootEl`
-{String | HTMLElement} rootEl - required
-
-#### cofig
-An object with:
-* `links` {Array} - Optional. Determin which social platform to show. `null` for all. Default to `null`.
-* `url` {String} - URL of the shared page. Default to `window.location.href`.
-* `summary` {String} - Story summary
-* `title` {String} - Page title
-* `sprite` {Boolean | String} - Use svg sprite in HTML tag. Default to `false`. If set to `true`, `<svg>`element will be added with its `xlink:href` pointing to `/bower_components/ftc-social-images/dist/social-images-sprite.svg#<icon-name>.svg`. If a string provided, this string will replace the default path.
-
-Examples:
-```javascript
-var config = {
-    links: ['wechat', 'weibo', 'linkedin'],
-    url: window.location.href,
-    title: 'Syria oil map',
-    summary: 'How the Isis oil economy works, explained through the journey of a barrel of oil in Syria',
-    sprite: true
-};
-
-new Share(config)
-```
-
-If you do not pass the `config`, the script will first search `data` attributes of container for related infomation. If no `data` is specified, it will fallback to search `<meta>` tag with open graph attributes.
-```html
-// Same as config.title
-<meta property="og:title" content="{{ pageTitle }}"/>
-// Same as config.sumary
-<meta property="og:description" content="{{ description }}" />
-```
-
 ## Nunjucks Template
+
 You can `include` the `partials/o-share.html` file in your template so that DOM structure was rendered on the server instead of on the client browser.
 
-If you install `ftc-share` in `bower_components`, you can include `bower_components/ftc-share` in nunjucks search path, and include `partials/o-share.html` file:
-```
+If you install `ftc-share` in `bower_components`, you can set `bower_components/ftc-share` in nunjucks search path, and include `partials/o-share.html` file:
+
+```nunjucks
 {% include "partials/o-share.html" %}
 ```
 
 Or you can install it as a to `node_modules` and generate the partial file to you project:
+
 ```js
-const share = require('ftc-share');
-share({
-  outDir: 'views/partials',
-  links: ['wechat', 'weibo', 'linkedin']
-});
+const produceHtml = require('ftc-share');
+shareTemplate(options);
+```
+
+`options` is an object with:
+
+* `links` Array. Social platforms you want to have.
+* `destDir` String. Directory to put the partial file. Relative to the directory where you run the node.js process.
+* Return a promise.
+
+Example:
+
+```js
+produceHtml({
+    links: ['wechat', 'weibo'],
+    destDir: 'partials'
+  })
+  .catch(err => {
+    console.log(err);
+  });
 ```
 
 You also need to specify a `share` object in you template data:
-```json
+
+```js
 {
   "share": {
-    "url": "http://www.ftchinese.com",
+    "url": encodeURIComponent("http://www.ftchinese.com"),
     "title": "Syria oil map",
     "summary": "How the Isis oil economy works, explained through the journey of a barrel of oil in Syria"
   }
 }
 ```
 
-This method does not rely on js. But you still need to use the sass mixin or wite css yourself.
-
-## Image Service Example
-```
-https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2Fwechat.svg?source=ftchinese&width=24&height=24&tint=%23a7a59b
-```
+This method does not rely on js. Actually if you use it, JS constructor will stop silently. But you still need to use the sass mixin or wite css yourself.
