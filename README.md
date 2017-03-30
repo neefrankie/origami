@@ -1,76 +1,37 @@
-## Usage
-### SCSS API
-`@mixin socialImagesSetImageFor($social-name, $theme: null)`
+Generate social platform images.
 
-parameters:
-- `$social-name` String. One of 'wechat', 'weibo', 'linkedin', 'facebook', or 'twitter'
-- `$theme` String. 'default' or 'pink' to distinguish image file names.
+## Installation
 
-`@mixin socialImagesBaseStyles`
+```
+npm install @ftchinese/social-images --save-dev
+```
 
 ## API
-It can be used as a node module in you project.
+
+For node.js only. NOT frontend js.
 
 ```js
-npm install social-images --save-dev
-const socialImages = require('social-images');
+socialImages(options)
 ```
 
-### Syntax:
-```
-socialImages(config)
-```
+`options` is an object with:
 
-`config` Object.
+* `to` String. Destination directory relative to node.js running process. Default `public/social-images`.
+* `png` Boolean. Also produce png files when generating svg. Default `true`.
+* `color` String | null. Optional. Color to draw the icon. `null` removes any color, and SVG without filling color is black. If omitted, use the icon's default color `#fff`.
+* `background` String | null. Optional. Color set on icon's background. `null` removes the background. If omitted, use the icon's official color.
+* Returns promise.
 
-* @param {Array} config.images - Default to ['wechat', 'weibo', 'linkedin', 'facebook', 'twitter']. You can use one or serveral of them.
-* @param {String | Object} config.feature - one of ['default', 'round', 'pink'] or a custom object.
-* @param {String} config.feature.fill - fill color for svg path. e.g. "#fff"
-* @param {String} config.feature.background - background color for output image. e.g. "transparent"
-* @param {String} config.feature.rx - radius of image. e.g. "50%"
-* @param {String} config.feature.ry - radius of image.
-* @param {String} config.dest - output directory. Default to `public/images` under `process.cwd()`
+## Example
 
-### Example:
 ```js
 socialImages({
-    names: ['wechat', 'weibo'],
-    feature: 'pink'
-    dest: 'client/images'
-});
+    to: 'social-images', // path.resolve(process.cwd(), 'social-images')
+    png: false, // do not generate png files. Only svg.
+    color: '#a7a59b',
+    background: null // removes background
+  })
+  .catch(err => {
+    console.log(err);
+  });
 ```
-This will generate wechat and weibo images, with the "pink" theme, put in you project directory `client/images`.
-
-You can also use custom styles:
-```js
-socialImages({
-    feature: {
-        fill: "#eeeeee",
-        background: "#2bbbbf",
-        rx: "10px",
-        ry: "10px"
-    }
-});
-```
-
-## Commands
-### Generate all svg and png files
-
-`src/js/settings.json` specifies what kind of images will be generated. Each image may have different fill color, background color and radius. The `themes` field corresponds to these specifications. To generated all svg and png file:
-```
-npm run buildall
-// or
-node index.js
-```
-
-### Generate a single svg and png file with custom style
-```
-npm run buildone -- -i=image-name -b=background-color -f=fill-color -x=radius-x -y=radius-y
-```
-
-All arguments are optional. If omitted, it will generate the default images.
-
-## Gulp tasks
-- `gulp svgmin`
-- `gulp templates`
-- `gulp svgstore`
