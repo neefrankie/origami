@@ -1,8 +1,8 @@
 {
-  "name": "ftc-logos",
+  "name": "@ftchinese/ftc-logos",
   "version": "1.0.0",
   "description": "FTC logos",
-  "main": "",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postversion": "git push && git push --tags"
@@ -45,7 +45,8 @@
     "cheerio": "^0.22.0",
     "favicons": "^4.8.3",
     "fs-jetpack": "^0.13.3",
+    "pify": "^2.3.0",
     "sharp": "^0.17.1",
-    "svgo": "^0.7.1"
+    "svgo": "github:svg/svgo#d74f6a0e2ff3f9221991082f13cfa72e13a6438c"
   }
 }
