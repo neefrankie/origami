@@ -1,12 +1,50 @@
-## API
+Generate FTC logos and favicons
 
+## Node.js API
+
+Installation
 ```
-const logos = require('ftc-logos');
-logos({
-    dest: 'public/images', // The directory to put logo images. Relative to `process.cwd()`
-    favicon: 'public/favicons' // The direcotry to put favicons. `false` to disable.
-});
+npm install @ftchinese/ftc-logos --save
 ```
 
-Under the direcotry of this project, you can run `node index.js` directly.
+### Generate Images
+
+```js
+const logoImages = require('ftc-logos');
+logoImages(to='public/ftc-logos');
+```
+
+* `destDir` String. The destination directory you want to save the images. Default to `public/ftc-logos` of currently running node.js process.
+
+### Get FT image service's url
+
+```js
+const logoImages = require('ftc-logos');
+const url = logoImages.buildUrl(config)
+```
+
+`config` is an Object
+* `name` String. SVG file name without extension. One of `brand-ftc-logo-round`, `brand-ftc-logo-square` or `brand-ftc-masthead`.
+* `size` Number. Desired height of the the image.
+* `format` String. `svg` or `png`.
+* `tint` String. Optional. Hex color. Image shape's filling color. Could only be used on `brand-ftc-masthead`.
+
+## SCSS
+
+Installation
+```
+bower install ftc-logos --save
+```
+
+### API
+
+```scss
+@import "ftc-logos/main";
+
+// Function to get an image's url from FT image service
+oLogosImageUrl($name, $size, $format, $tint:null);
+
+// Mixins
+@include oLogosGetImage($name, $tint:null, $apply-base-style: true)
+```
 
