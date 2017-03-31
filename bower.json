@@ -19,13 +19,7 @@
     "bower_components",
     "test",
     "tests",
-    "demos",
-    "lib",
-    "yarn.lock",
-    "svg",
-    "src",
-    "*.js",
-    "origami.json"
+    "demos"
   ],
   "devDependencies": {
     "o-colors": "^3.5.2"
