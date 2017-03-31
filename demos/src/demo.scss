@@ -1,14 +1,4 @@
 @import "o-colors/main";
-@import "../../main";
-@include oAssetsSetModulePaths((
-	ftc-logos: '..',
-));
-
-$logo-list: (
-	'brand-square',
-	'brand-masthead',
-	'brand-masthead-white'
-);
 
 body {
 	@include oColorsFor(page);
@@ -20,20 +10,18 @@ ul {
 	list-style-type: none;
 	li {
 		margin: 1em 0;
-		i {
-			display: block;
-			height: 100px;
-			background-size: contain;
-			background-repeat: no-repeat;
-		}
+		margin-bottom: 2em;
 		span{
 			display: block;
 		}
-	}
-}
-
-.brand-ftc-masthead-white {
-	img {
-		background-color: #333;
+		input {
+			height: 1.5em;
+			min-width: 50vw;
+			cursor: text;
+			font-size: 1.2em;
+		}
+		img {
+			height: 100px;
+		}
 	}
 }

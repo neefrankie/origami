@@ -1,0 +1,26 @@
+{% extends "demos/src/base.html" %}
+{% block body %}
+<div>
+	<h2>SVG</h2>
+  <ul>
+    {% for logo in logos %}
+    <li class="{{logo}}">
+      <img src="/ftc-logos/{{logo}}.svg">
+      <span>{{logo}}</span>
+      <input type="text" readonly value="http://interactive.ftchinese.com/ftc-logos/{{logo}}.svg">
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h2>PNG</h2>
+  <ul>
+    {% for logo in logos %}
+    <li class="{{logo}}">
+      <img src="/ftc-logos/{{logo}}.png">
+      <span>{{logo}}</span>
+      <input type="text" readonly value="http://interactive.ftchinese.com/ftc-logos/{{logo}}.png">
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
