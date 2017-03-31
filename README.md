@@ -29,6 +29,18 @@ const url = logoImages.buildUrl(config)
 * `format` String. `svg` or `png`.
 * `tint` String. Optional. Hex color. Image shape's filling color. Could only be used on `brand-ftc-masthead`.
 
+Example:
+
+```js
+const url = logoImages.buildUrl({
+    name: 'brand-ftc-masthead',
+    size: 100,
+    format: 'png',
+    tint: '#D75893'
+});
+// https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fftc-logos%2Fbrand-ftc-masthead.svg?source=ftchinese&height=100&format=png&tint=%23D75893
+```
+
 ## SCSS
 
 Installation
