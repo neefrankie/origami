@@ -27,9 +27,6 @@
     "*.js",
     "origami.json"
   ],
-  "dependencies": {
-    "o-assets": "^3.0.2"
-  },
   "devDependencies": {
     "o-colors": "^3.5.2"
   }
