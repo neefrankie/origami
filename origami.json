@@ -8,7 +8,7 @@
     "demos": [
         {
             "name": "image-set",
-            "template": "demos/src/image-set.html",
+            "template": "demos/src/index.html",
             "data": "demos/src/data.json",
             "description": "Used on dark theme"
         }
