@@ -148,13 +148,13 @@ gulp.task('serve', gulp.parallel('images', 'html', 'styles', () => {
 }));
 
 gulp.task('copy', () => {
-  const dest = `${demosDir}/${project}`;
-  console.log(`Deploying to ${DEST}`);
-  return gulp.src(['.tmp/**/*', 'dist*/**/*.{svg,png,ico}',])
-    .pipe(gulp.dest(DEST));
+  const dest = `${demoDir}/${project}`;
+  console.log(`Deploying to ${dest}`);
+  return gulp.src('.tmp/*.html')
+    .pipe(gulp.dest(dest));
 });
 
-gulp.task('demo', gulp.series('clean', 'prod', gulp.parallel('html', 'styles'), 'copy', 'dev'));
+gulp.task('demo', gulp.series('clean', 'prod', 'styles', 'html', 'copy', 'dev'));
 
 gulp.task('deploy', () => {
   return Promise.all([
