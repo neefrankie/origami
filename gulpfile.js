@@ -31,7 +31,7 @@ gulp.task('prod', function() {
 });
 
 gulp.task('dev', function() {
-  return Promise.reoslve(process.env.NODE_ENV = 'development');
+  return Promise.resolve(process.env.NODE_ENV = 'development');
 });
 
 function buildPage(template, context) {
