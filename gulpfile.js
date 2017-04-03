@@ -1,24 +1,26 @@
 const pify = require('pify');
-const fs = require('fs-jetpack');
 const path = require('path');
+const fs = require('fs-jetpack');
 const loadJsonFile = require('load-json-file');
-const del = require('del');
-const browserSync = require('browser-sync').create();
-const cssnext = require('postcss-cssnext');
-
-const gulp = require('gulp');
-const $ = require('gulp-load-plugins')();
-const getFooterData = require('./lib/index.js');
-const demosDir = '../ft-interact/demos';
-const projectName = path.basename(__dirname);
-
+const inline = pify(require('inline-source'));
 const nunjucks = require('nunjucks');
 nunjucks.configure(process.cwd(), {
   noCache: true,
   watch: false
 });
-
 const render = pify(nunjucks.render);
+const stats = require('@ftchinese/component-stats');
+
+const del = require('del');
+const browserSync = require('browser-sync').create();
+const cssnext = require('postcss-cssnext');
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
+
+const getFooterData = require('./lib/index.js');
+
+const deployDir = path.resolve(__dirname, '../ft-interact');
+const demoDir = `${deployDir}/demos/${path.basename(__dirname)}`;
 
 process.env.NODE_ENV = 'development';
 
@@ -33,42 +35,50 @@ gulp.task('dev', function(done) {
   done();
 });
 
-function buildPages(demos) {
+function buildPage(template, context) {
+  return render(template, context)
+    .then(html => {
+      if (process.env.NODE_ENV === 'production') {
+        console.log('Inlining source');
+        return inline(html, {
+          compress: true,
+          rootpath: path.resolve(process.cwd(), '.tmp')
+        });
+      }    
+      return html;      
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+gulp.task('html', async function () {
   const env = {
     isProduction: process.env.NODE_ENV === 'production'
   };
 
-  return Promise.all(demos.map(demo => {
-    const footer = getFooterData({
-      theme: demo.theme,
-      type: demo.type
-    });
-    const context = Object.assign(demo, {
-      footer,
-      env
-    })
-    return render(demo.template, context)
-      .then(html => {
-        return fs.writeAsync(`.tmp/${demo.name}.html`, html);
-      })
-      .catch(err => {
-        throw err;
-      });
-  }));
-}
+  try {
+    const json = await loadJsonFile('origami.json');
 
-gulp.task('html', () => {
-  return loadJsonFile('origami.json')
-    .then(json => {
-      return buildPages(json.demos)
-    })
-    .then(() => {
-      browserSync.reload('*.html');
-      return Promise.resolve();
-    })
-    .catch(err => {
-      console.log(err);
+    const promisedAction = json.demos.map(demo => {
+      const context = Object.assign(demo, {
+        footer: getFooterData({
+          theme: demo.theme,
+          type: demo.type
+        }),
+        env
+      });
+      return buildPage(demo.template, context)  
+        .then(html => {
+          return fs.writeAsync(`.tmp/${demo.name}.html`, html);
+        });
     });
+
+    await promisedAction;
+    browserSync.reload('*.html');
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 gulp.task('styles', function styles() {
@@ -93,13 +103,6 @@ gulp.task('styles', function styles() {
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest(DEST))
     .pipe(browserSync.stream({once:true}));
-});
-
-gulp.task('eslint', () => {
-  return gulp.src('client/js/*.js')
-    .pipe($.eslint())
-    .pipe($.eslint.format())
-    .pipe($.eslint.failAfterError());
 });
 
 gulp.task('clean', function() {
@@ -127,14 +130,20 @@ gulp.task('serve',
   })
 );
 
-gulp.task('build', gulp.parallel('html', 'styles'));
-
-
-gulp.task('copy', () => {
-  const DEST = path.resolve(__dirname, demosDir, projectName);
-  console.log(`Deploying to ${DEST}`);
-  return gulp.src('.tmp/**/*')
-    .pipe(gulp.dest(DEST));
+// Procude demo
+gulp.task('stats', () => {
+  return stats({
+      outDir: demoDir
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
-gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
+gulp.task('copy', () => {
+  console.log(`Copy demo to ${demoDir}`);
+  return gulp.src('.tmp/*.html')
+    .pipe(gulp.dest(demoDir));
+});
+
+gulp.task('demo', gulp.series('prod', 'clean', 'styles', 'html', 'stats', 'copy', 'dev'));
