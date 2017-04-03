@@ -38,6 +38,7 @@ function buildPage(template, context) {
   return render(template, context)
     .then(html => {
       if (process.env.NODE_ENV === 'production') {
+        console.log('Inlining source')
         return inline(html, {
           compress: true,
           rootpath: path.resolve(process.cwd(), '.tmp')
@@ -161,7 +162,7 @@ gulp.task('stats', () => {
     });
 });
 
-gulp.task('build', gulp.parallel('html', 'styles', 'scripts'));
+gulp.task('build', gulp.series('styles', 'scripts', 'html'));
 
 gulp.task('copy', () => {
   console.log(`Deploying to ${demosDir}`);
