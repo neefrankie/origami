@@ -18,6 +18,7 @@ const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
+const baseDir = require('./lib/base-dir.js');
 const fav = require('./lib/fav.js');
 const logoImages = require('./lib/index.js');
 
@@ -58,6 +59,7 @@ gulp.task('html', async () => {
   const env = {
     isProduction: process.env.NODE_ENV === 'production'
   };
+  const logoBaseDir = baseDir.logos;
 
   try {
     const [json, filenames] = await Promise.all([
@@ -70,7 +72,7 @@ gulp.task('html', async () => {
     });
 
     const promisedAction = json.demos.map(demo => {
-      const context = Object.assign(demo, {logos, env});
+      const context = Object.assign(demo, {logos, logoBaseDir, env});
       return buildPage(demo.template, context)  
         .then(html => {
           return fs.writeAsync(`.tmp/${demo.name}.html`, html);
@@ -109,7 +111,7 @@ gulp.task('styles', function styles() {
 });
 
 gulp.task('clean', () => {
-  return del(['.tmp/**']).then(()=>{
+  return del(['.tmp/**', 'public/**']).then(()=>{
     console.log('Old files deleted');
   });
 });
@@ -125,7 +127,8 @@ gulp.task('logos', () => {
 gulp.task('favicons', () => {
   return fav({
       imageDir: 'public/favicons',
-      htmlDir: 'demos/src'
+      htmlDir: 'demos/src',
+      url: `/${baseDir.favicons}`
     })
     .catch(err => {
       console.log(err);
@@ -135,7 +138,7 @@ gulp.task('favicons', () => {
 gulp.task('build', gulp.parallel('logos', 'favicons'));
 
 // Test and watch
-gulp.task('serve', gulp.parallel('logos', 'favicons', 'html', 'styles', () => {
+gulp.task('serve', gulp.parallel('logos', 'html', 'styles', () => {
   browserSync.init({
     server: {
       baseDir: ['.tmp', 'public'],
@@ -177,7 +180,7 @@ gulp.task('stats', () => {
 });
 
 gulp.task('copy:demo', () => {
-  console.log(`Deploying to ${demoDir}`);
+  console.log(`Copy demo to ${demoDir}`);
   return gulp.src('.tmp/*.html')
     .pipe(gulp.dest(demoDir));
 });
