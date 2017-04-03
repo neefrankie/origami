@@ -1,29 +1,30 @@
 const pify = require('pify');
-const fs = require('fs-jetpack');
 const path = require('path');
+const fs = require('fs-jetpack');
 const loadJsonFile = require('load-json-file');
 const inline = pify(require('inline-source'));
-const del = require('del');
-const browserSync = require('browser-sync').create();
-const cssnext = require('postcss-cssnext');
-const gulp = require('gulp');
-const $ = require('gulp-load-plugins')();
-
 const nunjucks = require('nunjucks');
 nunjucks.configure(process.cwd(), {
   noCache: true,
   watch: false
 });
 const render = pify(nunjucks.render);
+const stats = require('@ftchinese/component-stats');
 const junk = require('junk');
+
+const del = require('del');
+const browserSync = require('browser-sync').create();
+const cssnext = require('postcss-cssnext');
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
 
 const fav = require('./lib/fav.js');
 const logoImages = require('./lib/index.js');
 
 const svgDir = path.resolve(__dirname, 'svg');
-const targetDir = path.resolve(__dirname, '../ft-interact');
-const demoDir = `${targetDir}/demos`;
+const deployDir = path.resolve(__dirname, '../ft-interact');
 const project = path.basename(__dirname);
+const demoDir = `${deployDir}/demos/${project}`;
 
 process.env.NODE_ENV = 'development';
 
@@ -147,20 +148,28 @@ gulp.task('serve', gulp.parallel('images', 'html', 'styles', () => {
 
 }));
 
-gulp.task('copy', () => {
-  const dest = `${demoDir}/${project}`;
-  console.log(`Deploying to ${dest}`);
-  return gulp.src('.tmp/*.html')
-    .pipe(gulp.dest(dest));
+gulp.task('stats', () => {
+  return stats({
+      outDir: demoDir
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
-gulp.task('demo', gulp.series('clean', 'prod', 'styles', 'html', 'copy', 'dev'));
+gulp.task('copy', () => {
+  console.log(`Deploying to ${demoDir}`);
+  return gulp.src('.tmp/*.html')
+    .pipe(gulp.dest(demoDir));
+});
+
+gulp.task('demo', gulp.series('clean', 'prod', 'styles', 'html', 'stats', 'copy', 'dev'));
 
 gulp.task('deploy', () => {
   return Promise.all([
-      logoImages(`${targetDir}/${project}`),
+      logoImages(`${deployDir}/${project}`),
       fav({
-        imageTo: `${targetDir}/favicons`,
+        imageTo: `${deployDir}/favicons`,
         htmlTo: null
       })
     ])
