@@ -164,10 +164,9 @@ gulp.task('stats', () => {
 gulp.task('build', gulp.parallel('html', 'styles', 'scripts'));
 
 gulp.task('copy', () => {
-  const DEST = path.resolve(__dirname, demosDir, projectName);
-  console.log(`Deploying to ${DEST}`);
-  return gulp.src('.tmp/**/*')
-    .pipe(gulp.dest(DEST));
+  console.log(`Deploying to ${demosDir}`);
+  return gulp.src('.tmp/*.html')
+    .pipe(gulp.dest(demosDir));
 });
 
-gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
+gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'stats', 'dev'));

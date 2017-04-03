@@ -17,8 +17,7 @@
   "scripts": {
     "gulp": "./node_modules/gulp/bin/gulp.js",
     "postversion": "git push && git push --tags",
-    "build": "rollup -c",
-    "prebuild": "rm -rf dist/*"
+    "build": "./node_modules/.bin/rollup -c && ./node_modules/.bin/rollup -c rollup.cjs.js && node ./lib/index.js"
   },
   "author": "weiguo.ni",
   "license": "MIT",
