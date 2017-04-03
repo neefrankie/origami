@@ -1,28 +1,15 @@
+const pify = require('pify');
 const path = require('path');
 const fs = require('fs-jetpack');
 const loadJsonFile = require('load-json-file');
-const _ = require('lodash');
+const inline = pify(require('inline-source'));
 const nunjucks = require('nunjucks');
-
-function render(template, context) {
-  const env = new nunjucks.Environment(
-    new nunjucks.FileSystemLoader(
-      [process.cwd()],
-      {noCache: true}
-    ),
-    {autoescape: false}
-  );
-
-  return new Promise(function(resolve, reject) {
-    env.render(template, context, function(err, result) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result);
-      }
-    });
-  });
-}
+nunjucks.configure(process.cwd(), {
+  autoescape: false,
+  noCache: true
+});
+const render = pify(nunjucks.render);
+const stats = require('@ftchinese/component-stats');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -32,21 +19,13 @@ const $ = require('gulp-load-plugins')();
 const rollup = require('rollup').rollup;
 const buble = require('rollup-plugin-buble');
 
-const demosDir = '../ft-interact/demos';
-const projectName = path.basename(__dirname);
+const demosDir = path.resolve(process.cwd(), `../ft-interact/demos/${path.basename(__dirname)}`);
 
-// The data is used to render nunjucks templates.
-const share = {
-  title: encodeURIComponent("FTC share components"),
-  url: encodeURIComponent("http://interactive.ftchinese.com/components/ftc-share.html"),
-  summary: encodeURIComponent("This is the demo page for ftc share component")
-};
-
-var cache;
-
-process.env.NODE_ENV = 'development';
+let cache;
 
 // change NODE_ENV between tasks.
+process.env.NODE_ENV = 'development';
+
 gulp.task('prod', function() {
   return Promise.resolve(process.env.NODE_ENV = 'production');
 });
@@ -55,40 +34,49 @@ gulp.task('dev', function() {
   return Promise.reoslve(process.env.NODE_ENV = 'development');
 });
 
-async function buildPages() {
-  try {
-    const isProduction = process.env.NODE_ENV === 'production';
-    const origami = await loadJsonFile('origami.json');
-    const demos = origami.demos;
-
-    await Promise.all(demos.map(demo => {
-      const dest = `.tmp/${demo.name}.html`;
-
-      const context = _.merge({share}, demo, {isProduction});
-
-      return render(demo.template, context)
-        .then(html => {
-          console.log(`Generating page ${dest}`);
-          return fs.writeAsync(dest, html)
-        })
-        .catch(err => {
-          throw err;
+function buildPage(template, context) {
+  return render(template, context)
+    .then(html => {
+      if (process.env.NODE_ENV === 'production') {
+        return inline(html, {
+          compress: true,
+          rootpath: path.resolve(process.cwd(), '.tmp')
         });
-    })); 
-
-  } catch(e) {
-    throw e;
-  }
-}
-gulp.task('html', () => {
-  return buildPages()
-    .then(() => {
-      browserSync.reload('*.html');
-      return Promise.resolve();
+      }    
+      return html;      
     })
     .catch(err => {
-      console.log(err);
+      throw err;
     });
+}
+
+// The data is used to render nunjucks templates.
+const share = {
+  title: encodeURIComponent("FTC share components"),
+  url: encodeURIComponent("http://interactive.ftchinese.com/components/ftc-share.html"),
+  summary: encodeURIComponent("This is the demo page for ftc share component")
+};
+
+gulp.task('html', async function () {
+  const env = {
+    isProduction: process.env.NODE_ENV === 'production'
+  };
+  try {
+    const origami = await loadJsonFile('origami.json');
+
+    const promisedAction = origami.demos.map(demo => {
+      const context = Object.assign(demo, {share, env});
+      return buildPage(demo.template, context)  
+        .then(html => {
+          return fs.writeAsync(`.tmp/${demo.name}.html`, html);
+        });
+    });
+
+    await promisedAction;
+    browserSync.reload('*.html');
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 gulp.task('styles', function styles() {
@@ -124,18 +112,7 @@ gulp.task('scripts', () => {
     ],
     cache: cache
   }).then(function(bundle) {
-    // Cache for later use
     cache = bundle;
-    // let {code, map} = bundle.generate({
-    //   format: 'iife',
-    //   sourceMap: true,
-    //   sourceMapFile: path.basename('dest')
-    // });
-
-    // code += `//# sourceMappingURL=${path.basename(dest)}.map\n`;
-    // return fs.writeAsync('bundl.js', code);
-
-    // Or only use this
     return bundle.write({
       dest: '.tmp/scripts/demo.js',
       format: 'iife',
@@ -167,26 +144,22 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'scripts', () => {
     }
   });
 
-  gulp.watch([
-    'demos/src/*.{html,json}', 
-    'partials/*.html'], 
-    gulp.parallel('html')
-  );
+  gulp.watch(['demos/src/*.{html,json}', 
+'partials/*.html'], gulp.parallel('html'));
 
-  gulp.watch([
-    'demos/src/*.scss',
-    'src/scss/*.scss',
-    '*.scss'],
-    gulp.parallel('styles')
-  );
+  gulp.watch(['demos/src/*.scss', 'src/scss/*.scss', '*.scss'], gulp.parallel('styles'));
 
-  gulp.watch([
-    'demos/src/*.js',
-    'src/js/*.js'],
-    gulp.parallel('scripts')
-  );
-
+  gulp.watch(['demos/src/*.js', 'src/js/*.js'],gulp.parallel('scripts'));
 }));
+
+gulp.task('stats', () => {
+  return stats({
+      outDir: demosDir
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 gulp.task('build', gulp.parallel('html', 'styles', 'scripts'));
 
