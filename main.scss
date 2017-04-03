@@ -2,7 +2,7 @@
 	@if (type-of($color) == color) {
 		$tint: "&tint=%23" + str-slice("#{$icon-color}", 2);
 	}
-	@return "https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fftc-logos%2F#{$name}.svg?source=ftchinese&height=#{$size}&format=#{$format}#{$tint}";
+	@return "https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Flogo-images%2F#{$name}.svg?source=ftchinese&height=#{$size}&format=#{$format}#{$tint}";
 }
 
 @mixin oLogosGetImage($name, $tint:null, $apply-base-style: true) {
