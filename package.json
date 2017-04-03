@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "gulp": "./node_modules/gulp/bin/gulp.js",
-    "postversion": "git push && git push --tags",
+    "postversion": "git push && git push --tags && ./node_modules/.bin/gulp stats",
     "build": "./node_modules/.bin/rollup -c && ./node_modules/.bin/rollup -c rollup.cjs.js && node ./lib/index.js"
   },
   "author": "weiguo.ni",
