@@ -23,8 +23,7 @@ const logoImages = require('./lib/index.js');
 
 const svgDir = path.resolve(__dirname, 'svg');
 const deployDir = path.resolve(__dirname, '../ft-interact');
-const project = path.basename(__dirname);
-const demoDir = `${deployDir}/demos/${project}`;
+const demoDir = `${deployDir}/demos/${path.basename(__dirname)}`;
 
 process.env.NODE_ENV = 'development';
 
@@ -41,6 +40,7 @@ function buildPage(template, context) {
   return render(template, context)
     .then(html => {
       if (process.env.NODE_ENV === 'production') {
+        console.log('Inlining source');
         return inline(html, {
           compress: true,
           rootpath: path.resolve(process.cwd(), '.tmp')
@@ -108,23 +108,34 @@ gulp.task('styles', function styles() {
     .pipe(browserSync.stream({once: true}));
 });
 
-gulp.task('images', () => {
-  return Promise.all([
-    logoImages(),
-    fav({htmlTo: path.resolve(process.cwd(), 'public/favicons')})
-  ])
-  .catch(err => {
-    console.log(err);
-  })
-});
-
 gulp.task('clean', () => {
   return del(['.tmp/**']).then(()=>{
     console.log('Old files deleted');
   });
 });
 
-gulp.task('serve', gulp.parallel('images', 'html', 'styles', () => {
+// build images
+gulp.task('logos', () => {
+  return logoImages()
+  .catch(err => {
+    console.log(err);
+  })
+});
+
+gulp.task('favicons', () => {
+  return fav({
+      imageDir: 'public/favicons',
+      htmlDir: 'demos/src'
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+gulp.task('build', gulp.parallel('logos', 'favicons'));
+
+// Test and watch
+gulp.task('serve', gulp.parallel('logos', 'favicons', 'html', 'styles', () => {
   browserSync.init({
     server: {
       baseDir: ['.tmp', 'public'],
@@ -144,10 +155,18 @@ gulp.task('serve', gulp.parallel('images', 'html', 'styles', () => {
     gulp.parallel('styles')
   );
 
-  gulp.watch('svg/*.svg', gulp.parallel('images'));
-
+  gulp.watch('svg/*.svg', gulp.parallel('logos'));
 }));
 
+// Deploy
+gulp.task('copy:images', () => {
+  console.log(`Deploy to ${deployDir}`);
+  return gulp.src('public/**/*')
+    .pipe(gulp.dest(deployDir));
+});
+gulp.task('deploy', gulp.series('build', 'copy:images'));
+
+// Produce demo
 gulp.task('stats', () => {
   return stats({
       outDir: demoDir
@@ -157,23 +176,10 @@ gulp.task('stats', () => {
     });
 });
 
-gulp.task('copy', () => {
+gulp.task('copy:demo', () => {
   console.log(`Deploying to ${demoDir}`);
   return gulp.src('.tmp/*.html')
     .pipe(gulp.dest(demoDir));
 });
 
-gulp.task('demo', gulp.series('clean', 'prod', 'styles', 'html', 'stats', 'copy', 'dev'));
-
-gulp.task('deploy', () => {
-  return Promise.all([
-      logoImages(`${deployDir}/${project}`),
-      fav({
-        imageTo: `${deployDir}/favicons`,
-        htmlTo: null
-      })
-    ])
-    .catch(err => {
-      console.log(err);
-    });
-});
+gulp.task('demo', gulp.series('clean', 'prod', 'styles', 'html', 'stats', 'copy:demo', 'dev'));
