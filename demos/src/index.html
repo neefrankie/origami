@@ -5,9 +5,9 @@
   <ul>
     {% for logo in logos %}
     <li class="{{logo}}">
-      <img src="/logo-images/{{logo}}.svg">
+      <img src="/{{logoBaseDir}}/{{logo}}.svg">
       <span>{{logo}}</span>
-      <input type="text" readonly value="http://interactive.ftchinese.com/logo-images/{{logo}}.svg">
+      <input type="text" readonly value="http://interactive.ftchinese.com/{{logoBaseDir}}/{{logo}}.svg">
     </li>
     {% endfor %}
   </ul>
@@ -16,9 +16,9 @@
   <ul>
     {% for logo in logos %}
     <li class="{{logo}}">
-      <img src="/logo-images/{{logo}}.png">
+      <img src="/{{logoBaseDir}}/{{logo}}.png">
       <span>{{logo}}</span>
-      <input type="text" readonly value="http://interactive.ftchinese.com/logo-images/{{logo}}.png">
+      <input type="text" readonly value="http://interactive.ftchinese.com/{{logoBaseDir}}/{{logo}}.png">
     </li>
     {% endfor %}
   </ul>
