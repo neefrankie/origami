@@ -11,10 +11,10 @@ npm install @ftchinese/ftc-logos --save
 
 ```js
 const logoImages = require('ftc-logos');
-logoImages(to='public/ftc-logos');
+logoImages(outDir='public/ftc-logos');
 ```
 
-* `destDir` String. The destination directory you want to save the images. Default to `public/ftc-logos` of currently running node.js process.
+* `outDir` String. The destination directory you want to save the images. Default to `public/ftc-logos` of currently running node.js process.
 
 ### Get FT image service's url
 
@@ -38,7 +38,7 @@ const url = logoImages.buildUrl({
     format: 'png',
     tint: '#D75893'
 });
-// https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fftc-logos%2Fbrand-ftc-masthead.svg?source=ftchinese&height=100&format=png&tint=%23D75893
+// https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Flogo-images%2Fbrand-ftc-masthead.svg?source=ftchinese&height=100&format=png&tint=%23D75893
 ```
 
 ## SCSS
