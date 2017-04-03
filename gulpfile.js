@@ -1,24 +1,28 @@
 const pify = require('pify');
-const fs = require('fs-jetpack');
 const path = require('path');
+const fs = require('fs-jetpack');
 const loadJsonFile = require('load-json-file');
 const inline = pify(require('inline-source'));
-const del = require('del');
-const browserSync = require('browser-sync').create();
-const cssnext = require('postcss-cssnext');
-const gulp = require('gulp');
-const $ = require('gulp-load-plugins')();
-
 const nunjucks = require('nunjucks');
 nunjucks.configure(process.cwd(), {
   noCache: true,
   watch: false
 });
 const render = pify(nunjucks.render);
+const stats = require('@ftchinese/component-stats');
+const junk = require('junk');
+
+const del = require('del');
+const browserSync = require('browser-sync').create();
+const cssnext = require('postcss-cssnext');
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
 
 const socialImages = require('./lib/index.js');
 
-const deployDest = path.resolve(__dirname, '../ft-interact/social-images');
+const svgDir = path.resolve(__dirname, 'svg');
+const deployDir = path.resolve(__dirname, '../ft-interact')
+const demoDir = `${deployDir}/demos/social-images`;
 
 const images = [
   "wechat",
@@ -46,43 +50,51 @@ gulp.task('svgmin', () => {
     .pipe(gulp.dest('svg'));
 });
 
-function buildPages(demos) {
+function buildPage(template, context) {
+  return render(template, context)
+    .then(html => {
+      if (process.env.NODE_ENV === 'production') {
+        console.log('Inlining source');
+        return inline(html, {
+          compress: true,
+          rootpath: path.resolve(process.cwd(), '.tmp')
+        });
+      }    
+      return html;      
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+gulp.task('html', async function () {
   const env = {
     isProduction: process.env.NODE_ENV === 'production'
   };
 
-  return Promise.all(demos.map(demo => {
-    return render(demo.template, {images, env})
-      .then(html => {
-        if (process.env.NODE_ENV === 'production') {
-          return inline(html, {
-            compress: true,
-            rootpath: path.resolve(process.cwd(), '.tmp')
-          });
-        }    
-        return html;      
-      })    
-      .then(html => {
-        return fs.writeAsync(`.tmp/${demo.name}.html`, html);
-      })
-      .catch(err => {
-        throw err;
-      });
-  }));
-}
+  try {
+    const [json, filenames] = await Promise.all([
+      loadJsonFile('origami.json'),
+      fs.listAsync(svgDir)
+    ]);
 
-gulp.task('html', () => {
-  return loadJsonFile('origami.json')
-    .then(json => {
-      return buildPages(json.demos)
-    })
-    .then(() => {
-      browserSync.reload('*.html');
-      return Promise.resolve();
-    })
-    .catch(err => {
-      console.log(err);
+    const socials = filenames.filter(junk.not).map(name => {
+      return path.basename(name, '.svg');
     });
+
+    const promisedAction = json.demos.map(demo => {
+      const context = Object.assign(demo, {socials, env});
+      return buildPage(demo.template, context)  
+        .then(html => {
+          return fs.writeAsync(`.tmp/${demo.name}.html`, html);
+        });
+    });
+
+    await promisedAction;
+    browserSync.reload('*.html');
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 gulp.task('styles', () => {
@@ -115,6 +127,24 @@ gulp.task('clean', () => {
   });
 });
 
+// build images
+gulp.task('build', () => {
+
+  return Promise.all([
+    socialImages({
+      to: 'public/social-images/default'
+    }),
+    socialImages({
+      png: false,
+      color: null,
+      background: null
+    })
+  ])
+  .catch(err => {
+    console.log(err);
+  });
+});
+
 gulp.task('serve', gulp.parallel('html', 'styles', () => {
   browserSync.init({
     server: {
@@ -137,30 +167,32 @@ gulp.task('serve', gulp.parallel('html', 'styles', () => {
 
 }));
 
-gulp.task('copy', () => {
-  const dest = path.resolve(__dirname, '../ft-interact/demos/ftc-social-images');
-  console.log(`Deploying to ${dest}`);
-  return gulp.src('.tmp/*.html')
-    .pipe(gulp.dest(dest));
+// Deploy
+gulp.task('copy:images', () => {
+  console.log(`Deploy to ${deployDir}`);
+  return gulp.src('public/**/*')
+    .pipe(gulp.dest(deployDir));
 });
+gulp.task('deploy', gulp.series('build', 'copy:images'));
 
-gulp.task('demo', gulp.series('clean', 'prod', 'styles', 'html', 'copy', 'dev'));
 
-gulp.task('deploy', () => {
-
-  return Promise.all([
-    socialImages({
-      to: `${deployDest}/default`
-    }),
-    socialImages({
-      to: deployDest,
-      png: false,
-      color: null,
-      background: null
+// Produce demo
+gulp.task('stats', () => {
+  return stats({
+      outDir: demoDir
     })
-  ])
-  .catch(err => {
-    console.log(err);
-  });
+    .catch(err => {
+      console.log(err);
+    });
 });
+
+gulp.task('copy:demo', () => {
+  console.log(`Copy demo to ${demoDir}`);
+  return gulp.src('.tmp/*.html')
+    .pipe(gulp.dest(demoDir));
+});
+
+gulp.task('demo', gulp.series('clean', 'prod', 'styles', 'html', 'stats', 'copy:demo', 'dev'));
+
+
 
