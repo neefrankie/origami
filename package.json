@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/FTChinese/ftc-social-images#readme",
   "devDependencies": {
+    "@ftchinese/component-stats": "^0.3.0",
     "browser-sync": "^2.16.0",
     "del": "^2.2.2",
     "gulp": "github:gulpjs/gulp#4.0",
@@ -36,6 +37,7 @@
     "gulp-sourcemaps": "^2.5.0",
     "gulp-svgmin": "^1.2.3",
     "inline-source": "^5.2.1",
+    "junk": "^2.1.0",
     "load-json-file": "^2.0.0",
     "nunjucks": "^3.0.0",
     "pify": "^2.3.0",
