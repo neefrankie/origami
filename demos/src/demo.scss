@@ -1,4 +1,6 @@
 @import "o-colors/main";
+@import "../../main.scss";
+$o-logos-list: ('brand-ftc-logo-round', 'brand-ftc-logo-square', 'brand-ftc-masthead');
 
 body {
 	@include oColorsFor(page);
@@ -22,6 +24,18 @@ ul {
 		}
 		img {
 			height: 100px;
+		}
+	}
+}
+
+.image-service {
+	li div {
+		width: 100px;
+		height: 100px;
+	}
+	@each $name in $o-logos-list {
+		.#{$name} {
+			@include oLogosGetImage($name: $name);
 		}
 	}
 }
