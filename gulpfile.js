@@ -41,10 +41,15 @@ const share = {
   summary: encodeURIComponent("This is the demo page for ftc share component")
 };
 
-function buildPage(template, context) {
-  return render(template, context)
+function buildPage(data) {
+  const env = {
+    isProduction: process.env.NODE_ENV === 'production'
+  };
+  const context = Object.assign(data, {share, env});
+  const dest = path.resolve(process.cwd(), `.tmp/${data.name}.html`);
+
+  return render(data.template, context)
     .then(html => {
-      console.log(`Page built. NODE_ENV is ${process.env.NODE_ENV}`);
       if (process.env.NODE_ENV === 'production') {
         console.log('Inlining source')
         return inline(html, {
@@ -54,25 +59,20 @@ function buildPage(template, context) {
       }    
       return Promise.resolve(html);
     })
+    .then(html => {
+      return fs.writeAsync(dest, html);
+    })
     .catch(err => {
       throw err;
     });
 }
 
 gulp.task('html', () => {
-  const env = {
-    isProduction: process.env.NODE_ENV === 'production'
-  };
   return loadJsonFile('origami.json')
     .then(json => {
-      const promisedAction = json.demos.map(demo => {
-        const context = Object.assign(demo, {share, env});
-        return buildPage(demo.template, context)  
-          .then(html => {
-            return fs.writeAsync(`.tmp/${demo.name}.html`, html);
-          });
-      });
-      return promisedAction; 
+      return Promise.all(json.demos.map(demo => {
+        return buildPage(demo);
+      })); 
     })
     .then(() => {
       browserSync.reload('*.html');
