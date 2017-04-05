@@ -35,17 +35,26 @@ gulp.task('dev', function(done) {
   done();
 });
 
-function buildPage(template, context) {
-  return render(template, context)
+function buildPage(data) {
+  const env = {
+    isProduction: process.env.NODE_ENV === 'production'
+  };
+  const context = Object.assign(data, {env});
+  const dest = path.resolve(process.cwd(), `.tmp/${data.name}.html`);
+
+  return render(data.template, context)
     .then(html => {
       if (process.env.NODE_ENV === 'production') {
-        console.log('Inlining source');
+        console.log('Inlining source')
         return inline(html, {
           compress: true,
           rootpath: path.resolve(process.cwd(), '.tmp')
         });
       }    
-      return html;      
+      return Promise.resolve(html);
+    })
+    .then(html => {
+      return fs.writeAsync(dest, html);
     })
     .catch(err => {
       throw err;
@@ -53,9 +62,28 @@ function buildPage(template, context) {
 }
 
 gulp.task('html', async function () {
-  const env = {
-    isProduction: process.env.NODE_ENV === 'production'
-  };
+
+  return loadJsonFile('origami.json')
+    .then(json => {
+      return Promise.all(json.demos.map(demo => {
+
+        const data = Object.assign(demo, {
+          footer: getFooterData({
+            theme: demo.theme,
+            type: demo.type
+          })
+        });
+               
+        return buildPage(data);
+      })); 
+    })
+    .then(() => {
+      browserSync.reload('*.html');
+      return Promise.resolve();
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
   try {
     const json = await loadJsonFile('origami.json');
@@ -65,8 +93,7 @@ gulp.task('html', async function () {
         footer: getFooterData({
           theme: demo.theme,
           type: demo.type
-        }),
-        env
+        })
       });
       return buildPage(demo.template, context)  
         .then(html => {
