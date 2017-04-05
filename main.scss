@@ -6,8 +6,8 @@
 }
 
 @mixin oLogosGetImage($name, $tint:null, $apply-base-style: true) {
-	background-image: url(oLogosImageUrl($name: $logo, $size: 100, $format: 'png', $tint: $tint));
-	background-image: url(oLogosImageUrl($name: $logo, $size: 100, $format: 'svg', $tint: $tint)), none;
+	background-image: url(oLogosImageUrl($name: $name, $size: 100, $format: 'png', $tint: $tint));
+	background-image: url(oLogosImageUrl($name: $name, $size: 100, $format: 'svg', $tint: $tint)), none;
 	@if ($apply-base-style == true) {
 		display: block;
 		border: 0;
