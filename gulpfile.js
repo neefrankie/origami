@@ -45,7 +45,7 @@ function buildPage(data) {
   const env = {
     isProduction: process.env.NODE_ENV === 'production'
   };
-  const context = Object.assign(data, {share, env});
+  const context = Object.assign(data, {env});
   const dest = path.resolve(process.cwd(), `.tmp/${data.name}.html`);
 
   return render(data.template, context)
@@ -71,7 +71,7 @@ gulp.task('html', () => {
   return loadJsonFile('origami.json')
     .then(json => {
       return Promise.all(json.demos.map(demo => {
-        return buildPage(demo);
+        return buildPage(Object.assign(demo, {share}));
       })); 
     })
     .then(() => {
