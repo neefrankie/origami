@@ -10,13 +10,14 @@ nunjucks.configure(process.cwd(), {
 });
 const render = pify(nunjucks.render);
 const stats = require('@ftchinese/component-stats');
-const junk = require('junk');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
+
+const filterFiles = require('./lib/filter-files.js');
 
 const socialImages = require('./lib/index.js');
 
@@ -50,17 +51,26 @@ gulp.task('svgmin', () => {
     .pipe(gulp.dest('svg'));
 });
 
-function buildPage(template, context) {
-  return render(template, context)
+function buildPage(data) {
+  const env = {
+    isProduction: process.env.NODE_ENV === 'production'
+  };
+  const context = Object.assign(data, {env});
+  const dest = path.resolve(process.cwd(), `.tmp/${data.name}.html`);
+
+  return render(data.template, context)
     .then(html => {
       if (process.env.NODE_ENV === 'production') {
-        console.log('Inlining source');
+        console.log('Inlining source')
         return inline(html, {
           compress: true,
           rootpath: path.resolve(process.cwd(), '.tmp')
         });
       }    
-      return html;      
+      return Promise.resolve(html);
+    })
+    .then(html => {
+      return fs.writeAsync(dest, html);
     })
     .catch(err => {
       throw err;
@@ -68,33 +78,23 @@ function buildPage(template, context) {
 }
 
 gulp.task('html', async function () {
-  const env = {
-    isProduction: process.env.NODE_ENV === 'production'
-  };
 
-  try {
-    const [json, filenames] = await Promise.all([
-      loadJsonFile('origami.json'),
-      fs.listAsync(svgDir)
-    ]);
+  return Promise.all([loadJsonFile('origami.json'), fs.listAsync(svgDir)])
+    .then(([json, filenames]) => {
 
-    const socials = filenames.filter(junk.not).map(name => {
-      return path.basename(name, '.svg');
+      const socials = filterFiles(filenames, false);
+
+      return Promise.all(json.demos.map(demo => {
+        return buildPage(Object.assign(demo, {socials}));
+      }));
+    })
+    .then(() => {
+      browserSync.reload('*.html');
+      return Promise.resolve();
+    })
+    .catch(err => {
+      console.log(err);
     });
-
-    const promisedAction = json.demos.map(demo => {
-      const context = Object.assign(demo, {socials, env});
-      return buildPage(demo.template, context)  
-        .then(html => {
-          return fs.writeAsync(`.tmp/${demo.name}.html`, html);
-        });
-    });
-
-    await promisedAction;
-    browserSync.reload('*.html');
-  } catch (e) {
-    console.log(e);
-  }
 });
 
 gulp.task('styles', () => {
