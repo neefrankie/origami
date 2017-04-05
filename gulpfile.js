@@ -34,23 +34,6 @@ gulp.task('dev', function() {
   return Promise.resolve(process.env.NODE_ENV = 'development');
 });
 
-function buildPage(template, context) {
-  return render(template, context)
-    .then(html => {
-      if (process.env.NODE_ENV === 'production') {
-        console.log('Inlining source')
-        return inline(html, {
-          compress: true,
-          rootpath: path.resolve(process.cwd(), '.tmp')
-        });
-      }    
-      return html;      
-    })
-    .catch(err => {
-      throw err;
-    });
-}
-
 // The data is used to render nunjucks templates.
 const share = {
   title: encodeURIComponent("FTC share components"),
@@ -58,26 +41,46 @@ const share = {
   summary: encodeURIComponent("This is the demo page for ftc share component")
 };
 
-gulp.task('html', async function () {
+function buildPage(template, context) {
+  return render(template, context)
+    .then(html => {
+      console.log(`Page built. NODE_ENV is ${process.env.NODE_ENV}`);
+      if (process.env.NODE_ENV === 'production') {
+        console.log('Inlining source')
+        return inline(html, {
+          compress: true,
+          rootpath: path.resolve(process.cwd(), '.tmp')
+        });
+      }    
+      return Promise.resolve(html);
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+gulp.task('html', () => {
   const env = {
     isProduction: process.env.NODE_ENV === 'production'
   };
-  try {
-    const origami = await loadJsonFile('origami.json');
-
-    const promisedAction = origami.demos.map(demo => {
-      const context = Object.assign(demo, {share, env});
-      return buildPage(demo.template, context)  
-        .then(html => {
-          return fs.writeAsync(`.tmp/${demo.name}.html`, html);
-        });
+  return loadJsonFile('origami.json')
+    .then(json => {
+      const promisedAction = json.demos.map(demo => {
+        const context = Object.assign(demo, {share, env});
+        return buildPage(demo.template, context)  
+          .then(html => {
+            return fs.writeAsync(`.tmp/${demo.name}.html`, html);
+          });
+      });
+      return promisedAction; 
+    })
+    .then(() => {
+      browserSync.reload('*.html');
+      return Promise.resolve();
+    })
+    .catch(err => {
+      console.log(err);
     });
-
-    await promisedAction;
-    browserSync.reload('*.html');
-  } catch (e) {
-    console.log(e);
-  }
 });
 
 gulp.task('styles', function styles() {
@@ -153,6 +156,8 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'scripts', () => {
   gulp.watch(['demos/src/*.js', 'src/js/*.js'],gulp.parallel('scripts'));
 }));
 
+gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('styles', 'scripts'), 'html'));
+
 gulp.task('stats', () => {
   return stats({
       outDir: demosDir
@@ -162,12 +167,10 @@ gulp.task('stats', () => {
     });
 });
 
-gulp.task('build', gulp.series('styles', 'scripts', 'html'));
-
-gulp.task('copy', () => {
-  console.log(`Deploying to ${demosDir}`);
+gulp.task('copy:demo', () => {
+  console.log(`Copying demo to ${demosDir}`);
   return gulp.src('.tmp/*.html')
     .pipe(gulp.dest(demosDir));
 });
 
-gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'stats', 'dev'));
+gulp.task('demo', gulp.series('build', 'copy:demo', 'stats'));
