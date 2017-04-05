@@ -1,5 +1,5 @@
 @function oLogosImageUrl($name, $size, $format, $tint:null) {
-	@if (type-of($color) == color) {
+	@if (type-of($tint) == color) {
 		$tint: "&tint=%23" + str-slice("#{$icon-color}", 2);
 	}
 	@return "https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Flogo-images%2F#{$name}.svg?source=ftchinese&height=#{$size}&format=#{$format}#{$tint}";
@@ -9,9 +9,6 @@
 	background-image: url(oLogosImageUrl($name: $name, $size: 100, $format: 'png', $tint: $tint));
 	background-image: url(oLogosImageUrl($name: $name, $size: 100, $format: 'svg', $tint: $tint)), none;
 	@if ($apply-base-style == true) {
-		display: block;
-		border: 0;
-		margin: 16px auto;
 		background-size: contain;
 		background-position: 50%;
 		background-repeat: no-repeat;
