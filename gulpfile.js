@@ -1,27 +1,15 @@
+const pify = require('pify');
 const path = require('path');
 const fs = require('fs-jetpack');
 const loadJsonFile = require('load-json-file');
+const inline = pify(require('inline-source'));
 const nunjucks = require('nunjucks');
-
-function render(template, context) {
-  const env = new nunjucks.Environment(
-    new nunjucks.FileSystemLoader(
-      [process.cwd()],
-      {noCache: true}
-    ),
-    {autoescape: false}
-  );
-
-  return new Promise(function(resolve, reject) {
-    env.render(template, context, function(err, result) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result);
-      }
-    });
-  });
-}
+nunjucks.configure(process.cwd(), {
+  autoescape: false,
+  noCache: true
+});
+const render = pify(nunjucks.render);
+const stats = require('@ftchinese/component-stats');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -33,10 +21,9 @@ const rollup = require('rollup').rollup;
 const babel = require('rollup-plugin-babel');
 const buble = require('rollup-plugin-buble');
 
-const demosDir = '../ft-interact/demos';
-const projectName = path.basename(__dirname);
+const demosDir = path.resolve(process.cwd(), `../ft-interact/demos/${path.basename(__dirname)}`);
 
-var cache;
+let cache;
 
 process.env.NODE_ENV = 'development';
 
@@ -49,34 +36,39 @@ gulp.task('dev', function() {
   return Promise.reoslve(process.env.NODE_ENV = 'development');
 });
 
-async function buildPages() {
-  try {
-    const isProduction = process.env.NODE_ENV === 'production';
-    const origami = await loadJsonFile('origami.json');
-    const demos = origami.demos;
+function buildPage(data) {
+  const env = {
+    isProduction: process.env.NODE_ENV === 'production'
+  };
+  const context = Object.assign(data, {env});
+  const dest = path.resolve(process.cwd(), `.tmp/${data.name}.html`);
 
-    await Promise.all(demos.map(demo => {
-      const dest = `.tmp/${demo.name}.html`;
-
-      const context = Object.assign({isProduction}, demo);;
-
-      return render(demo.template, context)
-        .then(html => {
-          console.log(`Generating page ${dest}`);
-          return fs.writeAsync(dest, html)
-        })
-        .catch(err => {
-          throw err;
+  return render(data.template, context)
+    .then(html => {
+      if (process.env.NODE_ENV === 'production') {
+        console.log('Inlining source')
+        return inline(html, {
+          compress: true,
+          rootpath: path.resolve(process.cwd(), '.tmp')
         });
-    })); 
-
-  } catch(e) {
-    throw e;
-  }
+      }    
+      return Promise.resolve(html);
+    })
+    .then(html => {
+      return fs.writeAsync(dest, html);
+    })
+    .catch(err => {
+      throw err;
+    });
 }
 
 gulp.task('html', () => {
-  return buildPages()
+  return loadJsonFile('origami.json')
+    .then(json => {
+      return Promise.all(json.demos.map(demo => {
+        return buildPage(demo);
+      })); 
+    })
     .then(() => {
       browserSync.reload('*.html');
       return Promise.resolve();
@@ -168,36 +160,19 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'scripts', () => {
 gulp.task('build', gulp.parallel('html', 'styles', 'scripts'));
 
 gulp.task('copy', () => {
-  const DEST = path.resolve(__dirname, demosDir, projectName);
+  const DEST = path.resolve(__dirname, demosDir);
   console.log(`Deploying to ${DEST}`);
   return gulp.src('.tmp/**/*')
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
-
-
-// dist js to be directly used in the browser.
-gulp.task('rollup', () => {
-  return rollup({
-    entry: './src/js/toggle.js',
-    plugins: [buble()],
-    cache: cache,
-    // external: ['dom-delegate']
-  }).then(function(bundle) {
-    cache = bundle;
-
-    return bundle.write({
-      format: 'iife',
-      moduleName: 'Toggle',
-      moduleId: 'ftc-toggle',
-      // globals: {
-      //   'dom-delegate': 'domDelegate.Delegate'
-      // },
-      dest: 'dist/ftc-toggle.js',
-      sourceMap: true,
+gulp.task('stats', () => {
+  return stats({
+      outDir: demosDir
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 });
 
-
+gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));
