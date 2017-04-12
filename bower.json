@@ -25,7 +25,12 @@
     "bower_components",
     "test",
     "tests",
-    "demo"
+    "demo",
+    "lib",
+    "gulpfile.js",
+    "rollup*",
+    ".babelrc",
+    ".eslintrc.js"
   ],
   "dependencies": {
     "o-colors": "^3.6.0"
