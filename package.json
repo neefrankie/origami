@@ -3,7 +3,7 @@
   "version": "3.4.3",
   "main": "./lib/index.js",
   "browser": "dist/share.web.js",
-  "module": "dist/share.es2015.js",
+  "module": "dist/share.es.js",
   "style": "main.scss",
   "repository": {
     "type": "git",
@@ -15,9 +15,9 @@
     "share"
   ],
   "scripts": {
-    "gulp": "./node_modules/gulp/bin/gulp.js",
-    "postversion": "git push && git push --tags && ./node_modules/.bin/gulp stats",
-    "build": "./node_modules/.bin/rollup -c && ./node_modules/.bin/rollup -c rollup.cjs.js && node ./lib/index.js"
+    "postinstall": "rollup -c",
+    "postversion": "git push && git push --tags && gulp stats",
+    "build": "rollup -c && rollup -c rollup.cjs.js && node ./lib/index.js"
   },
   "author": "weiguo.ni",
   "license": "MIT",
@@ -42,11 +42,11 @@
     "nunjucks": "^3.0.0",
     "pify": "^2.3.0",
     "postcss-cssnext": "^2.9.0",
-    "rollup": "^0.41.5",
-    "rollup-plugin-buble": "^0.15.0",
     "rollup-watch": "^3.2.2"
   },
   "dependencies": {
-    "fs-jetpack": "^0.13.3"
+    "fs-jetpack": "^0.13.3",
+    "rollup": "^0.41.5",
+    "rollup-plugin-buble": "^0.15.0"
   }
 }
