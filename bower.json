@@ -19,10 +19,12 @@
     "bower_components",
     "test",
     "tests",
-    "demos"
+    "demos",
+    ".babelrc",
+    ".eslintrc.js",
+    "rollup*"
   ],
   "devDependencies": {
-    "ftc-logos": "^0.3.0",
-    "o-colors": "^3.5.2"
+    "o-colors": "^3.6.0"
   }
 }
