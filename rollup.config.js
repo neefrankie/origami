@@ -1,7 +1,7 @@
 import buble from 'rollup-plugin-buble';
 
 export default {
-  entry: 'main.js',
+  entry: 'src/js/toggle.js',
   plugins: [buble()],
   targets: [
     {
