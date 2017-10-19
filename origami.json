@@ -15,24 +15,15 @@
 	},
 	"demos": [
 		{
-			"name": "footer",
-			"template": "demos/src/footer.html",
-			"theme": "theme-dark",
-			"type": "matrix",
+			"name": "footer-dark",
+			"template": "index.html",
+			"theme": "dark",
 			"description": ""
 		},
 		{
 			"name": "footer-light",
-			"template": "demos/src/footer.html",
-			"theme": "theme-light",
-			"type": "matrix",
-			"description": ""
-		},
-		{
-			"name": "simple-footer",
-			"template": "demos/src/simple-footer.html",
-			"theme": "theme-light",
-			"type": "simple",
+			"template": "index.html",
+			"theme": "light",
 			"description": ""
 		}
 	]

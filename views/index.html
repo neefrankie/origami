@@ -25,8 +25,9 @@
 </head>
 
 <body>
-{% block body %}{% endblock%}
-{% if env.isProduction %}
+{% include "partials/o-footer.html" %}
+
+{% if flags.isProduction %}
 <script type="text/javascript" src="/api/resize-iframe.js"></script>
 {% endif %}
 </body>

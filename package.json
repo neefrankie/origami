@@ -24,19 +24,17 @@
   "homepage": "https://github.com/FTChinese/ftc-footer",
   "devDependencies": {
     "@ftchinese/component-stats": "^0.3.0",
-    "browser-sync": "^2.18.8",
-    "fs-jetpack": "^0.13.3",
+    "browser-sync": "^2.18.13",
+    "fs-jetpack": "^1.2.0",
     "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-changed": "^2.0.0",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-plumber": "^1.1.0",
-    "gulp-postcss": "^6.4.0",
     "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.4.1",
-    "inline-source": "^5.2.1",
-    "load-json-file": "^2.0.0",
-    "nunjucks": "^3.0.0",
-    "pify": "^2.3.0",
-    "postcss-cssnext": "^2.8.0"
+    "gulp-sourcemaps": "^2.6.1",
+    "inline-source": "^5.2.4",
+    "load-json-file": "^3.0.0",
+    "nunjucks": "^3.0.1",
+    "pify": "^3.0.0"
+  },
+  "dependencies": {
+    "node-sass": "^4.5.3"
   }
 }
