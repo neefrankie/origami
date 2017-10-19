@@ -1,8 +1,6 @@
-@import "o-colors/main";
 @import "o-grid/main";
 
 @import "src/scss/variables";
-@import "src/scss/colors";
 @import "src/scss/mixins";
 
 @if $o-footer-is-silent == false {

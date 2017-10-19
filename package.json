@@ -5,7 +5,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postversion": "git push && git push --tags && ./node_modules/.bin/gulp stats"
+    "postversion": "git push && git push --tags && ./node_modules/.bin/gulp stats",
+    "clean": "rm -rf .tmp/**"
   },
   "keywords": [
     "FTC",
@@ -24,7 +25,6 @@
   "devDependencies": {
     "@ftchinese/component-stats": "^0.3.0",
     "browser-sync": "^2.18.8",
-    "del": "^2.2.2",
     "fs-jetpack": "^0.13.3",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-changed": "^2.0.0",

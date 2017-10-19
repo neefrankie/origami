@@ -11,7 +11,6 @@ nunjucks.configure(process.cwd(), {
 const render = pify(nunjucks.render);
 const stats = require('@ftchinese/component-stats');
 
-const del = require('del');
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
@@ -132,10 +131,6 @@ gulp.task('styles', function styles() {
     .pipe(browserSync.stream({once:true}));
 });
 
-gulp.task('clean', function() {
-  return del(['.tmp/**']);
-});
-
 gulp.task('serve', 
   gulp.parallel(
     'html', 'styles',
@@ -173,4 +168,4 @@ gulp.task('copy', () => {
     .pipe(gulp.dest(demoDir));
 });
 
-gulp.task('demo', gulp.series('prod', 'clean', 'styles', 'html', 'stats', 'copy', 'dev'));
+gulp.task('demo', gulp.series('prod', 'styles', 'html', 'stats', 'copy', 'dev'));

@@ -11,24 +11,35 @@
 	}
 
 	.#{$classname}--theme-dark {
-		@include oColorsFor('o-footer-dark', 'text' 'background' 'border');
+		// @include oColorsFor('o-footer-dark', 'text' 'background' 'border');
+		color: $o-footer-white;
+		background-color: $o-footer-black-80;
+		border-color: $o-footer-teal-40;
 
 		a {
-			color: oColorsGetColorFor('o-footer-dark-link', 'text');
+			// color: oColorsGetColorFor('o-footer-dark-link', 'text');
+			color: $o-footer-black-30;
 			&:hover,
 			&:focus {
-				color: oColorsGetColorFor('o-footer-dark-link-hover', 'text');
+				// color: oColorsGetColorFor('o-footer-dark-link-hover', 'text');
+				color: $o-footer-white;
 			}
 		}		
 	}
 
 	.#{$classname}--theme-light {
-		@include oColorsFor('o-footer-light', 'text' 'background' 'border');
+		// @include oColorsFor('o-footer-light', 'text' 'background' 'border');
+		color: $o-footer-black-80;
+		background-color: $o-footer-black-5;
+		border-color: $o-footer-claret;
+
 		a {
-			color: oColorsGetColorFor('o-footer-light-link', 'text');
+			// color: oColorsGetColorFor('o-footer-light-link', 'text');
+			color: $o-footer-black-70;
 			&:hover,
 			&:focus {
-				color: oColorsGetColorFor('o-footer-light-link-hover', 'text');
+				// color: oColorsGetColorFor('o-footer-light-link-hover', 'text');
+				color: $o-footer-white;
 			}
 		}
 	}
@@ -46,11 +57,13 @@
 		padding-bottom: $o-footer-spacing-unit;
 
 		.#{$classname}--theme-dark & {
-			color: oColorsGetColorFor('o-footer-dark-copyright', 'text');
+			// color: oColorsGetColorFor('o-footer-dark-copyright', 'text');
+			color: $o-footer-black-30;
 		}
 
 		.#{$classname}--theme-light & {
-			color: oColorsGetColorFor('o-footer-light-copyright', 'text');
+			// color: oColorsGetColorFor('o-footer-light-copyright', 'text');
+			color: $o-footer-back-70;
 		}
 
 		a {
