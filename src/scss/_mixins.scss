@@ -111,19 +111,3 @@
 		}
 	}
 }
-
-@mixin oFooterSimple($classname: o-footer) {
-	.#{$classname}__link-items {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-	}
-	.#{$classname}__link-item {
-		display: inline-block;
-		margin-bottom: $o-footer-spacing-unit / 2;
-		margin-right: $o-footer-spacing-unit
-	}
-	.#{$classname}__link {
-		display: block;
-	}
-}
