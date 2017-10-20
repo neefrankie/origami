@@ -1,17 +1,5 @@
-@import "../../main";
-
 body {
-	@include oColorsFor(page);
+	background-color: #FFF1E5;
 }
-
-.o-share--theme-dark {
-	background-color: #000;
-}
-
-@include oShareBase;
-.o-share {
-	display: block;
-}
-@include oSharePreset($theme: 'default');
-@include oSharePreset($theme: 'light');
-@include oSharePreset($theme: 'dark');
+$o-share-is-silent: false;
+@import "../../main";

@@ -11,20 +11,16 @@ nunjucks.configure(process.cwd(), {
 const render = pify(nunjucks.render);
 const stats = require('@ftchinese/component-stats');
 
-const del = require('del');
 const browserSync = require('browser-sync').create();
-const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
-const $ = require('gulp-load-plugins')();
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
 const rollup = require('rollup').rollup;
 const buble = require('rollup-plugin-buble');
 
 const demosDir = path.resolve(process.cwd(), `../ft-interact/demos/${path.basename(__dirname)}`);
 
 let cache;
-
-// change NODE_ENV between tasks.
-process.env.NODE_ENV = 'development';
 
 gulp.task('prod', function() {
   return Promise.resolve(process.env.NODE_ENV = 'production');
@@ -41,68 +37,47 @@ const share = {
   summary: encodeURIComponent("This is the demo page for ftc share component")
 };
 
-function buildPage(data) {
-  const env = {
+async function buildPage(data) {
+  const flags = {
     isProduction: process.env.NODE_ENV === 'production'
   };
-  const context = Object.assign(data, {env});
-  const dest = path.resolve(process.cwd(), `.tmp/${data.name}.html`);
+  const context = Object.assign(data, {flags});
+  const dest = path.resolve(__dirname, `dist/${data.name}.html`);
 
-  return render(data.template, context)
-    .then(html => {
-      if (process.env.NODE_ENV === 'production') {
-        console.log('Inlining source')
-        return inline(html, {
-          compress: true,
-          rootpath: path.resolve(process.cwd(), '.tmp')
-        });
-      }    
-      return Promise.resolve(html);
-    })
-    .then(html => {
-      return fs.writeAsync(dest, html);
-    })
-    .catch(err => {
-      throw err;
+  let html = render(data.template, context);
+  if (flags.isProduction) {
+    html = await inline(html, {
+      compress: true,
+      rootpath: path.resolve(__dirname, 'dist')
     });
+  }
+
+  return await fs.writeAsync(dest, html);
 }
 
-gulp.task('html', () => {
-  return loadJsonFile('origami.json')
-    .then(json => {
-      return Promise.all(json.demos.map(demo => {
-        return buildPage(Object.assign(demo, {share}));
-      })); 
-    })
-    .then(() => {
-      browserSync.reload('*.html');
-      return Promise.resolve();
-    })
-    .catch(err => {
-      console.log(err);
-    });
+gulp.task('html', async () => {
+  const json = loadJsonFile('origami.json');
+  await Promise.all(json.demos.map(demo => {
+    return buildPage(Object.assign(demo, {share}));
+  }));
+  browserSync.reload('*.html');
+  return Promise.resolve();
 });
 
 gulp.task('styles', function styles() {
   const DEST = '.tmp/styles';
 
   return gulp.src('demos/src/demo.scss')
-    .pipe($.changed(DEST))
-    .pipe($.plumber())
-    .pipe($.sourcemaps.init({loadMaps:true}))
-    .pipe($.sass({
+    .pipe(sourcemaps.init({loadMaps:true}))
+    .pipe(sass({
       outputStyle: 'expanded',
       precision: 10,
       includePaths: ['bower_components']
-    }).on('error', $.sass.logError))
-    .pipe($.postcss([
-      cssnext({
-        features: {
-          colorRgba: false
-        }
-      })
-    ]))
-    .pipe($.sourcemaps.write('./'))
+    }))
+    .on('error', (err) => {
+      console.log(err);
+    })
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(DEST))
     .pipe(browserSync.stream({once: true}));
 });
@@ -132,10 +107,6 @@ gulp.task('scripts', () => {
   });
 });
 
-gulp.task('clean', function() {
-  return del(['.tmp/**']);
-});
-
 gulp.task('serve', gulp.parallel('html', 'styles', 'scripts', () => {
   browserSync.init({
     server: {
@@ -156,8 +127,6 @@ gulp.task('serve', gulp.parallel('html', 'styles', 'scripts', () => {
   gulp.watch(['demos/src/*.js', 'src/js/*.js'],gulp.parallel('scripts'));
 }));
 
-gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('styles', 'scripts'), 'html'));
-
 gulp.task('stats', () => {
   return stats({
       outDir: demosDir
@@ -172,5 +141,3 @@ gulp.task('copy:demo', () => {
   return gulp.src('.tmp/*.html')
     .pipe(gulp.dest(demosDir));
 });
-
-gulp.task('demo', gulp.series('build', 'copy:demo', 'stats'));

@@ -4,105 +4,135 @@
 @mixin oShareBase($classname: o-share) {
 	.#{$classname} {
 		display: inline-block;
-		text-align: left;
 		ul {
 			margin: 0;
 			padding: 0;
-			list-style-type: none;
-			display: inline-block;
 			// Clearfix
-			&:after {
-				clear: both;
-				content: '';
-				display: table;
-			}
+			// &:after {
+			// 	clear: both;
+			// 	content: '';
+			// 	display: table;
+			// }
 		}
 	}
 	.#{$classname}__action {
-	// Float everything to avoid gaps in HTML.
+		box-sizing: border-box;
 		float: left;
+		width: $o-share-icon-size;
+		height: $o-share-icon-size;
 		margin: 0 5px 0 0;
+		list-style-type: none;
+		line-height: $o-share-icon-size;
+		border: 1px solid rgba($o-share-default-border, 0.2);
+		border-radius: 0;
+		cursor: pointer;
 
-		a {
-			float: left;
-			text-decoration: none;
-			padding: $o-share-link-padding;
-			border-radius: 50%;
-			&:hover {
-				opacity: 0.8;
-			}
+		@include oGridRespondTo(S) {
+			margin-right: 10px;
 		}
 
 		i {
 			float: left;
-			background-repeat: no-repeat;
-			background-position: 50%;
-			background-size: contain;
+			background-size: 100% 100%;
 			width: $o-share-icon-size;
 			height: $o-share-icon-size;
-			text-align: left;
-			text-indent: -($o-share-icon-size * 1000);
-			white-space: nowrap;
+			text-indent: $o-share-icon-size;
 			overflow: hidden;
 		}
-	}
-}
 
-/// @param {String} $foreground - String | Color | map like `$o-share-icon-palette` as defined in `_variables.scss`.
-@mixin oShareIcon(
-	$size: $o-share-icon-size,
-	$color: #fff,
-	$background: $o-share-colors,
-	$hover-color: null,
-	$border: null, 
-	$classname: 'o-share') {
-	
-	$icon-color: if(type-of($color) == color, $color, oShareGetThemeColor($color));
-// Convert color to string.	
-	$tint: str-slice("#{$icon-color}", 2);
-	$size: str-slice("#{$size}", 1, -3);
+		&--icon {
+			display: block;
+			position: relative;
+			top: -1px;
+			left: -1px;
+			width: $o-share-icon-size;
+			height: $o-share-icon-size;
+			border: 0;
+			cursor: pointer;
 
-	@each $icon in $o-share-icon-names {
-		.#{$classname}__#{$icon} i {
-			background-image: url(oShareImageUrl($name: $icon, $size: $size, $tint: $tint, $format: "png"));
-			background-image: url(oShareImageUrl($name: $icon, $size: $size, $tint: $tint, $format: "svg")), none;
-		}
-	}
+			&:after {
+				position: absolute;
+				display: block;
+				content: '';
+				width: $o-share-icon-size + 5;
+				height: $o-share-icon-size + 5;
+				top: -2px;
+				left: -2px;
 
-	@if type-of($background) == map {
-		@each $icon, $color in $background {
-			.#{$classname}__#{$icon} a {
-				background-color: $color;
-			}
-		}
-	} @else {
-		.#{$classname}__action a {
-			background-color: $background;
-			@if $hover-color != null {
-				&:hover {
-					background-color: $hover-color;
+				@include oGridRespondTo(S) {
+					width: $o-share-icon-size + 10px;
+					height: $o-share-icon-size + 10px;
+					top: -5px;
+					left: -5px;
 				}
-			}			
-			@if $border != null {
-				border: 1px solid $icon-color;
 			}
-		}		
+		}
+		a {
+			text-decoration: none;
+		}
+
+		button {
+			padding: 0;
+			background-color: transparent;
+		}
+		&:first-child a {
+			padding-left: 0;
+		}
 	}
 }
 
-/* 
- * @param {List} $themes - ('default', 'light', 'dark')
- * @param {Boolean} $sprite - Use svg sprite or not. Default to `false`.
- * @param {String} $classname - Container's class name.
- */
-@mixin oSharePreset($theme: 'default', $classname: 'o-share') {
-	.#{$classname}--theme-#{$theme} {
-		@if $theme == 'default' {
-			@include oShareIcon;
-		} @else if $theme == 'light' {
-			@include oShareIcon($color: 'pink', $background: transparent, $hover-color: #e9decf);
-		} @else if $theme == 'dark' {
-			@include oShareIcon($background: transparent, $border: true);
+@mixin oShareActionIcon($icon-name, $classname: o-share, $hover: true) {
+
+	$image-url: "http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2F#{$icon-name}.svg";
+	$query: "?source=ftchinese";
+	$hover-color: $o-share-hover-background;
+	$hover-color: str-slice(ie-hex-str($hover-color), 4);
+	$tint: "&tint=%23#{$hover-color},%23#{$hover-color}";
+
+	.#{$classname}__action--#{$icon-name} i {
+		background-image: url($o-share-service-url + $image-url + $query + "&format=svg");
+		background-image: url($o-share-service-url + $image-url + $query + "&format=png&width=#{$o-share-icon-size}")\9;
+
+		&:after {
+			content: '';
+			background-image: url($o-share-service-url + $image-url + $query + "&format=svg#{tint}");
+			background-image: url($o-share-service-url + $image-url + $query + "&format=png#{tint}&width=#{$o-share-icon-size}")\9;
+		}
+	}
+
+	.#{$classname}__action--#{$icon-name}:hover,
+	.#{$classname}__action--#{$icon-name}:focus {
+		border-color: oShareGetBrandColor($icon-name);
+		background-color: oShareGetBrandColor($icon-name);
+
+		i {
+			background-image: url($o-share-service-url + $image-url + $query + "&format=svg#{tint}");
+			background-image: url($o-share-service-url + $image-url + $query + "&format=png#{tint}&width=#{$o-share-icon-size}")\9;
+		}
+	}
+}
+
+@mixin oShareInverse($classname: o-share) {
+	.#{classname}--inverse {
+		.#{$classname}__action:not(:hover) {
+			border: 1px solid rgba($o-share-inverse-border, 0.5);
+		}
+
+		$query: "?source=ftchinese";
+		$hover-color: $o-share-inverse-background;
+		$hover-color: str-slice(ie-hex-str($hover-color), 4);
+		$tint: "&tint=%23#{$hover-color},%23#{$hover-color}";
+
+		@each $icon-name in $_o-share-icons {
+			$image-url: "http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2F#{$icon-name}.svg";
+			.#{$classname}__action--#{$icon-name} {
+				border-color: oShareGetBrandColor($icon-name);
+
+				i {
+					background-image: url($o-share-service-url + $image-url + $query + "&format=svg#{tint}");
+					background-image: url($o-share-service-url + $image-url + $query + "format=png#{ting}&width=#{$o-share-icon-size}")\9;
+				}
+			} 
 		}
 	}
 }

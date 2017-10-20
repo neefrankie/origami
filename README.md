@@ -202,6 +202,7 @@ You also need to specify a `share` object in you template data:
 ```js
 {
   "share": {
+    "inverse": true,
     "url": encodeURIComponent("http://www.ftchinese.com"),
     "title": "Syria oil map",
     "summary": "How the Isis oil economy works, explained through the journey of a barrel of oil in Syria"

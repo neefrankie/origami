@@ -5,17 +5,19 @@
 
 /// Silent mode
 /// @type Bool
-$image-service-url: 'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2F';
-
 $o-share-is-silent: true !default;
 
-$o-share-link-padding: 4px !default;
-// default to 32px - 2 * 4px = 24px.
-// $o-share-icon-size: $o-share-link-size - 2 * $o-share-link-padding !default;
-$o-share-icon-size: 24px !default;
+$image-service-url: 'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2F';
 
-/// Caculated from `$o-share-link-padding + $o-share-icon-size`;
-$o-share-link-size: $o-share-icon-size + $o-share-link-padding;
+
+$o-share-icon-size: 40px !default;
+
+$o-share-service-url: "https://www.ft.com/__origami/service/image/v2/images/raw/";
+
+$o-share-default-border: #000000;
+$o-share-hover-background: #ffffff;
+$o-share-inverse-border: #ffffff;
+$o-share-inverse-background: #ffffff;
 
 /// @type map
 
@@ -25,11 +27,6 @@ $o-share-colors: (
 	'linkedin': #0977b6,
 	'facebook': #3c5a99,
 	'twitter': #6aa9e0
-) !default;
-
-$o-share-themes: (
-	'default': #fff,
-	'pink': #a7a59b,
 );
 
-$o-share-icon-names: map-keys($o-share-colors);
+$_o-share-icons: map-keys($o-share-colors);
