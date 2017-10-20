@@ -1,6 +1,6 @@
 {
   "name": "@ftchinese/ftc-footer",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Responsive FTC page footer",
   "main": "./lib/index.js",
   "scripts": {
