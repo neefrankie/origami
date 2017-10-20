@@ -6,7 +6,7 @@ const browserSync = require('browser-sync').create();
 const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
 const sass = require('gulp-sass');
-const getFooterData = require('./lib/index.js');
+const Footer = require('./lib');
 
 const deployDir = path.resolve(__dirname, '../ft-interact');
 const demoDir = `${deployDir}/demos/${path.basename(__dirname)}`;
@@ -24,10 +24,13 @@ gulp.task('html', async function () {
 
   const json = await loadJsonFile('origami.json');
   await Promise.all(json.demos.map(async demo => {
-    const data = Object.assign(demo, {
-      footer: getFooterData(demo.theme)
+    const footer = new Footer(demo.theme);
+    await buildPage({
+      out: path.resolve(__dirname, `dist/footer-${demo.theme}.html`),
+      template: 'index.html',
+      footer: footer.data.footer,
+      inline: process.env.NODE_ENV === 'production'
     });
-    await buildPage(data);
   }));
 
   browserSync.reload('*.html');
