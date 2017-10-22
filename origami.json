@@ -11,21 +11,21 @@
 			"Element.prototype.closest"
 		],
 		"optional": []
-		},
+	},
 	"demosDefaults": {
 		"sass": "demos/src/demo.scss",
 		"js": "demos/src/demo.js"
 	},
 	"demos": [
 		{
-			"name": "share",
-			"template": "demos/src/share.html",
+			"name": "default",
+			"template": "index.html",
 			"description": "FTC social share"
 		},
 		{
-			"name": "share-no-js",
-			"template": "demos/src/share-no-js.html",
-			"description": "Using share partial files"
+			"name": "inverse",
+			"template": "index.html",
+			"description": "FTC social share inverse theme"
 		}
 	]
 }

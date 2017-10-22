@@ -1,0 +1,9 @@
+    <ul>
+      {% for item in items %}
+      <li class="o-share__action">
+        <a class="o-share__icon o-share__icon--{{item.name}}" href="{{item.url}}" target="_blank" title="分享到{{item.cnName}}">
+          <span class="o-share__text">{{item.cnName}}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>

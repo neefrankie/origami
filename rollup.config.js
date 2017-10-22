@@ -1,17 +1,11 @@
 import buble from 'rollup-plugin-buble';
 
 export default {
-  entry: 'main.js',
+  input: 'src/js/share.js',
   plugins: [buble()],
-  targets: [
-    {
-      dest: 'dist/share.es.js',
-      format: 'es'
-    },
-    {
-      dest: 'dist/share.browser.js',
-      format: 'iife',
-      moduleName: 'Share'
-    }
-  ]
+  output: {
+    file: 'dist/o-share.js',
+    format: 'iife',
+    name: 'Share'
+  }
 }

@@ -1,33 +1,37 @@
-<div data-o-component="o-share" class="o-share"{% if share.inverse %} o-share--inverse{% endif %}>
-  <ul>
-    <li class="o-share__action o-share__action--wechat">
-      <a class="o-share__action--icon" href="http://www.ftchinese.com/m/corp/qrshare.html?title={{share.title | escape}}&url={{share.url | escape}}&ccode=2C1A1408" target="_blank" title="分享到微信">
-        <i>微信</i>
-      </a>
-    </li>
-   
-    <li class="o-share__action o-share__action--weibo">
-      <a class="o-share__action--icon" href="http://service.weibo.com/share/share.php?&appkey=4221537403&url={{share.url | escape}}&title=【{{share.title | escape}}】{{share.summary | escape}}&ralateUid=1698233740&source=FT中文网&sourceUrl=http://www.ftchinese.com/&content=utf8&ccode=2G139005" target="_blank" title="分享到微博">
-        <i>微博</i>
-      </a>
-    </li>
-   
-    <li class="o-share__action o-share__action--linkedin">
-      <a class="o-share__action--icon" href="http://www.linkedin.com/shareArticle?mini=true&url={{share.url | escape}}&title={{share.title | escape}}&summary={{share.summary | escape}}&source=FT中文网" target="_blank" title="分享到领英">
-        <i>领英</i>
-      </a>
-    </li>
-   
-    <li class="o-share__action o-share__action--facebook">
-      <a class="o-share__action--icon" href="http://www.facebook.com/sharer.php?u={{share.url | escape}}" target="_blank" title="分享到Facebook">
-        <i>Facebook</i>
-      </a>
-    </li>
-   
-    <li class="o-share__action o-share__action--twitter">
-      <a class="o-share__action--icon" href="https://twitter.com/intent/tweet?url={{share.url | escape}}&amp;text=【{{share.title | escape}}】{{share.summary | escape}}&amp;via=FTChinese" target="_blank" title="分享到Twitter">
-        <i>Twitter</i>
-      </a>
-    </li>
-   </ul>
+<div class="container{% if share.inverse %} container--inverse{% endif %}">
+  <div data-o-component="o-share" class="o-share{% if share.inverse %} o-share--inverse{% endif %}">
+    <ul>
+      
+      <li class="o-share__action">
+        <a class="o-share__icon o-share__icon--wechat" href="http://www.ftchinese.com/m/corp/qrshare.html?title={{share.title}}&url={{share.url}}&ccode=2C1A1408" target="_blank" title="分享到微信">
+          <span class="o-share__text">微信</span>
+        </a>
+      </li>
+      
+      <li class="o-share__action">
+        <a class="o-share__icon o-share__icon--weibo" href="http://service.weibo.com/share/share.php?&appkey=4221537403&url={{share.url}}&title=【{{share.title}}】{{share.summary}}&ralateUid=1698233740&source=FT中文网&sourceUrl=http://www.ftchinese.com/&content=utf8&ccode=2G139005" target="_blank" title="分享到微博">
+          <span class="o-share__text">微博</span>
+        </a>
+      </li>
+      
+      <li class="o-share__action">
+        <a class="o-share__icon o-share__icon--linkedin" href="http://www.linkedin.com/shareArticle?mini=true&url={{share.url}}&title={{share.title}}&summary={{share.summary}}&source=FT中文网" target="_blank" title="分享到领英">
+          <span class="o-share__text">领英</span>
+        </a>
+      </li>
+      
+      <li class="o-share__action">
+        <a class="o-share__icon o-share__icon--facebook" href="http://www.facebook.com/sharer.php?u={{share.url}}" target="_blank" title="分享到Facebook">
+          <span class="o-share__text">Facebook</span>
+        </a>
+      </li>
+      
+      <li class="o-share__action">
+        <a class="o-share__icon o-share__icon--twitter" href="https://twitter.com/intent/tweet?url={{share.url}}&amp;text=【{{share.title}}】{{share.summary}}&amp;via=FTChinese" target="_blank" title="分享到Twitter">
+          <span class="o-share__text">Twitter</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
 </div>

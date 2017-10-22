@@ -10,14 +10,17 @@ $o-share-is-silent: true !default;
 $image-service-url: 'https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2F';
 
 
-$o-share-icon-size: 40px !default;
+$o-share-icon-size: 40 !default;
 
 $o-share-service-url: "https://www.ft.com/__origami/service/image/v2/images/raw/";
 
-$o-share-default-border: #000000;
+$o-share-icon-border: #000000;
 $o-share-hover-background: #ffffff;
+// $o-share-icon-hover: #ffffff;
 $o-share-inverse-border: #ffffff;
+// $o-share-icon-border-inverse: #ffffff;
 $o-share-inverse-background: #ffffff;
+// $o-share-icon-inverse: $ffffff;
 
 /// @type map
 

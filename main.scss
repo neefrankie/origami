@@ -2,7 +2,7 @@
 
 @import "src/scss/variables";
 @import "src/scss/functions";
-@import "src/scss/share";
+@import "src/scss/mixin";
 
 @if (not $o-share-is-silent) {
 	@include oShareBase;
