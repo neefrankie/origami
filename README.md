@@ -37,7 +37,7 @@ share: {
 
 ## Custom Template
 
-The nunjuck template you include from this module provide social platforms of `wechat, weibo, linkedin, facebook, twitter`. If you do not want ot show all of them, you can generate your own partial files. In a node.js file:
+The nunjuck template you include from this module provide social platforms of `wechat, weibo, linkedin, facebook, twitter`. If you do not want to show all of them, you can generate your own partial files. In a node.js file:
 
 ```js
 const { resolve } = require('path');
