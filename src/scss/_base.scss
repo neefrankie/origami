@@ -1,13 +1,15 @@
-@mixin oHeaderBase() {
-	.o-header {
-		@include oColorsFor('o-header', 'text' 'background');
+@mixin ftcHeaderBase() {
+	.ftc-header {
+		/*@include oColorsFor('ftc-header', 'text' 'background');*/
+		color:#ffffff;
+		background:#333;
 	}
 
-	.o-header__row {
-		border-bottom: 1px solid oColorsGetColorFor('o-header', 'border');
+	.ftc-header__row {
+		border-bottom: 1px solid oColorsGetColorFor('ftc-header', 'border');
 	}
 
-	.o-header__container {
+	.ftc-header__container {
 		@include oGridContainer();
 
 		&:before,
@@ -21,7 +23,7 @@
 		}
 	}
 
-	.o-header__visually-hidden {
+	.ftc-header__visually-hidden {
 		@include oHeaderVisuallyHidden;
 	}
 }
