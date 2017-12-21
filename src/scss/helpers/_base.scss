@@ -1,0 +1,12 @@
+@mixin ftcHeaderBase() {
+	.ftc-header {
+		width:100%;
+	}
+
+	.ftc-header__row {
+		/*border-bottom: 1px solid oColorsGetColorFor('ftc-header', 'border');*/
+		padding:0 30px;
+		max-width: 1260px;
+	}
+
+}

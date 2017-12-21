@@ -1,0 +1,54 @@
+
+@mixin ftcHeaderTop() {
+	.ftc-header__top {
+		height: 57px;
+		background-color:$header-background;
+		color:$header-color;
+		padding: 0 30px;
+    max-width: 100%;
+	}
+	.ftc-header__container {
+		height:100%;
+		position: relative;
+		font-size: 14px;
+		a {
+			color:$header-color;
+			cursor: pointer;
+			&:hover, &:active {
+				text-decoration: underline;
+			}
+		}		
+	}
+	.ftc-header__top-column {
+    height: 100%;		
+	}
+
+
+	.ftc-header__top-center {
+		width: 100%;
+	}
+	.ftc-header-masthead {
+		background-size: auto 36px;/*背景图片高度为36px，宽度按比例缩放*/
+		background-repeat: no-repeat;
+		background-position: center;
+		background-image: url(http://static.ftchinese.com/images/masthead36.png);
+	}
+	
+
+	.ftc-header__top-left {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		text-align: left;
+		@include ftc-header-lang;
+	}
+
+	.ftc-header__top-right {
+		position: absolute;
+		right:0px;
+		top:0px;
+		text-align: right;
+	}
+	
+}
+

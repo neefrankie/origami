@@ -167,7 +167,7 @@ gulp.task('serve', gulp.series('html', 'styles', 'webpack', () => {
     server: {
       baseDir: ['.tmp'],
       index: 'header.html',
-      directory: true,
+      directory: false,
       routes: {
         '/bower_components': 'bower_components'
       }
@@ -176,8 +176,8 @@ gulp.task('serve', gulp.series('html', 'styles', 'webpack', () => {
 
   gulp.watch(['demos/html/*.html', 'demos/data/*.json'], gulp.parallel('html'));
 
-  gulp.watch('demos/src/*.scss',gulp.parallel('styles'));
-  gulp.watch('demos/src/*.js',gulp.parallel('webpack'));
+  gulp.watch(['src/**/*.scss','demos/src/main.scss'],gulp.parallel('styles'));
+  gulp.watch('src/*.js',gulp.parallel('webpack'));
 }));
 
 gulp.task('build', gulp.parallel('html', 'styles', 'webpack'));

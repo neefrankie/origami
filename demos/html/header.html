@@ -4,54 +4,55 @@
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-headerr--no-js>
 
 	{% if header.top %}
-	<div class="ftc-header__row ftc__header__top">
+	<div class="ftc-header__row ftc-header__top">
 		<div class="ftc-header__container">
-			<div class="ftc-header__top-wrapper">
 
-				<div class="ftc-header__top-column ftc-header__top-colum--left">
-					<div class="ftc-header-lang" data-ftc-component="ftc-header-lang">
-						<span class="ftc-header-lang-current">
-							{{header.lang.current}}
-						</span>
-						<span class="ftc-header-lang-other">
-							{{header.lang.other}}
-						</span>
+			<div class="ftc-header__top-column ftc-header__top-center ftc-header-masthead">
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-left">
+				<div class="ftc-header-lang" data-ftc-component="ftc-header-lang">
+					<div class="ftc-header-lang-default" data-ftc-content={{header.lang.default}}>
+						{{header.lang.default}}
 					</div>
-				</div>
-
-				<div class="ftc-header__top-colum ftc-header__top-column--center">
-					<div class="ftc-header-masthead">
+					<div class="ftc-header-lang-list" data-ftc-content={{header.lang.list}}>
+						<ul>
+							{% for onelang in header.lang.list %}
+							<li>{{onelang}}</li>
+							{% endfor%}
+						</ul>
 					</div>
-				</div>
-
-				<div class="ftc-header__top-column ftc-header__top-column--right">
-						<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
-							<span>
-								<a href={{header.signUp.url}}>
-									{{header.signUp.word}}
-								</a>
-							</span>
-							<span>
-								<a href={{header.signIn.url}}>
-									{{header.signIn.word}}
-								</a>
-							</span> 
-						</div>
-						<div class="ftc-header-readermenu ftc-header-readermenu-member">
-							<span>
-								<a href={{header.myFT.url}}>
-									{{header.myFT.word}}
-								</a>
-								<a href={{header.mySet.url}}>
-									{{header.mySet.word}}
-								</a>
-								<a href={{header.signOut.url}}>
-									{{header.signOut.word}}
-								</a>
-							</span>
-						</div>
 				</div>
 			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-right">
+					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
+						<span>
+							<a href={{header.signUp.url}}>
+								{{header.signUp.word}}
+							</a>
+						</span>
+						<span>
+							<a href={{header.signIn.url}}>
+								{{header.signIn.word}}
+							</a>
+						</span> 
+					</div>
+					<div class="ftc-header-readermenu ftc-header-readermenu-member">
+						<span>
+							<a href={{header.myFT.url}}>
+								{{header.myFT.word}}
+							</a>
+							<a href={{header.mySet.url}}>
+								{{header.mySet.word}}
+							</a>
+							<a href={{header.signOut.url}}>
+								{{header.signOut.word}}
+							</a>
+						</span>
+					</div>
+			</div>
+			
 		</div>
 	</div>
 	{% endif %}

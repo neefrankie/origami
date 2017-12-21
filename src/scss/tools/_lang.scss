@@ -1,0 +1,27 @@
+@mixin ftc-header-lang() {
+  .ftc-header-lang {
+    height: 100%;
+    cursor: pointer;
+
+    .ftc-header-lang-default {
+      height: 100%;
+      line-height: 57px;      
+      &:after {
+        content:'';
+        display:inline-block;
+        margin-left:10px;
+        @include down-triangle();
+      }
+    }
+
+    .ftc-header-lang-list {
+      display:none;
+    }
+  }
+}
+
+@mixin down-triangle() {
+  border-top: 8px solid #fff;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}
