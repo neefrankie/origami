@@ -1,0 +1,24 @@
+@mixin ftc-header-sign() {
+  .ftc-header-readermenu {
+    height: 100%;
+    a {
+      display: inline-block;
+      height: 100%;
+      
+      line-height: 57px;
+      padding: 0 5px;
+			color:$header-color;
+			cursor: pointer;
+			text-decoration:none;
+			&:hover, &:active {
+				text-decoration: underline;
+      }
+    }
+  }
+  .ftc-header-readermenu-visitor {
+    display:block;
+  }
+  .ftc-header-readermenu-member {
+    display:none;
+  }
+}

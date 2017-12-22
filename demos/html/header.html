@@ -4,7 +4,7 @@
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-headerr--no-js>
 
 	{% if header.top %}
-	<div class="ftc-header__row ftc-header__top">
+	<div class="ftc-header__top ftc-header__row ">
 		<div class="ftc-header__container">
 
 			<div class="ftc-header__top-column ftc-header__top-center ftc-header-masthead">
@@ -27,34 +27,74 @@
 
 			<div class="ftc-header__top-column ftc-header__top-right">
 					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
-						<span>
-							<a href={{header.signUp.url}}>
-								{{header.signUp.word}}
-							</a>
-						</span>
-						<span>
-							<a href={{header.signIn.url}}>
-								{{header.signIn.word}}
-							</a>
-						</span> 
+
+						<a href={{header.signUp.url}}>
+							{{header.signUp.word}}
+						</a>
+
+						<a href={{header.signIn.url}}>
+							{{header.signIn.word}}
+						</a>
+
 					</div>
 					<div class="ftc-header-readermenu ftc-header-readermenu-member">
-						<span>
-							<a href={{header.myFT.url}}>
-								{{header.myFT.word}}
-							</a>
-							<a href={{header.mySet.url}}>
-								{{header.mySet.word}}
-							</a>
-							<a href={{header.signOut.url}}>
-								{{header.signOut.word}}
-							</a>
-						</span>
+						<a href={{header.myFT.url}}>
+							{{header.myFT.word}}
+						</a>
+						<a href={{header.mySet.url}}>
+							{{header.mySet.word}}
+						</a>
+						<a href={{header.signOut.url}}>
+							{{header.signOut.word}}
+						</a>
 					</div>
 			</div>
 			
 		</div>
 	</div>
+	{% endif %}
+
+	{% if header.nav %}
+	<nav class="ftc-header__nav ftc-header__nav--pc" data-ftc-component="ftc-component-channelnav" role="navigation" aria-label="Main navigation">
+			<ul class="ftc-header__nav-toplist ftc-header__row">
+				{% set subChannels = {} %} {# Nunjucks变量如果是在for中set,那么就是只属于该for块作用域,所以要想在for之后还能使用，则必须在for之前先初始化 #}
+				{% for topChannel in header.nav.topChannels %}
+					<li class={{"ftc-header__nav-topitem ftc-header__nav-topitem-selected" if topChannel.selected else "ftc-header__nav-topitem"}}>
+						<a href="topChannel.url">
+							 {{topChannel.name}}
+						</a>
+					</li>
+					{% if topChannel.selected %}	
+							<!-- Selected -->
+							{% set subChannels = topChannel.subChannels %}
+					{% endif %}
+				{% endfor %}
+			</ul>
+			<ul class="ftc-header__nav-sublist ftc-header__row">
+				
+				{% for subChannel in subChannels %}
+				<li class="ftc-header__nav-subitem">
+					{{subChannel.name}}
+				</li>
+				{% endfor %}
+
+			</ul>
+	</nav>
+
+	<nav class="ftc-header__nav ftc-header__nav--mobile" data-ftc-component="ftc-component-channelnav" role="navigation" aria-label="Main navigation">
+			<ul class="ftc-header__nav-topchannel ftc-header__row">
+				{% set subChannels = {} %} {# Nunjucks变量如果是在for中set,那么就是只属于该for块作用域,所以要想在for之后还能使用，则必须在for之前先初始化 #}
+				{% for topChannel in header.nav.topChannels %}
+					<li class={{"ftc-header__nav-topchannel ftc-header__nav-topchannel-selected" if topChannel.selected else "ftc-header__nav-topchannel"}}>
+						{{topChannel.name}}
+					</li>
+					{% if topChannel.selected %}	
+							<!-- Selected -->
+							{% set subChannels = topChannel.subChannels %}
+					{% endif %}
+				{% endfor %}
+			</ul>
+	</nav>
 	{% endif %}
 
 </header>

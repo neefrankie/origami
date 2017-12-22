@@ -2,4 +2,5 @@
 @mixin ftcHeader($features: '') {
 	@include ftcHeaderBase;
 	@include ftcHeaderTop;
+	@include ftcHeaderNav;
 }

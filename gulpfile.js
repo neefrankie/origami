@@ -176,7 +176,7 @@ gulp.task('serve', gulp.series('html', 'styles', 'webpack', () => {
 
   gulp.watch(['demos/html/*.html', 'demos/data/*.json'], gulp.parallel('html'));
 
-  gulp.watch(['src/**/*.scss','demos/src/main.scss'],gulp.parallel('styles'));
+  gulp.watch(['src/scss/**/*.scss','demos/src/main.scss'],gulp.parallel('styles'));
   gulp.watch('src/*.js',gulp.parallel('webpack'));
 }));
 
