@@ -1,4 +1,5 @@
 // import header需要的一系列子模块吧
+import nav from './nav';
 
 class Header {
 	constructor (headerEl) {
@@ -22,7 +23,8 @@ class Header {
 		this.headerEl = headerEl;
 
 		// TODO:使用this.headerEl初始化其他几个子模块
-
+		nav.init(this.headerEl);
+		
 		// MARK:处理该headerEl的属性设置，因为已经添加了修改js功能模块，故移除属性'data-ftc-header--no-js'，添加属性'data-ftc-header--js'
 		this.headerEl.removeAttribute('data-ftc-header--no-js');
 		this.headerEl.setAttribute('data-ftc-header--js','')

@@ -1,9 +1,13 @@
 @mixin ftcHeaderNav() {
 	.ftc-header__nav {
+		background: $header-background;
+		color: $header-color;
+		a {
+			color:$header-color;
+		}
 	}
 
 	.ftc-header__nav--mobile {
-		background-color: #333;
 
 		@include oGridRespondTo('L') {
 			display: none;
@@ -18,12 +22,57 @@
 		}
 	}
 
-	.ftc-header__nav-toplist,.ftc-header__nav-sublist {
-		li {
-			display: inline-block;
+	.ftc-header__nav-list {
+		margin:0px;
+		padding: 0px 74.5px;
+		
+		&.ftc-header__nav-toplist {
+			height: 44px;
+		}
+		&.ftc-header__nav-sublist {
+			display: none;
+			height: 30px;
+			background: #505050;
 		}
 	}
 
+	.ftc-header__nav-item {
+		display: inline-block;
+		list-style-position: outside;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		a {
+			display: inline-block;
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			cursor: pointer;
+			text-decoration:none;
+		}
+
+		&.ftc-header__nav-topitem {
+			padding: 0 15px;
+			font-size:17px;
+			&.ftc-header__nav-topitem-selected {
+				background:#505050;
+			}
+			a {
+				line-height: 44px;
+			}
+		}
+
+		&.ftc-header__nav-subitem {
+			padding: 0 6px;
+			font-size:14px;
+			a {
+				line-height: 30px;
+			}
+		}
+		
+	}
+
+	
 
 	.ftc-header__nav-list--right {
 		float: right;
