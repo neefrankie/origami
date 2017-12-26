@@ -8,14 +8,14 @@ module.exports = {
 		filename: 'main.js',
 		sourceMapFilename: '[file].map'
 	},
-	watch: true,
+	watch: false,
 	devtool: 'source-map',
 	module: {
 		loaders: [
 			{
 				test: /\.js$/,
 				include: [
-					path.resolve(__dirname, 'main.js'),
+					path.resolve(__dirname, ''),
 					path.resolve(__dirname, 'bower_components')
 				],
 				loader: 'babel',

@@ -44,6 +44,7 @@
 		padding: 0;
 		a {
 			display: inline-block;
+			box-sizing:border-box;
 			height: 100%;
 			width: 100%;
 			text-align: center;
@@ -52,12 +53,12 @@
 		}
 
 		&.ftc-header__nav-topitem {
-			padding: 0 15px;
 			font-size:17px;
 			&.ftc-header__nav-topitem-selected {
 				background:#505050;
 			}
 			a {
+				padding: 0 15px;
 				line-height: 44px;
 			}
 		}

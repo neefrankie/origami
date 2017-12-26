@@ -57,58 +57,15 @@
 	{% if header.nav %}
 	<nav class="ftc-header__nav ftc-header__nav--pc" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
 			<ul class="ftc-header__nav-list ftc-header__nav-toplist">
-				{#
-				{% set subChannels = [] %} {# Nunjucks变量如果是在for中set,那么就是只属于该for块作用域,所以要想在for之后还能使用，则必须在for之前先初始化 #}
-				{% for topChannel in header.nav.topChannels %}
-						{#
-							{% set classSelected = "ftc-header__nav-item ftc-header__nav-topitem ftc-header__nav-topitem-selected" %}
-							{% set classNormal = "" %}
-							<!--<li class={{classSelected if topChannel.selected else classNormal }}></li>-->这样将class用inline express来计算出来并不可靠
-						#}
-					{% if topChannel.selected %}
-					<li class="ftc-header__nav-item ftc-header__nav-topitem ftc-header__nav-topitem-selected" >
-					{% else %}
-					<li class="ftc-header__nav-item ftc-header__nav-topitem" >
-					{% endif %}
-						<a href="topChannel.url">
-							 {{topChannel.name}}
-						</a>
-					</li>
-					{% if topChannel.selected %}	
-							{% set subChannels = topChannel.subChannels %}
-					{% endif %}
-				{% endfor %}
-				#}
 			</ul>
-			{% if subChannels|length > 0 %}
 			<ul class="ftc-header__nav-list ftc-header__nav-sublist">
-				{#
-				{% for subChannel in subChannels %}
-				<li class="ftc-header__nav-item ftc-header__nav-subitem ">
-					<a href="subChannel.url">
-					{{subChannel.name}}
-					</a>
-				</li>
-				{% endfor %}
-				#}
-			</ul>
-			{% endif %}
-	</nav>
-
-	<nav class="ftc-header__nav ftc-header__nav--mobile" data-ftc-component="ftc-component-channelnav" role="navigation" aria-label="Main navigation">
-			<ul class="ftc-header__nav-topchannel ftc-header__row">
-				{% set subChannels = {} %} {# Nunjucks变量如果是在for中set,那么就是只属于该for块作用域,所以要想在for之后还能使用，则必须在for之前先初始化 #}
-				{% for topChannel in header.nav.topChannels %}
-					<li class={{"ftc-header__nav-topchannel ftc-header__nav-topchannel-selected" if topChannel.selected else "ftc-header__nav-topchannel"}}>
-						{{topChannel.name}}
-					</li>
-					{% if topChannel.selected %}	
-							<!-- Selected -->
-							{% set subChannels = topChannel.subChannels %}
-					{% endif %}
-				{% endfor %}
 			</ul>
 	</nav>
+	{#
+	<nav class="ftc-header__nav ftc-header__nav--mobile" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
+		
+	</nav>
+	#}
 	{% endif %}
 
 </header>

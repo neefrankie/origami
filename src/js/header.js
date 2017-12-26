@@ -1,5 +1,5 @@
 // import header需要的一系列子模块吧
-import nav from './nav';
+import Nav from './nav';
 
 class Header {
 	constructor (headerEl) {
@@ -17,13 +17,13 @@ class Header {
 		}
 
 		//MARK：如果headerEl中已经含有属性'data-ftc-header--js，表明该headerEl已经是具有header相关的js了，故不用再做以下任何工作了。正常还不具备相关js的原始headerEl应该是含有属性'data-ftc-header--no-js'，而不含有'data-ftc-header--js'
-		if (header.hasAttribute('data-ftc-header--js')) {
+		if (headerEl.hasAttribute('data-ftc-header--js')) {
 			return;
 		}
 		this.headerEl = headerEl;
 
 		// TODO:使用this.headerEl初始化其他几个子模块
-		nav.init(this.headerEl);
+		Nav.init(this.headerEl);
 		
 		// MARK:处理该headerEl的属性设置，因为已经添加了修改js功能模块，故移除属性'data-ftc-header--no-js'，添加属性'data-ftc-header--js'
 		this.headerEl.removeAttribute('data-ftc-header--no-js');
@@ -48,12 +48,12 @@ class Header {
 		}
 
 		// MARK: 如果rootEl本身不含属性data-ftc-component=ftc-header,但其下的子元素中含有属性'data-ftc-component = "ftc-header"'，如果这些子元素不具有属性'data-ftc-header--js'那么就返回一个new Header(el),这样就得到了一系列的new Header(el),然后过滤掉其中为undefined的new Header(el), 以返回其中不为undefined的new Header(el) —— 这是因为new Header(el)处理已经具有属性'data-ftc-header--js'的元素时，会直接return,那么这个new Header(el)的结果就是undefined
-		return rootEl.querySelectorAll('[data-ftc-component="ftc-header"').map( el => {
+		return [].map.call(rootEl.querySelectorAll('[data-ftc-component="ftc-header"'), el => {
 			if (!el.hasAttribute('data-ftc-header--js')) {
 				return new Header(el);
 			}
 		}).filter( el => {
-			return header !== undefined;//MARK:
+			return el !== undefined;//MARK:
 		})
 	}
 }

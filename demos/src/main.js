@@ -1,5 +1,4 @@
-//import oGrid from 'o-grid/main.js';
+import oGrid from '../../bower_components/o-grid/main.js';
 import Header from '../../main.js';
-const ftcHeader = Header.header;
 
-ftcHeader.init();
+Header.init();

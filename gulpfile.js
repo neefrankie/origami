@@ -14,12 +14,16 @@ const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
-const webpack = require('webpack');
-const webpackConfig = require('./webpack.config.js');
-
+//const webpack = require('webpack');
+//const webpackConfig = require('./webpack.config.js');
+const rollup = require('rollup').rollup;
+const babel = require('rollup-plugin-babel');
+const nodeResolve = require('rollup-plugin-node-resolve');
+const rollupUglify = require('rollup-plugin-uglify');
+const minifyEs6 = require('uglify-es').minify;
 const demosDir = '../ft-interact/demos';
 const projectName = path.basename(__dirname);
-
+var cache;
 process.env.NODE_ENV = 'dev';
 
 // change NODE_ENV between tasks.
@@ -90,7 +94,8 @@ gulp.task('html', async () => {
            renderResult,
            destFile
          };
-         resolve(result);
+        resolve(result);
+  
       }
     ).then(result => {
       fs.writeAsync(result.destFile, result.renderResult);
@@ -98,7 +103,9 @@ gulp.task('html', async () => {
 
     })
   }
-
+  
+ 
+   
   return Promise.all(demos.map((demo) => {
     return renderOneView(demo);
   })).then(() => {
@@ -140,29 +147,39 @@ gulp.task('eslint', () => {
     .pipe($.eslint.failAfterError());
 });
 
-gulp.task('webpack', (done) => {
-  if (process.env.NODE_ENV === 'prod') {
-    delete webpackConfig.watch;
-  }
-
-  webpack(webpackConfig, function(err, stats) {
-    if (err) throw new $.util.PluginError('webpack', err);
-    $.util.log('[webpack]', stats.toString({
-      colors: $.util.colors.supportsColor,
-      chunks: false,
-      hash: false,
-      version: false
-    }));
-    browserSync.reload('scripts/main.js');
-    done();
-  });
+gulp.task('script',() => {
+  // TODO:关于rollup需要再认真学习一下
+   return rollup({
+     input:'demos/src/main.js',
+     cache: cache,
+     plugins:[
+       babel({//这里需要配置文件.babelrc
+         exclude:'node_modules/**'
+       }),
+       nodeResolve({
+         jsnext:true,
+       })
+      // rollupUglify({}, minifyEs6)//压缩es6代码
+     ]
+   }).then(function(bundle) {
+     cache = bundle;//Cache for later use
+     return bundle.write({//返回promise，以便下一步then()
+       file: '.tmp/scripts/main.js',
+       format: 'iife',
+       sourcemap: true
+    });
+   }).then(() => {
+     browserSync.reload();
+   }).catch(err => {
+     console.log(err);
+   });
 });
 
 gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', gulp.series('html', 'styles', 'webpack', () => {
+gulp.task('serve', gulp.series('html', 'styles', 'script', () => {
   browserSync.init({
     server: {
       baseDir: ['.tmp'],
@@ -177,10 +194,10 @@ gulp.task('serve', gulp.series('html', 'styles', 'webpack', () => {
   gulp.watch(['demos/html/*.html', 'demos/data/*.json'], gulp.parallel('html'));
 
   gulp.watch(['src/scss/**/*.scss','demos/src/main.scss'],gulp.parallel('styles'));
-  gulp.watch('src/*.js',gulp.parallel('webpack'));
+  gulp.watch(['src/js/*.js','demos/src/main.js','./main.js'],gulp.parallel('script'));
 }));
 
-gulp.task('build', gulp.parallel('html', 'styles', 'webpack'));
+gulp.task('build', gulp.parallel('html', 'styles', 'script'));
 
 gulp.task('copy', () => {
   const DEST = path.resolve(__dirname, demosDir, projectName);

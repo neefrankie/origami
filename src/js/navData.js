@@ -1,4 +1,4 @@
-var nav = {
+var navData = {
   "topChannels": [
     {
       "name": "首页",
@@ -97,4 +97,6 @@ var nav = {
       "url": "#"
     }
   ]
-}
+};
+
+export default navData;
