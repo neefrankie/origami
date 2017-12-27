@@ -15,10 +15,11 @@
 //引入小组件scss
 @import 'src/scss/tools/lang';
 @import 'src/scss/tools/sign';
-@import 'src/scss/tools/nav';
 
 //引入片段scss
 @import 'src/scss/partials/top';
+@import 'src/scss/partials/nav';
+
 
 //引入主混合器header
 @import 'src/scss/header';

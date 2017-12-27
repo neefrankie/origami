@@ -1,0 +1,127 @@
+@mixin ftcHeaderNav() {
+	.ftc-header__nav {
+		background: $header-background;
+		color: $header-color;
+		a {
+			color:$header-color;
+		}
+	}
+
+	.ftc-header__nav--mobile {
+
+		@include oGridRespondTo('L') {
+			display: none;
+		}
+	}
+
+	.ftc-header__nav--pc {
+		display: none;
+
+		@include oGridRespondTo('L') {
+			display: block;
+		}
+	}
+
+
+	.ftc-header__nav-list {
+		margin:0px;
+		padding: 0px 74.5px;
+	}
+	.ftc-header__nav-toplist {
+		height: 44px;
+	}
+	.ftc-header__nav-sublist {
+		display: none;
+		height: 30px;
+		background: #505050;
+	}
+
+
+	.ftc-header__nav-item {
+		display: inline-block;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		a {
+			display: inline-block;
+			text-align: center;
+			cursor: pointer;
+			text-decoration:none;
+		}
+	}
+
+	.ftc-header__nav-topitem {
+		font-size:17px;
+		position: relative;
+		&:hover, &:active {
+			background:#505050;
+		}
+		a {
+			height: 44px;
+			padding: 0 15px;
+			line-height: 44px;
+		}
+	}
+	.ftc-header__nav-topitem-selected {
+		background:#505050;
+	}
+
+	.ftc-header__nav-subitem {
+		font-size:14px;
+		&:hover,&:active {
+			background: #27757b;
+		}
+		a {
+			height: 30px;
+			padding: 0 6px;
+			line-height: 30px;
+		}
+	}
+
+	.ftc-header__nav-pushdownlist {/*下拉二级菜单*/
+		display: none;
+		position: absolute;
+		top:44px;
+		left:0px;
+		min-width: 100%;
+		margin:0px;
+		padding:0px;
+		background:#505050;
+		z-index: 5;
+	}
+
+	.ftc-header__nav-pushdownitem {
+		list-style-position: outside;
+		list-style-type: none;
+		font-size: 14px;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid #666;
+		&:hover,&:active {
+			background: #27757b;
+		}
+		a {
+			padding: 0 25px 0 15px;
+			height: 30px;
+			line-height: 30px;
+			display: inline-block;
+			text-decoration: none;
+			white-space: nowrap;/*NOTE：否则a会换行*/
+			cursor: pointer;
+		}
+	}
+
+	.ftc-header__nav-topitem:not(.ftc-header__nav-topitem-selected):hover>.ftc-header__nav-pushdownlist {/*:not()否定伪类选择器*/
+		display: block;
+	}
+
+	.ftc-header__nav-list--right {
+		float: right;
+	}
+
+	.ftc-header__nav-topitem {
+		
+	}
+
+
+}

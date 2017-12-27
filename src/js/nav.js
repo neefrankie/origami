@@ -21,11 +21,13 @@ class Nav {
     this.subListUl = navEl.querySelector('.ftc-header__nav-list.ftc-header__nav-sublist');
     
     this.initData = this.initData.bind(this);
-    this.renderData = this.renderData.bind(this);
+    this.renderDataForTopList = this.renderDataForTopList.bind(this);
+    this.renderDataForSubList = this.renderDataForSubList.bind(this);
     this.handleClickTopItem = this.handleClickTopItem.bind(this);
 
     this.initData();
-    this.renderData();
+    this.renderDataForTopList();
+    this.renderDataForSubList();
     this.topListUl.addEventListener('click',this.handleClickTopItem, false);
   }
 
@@ -50,10 +52,11 @@ class Nav {
   }
 
 
-  renderData() {
+  renderDataForTopList() {
     /**
-     * @dest 渲染this.topListUl和this.subListUl
-     * @depend this.dataForTopChannels、this.dataForSubChannels、this.indexForSelectedTopChannel
+     * @dest 渲染this.topListUl
+     * @depend this.dataForTopChannels、this.indexForSelectedTopChannel
+     * @explain:该方法只用首次调用一次，因为TopList的数据是固定的。并在这唯一一次调用中给默认数据中符合index为indexForSelectedTopChannel的li添加选中样式。
      */
 
     //渲染this.topListUl
@@ -62,13 +65,32 @@ class Nav {
       let topListUlInnerHTML = '';
 
       for (const topChannel of dataForTopChannels) {
-        const selectedCssClass = topChannel.index == this.indexForSelectedTopChannel ? 'ftc-header__nav-topitem-selected' : '';
-        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}><a href=${topChannel.url} >${topChannel.name}</a></li>`;
+        const selectedCssClass = topChannel.index == this.indexForSelectedTopChannel ? 'ftc-header__nav-topitem-selected' : ''; 
+        
+        //下拉二级菜单
+        let pushdownLiList = '';
+        const dataForTempSubChannels = topChannel.subChannels;
+        if (dataForTempSubChannels && dataForTempSubChannels.length>0) {
+          for (const subChannel of topChannel.subChannels) {
+            const onePushdownli = `<li class="ftc-header__nav-pushdownitem"><a href=${subChannel.url}>${subChannel.name}</a></li>`;
+            pushdownLiList += onePushdownli;
+          }
+        }
+        
+
+        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}><a href=${topChannel.url} >${topChannel.name}</a><ul class="ftc-header__nav-pushdownlist">${pushdownLiList}</ul></li>`;
         topListUlInnerHTML += oneLi;
       }
       this.topListUl.innerHTML = topListUlInnerHTML;
     }
+  }
 
+  renderDataForSubList() {
+    /**
+     * @dest 渲染this.subListUl
+     * @depend this.dataForSubChannels
+     * @explain:该方法除了首次调用以外，还需要在handleClickTopItem中调用。因为subList的数据是变化，除了首次渲染时根据默认数据中indexForSelectedTopChannel来确定数据，在点击其他topItem后,this.indexForSelectedTopChannel值改变，this.dataForSubChannel也会改变，故会再次调用。
+     */
     //渲染this.subListUl
     if (this.subListUl && this.dataForSubChannels && this.dataForSubChannels.length > 0) {
       console.log('first render subChannel');
@@ -82,7 +104,6 @@ class Nav {
       this.subListUl.innerHTML = subListUlInnerHTML;
       this.subListUl.style.display = 'block';
     }
-    
   }
 
   handleClickTopItem(e) {
@@ -112,8 +133,8 @@ class Nav {
       }
     });
     
-    //再次渲染this.topListUl和this.subListUl
-    this.renderData();
+    //再次渲染this.subListUl
+    this.renderDataForSubList();
     
   }
 
