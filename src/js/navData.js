@@ -1,9 +1,10 @@
 var navData = {
+  "indexForSelectedTopChannel":"0",
   "topChannels": [
     {
       "name": "首页",
       "url": "#",
-      "selected": true,
+      "index":0,
       "subChannels":[
         {
           "name":"特别报道",
@@ -49,52 +50,92 @@ var navData = {
           "name":"FT商城",
           "url":"#"
         }
-      ]
-      
+      ]  
     },
     {
       "name": "中国",
-      "url": "#"
+      "url": "#",
+      "index":1,
+      "subChannels":[
+        {
+          "name":"政经",
+          "url":"#"
+        },
+        {
+          "name":"商业",
+          "url":"#"
+        },
+        {
+          "name":"金融市场",
+          "url":"#"
+        },
+        {
+          "name":"股市",
+          "url":"#"
+        },
+        {
+          "name":"房地产",
+          "url":"#"
+        },
+        {
+          "name":"社会与文化",
+          "url":"#"
+        },
+        {
+          "name":"观点",
+          "url":"#"
+        }
+      ]
     },
     {
       "name": "全球",
-      "url": "#"
+      "url": "#",
+      "index":2,
     },
     {
       "name": "经济",
-      "url": "#"
+      "url": "#",
+      "index":3,
     },
     {
       "name": "金融市场",
-      "url": "#"
+      "url": "#",
+      "index":4,
     },
     {
       "name": "商业",
-      "url": "#"
+      "url": "#",
+      "index":5,
     },
     {
       "name": "创新经济",
-      "url": "#"
+      "url": "#",
+      "index":6,
     },
     {
       "name": "观点",
-      "url": "#"
+      "url": "#",
+      "index":7,
     },
     {
       "name": "管理",
-      "url": "#"
+      "url": "#",
+      "index":8,
     },
     {
       "name": "生活时尚",
-      "url": "#"
+      "url": "#",
+      "index":9,
     },
     {
       "name": "视频",
-      "url": "#"
+      "url": "#",
+      "index":10,
     },
     {
       "name": "每日英语",
-      "url": "#"
+      "url": "#",
+      "index":11,
     }
   ]
 };

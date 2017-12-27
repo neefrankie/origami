@@ -16,64 +16,105 @@ class Nav {
     }
     this.navEl = navEl;
 
-    this.data = navData;
+   
     this.topListUl = navEl.querySelector('.ftc-header__nav-list.ftc-header__nav-toplist');
     this.subListUl = navEl.querySelector('.ftc-header__nav-list.ftc-header__nav-sublist');
     
+    this.initData = this.initData.bind(this);
     this.renderData = this.renderData.bind(this);
     this.handleClickTopItem = this.handleClickTopItem.bind(this);
 
-
+    this.initData();
     this.renderData();
-    this.initSelected();
-
     this.topListUl.addEventListener('click',this.handleClickTopItem, false);
   }
 
-  renderData() {
-    if (this.topListUl && this.data.topChannels && this.data.topChannels.length > 0) {
-      const topChannels = this.data.topChannels;
-      var topListUlInnerHTML = '';
-      var subListUlInnerHTML = '';
-      var subChannels = [];
-      for (const topChannel of topChannels) {
-        console.log(topChannel.name);
-        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-topitem"><a href=${topChannel.url}>${topChannel.name}</a></li>`;
-        topListUlInnerHTML += oneLi;
+  initData() {
+    /**
+     * @dest 得到this.dataForTopChannels、this.dataForSubChannels、this.indexForSelectedTopChannel
+     */
+    if (!navData.topChannels) {
+      return;
+    }
+    this.dataForTopChannels = navData.topChannels;
+    this.indexForSelectedTopChannel = navData.indexForSelectedTopChannel ? navData.indexForSelectedTopChannel : 0;
 
-        if (topChannel.selected) {
-          subChannels = topChannel.subChannels;
+    const dataForTopChannels = this.dataForTopChannels;
+    if (dataForTopChannels && dataForTopChannels.length > 0) {
+      dataForTopChannels.forEach((value, arrIndex) => {
+        if (value.index == this.indexForSelectedTopChannel) {
+          this.dataForSubChannels = value.subChannels;
         }
-      }
-      this.topListUl.innerHTML = topListUlInnerHTML;
-
-      if (subChannels.length > 0) {
-        for (const subChannel of subChannels) {
-          const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-subitem "><a href=${subChannel.url}>${subChannel.name}</a></li>`;
-          subListUlInnerHTML += oneLi;
-        }
-        this.subListUl.innerHTML = subListUlInnerHTML;
-        this.subListUl.style.display = 'block';
-      }
+      })
     }
   }
 
-  initSelected() {
-    const topItemHomeEl = this.topListUl.querySelector('.ftc-header__nav-topitem:first-child');
-    topItemHomeEl.classList.add('ftc-header__nav-topitem-selected');
+
+  renderData() {
+    /**
+     * @dest 渲染this.topListUl和this.subListUl
+     * @depend this.dataForTopChannels、this.dataForSubChannels、this.indexForSelectedTopChannel
+     */
+
+    //渲染this.topListUl
+    if (this.topListUl && this.dataForTopChannels && this.dataForTopChannels.length > 0) {
+      const dataForTopChannels = this.dataForTopChannels;
+      let topListUlInnerHTML = '';
+
+      for (const topChannel of dataForTopChannels) {
+        const selectedCssClass = topChannel.index == this.indexForSelectedTopChannel ? 'ftc-header__nav-topitem-selected' : '';
+        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}><a href=${topChannel.url} >${topChannel.name}</a></li>`;
+        topListUlInnerHTML += oneLi;
+      }
+      this.topListUl.innerHTML = topListUlInnerHTML;
+    }
+
+    //渲染this.subListUl
+    if (this.subListUl && this.dataForSubChannels && this.dataForSubChannels.length > 0) {
+      console.log('first render subChannel');
+      const dataForSubChannels = this.dataForSubChannels;
+      let subListUlInnerHTML = '';
+
+      for (const subChannel of dataForSubChannels) {
+        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-subitem "><a href=${subChannel.url}>${subChannel.name}</a></li>`;
+        subListUlInnerHTML += oneLi;
+      }
+      this.subListUl.innerHTML = subListUlInnerHTML;
+      this.subListUl.style.display = 'block';
+    }
+    
   }
 
   handleClickTopItem(e) {
     console.log(e.target.tagName);
     const targetElem = e.target;
-    if (targetElem.tagName === 'A') {
-      console.log('here');
-      const topElemSelected = this.topListUl.querySelector('.ftc-header__nav-topitem-selected');
-      if (topElemSelected) {
-        topElemSelected.classList.remove('ftc-header__nav-topitem-selected');
-      }
-      targetElem.parentNode.classList.add('ftc-header__nav-topitem-selected');
+    const toSelectElem = targetElem.parentNode;
+
+    if (targetElem.tagName !== 'A') {
+      return;
     }
+    console.log('here');
+
+    //移除已选择的elem的选中样式
+    const selectedElem = this.topListUl.querySelector('.ftc-header__nav-topitem-selected');
+    if (selectedElem) {
+      selectedElem.classList.remove('ftc-header__nav-topitem-selected');
+    }
+
+    //为将选择的elem添加选中样式
+    toSelectElem.classList.add('ftc-header__nav-topitem-selected');
+    console.log(toSelectElem);
+    //更新this.indexForSelectedTopChannel、this.dataForSubChannels
+    this.indexForSelectedTopChannel = toSelectElem.getAttribute('data-index');
+    this.dataForTopChannels.forEach((value, arrIndex) => {
+      if (value.index == this.indexForSelectedTopChannel) {
+        this.dataForSubChannels = value.subChannels;
+      }
+    });
+    
+    //再次渲染this.topListUl和this.subListUl
+    this.renderData();
+    
   }
 
   static init(rootEl) {
