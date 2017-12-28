@@ -11,17 +11,21 @@
 			</div>
 
 			<div class="ftc-header__top-column ftc-header__top-left">
-				<div class="ftc-header-lang" data-ftc-component="ftc-header-lang">
-					<div class="ftc-header-lang-default" data-ftc-content={{header.lang.default}}>
+				<div class="ftc-header__lang" data-ftc-component="ftc-header-lang">
+					<!--
+					<div class="ftc-header__lang-default" data-ftc-content={{header.lang.default}}>
 						{{header.lang.default}}
 					</div>
-					<div class="ftc-header-lang-list" data-ftc-content={{header.lang.list}}>
-						<ul>
-							{% for onelang in header.lang.list %}
-							<li>{{onelang}}</li>
-							{% endfor%}
-						</ul>
-					</div>
+					-->
+					<ul class="ftc-header__lang-list" data-ftc-content={{header.lang.list}}>
+						{% for onelang in header.lang.list %}
+						<li class="ftc-header__lang-item">
+							<a href={{onelang.url}}>
+								{{onelang.name}}
+							</a>
+						</li>
+						{% endfor%}
+					</ul>
 				</div>
 			</div>
 

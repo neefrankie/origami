@@ -25,7 +25,10 @@
 
 	.ftc-header__nav-list {
 		margin:0px;
-		padding: 0px 74.5px;
+		padding: 0px 30px;
+		@include oGridRespondTo('XL') {
+			padding: 0px 74.5px;
+		}
 	}
 	.ftc-header__nav-toplist {
 		height: 44px;
@@ -117,10 +120,6 @@
 
 	.ftc-header__nav-list--right {
 		float: right;
-	}
-
-	.ftc-header__nav-topitem {
-		
 	}
 
 

@@ -4,8 +4,10 @@
 		height: 57px;
 		background-color:$header-background;
 		color:$header-color;
-		padding: 0 74.5px;
-    max-width: 100%;
+		padding: 0px 30px;
+		@include oGridRespondTo('XL') {
+			padding: 0px 74.5px;
+		}
 	}
 	.ftc-header__container {
 		height:100%;
@@ -34,7 +36,7 @@
 		left: 0px;
 		top: 0px;
 		text-align: left;
-		@include ftc-header-lang();
+		@include ftcHeaderLang();
 	}
 
 	.ftc-header__top-right {
@@ -42,7 +44,9 @@
 		right:0px;
 		top:0px;
 		text-align: right;
-		@include ftc-header-sign();
+		@include ftcHeaderSign();
+		
+		
 	}
 	
 }

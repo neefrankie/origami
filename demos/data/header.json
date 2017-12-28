@@ -3,13 +3,22 @@
 	"lang" :{
 		"default":"简体中文",
 		"list": [
-			"简体中文",
-			"繁体中文",
-			"英文"
+			{ 
+				"name":"简体中文",
+				"url":"http://www.ftchinese.com"
+			},
+			{
+				"name":"繁体中文",
+				"url":"http://big5.ftchinese.com/"
+			},
+			{
+				"name":"英文",
+				"url":"https://www.ft.com/"
+			}
 		]
 	},
 	"signUp":{
-		"url":"",
+		"url":"http://user.ftchinese.com/login",
 		"word":"登录"
 	},
 	"signIn":{

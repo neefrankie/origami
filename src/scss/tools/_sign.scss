@@ -1,5 +1,7 @@
-@mixin ftc-header-sign() {
+@mixin ftcHeaderSign() {
   .ftc-header-readermenu {
+    @include respondControllSign();
+    
     height: 100%;
     a {
       display: inline-block;
@@ -9,16 +11,36 @@
       padding: 0 5px;
 			color:$header-color;
 			cursor: pointer;
-			text-decoration:none;
+      text-decoration:none;
+      position: relative;
+      &:nth-child(2)::before { /*NOTE:before区域是从border内开始，压住了padding-left*/
+        content: " ";
+        position: absolute;
+        width: 2px;
+        height: 14px;
+        top: 50%;
+        left: -3px;
+        margin-top: -7px;
+        background-color:#fff;
+      }
 			&:hover, &:active {
 				text-decoration: underline;
       }
     }
+    
   }
+  
   .ftc-header-readermenu-visitor {
-    display:block;
+    @include respondControllSign();
   }
   .ftc-header-readermenu-member {
     display:none;
+  }
+}
+
+@mixin respondControllSign() {
+  display: none;
+  @include oGridRespondTo('L') {
+    display: block;
   }
 }

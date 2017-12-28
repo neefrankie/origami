@@ -24,7 +24,9 @@
 //引入主混合器header
 @import 'src/scss/header';
 
-@if $o-header-is-silent == false {
+@if $ftc-header-is-silent == false { 
+	//如果silent为true,则需要自己手动再次引入ftcHeader;
+	//如果silent为false,就已经引入好了最顶层的混合器：ftcHeader，即所有的css类都是有定义好的。
 	@include ftcHeader;
 
 	$o-header-is-silent: true !global;
