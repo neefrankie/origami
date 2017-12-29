@@ -7,36 +7,40 @@
 		}
 	}
 
-	.ftc-header__nav--mobile {
-
-		@include oGridRespondTo('L') {
-			display: none;
-		}
-	}
-
-	.ftc-header__nav--pc {
-		display: none;
-
-		@include oGridRespondTo('L') {
-			display: block;
-		}
-	}
-
 
 	.ftc-header__nav-list {
 		margin:0px;
 		padding: 0px 30px;
+		background: #333;
 		@include oGridRespondTo('XL') {
 			padding: 0px 74.5px;
+		}
+		@include oGridRespondTo($until:L) {//For mobile
+			padding: 0;
+			position: fixed;
+
+			top:44px;
+			box-sizing: border-box;
 		}
 	}
 	.ftc-header__nav-toplist {
 		height: 44px;
+		@include oGridRespondTo($until:L) {//For mobile
+			height: auto;
+			left:0px;
+			width:41.6%;
+		}
 	}
 	.ftc-header__nav-sublist {
-		display: none;
 		height: 30px;
 		background: #505050;
+		@include oGridRespondTo($until:L) {//For mobile
+			height: auto;
+			right:0px;
+			width: 58.4%;
+			background: #fff1e0;
+			color:black;
+		}
 	}
 
 
@@ -47,37 +51,88 @@
 		padding: 0;
 		a {
 			display: inline-block;
+			
 			text-align: center;
 			cursor: pointer;
 			text-decoration:none;
+		}
+
+		@include oGridRespondTo($until:L) {//For mobile
+			display:block;
+			padding:0 15px;
+			a {
+				display: inline-block;
+				text-align: right;
+				cursor: pointer;
+			}
 		}
 	}
 
 	.ftc-header__nav-topitem {
 		font-size:17px;
 		position: relative;
-		&:hover, &:active {
-			background:#505050;
+		@include oGridRespondTo(L) {
+			&:hover, &:active {
+				background:#505050;
+			}
 		}
+		
 		a {
 			height: 44px;
 			padding: 0 15px;
 			line-height: 44px;
 		}
+		@include oGridRespondTo($until:L) {//For mobile
+			display:block;
+			/*
+			&:hover, &:active {
+				background:#fff1e0;
+				a {
+					color: black;
+				}
+			}
+			*/
+			a {
+				width:100%;
+				height:100%;
+				padding: 0;
+				text-align: right;
+				cursor: pointer;
+			}
+		}
 	}
 	.ftc-header__nav-topitem-selected {
 		background:#505050;
+
+		@include oGridRespondTo($until:L) {
+			background: #fff1e0;
+			a {
+				color: #333;
+			}
+		}
 	}
 
 	.ftc-header__nav-subitem {
 		font-size:14px;
-		&:hover,&:active {
-			background: #27757b;
+		@include oGridRespondTo(L) {
+			&:hover,&:active {
+				background: #27757b;
+			}
 		}
+		
 		a {
 			height: 30px;
 			padding: 0 6px;
 			line-height: 30px;
+		}
+		@include oGridRespondTo($until:L) {
+			a {
+				color: #333; /*NOTE:当a的text-decoration为None时，默认是白色 ？？*/
+				&:hover,&:active {
+					background: #fff1e0;
+					text-decoration: underline;
+				}
+			}
 		}
 	}
 
@@ -116,6 +171,9 @@
 
 	.ftc-header__nav-topitem:not(.ftc-header__nav-topitem-selected):hover>.ftc-header__nav-pushdownlist {/*:not()否定伪类选择器*/
 		display: block;
+		@include oGridRespondTo($until:L) {
+			display: none;
+		}
 	}
 
 	.ftc-header__nav-list--right {

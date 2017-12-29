@@ -12,11 +12,6 @@
 
 			<div class="ftc-header__top-column ftc-header__top-left">
 				<div class="ftc-header__lang" data-ftc-component="ftc-header-lang">
-					<!--
-					<div class="ftc-header__lang-default" data-ftc-content={{header.lang.default}}>
-						{{header.lang.default}}
-					</div>
-					-->
 					<ul class="ftc-header__lang-list ftc-header__lang-listdefault" data-ftc-content={{header.lang.list}}>
 						{% for onelang in header.lang.list %}
 						<li class="ftc-header__lang-item">
@@ -59,18 +54,32 @@
 	{% endif %}
 
 	{% if header.nav %}
-	<nav class="ftc-header__nav ftc-header__nav--pc" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
-			<ul class="ftc-header__nav-list ftc-header__nav-toplist">
-			</ul>
-			<ul class="ftc-header__nav-list ftc-header__nav-sublist">
-			</ul>
+	<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
+		<ul class="ftc-header__nav-list ftc-header__nav-toplist">
+			{# 
+				<!--
+				<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}>
+					<a href=${topChannel.url} >
+						${topChannel.name}
+					</a>
+					<ul class="ftc-header__nav-pushdownlist">${pushdownLiList}</ul>
+				</li>	
+				-->
+			#}
+		</ul>
+		<ul class="ftc-header__nav-list ftc-header__nav-sublist">
+			{#
+				<!--
+				<li class="ftc-header__nav-item ftc-header__nav-subitem ">
+					<a href=${subChannel.url}>${subChannel.name}</a>
+				</li>
+				-->
+			#}
+		</ul>
 	</nav>
-	{#
-	<nav class="ftc-header__nav ftc-header__nav--mobile" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
-		
-	</nav>
-	#}
+
 	{% endif %}
+
 
 </header>
 {% endblock %}

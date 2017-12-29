@@ -1,12 +1,17 @@
 
 @mixin ftcHeaderTop() {
 	.ftc-header__top {
-		height: 57px;
+		height: 44px;
 		background-color:$header-background;
 		color:$header-color;
-		padding: 0px 30px;
+		padding:0 10px;
 		@include oGridRespondTo('XL') {
+			height: 57px;
 			padding: 0px 74.5px;
+		}
+		@include oGridRespondTo('L'){
+			height:57px;
+			padding: 0px 30px;
 		}
 	}
 	.ftc-header__container {
@@ -24,10 +29,16 @@
 		width: 100%;
 	}
 	.ftc-header-masthead {
-		background-size: auto 36px;/*背景图片高度为36px，宽度按比例缩放*/
+		background-size: 98.7px 21px;
 		background-repeat: no-repeat;
 		background-position: center;
-		background-image: url(http://static.ftchinese.com/images/masthead36.png);
+		background-image:url(http://s.ftimg.net/img/svg/brand-ftc-masthead-white.svg);
+		@include oGridRespondTo('L') {
+			background-size: auto 36px;/*背景图片高度为36px，宽度按比例缩放*/
+			background-repeat: no-repeat;
+			background-position: center;
+			background-image: url(http://static.ftchinese.com/images/masthead36.png);
+		}
 	}
 	
 
