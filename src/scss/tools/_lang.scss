@@ -30,7 +30,6 @@
       text-decoration: none;
       color: #fff;
     }
-    
   }
   .ftc-header__lang-item:first-child {
     border-top: none;
@@ -39,6 +38,13 @@
       display:inline-block;
       margin-left:10px;
       @include down-triangle();
+    }
+  }
+
+  .ftc-header__lang-listdefault {
+    background: #333;
+    .ftc-header__lang-item:not(:first-child) {
+      display: none;
     }
   }
 }

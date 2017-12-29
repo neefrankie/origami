@@ -4,7 +4,7 @@ class Nav {
   constructor (navEl) {
     /**
      * @param navEl:TYPE String or 为空 or HTMLElement
-     *  TYPE String:document.querySelector的那个选择器字符串,Eg:'[data-ftc-component]="ftc-component-channelnav"]'
+     *  TYPE String:document.querySelector的那个选择器字符串,Eg:'[data-ftc-component="ftc-component-channelnav"]'
      *  TYPE HTMLElement:属性data-ftc-component的值为ftc-channelnav的元素
     */
 
