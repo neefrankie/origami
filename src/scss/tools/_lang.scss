@@ -1,6 +1,6 @@
 @mixin ftcHeaderLang() {
-  @include respondControllLang;
   .ftc-header__lang {
+    @include respondControllLang;
     height: 100%;
     cursor: pointer;
     position: relative;

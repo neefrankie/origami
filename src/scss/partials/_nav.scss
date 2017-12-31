@@ -5,6 +5,9 @@
 		a {
 			color:$header-color;
 		}
+		@include oGridRespondTo($until:L) {
+			display: none;
+		}
 	}
 
 
@@ -18,7 +21,6 @@
 		@include oGridRespondTo($until:L) {//For mobile
 			padding: 0;
 			position: fixed;
-
 			top:44px;
 			box-sizing: border-box;
 		}
@@ -29,6 +31,7 @@
 			height: auto;
 			left:0px;
 			width:41.6%;
+			
 		}
 	}
 	.ftc-header__nav-sublist {
@@ -40,6 +43,8 @@
 			width: 58.4%;
 			background: #fff1e0;
 			color:black;
+			font-size: 16px;
+			font-weight: 400;
 		}
 	}
 
@@ -59,7 +64,7 @@
 
 		@include oGridRespondTo($until:L) {//For mobile
 			display:block;
-			padding:0 15px;
+			padding:0 0 0 15px;
 			a {
 				display: inline-block;
 				text-align: right;
@@ -84,20 +89,26 @@
 		}
 		@include oGridRespondTo($until:L) {//For mobile
 			display:block;
-			/*
-			&:hover, &:active {
-				background:#fff1e0;
-				a {
-					color: black;
-				}
-			}
-			*/
 			a {
 				width:100%;
 				height:100%;
 				padding: 0;
 				text-align: right;
 				cursor: pointer;
+				font-size:15px;
+				font-weight:700;
+				&::after {
+					content: "";
+					display: inline-block;
+					width:10px;
+					height:10px;
+					background-size:contain;
+					background-repeat: no-repeat;
+					background-position: center;
+					/*background-image:url(http://static.ftchinese.com/ftc-icons/svg/arrow-right.svg);*/
+					background-image: url(http://static.ftchinese.com/ftc-icons/svg/white/arrow-right-white.svg);
+					padding-left:14px;
+				}
 			}
 		}
 	}
@@ -108,6 +119,9 @@
 			background: #fff1e0;
 			a {
 				color: #333;
+				&::after {
+					background-image:url(http://static.ftchinese.com/ftc-icons/svg/arrow-right.svg);
+				}
 			}
 		}
 	}
@@ -119,7 +133,6 @@
 				background: #27757b;
 			}
 		}
-		
 		a {
 			height: 30px;
 			padding: 0 6px;
@@ -128,10 +141,13 @@
 		@include oGridRespondTo($until:L) {
 			a {
 				color: #333; /*NOTE:当a的text-decoration为None时，默认是白色 ？？*/
+				font-size:16px;
+				font-weight: 400;
 				&:hover,&:active {
 					background: #fff1e0;
 					text-decoration: underline;
 				}
+				
 			}
 		}
 	}

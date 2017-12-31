@@ -29,14 +29,8 @@ class Lang {
     }
 
     toggle(e) {
-       if(this.langList.className.indexOf('ftc-header__lang-listdefault') < 0) { // To fold
-            this.langList.classList.add('ftc-header__lang-listdefault');
-        }
-        else { // To Unfold
-            this.langList.classList.remove('ftc-header__lang-listdefault');
-        }
-        
-    }
+        this.langList.classList.toggle('ftc-header__lang-listdefault');
+    }   
     
 
 
