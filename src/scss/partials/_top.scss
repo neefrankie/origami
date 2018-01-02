@@ -5,21 +5,18 @@
 		background-color:$header-background;
 		color:$header-color;
 		padding:0 10px;
-		@include oGridRespondTo('XL') {
-			height: 57px;
-			padding: 0px 74.5px;
-		}
+		font-size: 14px;
+		
 		@include oGridRespondTo('L'){
 			height:57px;
 			padding: 0px 30px;
 		}
+		@include oGridRespondTo('XL') {
+			height: 57px;
+			padding: 0px 74.5px;
+		}
 	}
-	.ftc-header__container {
-		height:100%;
-		position: relative;
-		font-size: 14px;
-	}
-	
+
 	.ftc-header__top-column {
     height: 100%;		
 	}

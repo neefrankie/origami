@@ -4,7 +4,7 @@
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-headerr--no-js>
 
 	{% if header.top %}
-	<div class="ftc-header__top ftc-header__row ">
+	<div class="ftc-header__top ">
 		<div class="ftc-header__container">
 
 			<div class="ftc-header__top-column ftc-header__top-center ftc-header-masthead">
@@ -82,6 +82,21 @@
 
 	{% endif %}
 
-
+	{% if header.search %}
+	<div class="ftc-header__search ftc-header__search-default  ftc-header__row" data-ftc-component="ftc-header-search">
+		<div class="ftc-header__container">
+		
+			<form class="ftc-header__search-formregion" action={{header.search.actionUrl}} role="search">
+				<button class="ftc-header__search-searchbtn"></button>
+				<div class="ftc-header__search-inputarea">
+					<input class="ftc-header__search-input" type="search" placeholder={{header.search.placeholderText}} >
+				</div>
+				</form>
+			</form>
+			<div class="ftc-header__search-switch">
+			</div>
+		</div>
+	</div>
+	{% endif %}
 </header>
 {% endblock %}

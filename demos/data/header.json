@@ -37,8 +37,13 @@
 		"url":"http://user.ftchinese.com/logout",
 		"word":"登出"
 	},
-	"search": true,
 
-	"nav": true
+	"nav": true,
+
+	"search": {
+		"actionUrl":"/search/",
+		"placeholderText":"输入年月日‘xxxx-xx-xx’可搜索该日存档"
+	}
+
 
 }

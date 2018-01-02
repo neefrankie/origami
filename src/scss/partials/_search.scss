@@ -1,0 +1,99 @@
+@mixin ftcHeaderSearch() {
+  .ftc-header__search {
+    height: 44px;
+    width: 100%;
+    box-sizing: border-box;
+		background-color:$header-background;
+		color:$header-color;
+    padding:0 10px;
+    margin: 0px;
+    position: fixed;
+    right: 0px;
+    top:0px;
+		@include oGridRespondTo('L'){
+      padding: 0px 30px;
+      top:57px;
+
+    }
+    @include oGridRespondTo('XL') {
+      padding: 0px 74.5px;
+      top:57px;
+    }
+    
+    button {
+      border:none;
+      outline: none;
+      cursor: pointer;
+      background-color: transparent;
+    }
+    input {
+      background-color: transparent;
+    }
+  }
+  
+  .ftc-header__search-formregion {
+    height:100%;
+    margin:0;
+    margin-right: 44px;
+    position: relative;
+    padding: 0;
+    display: block;
+    .ftc-header__search-searchbtn {
+      position: absolute;
+      left:0;
+      top: 0;
+      width:44px;
+      height:44px;
+      background-position: center;
+      background-size:20px 20px;
+      background-repeat: no-repeat;
+      background-image: url(http://static.ftchinese.com/ftc-icons/svg/white/search-white.svg);
+    }
+
+    .ftc-header__search-inputarea {
+      height:100%;
+      margin-left:44px;
+
+      .ftc-header__search-input {
+        width:100%;
+        height:100%;
+        border: 1px solid #a7a59b;
+        color:#fff;
+        font-size:16px;
+        outline: none;
+        padding-left:5px;
+      }
+    }
+   
+  }
+
+  .ftc-header__search-switch {
+    position: absolute;
+    right:0;
+    top: 0;
+    width:44px;
+    height:44px;
+    display: block;
+    background-position: center;
+    background-size:20px 20px;
+    background-repeat: no-repeat;
+    background-image: url(http://static.ftchinese.com/ftc-icons/svg/white/cross-white.svg);
+  }
+
+  .ftc-header__search-switchclose {
+    background-image: url(http://static.ftchinese.com/ftc-icons/svg/white/cross-white.svg);
+  }
+
+
+
+  /*初始状态，只显示右侧开关按钮*/
+  .ftc-header__search-default {
+    width:64px;
+    .ftc-header__search-formregion {
+      display: none;
+    }
+    .ftc-header__search-switch {
+      background-image: url(http://static.ftchinese.com/ftc-icons/svg/white/search-white.svg);
+    }
+  }
+}
