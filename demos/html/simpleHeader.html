@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block header%}
+<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-headerr--no-js>
+
+	{% if header.top %}
+	<div class="ftc-header__top ">
+		<div class="ftc-header__container">
+
+			<div class="ftc-header__top-column ftc-header__top-center ftc-header-masthead">
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-left">
+				<div class="ftc-header__lang" data-ftc-component="ftc-header-lang">
+					<ul class="ftc-header__lang-list ftc-header__lang-listdefault" data-ftc-content={{header.lang.list}}>
+						{% for onelang in header.lang.list %}
+						<li class="ftc-header__lang-item">
+							<a href={{onelang.url}}>
+								{{onelang.name}}
+							</a>
+						</li>
+						{% endfor%}
+					</ul>
+				</div>
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-right">
+					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
+
+						<a href={{header.signUp.url}}>
+							{{header.signUp.word}}
+						</a>
+
+						<a href={{header.signIn.url}}>
+							{{header.signIn.word}}
+						</a>
+
+					</div>
+					<div class="ftc-header-readermenu ftc-header-readermenu-member">
+						<a href={{header.myFT.url}}>
+							{{header.myFT.word}}
+						</a>
+						<a href={{header.mySet.url}}>
+							{{header.mySet.word}}
+						</a>
+						<a href={{header.signOut.url}}>
+							{{header.signOut.word}}
+						</a>
+					</div>
+			</div>
+			
+		</div>
+	</div>
+	{% endif %}
+
+
+</header>
+{% endblock %}

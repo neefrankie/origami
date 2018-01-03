@@ -32,5 +32,5 @@
 	//如果silent为false,就已经引入好了最顶层的混合器：ftcHeader，即所有的css类都是有定义好的。
 	@include ftcHeader;
 
-	$o-header-is-silent: true !global;
+	$ftc-header-is-silent: true !global;
 }

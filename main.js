@@ -1,4 +1,4 @@
-import Header from './src/js/header';
+import {Header,SimpleHeader} from './src/js/header';
 /*
 const constructAll = () => {
 	Header.init();
@@ -7,4 +7,4 @@ const constructAll = () => {
 
 document.addEventListener('o.DOMContentLoaded', constructAll);*/
 
-export default Header;
+export {Header,SimpleHeader};

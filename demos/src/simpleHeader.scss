@@ -1,8 +1,6 @@
-$ftc-header-is-silent: false;
+$ftc-header-is-silent: true;
 
 @import '../../main';
-
-
 
 body {
 	background: #fff1e0;
@@ -10,4 +8,5 @@ body {
 	height:1000px;
 }
 
-
+@include ftcHeaderBase;
+@include ftcHeaderTop;

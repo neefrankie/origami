@@ -64,6 +64,12 @@ function render(template, context) {
   });
 }
 
+/*
+gulp.task('readOrigamiData', async() => {
+  const origami = await fs.readAsync('origami.json','json');
+  const demos = origami.demos;
+});
+*/
 gulp.task('html', async () => {
   var embedded = false;
   const destDir = '.tmp';
@@ -81,12 +87,15 @@ gulp.task('html', async () => {
          const template = demo.template;
          const name = demo.name;
          const dataPath = demo.data;
-         const dataForHeader = await fs.readAsync('demos/data/header.json','json');
+         const dataForHeader = await fs.readAsync(dataPath,'json');
          const context = {
             pageTitle: demo.name,
             description: demo.description,
+            js: demo.js,
+            css: demo.css,
             header: dataForHeader,
             embedded: embedded
+  
          };
          const renderResult = await render(template, context);
          const destFile = path.resolve(destDir, `${name}.html`);
@@ -147,6 +156,8 @@ gulp.task('eslint', () => {
     .pipe($.eslint.failAfterError());
 });
 
+// Old Method:
+/*
 gulp.task('script',() => {
   // TODO:关于rollup需要再认真学习一下
    return rollup({
@@ -174,6 +185,38 @@ gulp.task('script',() => {
      console.log(err);
    });
 });
+*/
+
+gulp.task('script', async () => {
+  // TODO:关于rollup需要再认真学习一下
+  const origami = await fs.readAsync('origami.json','json');
+  const demos = origami.demos;
+  async function rollupOneJs(demo) {
+    const bundle = await rollup({
+      input:`demos/src/${demo.js}`,
+      plugins:[
+        babel({//这里需要配置文件.babelrc
+          exclude:'node_modules/**'
+        }),
+        nodeResolve({
+          jsnext:true,
+        })
+      // rollupUglify({}, minifyEs6)//压缩es6代码
+      ]
+    });
+
+    await bundle.write({//返回promise，以便下一步then()
+        file: `.tmp/scripts/${demo.js}`,
+        format: 'iife',
+        sourcemap: true
+    });
+  }
+  console.log(demos);
+  demos.forEach(rollupOneJs);
+  browserSync.reload();
+});
+
+
 
 gulp.task('clean', function() {
   return del(['.tmp/**']);
@@ -184,7 +227,7 @@ gulp.task('serve', gulp.series('html', 'styles', 'script', () => {
     server: {
       baseDir: ['.tmp'],
       index: 'header.html',
-      directory: false,
+      directory: true,
       routes: {
         '/bower_components': 'bower_components'
       }

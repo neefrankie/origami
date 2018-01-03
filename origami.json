@@ -22,7 +22,18 @@
             "title": "Header",
             "data": "demos/data/header.json",
             "template": "header.html",
-            "description": ""
+            "description": "",
+            "js":"main.js",
+            "css":"main.css"
+        },
+        {
+            "name": "simpleHeader",
+            "title": "Simple Header",
+            "data": "demos/data/simpleHeader.json",
+            "template": "simpleHeader.html",
+            "description": "",
+            "js":"simpleHeader.js",
+            "css":"simpleHeader.css"
         }
     ]
 }
