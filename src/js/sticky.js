@@ -4,7 +4,6 @@ class Sticky {
          * @param stickyEl:TYPE String or 为空 or HTMLElement,即将sticky的那个元素
          *  TYPE String:document.querySelector的那个选择器字符串,Eg:'[data-ftc--sticky]'
          *  TYPE HTMLElement:含有属性data-ftc--sticky的值为ftc-header-lang的元素
-         * @param stickyClass: Type Sting, the class name of sticky style
         */
       if (!stickyEl) {
         stickyEl = document.querySelector('[data-ftc--sticky]');
