@@ -4,6 +4,7 @@ class Sticky {
          * @param stickyEl:TYPE String or 为空 or HTMLElement,即将sticky的那个元素
          *  TYPE String:document.querySelector的那个选择器字符串,Eg:'[data-ftc--sticky]'
          *  TYPE HTMLElement:含有属性data-ftc--sticky的值为ftc-header-lang的元素
+         * @param stickyClass: Type Sting, the class name of sticky style
         */
       if (!stickyEl) {
         stickyEl = document.querySelector('[data-ftc--sticky]');
@@ -13,29 +14,34 @@ class Sticky {
       this.stickyEl = stickyEl;
 
       this.getOffsetTop = this.getOffsetTop.bind(this);
+      this.getOffsetTop();
+      console.log(this.offsetTop);
       this.getScrollTop = this.getScrollTop.bind(this);
       this.stickyWhenScroll = this.stickyWhenScroll.bind(this);
       window.addEventListener('scroll', this.stickyWhenScroll);
   }
 
-  getOffsetTop(el) { /**待写入 ftc-utils */
+  getOffsetTop() { /**待写入 ftc-utils */
     /**
-     * @dest 获得el元素在距页面顶部的距离。对应NEXT中main.js的findTop函数
+     * @dest 获得el元素在距页面顶部的距离。即得到this.offsetTop。对应NEXT中main.js的findTop函数.
      * @param el:想要在滚动时粘住的元素
      */
     let curTop = 0;
+    let el = this.stickyEl;
     while (el && el.offsetParent) { 
       //NOTE:HTMLElement.offsetParent 是一个只读属性，返回一个指向最近的（closest，指包含层级上的最近）包含该元素的定位元素。
       curTop += el.offsetTop;//NOTE:HTMLElement.offsetTop 为只读属性，它返回当前元素相对于其 offsetParent 元素的顶部的距离。
+      el = el.offsetParent;
+
     }
-    return curTop;
+    this.offsetTop = curTop;
   }
 
   getScrollTop() { /**待写入ftc-utils */
     /**
      * @dest 获得光标现在滚动到的位置距页面顶部的距离。
      */
-    var isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
+    const isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
     /*NOTE:document.compatMode：表明文档的渲染模式是混杂模式or标准模式
     * 混杂模式值为 "BackCompat"
     * 标准模式值为 "CSS1Compat"
@@ -49,10 +55,9 @@ class Sticky {
   }
 
   stickyWhenScroll() {
-    const offsetTop = this.getOffsetTop(this.stickyEl);
     const scrollTop = this.getScrollTop();
-    const isSticky = scrollTop > offsetTop ? true : false;
-   
+    const isSticky = scrollTop > this.offsetTop ? true : false;
+    console.log(isSticky);
     this.stickyEl.classList.toggle('ftc-header--sticky',isSticky);
   }
 
@@ -67,12 +72,15 @@ class Sticky {
     } else if (typeof rootEl === 'string') {
       rootEl = document.querySelector(rootEl);
     }
-
+    //const stickyEl = rootEl.querySelector('[data-ftc--sticky');
+    
     const stickyElems = rootEl.querySelectorAll('[data-ftc--sticky]');
+    
     const stickyResultElems = [].map.call(stickyElems, el => {
       return new Sticky(el);
     });
-    return stickyResultElems;
+    return stickyElems;
+  // return new Sticky(stickyEl);
   }
 }
 

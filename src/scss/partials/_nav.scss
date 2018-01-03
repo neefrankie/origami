@@ -27,6 +27,7 @@
 	}
 	.ftc-header__nav-toplist {
 		height: 44px;
+		width:100%;
 		@include oGridRespondTo($until:L) {//For mobile
 			height: auto;
 			left:0px;
