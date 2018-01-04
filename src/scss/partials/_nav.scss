@@ -129,7 +129,7 @@
 	.ftc-header__nav-subitem {
 		font-size:14px;
 		@include oGridRespondTo(L) {
-			&:hover,&:active {
+			&:hover,&:active, &.ftc-header__nav-subitem-selected {
 				background: #27757b;
 			}
 		}

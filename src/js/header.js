@@ -30,7 +30,7 @@ class Header {
 		Lang.init(this.headerEl);
 		Hamburg.init(this.headerEl);
 		Search.init(this.headerEl);
-		Sticky.init(this.headerEl);
+	  Sticky.init(this.headerEl);
 
 		// MARK:处理该headerEl的属性设置，因为已经添加了修改js功能模块，故移除属性'data-ftc-header--no-js'，添加属性'data-ftc-header--js'
 		this.headerEl.removeAttribute('data-ftc-header--no-js');

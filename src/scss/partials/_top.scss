@@ -30,7 +30,7 @@
 	.ftc-header__top-center {
 		width: 100%;
 	}
-	.ftc-header-masthead {
+	.ftc-header-hometitle {
 		background-size: 98.7px 21px;
 		background-repeat: no-repeat;
 		background-position: center;
@@ -42,7 +42,21 @@
 			background-image: url(http://static.ftchinese.com/images/masthead36.png);
 		}
 	}
-	
+	.ftc-header-tagtitle {
+		background-size: 98.7px 21px;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-image:url(http://s.ftimg.net/img/svg/brand-ftc-masthead-white.svg);
+		color:transparent;
+		@include oGridRespondTo('L') {
+			background: transparent;
+			text-align: center;
+			line-height: 57px;
+			font-size: 32px;
+			color:#fff;
+		}
+		
+	}
 
 	.ftc-header__top-left {
 		position: absolute;

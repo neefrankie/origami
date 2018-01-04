@@ -16,7 +16,8 @@ class Nav {
     }
     this.navEl = navEl;
 
-   
+    this.rootEl = document.querySelector('[data-ftc-component="ftc-header"]');
+    
     this.topListUl = navEl.querySelector('.ftc-header__nav-list.ftc-header__nav-toplist');
     this.subListUl = navEl.querySelector('.ftc-header__nav-list.ftc-header__nav-sublist');
     
@@ -24,16 +25,18 @@ class Nav {
     this.renderDataForTopList = this.renderDataForTopList.bind(this);
     this.renderDataForSubList = this.renderDataForSubList.bind(this);
     this.handleClickTopItem = this.handleClickTopItem.bind(this);
+    this.handleClickSubItem = this.handleClickSubItem.bind(this);
 
     this.initData();
     this.renderDataForTopList();
     this.renderDataForSubList();
-    this.topListUl.addEventListener('click',this.handleClickTopItem, false);
+    this.topListUl.addEventListener('click', this.handleClickTopItem, false);
+    this.subListUl.addEventListener('click', this.handleClickSubItem, false);
   }
 
   initData() {
     /**
-     * @dest 得到this.dataForTopChannels、this.dataForSubChannels、this.indexForSelectedTopChannel
+     * @dest 得到this.dataForTopChannels、this.dataForSubChannels、this.indexForSelectedTopChannel、this.nameForSelectedTopChannel
      */
     if (!navData.topChannels) {
       return;
@@ -46,9 +49,12 @@ class Nav {
       dataForTopChannels.forEach((value, arrIndex) => {
         if (value.index == this.indexForSelectedTopChannel) {
           this.dataForSubChannels = value.subChannels;
+          this.nameForSelectedTopChannel = value.name;
         }
       })
     }
+
+    
   }
 
 
@@ -98,7 +104,7 @@ class Nav {
       let subListUlInnerHTML = '';
 
       for (const subChannel of dataForSubChannels) {
-        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-subitem "><a href=${subChannel.url}>${subChannel.name}</a></li>`;
+        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-subitem " data-index=${subChannel.index}><a href=${subChannel.url}>${subChannel.name}</a></li>`;
         subListUlInnerHTML += oneLi;
       }
       this.subListUl.innerHTML = subListUlInnerHTML;
@@ -107,14 +113,12 @@ class Nav {
   }
 
   handleClickTopItem(e) {
-    console.log(e.target.tagName);
     const targetElem = e.target;
     const toSelectElem = targetElem.parentNode;
 
     if (targetElem.tagName !== 'A') {
       return;
     }
-    console.log('here');
 
     //移除已选择的elem的选中样式
     const selectedElem = this.topListUl.querySelector('.ftc-header__nav-topitem-selected');
@@ -124,20 +128,74 @@ class Nav {
 
     //为将选择的elem添加选中样式
     toSelectElem.classList.add('ftc-header__nav-topitem-selected');
-    console.log(toSelectElem);
-    //更新this.indexForSelectedTopChannel、this.dataForSubChannels
+    //更新this.indexForSelectedTopChannel、this.dataForSubChannels、this.indexForSelectedTopChannel、this.nameForSelectedTopChannel
     this.indexForSelectedTopChannel = toSelectElem.getAttribute('data-index');
     this.dataForTopChannels.forEach((value, arrIndex) => {
       if (value.index == this.indexForSelectedTopChannel) {
         this.dataForSubChannels = value.subChannels;
+        this.nameForSelectedTopChannel = value.name;
       }
     });
     
     //再次渲染this.subListUl
     this.renderDataForSubList();
+
+    // 根据this.indexForSelectedTopChannel来修改顶部显示
+    if (!this.rootEl) {
+      return;
+    }
+		const titleEl = this.rootEl.querySelector('[data-ftc-component="ftc-header-title"]');
+		if (titleEl) {
+			const isTagTitle = (this.indexForSelectedTopChannel && this.indexForSelectedTopChannel != 0) ? true : false;
+			titleEl.classList.toggle('ftc-header-hometitle', !isTagTitle);
+      titleEl.classList.toggle('ftc-header-tagtitle', isTagTitle);
+      if (titleEl.classList.contains('ftc-header-tagtitle')) {
+        titleEl.innerHTML = this.nameForSelectedTopChannel;
+      }
+		}
+		
     
   }
 
+  handleClickSubItem(e) {
+    const targetElem = e.target;
+    const toSelectElem = targetElem.parentNode;
+
+    if (targetElem.tagName !== 'A') {
+      return;
+    }
+
+    //移除已选择的elem的选中样式
+    const selectedElem = e.currentTarget.querySelector('.ftc-header__nav-subitem-selected');
+    if (selectedElem) {
+      selectedElem.classList.remove('ftc-header__nav-subitem-selected');
+    }
+
+    //为将选择的elem添加选中样式
+    toSelectElem.classList.add('ftc-header__nav-subitem-selected');
+
+    //计算this.indexForSelectedTopChannel、this.nameForSelectedSubChannel
+    this.indexForSelectedSubChannel = toSelectElem.getAttribute('data-index');
+    this.dataForSubChannels.forEach((value, arrIndex) => {
+      if (value.index == this.indexForSelectedSubChannel) {
+        this.nameForSelectedSubChannel = value.name;
+      }
+    });
+
+    // 根据this.indexForSelectedSubChannel来修改顶部显示
+    if (!this.rootEl) {
+      return;
+    }
+    const titleEl = this.rootEl.querySelector('[data-ftc-component="ftc-header-title"]');
+    if (titleEl) {
+			const isTagTitle = ((this.indexForSelectedTopChannel && this.indexForSelectedTopChannel != 0) ||this.indexForSelectedSubChannel) ? true : false;
+			titleEl.classList.toggle('ftc-header-hometitle', !isTagTitle);
+      titleEl.classList.toggle('ftc-header-tagtitle', isTagTitle);
+      if (titleEl.classList.contains('ftc-header-tagtitle')) {
+        titleEl.innerHTML = this.nameForSelectedSubChannel;
+      }
+		}    
+  }
   static init(rootEl) {
     /**
 		 * @param rootEl: TYPE HTMLElement or String or 为空
@@ -152,7 +210,9 @@ class Nav {
  
     if (rootEl.querySelector('[data-ftc-component="ftc-channelnav"]')) {
       const navEl = rootEl.querySelector('[data-ftc-component="ftc-channelnav"]');
-      return new Nav(navEl);
+      const nav = new Nav(navEl);
+      console.log(`nameForSelectedTopChannel:${nav.nameForSelectedTopChannel}`);
+      return nav;
     }
   }
 }
