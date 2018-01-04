@@ -22,8 +22,18 @@ class Nav {
     this.subListUl = navEl.querySelector('.ftc-header__nav-list.ftc-header__nav-sublist');
     
     this.initData = this.initData.bind(this);
+    this.updateDataBaseSelectedTopChannel = this.updateDataBaseSelectedTopChannel.bind(this);
+    this.updateDataBaseSelectedSubChannel = this.updateDataBaseSelectedSubChannel.bind(this);
+
     this.renderDataForTopList = this.renderDataForTopList.bind(this);
     this.renderDataForSubList = this.renderDataForSubList.bind(this);
+
+    
+    this.changeStyleForTopList = this.changeStyleForTopList.bind(this);
+    this.changeStyleForSubList = this.changeStyleForSubList.bind(this);
+
+    this.changeTitle = this.changeTitle.bind(this);
+
     this.handleClickTopItem = this.handleClickTopItem.bind(this);
     this.handleClickSubItem = this.handleClickSubItem.bind(this);
 
@@ -43,7 +53,14 @@ class Nav {
     }
     this.dataForTopChannels = navData.topChannels;
     this.indexForSelectedTopChannel = navData.indexForSelectedTopChannel ? navData.indexForSelectedTopChannel : 0;
+    this.indexForSelectedSubChannel = -1;
+    this.updateDataBaseSelectedTopChannel();
+  }
 
+  updateDataBaseSelectedTopChannel() {
+    /**
+     * @dest 根据this.indexForSelectedTopChannel，更新this.dataForSubChannels、this.nameForSelectedTopChannel
+     */
     const dataForTopChannels = this.dataForTopChannels;
     if (dataForTopChannels && dataForTopChannels.length > 0) {
       dataForTopChannels.forEach((value, arrIndex) => {
@@ -53,8 +70,18 @@ class Nav {
         }
       })
     }
+  }
 
-    
+  updateDataBaseSelectedSubChannel() {
+    /**
+     * @dest 根据this.indexForSelectedSubChannel，更新this.nameForSelectedSubChannel
+     * @depend this.dataForSubchannels、this.indexForSelectedSubChannel
+    */
+    this.dataForSubChannels.forEach((value, arrIndex) => {
+      if (value.index == this.indexForSelectedSubChannel) {
+        this.nameForSelectedSubChannel = value.name;
+      }
+    });
   }
 
 
@@ -64,7 +91,6 @@ class Nav {
      * @depend this.dataForTopChannels、this.indexForSelectedTopChannel
      * @explain:该方法只用首次调用一次，因为TopList的数据是固定的。并在这唯一一次调用中给默认数据中符合index为indexForSelectedTopChannel的li添加选中样式。
      */
-
     //渲染this.topListUl
     if (this.topListUl && this.dataForTopChannels && this.dataForTopChannels.length > 0) {
       const dataForTopChannels = this.dataForTopChannels;
@@ -78,13 +104,12 @@ class Nav {
         const dataForTempSubChannels = topChannel.subChannels;
         if (dataForTempSubChannels && dataForTempSubChannels.length>0) {
           for (const subChannel of topChannel.subChannels) {
-            const onePushdownli = `<li class="ftc-header__nav-pushdownitem"><a href=${subChannel.url}>${subChannel.name}</a></li>`;
+            const onePushdownli = `<li class="ftc-header__nav-pushdownitem" data-index=${subChannel.index}><a data-ftc--target-pushdown href=${subChannel.url}>${subChannel.name}</a></li>`;
             pushdownLiList += onePushdownli;
           }
         }
         
-
-        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}><a href=${topChannel.url} >${topChannel.name}</a><ul class="ftc-header__nav-pushdownlist">${pushdownLiList}</ul></li>`;
+        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}><a data-ftc--target-top href=${topChannel.url} >${topChannel.name}</a><ul class="ftc-header__nav-pushdownlist">${pushdownLiList}</ul></li>`;
         topListUlInnerHTML += oneLi;
       }
       this.topListUl.innerHTML = topListUlInnerHTML;
@@ -98,8 +123,8 @@ class Nav {
      * @explain:该方法除了首次调用以外，还需要在handleClickTopItem中调用。因为subList的数据是变化，除了首次渲染时根据默认数据中indexForSelectedTopChannel来确定数据，在点击其他topItem后,this.indexForSelectedTopChannel值改变，this.dataForSubChannel也会改变，故会再次调用。
      */
     //渲染this.subListUl
+
     if (this.subListUl && this.dataForSubChannels && this.dataForSubChannels.length > 0) {
-      console.log('first render subChannel');
       const dataForSubChannels = this.dataForSubChannels;
       let subListUlInnerHTML = '';
 
@@ -112,14 +137,12 @@ class Nav {
     }
   }
 
-  handleClickTopItem(e) {
-    const targetElem = e.target;
-    const toSelectElem = targetElem.parentNode;
-
-    if (targetElem.tagName !== 'A') {
-      return;
-    }
-
+  
+  changeStyleForTopList(toSelectElem) {
+    /**
+     * @dest 在click事件处理程序中调用，修改topList的样式，为将要选中的Li添加指定样式，为之前选中的Li移除样式
+     * @param toSelectElem: TYPE HTMLElement, click事件将要选中的Li。
+     */
     //移除已选择的elem的选中样式
     const selectedElem = this.topListUl.querySelector('.ftc-header__nav-topitem-selected');
     if (selectedElem) {
@@ -128,32 +151,83 @@ class Nav {
 
     //为将选择的elem添加选中样式
     toSelectElem.classList.add('ftc-header__nav-topitem-selected');
-    //更新this.indexForSelectedTopChannel、this.dataForSubChannels、this.indexForSelectedTopChannel、this.nameForSelectedTopChannel
-    this.indexForSelectedTopChannel = toSelectElem.getAttribute('data-index');
-    this.dataForTopChannels.forEach((value, arrIndex) => {
-      if (value.index == this.indexForSelectedTopChannel) {
-        this.dataForSubChannels = value.subChannels;
-        this.nameForSelectedTopChannel = value.name;
-      }
-    });
-    
-    //再次渲染this.subListUl
-    this.renderDataForSubList();
+  }
 
-    // 根据this.indexForSelectedTopChannel来修改顶部显示
+  changeStyleForSubList(toSelectElem) {
+    //移除已选择的elem的选中样式
+    const selectedElem = this.subListUl.querySelector('.ftc-header__nav-subitem-selected');
+    if (selectedElem) {
+      selectedElem.classList.remove('ftc-header__nav-subitem-selected');
+    }
+
+    //为将选择的elem添加选中样式
+    toSelectElem.classList.add('ftc-header__nav-subitem-selected');
+  }
+
+  changeTitle() {
+    //根据this.indexForSelectedTopChannel来修改顶部显示
     if (!this.rootEl) {
       return;
     }
-		const titleEl = this.rootEl.querySelector('[data-ftc-component="ftc-header-title"]');
-		if (titleEl) {
-			const isTagTitle = (this.indexForSelectedTopChannel && this.indexForSelectedTopChannel != 0) ? true : false;
-			titleEl.classList.toggle('ftc-header-hometitle', !isTagTitle);
-      titleEl.classList.toggle('ftc-header-tagtitle', isTagTitle);
+    const titleEl = this.rootEl.querySelector('[data-ftc-component="ftc-header-title"]');
+    if (titleEl) {
+      console.log(`nameForSelectedTopChannel:${this.nameForSelectedTopChannel}`);
+      const isHomeTitle = this.indexForSelectedTopChannel === 0 && this.indexForSelectedSubChannel === -1;
+      //const isTagTitle = (this.indexForSelectedTopChannel && this.indexForSelectedTopChannel != 0) ? true : false;
+      titleEl.classList.toggle('ftc-header-hometitle', isHomeTitle);
+      titleEl.classList.toggle('ftc-header-tagtitle', !isHomeTitle);
+      const titleText = this.indexForSelectedSubChannel >= 0 ? this.nameForSelectedSubChannel : this.nameForSelectedTopChannel;
       if (titleEl.classList.contains('ftc-header-tagtitle')) {
-        titleEl.innerHTML = this.nameForSelectedTopChannel;
+        titleEl.innerHTML = titleText;
       }
-		}
-		
+    }
+  }
+
+  handleClickTopItem(e) {
+
+    const targetElem = e.target;
+    const toSelectElem = targetElem.parentNode;
+
+    if (targetElem.tagName !== 'A') {
+      return;
+    }
+
+    if (targetElem.hasAttribute('data-ftc--target-top')) { 
+      /// 情况1：点击顶级菜单选项卡本身
+      this.changeStyleForTopList(toSelectElem);
+
+      //更新this.indexForSelectedTopChannel、this.dataForSubChannels、this.indexForSelectedTopChannel、this.nameForSelectedTopChannel
+      this.indexForSelectedTopChannel = toSelectElem.getAttribute('data-index');
+      this.indexForSelectedSubChannel = -1;
+      this.updateDataBaseSelectedTopChannel();
+      console.log(`nameForSelectedTopChannel:${this.nameForSelectedTopChannel}`);
+      
+      //重新渲染this.subListUl的数据
+      this.renderDataForSubList();
+
+
+      //根据this.indexForSelectedTopChannel来修改顶部显示
+      this.changeTitle();
+
+    } else if (targetElem.hasAttribute('data-ftc--target-pushdown')) {
+      /// 情况2：通过hover在某个顶级菜单选项卡上，浮现二级下来菜单，直接点击二级下拉菜单
+      const topLiElem = toSelectElem.parentNode.parentNode;
+      if (topLiElem && topLiElem.classList.contains('ftc-header__nav-topitem')) {
+        console.log('herehereherehereherehere');
+
+        this.indexForSelectedTopChannel = topLiElem.getAttribute('data-index');
+        this.indexForSelectedSubChannel = toSelectElem.getAttribute('data-index');
+        console.log(`indexForSelectedTopChannel:${this.indexForSelectedTopChannel}`);
+        console.log(`indexForSelectedSubChannel:${this.indexForSelectedSubChannel}`);
+
+        this.updateDataBaseSelectedTopChannel();
+        this.updateDataBaseSelectedSubChannel();
+        this.renderDataForSubList();
+        this.changeStyleForTopList(topLiElem);
+        this.changeStyleForSubList(toSelectElem);
+        this.changeTitle();
+      }
+    }
     
   }
 
@@ -165,36 +239,16 @@ class Nav {
       return;
     }
 
-    //移除已选择的elem的选中样式
-    const selectedElem = e.currentTarget.querySelector('.ftc-header__nav-subitem-selected');
-    if (selectedElem) {
-      selectedElem.classList.remove('ftc-header__nav-subitem-selected');
-    }
-
-    //为将选择的elem添加选中样式
-    toSelectElem.classList.add('ftc-header__nav-subitem-selected');
+    this.changeStyleForSubList(toSelectElem);
 
     //计算this.indexForSelectedTopChannel、this.nameForSelectedSubChannel
     this.indexForSelectedSubChannel = toSelectElem.getAttribute('data-index');
-    this.dataForSubChannels.forEach((value, arrIndex) => {
-      if (value.index == this.indexForSelectedSubChannel) {
-        this.nameForSelectedSubChannel = value.name;
-      }
-    });
+    this.updateDataBaseSelectedSubChannel();
+
 
     // 根据this.indexForSelectedSubChannel来修改顶部显示
-    if (!this.rootEl) {
-      return;
-    }
-    const titleEl = this.rootEl.querySelector('[data-ftc-component="ftc-header-title"]');
-    if (titleEl) {
-			const isTagTitle = ((this.indexForSelectedTopChannel && this.indexForSelectedTopChannel != 0) ||this.indexForSelectedSubChannel) ? true : false;
-			titleEl.classList.toggle('ftc-header-hometitle', !isTagTitle);
-      titleEl.classList.toggle('ftc-header-tagtitle', isTagTitle);
-      if (titleEl.classList.contains('ftc-header-tagtitle')) {
-        titleEl.innerHTML = this.nameForSelectedSubChannel;
-      }
-		}    
+    this.changeTitle();
+  
   }
   static init(rootEl) {
     /**

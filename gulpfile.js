@@ -236,8 +236,8 @@ gulp.task('serve', gulp.series('html', 'styles', 'script', () => {
 
   gulp.watch(['demos/html/*.html', 'demos/data/*.json'], gulp.parallel('html'));
 
-  gulp.watch(['src/scss/**/*.scss','demos/src/main.scss'],gulp.parallel('styles'));
-  gulp.watch(['src/**/*.js','demos/src/*.js','./main.js'],gulp.parallel('script'));
+  gulp.watch(['src/scss/**/*.scss', 'demos/src/main.scss'], gulp.parallel('styles'));
+  gulp.watch(['src/js/**/*.js','demos/src/*.js','./main.js'], gulp.parallel('script'));
 }));
 
 gulp.task('build', gulp.parallel('html', 'styles', 'script'));
