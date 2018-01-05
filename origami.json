@@ -34,6 +34,15 @@
             "description": "",
             "js":"simpleHeader.js",
             "css":"simpleHeader.css"
+        },
+        {
+            "name": "staticNavHeader",
+            "title": "Static Nav Header",
+            "data": "demos/data/staticNavHeader.json",
+            "template": "staticNavHeader.html",
+            "description": "",
+            "js":"staticNavHeader.js",
+            "css":"staticNavHeader.css"
         }
     ]
 }

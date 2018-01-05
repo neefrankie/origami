@@ -108,52 +108,52 @@ var navData = {
     {
       "name": "全球",
       "url": "#",
-      "index":2,
+      "index":2
     },
     {
       "name": "经济",
       "url": "#",
-      "index":3,
+      "index":3
     },
     {
       "name": "金融市场",
       "url": "#",
-      "index":4,
+      "index":4
     },
     {
       "name": "商业",
       "url": "#",
-      "index":5,
+      "index":5
     },
     {
       "name": "创新经济",
       "url": "#",
-      "index":6,
+      "index":6
     },
     {
       "name": "观点",
       "url": "#",
-      "index":7,
+      "index":7
     },
     {
       "name": "管理",
       "url": "#",
-      "index":8,
+      "index":8
     },
     {
       "name": "生活时尚",
       "url": "#",
-      "index":9,
+      "index":9
     },
     {
       "name": "视频",
       "url": "#",
-      "index":10,
+      "index":10
     },
     {
       "name": "每日英语",
       "url": "#",
-      "index":11,
+      "index":11
     }
   ]
 };
