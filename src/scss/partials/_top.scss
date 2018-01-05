@@ -62,8 +62,10 @@
 		position: absolute;
 		left: 0px;
 		top: 0px;
+		width:120px;
 		text-align: left;
 		@include ftcHeaderLang();
+		@include ftcHeaderBrand();
 		@include ftcHeaderHamburg();
 	}
 

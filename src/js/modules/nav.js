@@ -32,7 +32,7 @@ class Nav {
     this.changeStyleForTopList = this.changeStyleForTopList.bind(this);
     this.changeStyleForSubList = this.changeStyleForSubList.bind(this);
 
-    this.changeTitle = this.changeTitle.bind(this);
+    this.changeTop = this.changeTop.bind(this);
 
     this.handleClickTopItem = this.handleClickTopItem.bind(this);
     this.handleClickSubItem = this.handleClickSubItem.bind(this);
@@ -154,33 +154,57 @@ class Nav {
   }
 
   changeStyleForSubList(toSelectElem) {
+    /**
+     * @dest 在click事件处理程序中调用，修改subList的样式，为将要选中的Li添加指定样式，为之前选中的Li移除样式
+     * @param toSelectElem: TYPE HTMLElement, click事件将要选中的Li。
+    */
+    console.log('execute')
     //移除已选择的elem的选中样式
     const selectedElem = this.subListUl.querySelector('.ftc-header__nav-subitem-selected');
     if (selectedElem) {
       selectedElem.classList.remove('ftc-header__nav-subitem-selected');
     }
+    
 
     //为将选择的elem添加选中样式
     toSelectElem.classList.add('ftc-header__nav-subitem-selected');
+    console.log('toSelectElemAfter');
+    console.log(toSelectElem);
   }
 
-  changeTitle() {
-    //根据this.indexForSelectedTopChannel来修改顶部显示
+  changeTop() {
+    /** 
+     * @dest 根据this.indexForSelectedTopChannel以及this.indexForSelectedSubChannel来判断是首页还是频道页，然后修改顶部显示,包括中间的title及左边的brand
+     * @depend this.indexForSelectedTopChannel、this.indexForSelectedSubChannel、this.nameForSelectedTopChannel、this.nameForSelectedSubChannel
+     */
     if (!this.rootEl) {
       return;
     }
+    
+    const isHome = this.indexForSelectedTopChannel == 0 && this.indexForSelectedSubChannel == -1;
+    console.log(`isHome:${isHome}`);
     const titleEl = this.rootEl.querySelector('[data-ftc-component="ftc-header-title"]');
     if (titleEl) {
-      console.log(`nameForSelectedTopChannel:${this.nameForSelectedTopChannel}`);
-      const isHomeTitle = this.indexForSelectedTopChannel === 0 && this.indexForSelectedSubChannel === -1;
-      //const isTagTitle = (this.indexForSelectedTopChannel && this.indexForSelectedTopChannel != 0) ? true : false;
-      titleEl.classList.toggle('ftc-header-hometitle', isHomeTitle);
-      titleEl.classList.toggle('ftc-header-tagtitle', !isHomeTitle);
+      titleEl.classList.toggle('ftc-header-hometitle', isHome);
+      titleEl.classList.toggle('ftc-header-tagtitle', !isHome);
       const titleText = this.indexForSelectedSubChannel >= 0 ? this.nameForSelectedSubChannel : this.nameForSelectedTopChannel;
       if (titleEl.classList.contains('ftc-header-tagtitle')) {
         titleEl.innerHTML = titleText;
+      } else {
+        titleEl.innerHTML = '';
       }
     }
+
+    const langEl = this.rootEl.querySelector('[data-ftc-component="ftc-header-lang"]');
+    if (langEl) {//只有是Home的时候才显示langEl
+      langEl.classList.toggle('ftc-header--hide',!isHome);
+    }
+
+    const brandEl = this.rootEl.querySelector('.ftc-header__brand');
+    if (brandEl) {
+      brandEl.classList.toggle('ftc-header--hide', isHome);
+    }
+
   }
 
   handleClickTopItem(e) {
@@ -207,25 +231,27 @@ class Nav {
 
 
       //根据this.indexForSelectedTopChannel来修改顶部显示
-      this.changeTitle();
+      this.changeTop();
 
     } else if (targetElem.hasAttribute('data-ftc--target-pushdown')) {
       /// 情况2：通过hover在某个顶级菜单选项卡上，浮现二级下来菜单，直接点击二级下拉菜单
       const topLiElem = toSelectElem.parentNode.parentNode;
       if (topLiElem && topLiElem.classList.contains('ftc-header__nav-topitem')) {
-        console.log('herehereherehereherehere');
 
         this.indexForSelectedTopChannel = topLiElem.getAttribute('data-index');
         this.indexForSelectedSubChannel = toSelectElem.getAttribute('data-index');
-        console.log(`indexForSelectedTopChannel:${this.indexForSelectedTopChannel}`);
-        console.log(`indexForSelectedSubChannel:${this.indexForSelectedSubChannel}`);
+        //console.log(`indexForSelectedTopChannel:${this.indexForSelectedTopChannel}`);
+        //console.log(`indexForSelectedSubChannel:${this.indexForSelectedSubChannel}`);
 
         this.updateDataBaseSelectedTopChannel();
         this.updateDataBaseSelectedSubChannel();
         this.renderDataForSubList();
+
+        const toSelectSubElem = this.subListUl.querySelector(`.ftc-header__nav-subitem[data-index="${this.indexForSelectedSubChannel}"]`);//获取新渲染的subList中的data-index符合this.indexForSelectedSubChannel的li
+
         this.changeStyleForTopList(topLiElem);
-        this.changeStyleForSubList(toSelectElem);
-        this.changeTitle();
+        this.changeStyleForSubList(toSelectSubElem);
+        this.changeTop();
       }
     }
     
@@ -247,7 +273,7 @@ class Nav {
 
 
     // 根据this.indexForSelectedSubChannel来修改顶部显示
-    this.changeTitle();
+    this.changeTop();
   
   }
   static init(rootEl) {

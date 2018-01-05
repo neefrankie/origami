@@ -212,7 +212,7 @@ gulp.task('script', async () => {
     });
   }
   console.log(demos);
-  demos.forEach(rollupOneJs);
+  await demos.forEach(rollupOneJs);
   browserSync.reload();
 });
 

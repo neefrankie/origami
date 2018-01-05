@@ -12,5 +12,7 @@
 	.ftc-header__row {
 		/*border-bottom: 1px solid oColorsGetColorFor('ftc-header', 'border');*/
 	}
-
+	.ftc-header--hide {
+		display: none !important;
+	}
 }

@@ -1,0 +1,14 @@
+@mixin ftcHeaderBrand() {
+  .ftc-header__brand {
+    width:100%;
+    height:100%;
+    background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fstatic.ftchinese.com%2Fimages%2Fmasthead36.png?source=ftchinese&width=80&height=57&fit=contain&from=next001);
+    background-size: 80px 17px;
+    background-position: 0px center;
+    background-repeat: no-repeat;
+    @include oGridRespondTo($until:'L') {
+      display: none;
+
+    }
+  }
+}
