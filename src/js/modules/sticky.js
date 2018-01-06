@@ -10,11 +10,14 @@ class Sticky {
       } else if (!(stickyEl instanceof HTMLElement)) {
         stickyEl = document.querySelector(stickyEl);
       }
+      if (!(stickyEl instanceof HTMLElement)) {
+        return;
+      }
       this.stickyEl = stickyEl;
 
       this.getOffsetTop = this.getOffsetTop.bind(this);
       this.getOffsetTop();
-      console.log(this.offsetTop);
+      console.log(`offsetTop:${this.offsetTop}`);
       this.getScrollTop = this.getScrollTop.bind(this);
       this.stickyWhenScroll = this.stickyWhenScroll.bind(this);
       window.addEventListener('scroll', this.stickyWhenScroll);
@@ -25,15 +28,19 @@ class Sticky {
      * @dest 获得el元素在距页面顶部的距离。即得到this.offsetTop。对应NEXT中main.js的findTop函数.
      * @param el:想要在滚动时粘住的元素
      */
-    let curTop = 0;
-    let el = this.stickyEl;
+    let el = this.stickyEl;//这个在constructor中保证了是一定存在的
+    
+    let curTop = el.offsetTop;
     while (el && el.offsetParent) { 
-      //NOTE:HTMLElement.offsetParent 是一个只读属性，返回一个指向最近的（closest，指包含层级上的最近）包含该元素的定位元素。
-      curTop += el.offsetTop;//NOTE:HTMLElement.offsetTop 为只读属性，它返回当前元素相对于其 offsetParent 元素的顶部的距离。
+      //NOTE:HTMLElement.offsetParent 是一个只读属性，返回一个指向最近的（closest，指包含层级上的最近）包含该元素的定位元素。对于fixed元素来说，其offsetParent是null而非fixed定位的那个视口,所以offsetTop要先执行一次
       el = el.offsetParent;
-
+      curTop += el.offsetTop;//NOTE:HTMLElement.offsetTop 为只读属性，它
     }
     this.offsetTop = curTop;
+    /*
+    console.log('curTop');
+    console.log(curTop);
+    */
   }
 
   getScrollTop() { /**待写入ftc-utils */
@@ -72,9 +79,8 @@ class Sticky {
       rootEl = document.querySelector(rootEl);
     }
     //const stickyEl = rootEl.querySelector('[data-ftc--sticky');
-    
+    console.log(rootEl);
     const stickyElems = rootEl.querySelectorAll('[data-ftc--sticky]');
-    
     const stickyResultElems = [].map.call(stickyElems, el => {
       return new Sticky(el);
     });

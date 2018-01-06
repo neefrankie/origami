@@ -90,7 +90,9 @@
  			<li class={{'"ftc-header__nav-item ftc-header__nav-topitem ftc-header__nav-topitem-selected"' if header.nav.indexForSelectedTopChannel==topChannel.index else '"ftc-header__nav-item ftc-header__nav-topitem"'}} data-index={{topChannel.index}}>
           <a data-ftc--target-top href={{topChannel.url}} >{{topChannel.name}}</a>
           <ul class="ftc-header__nav-pushdownlist">
-              <li class="ftc-header__nav-pushdownitem" data-index={{subChannel.index}}><a data-ftc--target-pushdown href={{subChannel.url}}>{{subChannel.name}}</a></li>
+						{% for pushdownChannel in topChannel.subChannels %}
+							<li class="ftc-header__nav-pushdownitem" data-index={{pushdownChannel.index}}><a data-ftc--target-pushdown href={{pushdownChannel.url}}>{{pushdownChannel.name}}</a></li>
+						{% endfor %}
           </ul>
       </li>
         {% if header.nav.indexForSelectedTopChannel==topChannel.index %}

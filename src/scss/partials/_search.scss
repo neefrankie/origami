@@ -13,11 +13,12 @@
 		@include oGridRespondTo('L'){
       padding: 0px 30px;
       top:57px;
-
+      position: absolute;
     }
     @include oGridRespondTo('XL') {
       padding: 0px 74.5px;
       top:57px;
+
     }
     
     button {

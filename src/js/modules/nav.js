@@ -109,7 +109,7 @@ class Nav {
           }
         }
         
-        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}><a data-ftc--target-top href=${topChannel.url} >${topChannel.name}</a><ul class="ftc-header__nav-pushdownlist">${pushdownLiList}</ul></li>`;
+        const oneLi = `<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}><a data-ftc--target-top href=${topChannel.url} >${topChannel.name}</a><ul class="ftc-header__nav-pushdownlist">${pushdownLiList}</ul></li>`;//这里最后如果有空格，那么如果ul的font-size没有设为0,那么li之间会有空隙
         topListUlInnerHTML += oneLi;
       }
       this.topListUl.innerHTML = topListUlInnerHTML;
