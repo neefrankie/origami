@@ -1,6 +1,7 @@
 {
   "name": "ftc-header",
   "version": "1.0.0",
+  
   "description": "FTC Header",
   "main": "main.js",
   "scripts": {
@@ -15,7 +16,7 @@
     "FTC",
     "header"
   ],
-  "author": "weiguo.ni",
+  "author": "wangyichen",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/FTChinese/ftc-header/issues"
