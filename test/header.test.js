@@ -1,12 +1,14 @@
 const expect = require('expect.js');
 const Header = require('./../src/js/header').Header;
-
+//import expect from 'expect.js';
+//import {Header} from './../src/js/header';
 describe('Header API', () => {
   it('is definded', () => {
     expect(Header).to.be.a('function');
   });
 });
 
+/*
 describe('Header instance', () => {
   let headerEl;
   let containerEl;
@@ -31,3 +33,4 @@ describe('Header instance', () => {
     expect(headerEl.getAttribute('data-ftc-header--js')).to.not.be(null);
   });
 });
+*/
