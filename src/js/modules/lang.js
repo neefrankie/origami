@@ -11,7 +11,7 @@ class Lang {
             langEl = document.querySelector(langEl);
         }
         this.langEl = langEl;
-
+        
         const langList = langEl.querySelector('.ftc-header__lang-list');
         if(!langList) {
             return;
@@ -26,6 +26,7 @@ class Lang {
 
         this.toggle = this.toggle.bind(this);
         this.langFistItem.addEventListener('click',this.toggle,false)
+        
     }
 
     toggle(e) {

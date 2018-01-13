@@ -3,6 +3,7 @@
 const buble = require('rollup-plugin-buble');
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');//找到node_modules中的模块
+const path = require('path');
 module.exports = function(config) {
   config.set({
 
@@ -44,7 +45,8 @@ module.exports = function(config) {
           exclude:'node_modules/**'
         }),
         resolve({
-          jsnext:true,
+          module:true,
+          jsnext:true
         })
       ],
 			
@@ -55,26 +57,32 @@ module.exports = function(config) {
       }
     },
     */
+    
     preprocessors: {
-      'test-context.js': ['webpack']
+      'test/*.test.js': ['webpack']
     },
     webpack: {
         module: {
-            loaders: [
-                { test: /\.js$/, exclude: /node_modules/, loader: 'babel?presets[]=es2015' }
-            ]
+          loaders: [{ 
+            test: /\.js$/, 
+            include: [
+              path.join(__dirname, 'src'),
+              path.join(__dirname, 'test')
+            ],
+            exclude: path.join(__dirname, 'node_modules'),
+            loader: 'babel?presets[]=es2015'
+          }]
         },
         resolve: {
           root: [
-            path.join(cwd, 'bower_components'),
-            path.join(cwd, 'node_modules')
+            __dirname+'/bower_components',
+            __dirname+'/node_modules',
+            __dirname,
           ]
         },
         watch: true
     },
-    webpackServer: {
-        noInfo: true
-    },
+    
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter

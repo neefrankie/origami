@@ -1,15 +1,30 @@
 const expect = require('expect.js');
-const Header = require('./../src/js/header').Header;
+const headers = require('src/js/header');
+const Header = headers.Header;
 //import expect from 'expect.js';
 //import {Header} from './../src/js/header';
-describe('Header API', () => {
+const SimpleHeader = headers.SimpleHeader;
+const StaticNavHeader = headers.StaticNavHeader;
+
+const Lang = require('src/js/modules/lang.js');
+const Nav = require('src/js/modules/nav.js');
+const Hamburg = require('src/js/modules/hamburg.js');
+const Search = require('src/js/modules/search.js');
+
+describe('3 kinds of Header API', () => {
   it('is definded', () => {
     expect(Header).to.be.a('function');
   });
+  it('is definded', () => {
+    expect(SimpleHeader).to.be.a('function');
+  });
+  it('is definded', () => {
+    expect(StaticNavHeader).to.be.a('function');
+  })
 });
 
-/*
-describe('Header instance', () => {
+
+describe('Instance for Header', () => {
   let headerEl;
   let containerEl;
 
@@ -33,4 +48,31 @@ describe('Header instance', () => {
     expect(headerEl.getAttribute('data-ftc-header--js')).to.not.be(null);
   });
 });
-*/
+
+describe('Instance for Lang', () => {
+  let containerEl;
+  let langEl;
+
+  beforeEach(() => {
+    containerEl = document.createElement('div');
+    containerEl.innerHTML = `<div class="ftc-header__lang" data-ftc-component="ftc-header-lang">
+    `;
+    document.body.appendChild(containerEl);
+    langEl = containerEl.querySelector('[data-ftc-component="ftc-header-lang"]');
+  });
+
+  afterEach(() => {
+    containerEl.removeChild(langEl);
+    langEl = null;
+    containerEl = null;
+  });
+
+  it('HTMLElement', () => {
+    expect(langEl).to.be.a(HTMLElement);
+  });
+  it('Instance', () => {
+    const lang = new Lang(langEl);
+    expect(lang).to.be.a(Lang);
+  })
+});
+
