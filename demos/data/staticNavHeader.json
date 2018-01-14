@@ -1,23 +1,5 @@
 {
-  "top": true,
-  "myTitle":"我的静态页",
-	"lang" :{
-		"default":"简体中文",
-		"list": [
-			{ 
-				"name":"简体中文",
-				"url":"#"
-			},
-			{
-				"name":"繁体中文",
-				"url":"http://big5.ftchinese.com/"
-			},
-			{
-				"name":"英文",
-				"url":"https://www.ft.com/"
-			}
-		]
-	},
+  "myTitle":"我的页面",
 	"signUp":{
 		"url":"http://user.ftchinese.com/login",
 		"word":"登录"
@@ -41,7 +23,7 @@
   
 	"nav": {
     "indexForSelectedTopChannel": 0,
-    "indexForSelectedSubChannel": 2,
+    "indexForSelectedSubChannel": 8,
     "topChannels": [
       {
         "name": "首页",
@@ -198,10 +180,5 @@
         "index":11
       }
     ]
-  }, 
-
-	"search": {
-		"actionUrl":"/search/",
-		"placeholderText":"输入年月日‘xxxx-xx-xx’可搜索该日存档"
-	}
+  }
 }

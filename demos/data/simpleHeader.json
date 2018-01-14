@@ -1,22 +1,5 @@
 {
 	"top": true,
-	"lang" :{
-		"default":"简体中文",
-		"list": [
-			{ 
-				"name":"简体中文",
-				"url":"#"
-			},
-			{
-				"name":"繁体中文",
-				"url":"http://big5.ftchinese.com/"
-			},
-			{
-				"name":"英文",
-				"url":"https://www.ft.com/"
-			}
-		]
-	},
 	"signUp":{
 		"url":"http://user.ftchinese.com/login",
 		"word":"登录"

@@ -3,42 +3,18 @@
 {% block header%}
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
 
-  {% if header.top %}
-
-    {% if header.nav.indexForSelectedTopChannel == 0 and header.nav.indexForSelectedSubChannel < 0 %}
-      {% set isHome = 1 %}
-    {% else %}
-      {% set isHome = 0 %}
-    {% endif %}
-    <!--isHome {{isHome}}-->
 	<div class="ftc-header__top ">
 		<div class="ftc-header__container">
 
 			<div class={{'"ftc-header__top-column ftc-header__top-center ftc-header-hometitle"' if isHome == 1 else '"ftc-header__top-column ftc-header__top-center ftc-header-tagtitle"'}} data-ftc-component="ftc-header-title">
-        {% if isHome == 0 %}
           {{header.myTitle}}
-        {% endif %}
 			</div>
 
     
 			<div class="ftc-header__top-column ftc-header__top-left">
-        {% if isHome == 1 %}
-				<div class="ftc-header__lang" data-ftc-component="ftc-header-lang">
-          
-					<ul class="ftc-header__lang-list ftc-header__lang-listdefault" data-ftc-content={{header.lang.list}}>
-						{% for onelang in header.lang.list %}
-						<li class="ftc-header__lang-item">
-							<a href={{onelang.url}}>
-								{{onelang.name}}
-							</a>
-						</li>
-						{% endfor%}
-					</ul>
-        </div>
-        {% else %}
+
 				<div class="ftc-header__brand">
         </div>
-        {% endif %}
 				<div class="ftc-header__hamburg" data-ftc-component="ftc-header-hamburg">
 				</div>
 			</div>
@@ -70,20 +46,10 @@
 			
 		</div>
 	</div>
-	{% endif %}
 
 	{% if header.nav %}
 	<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
 		<ul class="ftc-header__nav-list ftc-header__nav-toplist" data-ftc--sticky>
-      {#
-        <li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}>
-          <a data-ftc--target-top href=${topChannel.url} >${topChannel.name}</a>
-          <ul class="ftc-header__nav-pushdownlist">
-              <li class="ftc-header__nav-pushdownitem" data-index=${subChannel.index}><a data-ftc--target-pushdown href=${subChannel.url}>${subChannel.name}</a></li>
-          </ul>
-        </li>
-      #}
-
       {% set subChannels = {} %} {# Nunjucks变量如果是在for中set,那么就是只属于该for块作用域,所以要想在for之后还能使用，则必须在for之前先初始化 #}
      
     	{% for topChannel in header.nav.topChannels %}
@@ -96,19 +62,11 @@
           </ul>
       </li>
         {% if header.nav.indexForSelectedTopChannel==topChannel.index %}
-          <!-- Selected -->
           {% set subChannels = topChannel.subChannels %}
         {% endif %}
 	    {% endfor %}
 		</ul>
 		<ul class="ftc-header__nav-list ftc-header__nav-sublist">
-			{#
-				<!--
-				<li class="ftc-header__nav-item ftc-header__nav-subitem " data-index=${subChannel.index}>
-          <a href=${subChannel.url}>${subChannel.name}</a>
-        </li>
-				-->
-      #}
       {% for subChannel in subChannels %}
         <li class={{ '"ftc-header__nav-item ftc-header__nav-subitem ftc-header__nav-subitem-selected"' if header.nav.indexForSelectedSubChannel==subChannel.index else '"ftc-header__nav-item ftc-header__nav-subitem"' }} data-index={{subChannel.index}}>
             <a href={{subChannel.url}}>{{subChannel.name}}</a>
@@ -117,23 +75,6 @@
 		</ul>
 	</nav>
 
-	{% endif %}
-
-	{% if header.search %}
-	<div class="ftc-header__search ftc-header__search-default  ftc-header__row" data-ftc-component="ftc-header-search" data-ftc--sticky >
-		<div class="ftc-header__container">
-		
-			<form class="ftc-header__search-formregion" action={{header.search.actionUrl}} role="search">
-				<button class="ftc-header__search-searchbtn"></button>
-				<div class="ftc-header__search-inputarea">
-					<input class="ftc-header__search-input" type="search" placeholder={{header.search.placeholderText}} >
-				</div>
-				</form>
-			</form>
-			<div class="ftc-header__search-switch">
-			</div>
-		</div>
-	</div>
 	{% endif %}
 </header>
 {% endblock %}
