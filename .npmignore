@@ -1,4 +1,10 @@
 test
 demos
 origami.json
-karma.config.js
+karma.conf.js
+node_modules
+bower_components
+.bowerrc
+.babelrc
+.tmp
+ftc-header-1.0.0.tgz

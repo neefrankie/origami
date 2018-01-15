@@ -6,7 +6,8 @@ This package provides both js and sass APIs for building these headers.
 
 ## Install
 ```
-npm install "@ftchinese/ftc-header" --save
+npm install "@ftchinese/ftc-header" --save // For getting js API
+bower install "@ftchinese/ftc-header" --save //for getting sass API
 ```
 
 ## Prepare the html 
@@ -106,7 +107,7 @@ For the content of the root element, there are 3 default structure you can choos
 </header>
 ```
 
-The standard header contains the all little parts of header of our FTChinese website. And the nav of standard header is realized dynamically with js, the data of which is from a javascript object that will be dynamically written when the header is constructed.
+The standard header contains the all little parts of header of our FTChinese website. And the nav of standard header is realized dynamically by js, the data of which is from a javascript object that will be dynamically written when the header is constructed.
 
 ### Simple head
 ```
@@ -278,36 +279,7 @@ And your data is in a json file:
             "url":"http://www.ftchinese.com/channel/special.html",
             "index":1
           },
-          {
-            "name":"会议活动",
-            "url":"http://www.ftchinese.com/m/events/event.html",
-            "index":2
-          },
-          {
-            "name":"会员信息中心",
-            "url":"http://www.ftchinese.com/m/marketing/home.html",
-            "index":3
-          },
-          {
-            "name":"FT商学院",
-            "url":"http://www.ftchinese.com/channel/mba.html",
-            "index":4
-          },
-          {
-            "name":"FT电子书",
-            "url":"http://www.ftchinese.com/m/marketing/ebook.html",
-            "index":5
-          },
-          {
-            "name":"图辑",
-            "url":"http://www.ftchinese.com/channel/slides.html",
-            "index":6
-          },
-          {
-            "name":"职业机会",
-            "url":"https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers",
-            "index":7
-          },
+          ...
           {
             "name":"数据新闻",
             "url":"http://www.ftchinese.com/channel/datanews.html",
@@ -352,12 +324,68 @@ And your data is in a json file:
 ## API for JS
 ### For Standard Header
 ```
-import oGrid from '../../bower_components/o-grid/main.js';
-import {Header} from '../../main.js';
+import {Header} from 'ftc-header/main.js';
 
 Header.init();
 ```
+The above method will use the default provided nav data.
 
+If you want to define the nav data by your self, please set the **navData** to cover the default data before calling **Header.init()** :
+```
+import oGrid from 'bower_components/o-grid/main.js';
+import {Header} from 'ftc-header/main.js';
+
+//Set the navData constant for the nav's js dynamic generation. The navData should be set  by this pattern:
+var navData = {
+	"indexForSelectedTopChannel": 0,// The default selected top channel index.
+  "topChannels": [
+    {
+      "name": "首页",
+      "url": "#",
+      "index":0,
+      "subChannels":[
+        {
+          "name":"特别报道",
+          "url":"#",
+          "index":0
+        },
+        {
+          "name":"热门文章",
+          "url":"#",
+          "index":1
+        },
+        ...
+      ]  
+    },
+    {
+      "name": "中国",
+      "url": "#",
+      "index":1,
+      "subChannels":[
+        {
+          "name":"政经",
+          "url":"#",
+          "index":0
+        },
+        ...
+      ]
+    },
+    {
+      "name": "全球",
+      "url": "#",
+      "index":2
+    },
+    {
+      "name": "经济",
+      "url": "#",
+      "index":3
+    },
+		...
+  ]
+}
+
+Header.init();
+```
 ### For Simple Header
 ```
 import oGrid from '../../bower_components/o-grid/main.js';
@@ -373,6 +401,7 @@ import {StaticNavHeader} from 'ftc-header/main.js';
 
 StaticNavHeader.init();
 ```
+
 
 ## API for SCSS
 The simplest way is to set the **$ftc-header-is-silent** to be false, and what you need to do is just import the main.scss

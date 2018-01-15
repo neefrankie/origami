@@ -1,4 +1,4 @@
-var navData = {
+const navData = {
   "indexForSelectedTopChannel": 0,
   "topChannels": [
     {

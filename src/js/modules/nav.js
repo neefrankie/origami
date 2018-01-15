@@ -1,7 +1,7 @@
 import navData from './navData';
 
 class Nav {
-  constructor (navEl) {
+  constructor (navEl, navData) {
     /**
      * @param navEl:TYPE String or 为空 or HTMLElement
      *  TYPE String:document.querySelector的那个选择器字符串,Eg:'[data-ftc-component="ftc-component-channelnav"]'
@@ -290,7 +290,7 @@ class Nav {
  
     if (rootEl.querySelector('[data-ftc-component="ftc-channelnav"]')) {
       const navEl = rootEl.querySelector('[data-ftc-component="ftc-channelnav"]');
-      const nav = new Nav(navEl);
+      const nav = new Nav(navEl, navData);
       console.log(`nameForSelectedTopChannel:${nav.nameForSelectedTopChannel}`);
       return nav;
     }
