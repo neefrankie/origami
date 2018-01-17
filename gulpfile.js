@@ -78,7 +78,7 @@ gulp.task('html', async () => {
   }
   const origami = await fs.readAsync('origami.json','json');
   const demos = origami.demos;
-  console.log(demos);
+  //console.log(demos);
   
   function renderOneView(demo) {
     console.log(demo);
@@ -95,7 +95,6 @@ gulp.task('html', async () => {
             css: demo.css,
             header: dataForHeader,
             embedded: embedded
-  
          };
          const renderResult = await render(template, context);
          const destFile = path.resolve(destDir, `${name}.html`);
@@ -234,7 +233,7 @@ gulp.task('serve', gulp.series('html', 'styles', 'script', () => {
     }
   });
 
-  gulp.watch(['demos/html/*.html', 'demos/data/*.json'], gulp.parallel('html'));
+  gulp.watch(['demos/html/**/*.html', 'demos/data/*.json'], gulp.parallel('html'));
 
   gulp.watch(['src/scss/**/*.scss', 'demos/src/main.scss'], gulp.parallel('styles'));
   gulp.watch(['src/js/**/*.js','demos/src/*.js','./main.js'], gulp.parallel('script'));
