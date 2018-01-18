@@ -30,6 +30,7 @@
 			</div>
 
 			<div class="ftc-header__top-column ftc-header__top-right">
+				<div data-ftc-component="ftc-header-login">
 					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
 
 						<a href={{header.signUp.url}}>
@@ -52,6 +53,7 @@
 							{{header.signOut.word}}
 						</a>
 					</div>
+				</div>
 			</div>
 			
 		</div>
@@ -61,25 +63,8 @@
 	{% if header.nav %}
 	<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
 		<ul class="ftc-header__nav-list ftc-header__nav-toplist" data-ftc--sticky>
-			{# 
-				<!--
-				<li class="ftc-header__nav-item ftc-header__nav-topitem ${selectedCssClass}" data-index=${topChannel.index}>
-					<a href=${topChannel.url} >
-						${topChannel.name}
-					</a>
-					<ul class="ftc-header__nav-pushdownlist">${pushdownLiList}</ul>
-				</li>	
-				-->
-			#}
 		</ul>
 		<ul class="ftc-header__nav-list ftc-header__nav-sublist">
-			{#
-				<!--
-				<li class="ftc-header__nav-item ftc-header__nav-subitem ">
-					<a href=${subChannel.url}>${subChannel.name}</a>
-				</li>
-				-->
-			#}
 		</ul>
 	</nav>
 
