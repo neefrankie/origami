@@ -1,5 +1,5 @@
 @mixin ftcHeaderSign() {
-  .ftc-header-readermenu {
+  .ftc-header__sign-readermenu {
     @include respondControllSign();
     
     height: 100%;
@@ -13,29 +13,38 @@
 			cursor: pointer;
       text-decoration:none;
       position: relative;
-      &:nth-child(2)::before { /*NOTE:before区域是从border内开始，压住了padding-left*/
-        content: " ";
-        position: absolute;
-        width: 2px;
-        height: 14px;
-        top: 50%;
-        left: -3px;
-        margin-top: -7px;
-        background-color:#fff;
-      }
+     
 			&:hover, &:active {
 				text-decoration: underline;
       }
     }
     
   }
+
+  .ftc-header__sign-visitormenu{
+    a:nth-child(2)::before { /*NOTE:before区域是从border内开始，压住了padding-left*/
+      content: " ";
+      position: absolute;
+      width: 2px;
+      height: 14px;
+      top: 50%;
+      left: -3px;
+      margin-top: -7px;
+      background-color:#fff;
+    }
+  }
   
-  .ftc-header-readermenu-visitor {
+  .ftc-header__sign--hide {
+    display: none;
+  }
+  /*
+  .ftc-header__sign-visitormenu {
     @include respondControllSign();
   }
-  .ftc-header-readermenu-member {
+  .ftc-header__sign-memebermenu {
     display:none;
   }
+  */
 }
 
 @mixin respondControllSign() {

@@ -210,7 +210,7 @@ gulp.task('script', async () => {
         sourcemap: true
     });
   }
-  console.log(demos);
+  //console.log(demos);
   await demos.forEach(rollupOneJs);
   browserSync.reload();
 });

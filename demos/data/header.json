@@ -17,11 +17,12 @@
 			}
 		]
 	},
-	"signUp":{
+	
+	"signIn":{
 		"url":"http://user.ftchinese.com/login",
 		"word":"登录"
 	},
-	"signIn":{
+	"signUp":{
 		"url":"http://user.ftchinese.com/register",
 		"word":"免费注册"
 	},
@@ -44,7 +45,5 @@
 		"actionUrl":"/search/",
 		"placeholderText":"输入年月日‘xxxx-xx-xx’可搜索该日存档"
 	}
-
-
 
 }

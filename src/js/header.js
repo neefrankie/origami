@@ -4,6 +4,7 @@ import Lang from './modules/lang';
 import Hamburg from './modules/hamburg';
 import Search from './modules/search';
 import Sticky from './modules/sticky';
+import Sign from './modules/sign';
 class Header {
 	constructor (headerEl) {
 		/**
@@ -18,7 +19,6 @@ class Header {
 		} else if (typeof headerEl === 'string') {
 			headerEl = document.querySelector(headerEl);
 		}
-
 		//MARK：如果headerEl中已经含有属性'data-ftc-header--js，表明该headerEl已经是具有header相关的js了，故不用再做以下任何工作了。正常还不具备相关js的原始headerEl应该是含有属性'data-ftc-header--no-js'，而不含有'data-ftc-header--js'
 		if (headerEl.hasAttribute('data-ftc-header--js')) {
 			return;
@@ -30,7 +30,8 @@ class Header {
 		Lang.init(this.headerEl);
 		Hamburg.init(this.headerEl);
 		Search.init(this.headerEl);
-	    Sticky.init(this.headerEl);
+		Sticky.init(this.headerEl);
+		Sign.init(this.headerEl);
 
 		// MARK:处理该headerEl的属性设置，因为已经添加了修改js功能模块，故移除属性'data-ftc-header--no-js'，添加属性'data-ftc-header--js'
 		this.headerEl.removeAttribute('data-ftc-header--no-js');

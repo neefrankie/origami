@@ -30,19 +30,16 @@
 			</div>
 
 			<div class="ftc-header__top-column ftc-header__top-right">
-				<div data-ftc-component="ftc-header-login">
-					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
-
+				<div data-ftc-component="ftc-header-sign">
+					<div class="ftc-header__sign-readermenu ftc-header__sign-visitormenu">
+						<a class="ftc-header__sign-signin" href={{header.signIn.url}}>
+							{{header.signIn.word}}
+						</a>
 						<a href={{header.signUp.url}}>
 							{{header.signUp.word}}
 						</a>
-
-						<a href={{header.signIn.url}}>
-							{{header.signIn.word}}
-						</a>
-
 					</div>
-					<div class="ftc-header-readermenu ftc-header-readermenu-member">
+					<div class="ftc-header__sign-readermenu ftc-header__sign-memebermenu ftc-header__sign--hide">
 						<a href={{header.myFT.url}}>
 							{{header.myFT.word}}
 						</a>
