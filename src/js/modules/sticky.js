@@ -63,7 +63,6 @@ class Sticky {
   stickyWhenScroll() {
     const scrollTop = this.getScrollTop();
     const isSticky = scrollTop > this.offsetTop ? true : false;
-    console.log(isSticky);
     this.stickyEl.classList.toggle('ftc-header--sticky',isSticky);
   }
 

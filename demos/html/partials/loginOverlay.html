@@ -6,7 +6,7 @@
       <span class="ftc-header__loginoverlay-close">×</span>
     </div>
 
-    <form method="post" class="ftc-header__loginoverlay-form" action="/users/login">
+    <form method="post" class="ftc-header__loginoverlay-form" action="/users/login"><!-- Add your php file to handle the login or find the password, in my case it is "dev_www\libs\application\controllers\users.php" 待求证是controller下的user.php or model下的user.php-->
       <div class="ftc-header__loginoverlay-item ftc-header__loginoverlay-username">
         <label for="ftcLoginUsername">
             电子邮件/用户名
@@ -15,7 +15,7 @@
       </div>
 
       <div class="ftc-header__loginoverlay-item">
-        <label for="ftcLoginUsername">
+        <label for="ftcLoginPassword">
           密码
         </label>
         <input type="password" class="ftc-header__loginoverlay-oneline" name="password" id="ftcLoginPassword">
