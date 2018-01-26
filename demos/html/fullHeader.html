@@ -2,10 +2,9 @@
 
 {% block header%}
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
-
+  <!-- The top -->
 	<div class="ftc-header__top ">
 		<div class="ftc-header__container">
-
 			{% if header.nav.indexForSelectedTopChannel == 0 and  header.nav.indexForSelectedSubChannel < 0 %}
 				{% set isHome = "yes" %}
 			{% else %}

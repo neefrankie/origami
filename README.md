@@ -16,13 +16,275 @@ bower install ftc-header --save //for getting sass API
 ## Prepare the html 
 Before using our APIs, you may first prepare the html code.
 
+### Learn about the structure and the components of our header
+#### The Root
 The root element of ftc-header is a **header**, which should have the attribute **data-ftc-component="ftc-header"** and the class **class="ftc-header"**:
 
 ```
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
 </header>
 ``` 
+This is the base structure of all kinds of our headers. All the other data are in this **header** element.
 
+#### The Lang
+This is a little component for choosing the language of our website, which is at the left of the top line of our header when home page is showed.
+
+The pure html:
+```
+<div class="ftc-header__lang" data-ftc-component="ftc-header-lang">
+  <ul class="ftc-header__lang-list ftc-header__lang-listdefault">
+    
+    <li class="ftc-header__lang-item">
+      <a href=#>
+        简体中文
+      </a>
+    </li>
+    
+    <li class="ftc-header__lang-item">
+      <a href=http://big5.ftchinese.com/>
+        繁体中文
+      </a>
+    </li>
+    
+    <li class="ftc-header__lang-item">
+      <a href=https://www.ft.com/>
+        英文
+      </a>
+    </li>
+    
+  </ul>
+</div>
+```
+
+Or, if you use template, here is the nunjucks template:
+```
+<div class="ftc-header__lang" data-ftc-component="ftc-header-lang">
+  <ul class="ftc-header__lang-list ftc-header__lang-listdefault">
+    {% for onelang in header.lang.list %}
+    <li class="ftc-header__lang-item">
+      <a href={{onelang.url}}>
+        {{onelang.name}}
+      </a>
+    </li>
+    {% endfor%}
+  </ul>
+</div>
+```
+
+#### The Sign
+The menu about sign in ,sign up or sign out.And if the user has signed in, showing the menu for registered user.
+
+Pure html：
+```
+<div data-ftc-component="ftc-header-sign">
+  <div class="ftc-header__sign-readermenu ftc-header__sign-visitormenu">
+    <a class="ftc-header__sign-signin" href=http://user.ftchinese.com/login>
+      登录
+    </a>
+    <a href=http://user.ftchinese.com/register>
+      免费注册
+    </a>
+  </div>
+  <div class="ftc-header__sign-readermenu ftc-header__sign-memebermenu ftc-header__sign--hide">
+    <a href=/users/mystories>
+      我的FT
+    </a>
+    <a href=/users/cp>
+      设置
+    </a>
+    <a href=http://user.ftchinese.com/logout>
+      登出
+    </a>
+  </div>
+</div>
+```
+
+The Nunjucks version is easy, so is omitted here.
+
+And there is another component related to the **Sign** menu: the **loginOverlay**. And click the "登录" in **Sign** will show the **loginOverlay** instead of navigation to the href if there is **loginOVerlay** code segment.
+
+#### The LoginOverlay
+Pure html:
+```
+<!-- The loginOverlay -->
+<div class="ftc-header__loginoverlay" data-ftc-component="ftc-header-loginoverlay">
+  <div class="ftc-header__loginoverlay-window">
+
+    <div class="ftc-header__loginoverlay-title">
+      登录
+      <span class="ftc-header__loginoverlay-close">×</span>
+    </div>
+
+    <form method="post" class="ftc-header__loginoverlay-form" action="/users/login"><!-- Add your php file to handle the login or find the password, the "/users/login" is my case -->
+      <div class="ftc-header__loginoverlay-item ftc-header__loginoverlay-username">
+        <label for="ftcLoginUsername">
+            电子邮件/用户名
+        </label>
+        <input type="text" name="username" id="ftcLoginUsername">
+      </div>
+
+      <div class="ftc-header__loginoverlay-item">
+        <label for="ftcLoginPassword">
+          密码
+        </label>
+        <input type="password" class="ftc-header__loginoverlay-oneline" name="password" id="ftcLoginPassword">
+      </div>
+     
+      <div class="ftc-header__loginoverlay-saveandsub">
+        <input class="ftc-header__loginoverlay-saveme" type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ftcLoginSaveme" >
+        <label for="ftcLoginSaveme">记住我</label>
+
+        <input class="ftc-header__loginoverlay-submit" type="submit" value="提交">
+      </div>
+    </form>
+    
+    <div class="ftc-header__loginoverlay-bottom">
+      <div class="ftc-header__loginoverlay-bottomline">
+        <a href="/users/findpassword"> 
+          找回密码
+        </a>
+      </div>
+      <div class="ftc-header__loginoverlay-bottomline">
+        <a href="http://user.ftchinese.com/register">
+          免费注册
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+#### The Search
+It is for searching articles in our web.
+```
+<div class="ftc-header__search ftc-header__search-default  ftc-header__row" data-ftc-component="ftc-header-search" data-ftc--sticky >
+  <div class="ftc-header__container">
+  
+    <form class="ftc-header__search-formregion" action=/search/ role="search"><!-- Add your php file to handle the search, in my case it is "/search/"-->
+      <button class="ftc-header__search-searchbtn"></button>
+      <div class="ftc-header__search-inputarea">
+        <input class="ftc-header__search-input" type="search" placeholder=输入年月日‘xxxx-xx-xx’可搜索该日存档 >
+      </div>
+      </form>
+    </form>
+    <div class="ftc-header__search-switch">
+    </div>
+  </div>
+</div>
+```
+#### The Nav
+This is the most complicated part. And There are dynamic and static two modes you can choose.
+
+##### 1. dynamic version
+
+The dynamic version is that the data about nav and the actions of nav are both written by js. So after you add the js, you can change the channel and see the changing effect on the single page. The related js we will discuss later, and the html are very simple:
+
+```
+<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
+  <ul class="ftc-header__nav-list ftc-header__nav-toplist" data-ftc--sticky>
+  </ul>
+  <ul class="ftc-header__nav-list ftc-header__nav-sublist">
+  </ul>
+</nav>
+```
+
+##### 2. static version
+The static version is that the data about nav are computed directly in html template. So I can only provide the templete and the data.
+
+The Nunjucks template:
+```
+<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
+  <ul class="ftc-header__nav-list ftc-header__nav-toplist" data-ftc--sticky>
+    {% set subChannels = {} %} 
+   
+    {% for topChannel in header.nav.topChannels %}
+     <li class={{'"ftc-header__nav-item ftc-header__nav-topitem ftc-header__nav-topitem-selected"' if header.nav.indexForSelectedTopChannel==topChannel.index else '"ftc-header__nav-item ftc-header__nav-topitem"'}} data-index={{topChannel.index}}>
+        <a data-ftc--target-top href={{topChannel.url}} >{{topChannel.name}}</a>
+        <ul class="ftc-header__nav-pushdownlist">
+          {% for pushdownChannel in topChannel.subChannels %}
+            <li class="ftc-header__nav-pushdownitem" data-index={{pushdownChannel.index}}><a data-ftc--target-pushdown href={{pushdownChannel.url}}>{{pushdownChannel.name}}</a></li>
+          {% endfor %}
+        </ul>
+    </li>
+      {% if header.nav.indexForSelectedTopChannel==topChannel.index %}
+        {% set subChannels = topChannel.subChannels %}
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <ul class="ftc-header__nav-list ftc-header__nav-sublist">
+    {% for subChannel in subChannels %}
+      <li class={{ '"ftc-header__nav-item ftc-header__nav-subitem ftc-header__nav-subitem-selected"' if header.nav.indexForSelectedSubChannel==subChannel.index else '"ftc-header__nav-item ftc-header__nav-subitem"' }} data-index={{subChannel.index}}>
+          <a href={{subChannel.url}}>{{subChannel.name}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+``` 
+
+And the data:
+```
+	"nav": {
+    "indexForSelectedTopChannel": 0, //The index of top channel which is default selected.This "0" means the top channel "首页" is default selected.
+    "indexForSelectedSubChannel": 8, //The index of sub channel which is default selected.This "8" means the sub channel "数据新闻" of the top channel "首页" is default selected.And if there are no subchannel selected ,it should be -1
+    "topChannels": [
+      {
+        "name": "首页",
+        "url": "#",
+        "index":0,
+        "subChannels":[
+          {
+            "name":"特别报道",
+            "url":"http://www.ftchinese.com/channel/special.html",
+            "index":0
+          },
+          {
+            "name":"热门文章",
+            "url":"http://www.ftchinese.com/channel/special.html",
+            "index":1
+          },
+          ...
+          {
+            "name":"数据新闻",
+            "url":"http://www.ftchinese.com/channel/datanews.html",
+            "index":8
+          },
+          {
+            "name":"FT研究院",
+            "url":"http://www.ftchinese.com/m/marketing/intelligence.html",
+            "index":9
+          },
+          {
+            "name":"FT商城",
+            "url":"https://shop193762308.taobao.com/",
+            "index":10
+          }
+        ]  
+      },
+      {
+        "name": "中国",
+        "url": "http://www.ftchinese.com/channel/china.html",
+        "index":1,
+        "subChannels":[
+          {
+            "name":"政经",
+            "url":"http://www.ftchinese.com/channel/chinareport.html",
+            "index":0
+          },
+          ...
+        ]
+      },
+      {
+        "name": "全球",
+        "url": "http://www.ftchinese.com/channel/world.html",
+        "index":2
+      },
+	  ...
+    ]
+  }
+
+```
+
+##
 For the content of the root element, there are 3 default structure you can choose:
 
 ### Standard head:
