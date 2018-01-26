@@ -3,43 +3,20 @@
 {% block header%}
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
 
-	{% if header.top %}
 	<div class="ftc-header__top ">
 		<div class="ftc-header__container">
 
 			<div class="ftc-header__top-column ftc-header__top-center ftc-header-hometitle">
 			</div>
 
-
 			<div class="ftc-header__top-column ftc-header__top-right">
-					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
-
-						<a href={{header.signUp.url}}>
-							{{header.signUp.word}}
-						</a>
-
-						<a href={{header.signIn.url}}>
-							{{header.signIn.word}}
-						</a>
-
-					</div>
-					<div class="ftc-header-readermenu ftc-header-readermenu-member">
-						<a href={{header.myFT.url}}>
-							{{header.myFT.word}}
-						</a>
-						<a href={{header.mySet.url}}>
-							{{header.mySet.word}}
-						</a>
-						<a href={{header.signOut.url}}>
-							{{header.signOut.word}}
-						</a>
-					</div>
+				{% include "partials/sign.html" %}
 			</div>
 			
 		</div>
 	</div>
-	{% endif %}
-
+	
+	{% include "partials/loginOverlay.html" %}
 
 </header>
 {% endblock %}

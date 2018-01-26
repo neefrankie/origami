@@ -148,13 +148,14 @@ gulp.task('styles', function styles() {
     .pipe(browserSync.stream({once: true}));
 });
 
+/*
 gulp.task('eslint', () => {
   return gulp.src('client/js/*.js')
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.eslint.failAfterError());
 });
-
+*/
 // Old Method:
 /*
 gulp.task('script',() => {
@@ -186,7 +187,7 @@ gulp.task('script',() => {
 });
 */
 
-gulp.task('script', async () => {
+gulp.task('scripts', async () => {
   // TODO:关于rollup需要再认真学习一下
   const origami = await fs.readAsync('origami.json','json');
   const demos = origami.demos;
@@ -221,7 +222,7 @@ gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', gulp.series('html', 'styles', 'script', () => {
+gulp.task('serve', gulp.series('clean','html', 'styles', 'scripts', () => {
   browserSync.init({
     server: {
       baseDir: ['.tmp'],
@@ -236,16 +237,8 @@ gulp.task('serve', gulp.series('html', 'styles', 'script', () => {
   gulp.watch(['demos/html/**/*.html', 'demos/data/*.json'], gulp.parallel('html'));
 
   gulp.watch(['src/scss/**/*.scss', 'demos/src/main.scss'], gulp.parallel('styles'));
-  gulp.watch(['src/js/**/*.js','demos/src/*.js','./main.js'], gulp.parallel('script'));
+  gulp.watch(['src/js/**/*.js','demos/src/*.js','./main.js'], gulp.parallel('scripts'));
 }));
 
-gulp.task('build', gulp.parallel('html', 'styles', 'script'));
+gulp.task('build', gulp.parallel('clean', 'html', 'styles', 'scripts'));
 
-gulp.task('copy', () => {
-  const DEST = path.resolve(__dirname, demosDir, projectName);
-  console.log(`Deploying to ${DEST}`);
-  return gulp.src('.tmp/**/*')
-    .pipe(gulp.dest(DEST));
-});
-
-gulp.task('demo', gulp.series('prod', 'clean', 'build', 'copy', 'dev'));

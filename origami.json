@@ -18,17 +18,26 @@
     },
     "demos": [
         {
-            "name": "header",
-            "title": "Header",
-            "data": "demos/data/header.json",
-            "template": "header.html",
+            "name": "fullHeader-home",
+            "title": "fullHeader-home",
+            "data": "demos/data/fullHeader-home.json",
+            "template": "fullHeader.html",
             "description": "",
-            "js":"main.js",
-            "css":"main.css"
+            "js":"fullHeader.js",
+            "css":"fullHeader.css"
+        },
+        {
+            "name": "fullHeader-tag",
+            "title": "fullHeader-tag",
+            "data": "demos/data/fullHeader-tag.json",
+            "template": "fullHeader.html",
+            "description": "",
+            "js":"fullHeader.js",
+            "css":"fullHeader.css"
         },
         {
             "name": "simpleHeader",
-            "title": "Simple Header",
+            "title": "simpleHeader",
             "data": "demos/data/simpleHeader.json",
             "template": "simpleHeader.html",
             "description": "",
@@ -36,13 +45,13 @@
             "css":"simpleHeader.css"
         },
         {
-            "name": "staticNavHeader",
-            "title": "Static Nav Header",
-            "data": "demos/data/staticNavHeader.json",
-            "template": "staticNavHeader.html",
+            "name": "dynamicHeader",
+            "title": "dynamicHeader",
+            "data": "demos/data/dynamicHeader.json",
+            "template": "dynamicHeader.html",
             "description": "",
-            "js":"staticNavHeader.js",
-            "css":"staticNavHeader.css"
+            "js":"dynamicHeader.js",
+            "css":"fullHeader.css"
         }
     ]
 }

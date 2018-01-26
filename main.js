@@ -1,4 +1,4 @@
-import {Header,SimpleHeader,StaticNavHeader} from './src/js/header';
+import {FullHeader, SimpleHeader, DynamicHeader} from './src/js/header';
 /*
 const constructAll = () => {
 	Header.init();
@@ -7,4 +7,4 @@ const constructAll = () => {
 
 document.addEventListener('o.DOMContentLoaded', constructAll);*/
 
-export {Header,SimpleHeader,StaticNavHeader};
+export {FullHeader, SimpleHeader, DynamicHeader};

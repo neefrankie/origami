@@ -1,0 +1,26 @@
+<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
+  <ul class="ftc-header__nav-list ftc-header__nav-toplist" data-ftc--sticky>
+    {% set subChannels = {} %} {# Nunjucks变量如果是在for中set,那么就是只属于该for块作用域,所以要想在for之后还能使用，则必须在for之前先初始化 #}
+   
+    {% for topChannel in header.nav.topChannels %}
+     <li class={{'"ftc-header__nav-item ftc-header__nav-topitem ftc-header__nav-topitem-selected"' if header.nav.indexForSelectedTopChannel==topChannel.index else '"ftc-header__nav-item ftc-header__nav-topitem"'}} data-index={{topChannel.index}}>
+        <a data-ftc--target-top href={{topChannel.url}} >{{topChannel.name}}</a>
+        <ul class="ftc-header__nav-pushdownlist">
+          {% for pushdownChannel in topChannel.subChannels %}
+            <li class="ftc-header__nav-pushdownitem" data-index={{pushdownChannel.index}}><a data-ftc--target-pushdown href={{pushdownChannel.url}}>{{pushdownChannel.name}}</a></li>
+          {% endfor %}
+        </ul>
+    </li>
+      {% if header.nav.indexForSelectedTopChannel==topChannel.index %}
+        {% set subChannels = topChannel.subChannels %}
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <ul class="ftc-header__nav-list ftc-header__nav-sublist">
+    {% for subChannel in subChannels %}
+      <li class={{ '"ftc-header__nav-item ftc-header__nav-subitem ftc-header__nav-subitem-selected"' if header.nav.indexForSelectedSubChannel==subChannel.index else '"ftc-header__nav-item ftc-header__nav-subitem"' }} data-index={{subChannel.index}}>
+          <a href={{subChannel.url}}>{{subChannel.name}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

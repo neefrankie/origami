@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block header%}
+<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
+
+	
+	<div class="ftc-header__top ">
+		<div class="ftc-header__container">
+
+			<div class="ftc-header__top-column ftc-header__top-center  ftc-header-hometitle" data-ftc-component="ftc-header-title">
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-left">
+				{% include "partials/lang.html" %}
+				<div class="ftc-header__brand ftc-header--hide">
+				</div>
+				<div class="ftc-header__hamburg" data-ftc-component="ftc-header-hamburg">
+				</div>
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-right">
+				{% include "partials/sign.html" %}
+			</div>
+			
+		</div>
+	</div>
+
+	{% if header.nav %}
+	  {% include "partials/navDynamic.html" %}
+	{% endif %}
+
+	{% if header.search %}
+		{% include "partials/search.html" %}
+	{% endif %}
+</header>
+
+{% include "partials/loginOverlay.html" %}
+{% endblock %}

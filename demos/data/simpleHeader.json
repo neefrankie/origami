@@ -1,10 +1,9 @@
-{
-	"top": true,
-	"signUp":{
+{	
+	"signIn":{
 		"url":"http://user.ftchinese.com/login",
 		"word":"登录"
 	},
-	"signIn":{
+	"signUp":{
 		"url":"http://user.ftchinese.com/register",
 		"word":"免费注册"
 	},
