@@ -6,7 +6,8 @@
 	<div class="ftc-header__top ">
 		<div class="ftc-header__container">
 
-			<div class="ftc-header__top-column ftc-header__top-center ftc-header-hometitle">
+			<div class={{ '"ftc-header__top-column ftc-header__top-center ftc-header-tagtitle"'if header.myTitle else '"ftc-header__top-column ftc-header__top-center ftc-header-hometitle"' }} data-ftc-component="ftc-header-title">
+				{{header.myTitle if header.myTitle }}
 			</div>
 
 			<div class="ftc-header__top-column ftc-header__top-right">

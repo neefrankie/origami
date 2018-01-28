@@ -295,7 +295,7 @@ And the data:
 ### Full Header:
 This is a kind of header which contains the full components of ftc header. And its nav is static, which is the same as our true header in our website.
 
-And the template (using nunjucks) version :
+This is the template (using nunjucks) for full header :
 
 ```
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
@@ -345,235 +345,41 @@ And the template (using nunjucks) version :
 </header>
 ```
 
-```
-<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
+Using above template, you can write both home header and tag header.  
 
-	<div class="ftc-header__top ">
-		<div class="ftc-header__container">
-			<div class="ftc-header__top-column ftc-header__top-center  ftc-header-hometitle" data-ftc-component="ftc-header-title">
-			</div>
+If you use the home data, you may build a header which is just like the real header of the home page of our [website](http://www.ftchinese.com). The data are like:
 
-			<div class="ftc-header__top-column ftc-header__top-left">
-				<div class="ftc-header__lang" data-ftc-component="ftc-header-lang">
-					<ul class="ftc-header__lang-list ftc-header__lang-listdefault">
-						<li class="ftc-header__lang-item">
-							<a href=#>
-								简体中文
-							</a>
-						</li>	
-						<li class="ftc-header__lang-item">
-							<a href=http://big5.ftchinese.com/>
-								繁体中文
-							</a>
-						</li>		
-						<li class="ftc-header__lang-item">
-							<a href=https://www.ft.com/>
-								英文
-							</a>
-						</li>		
-					</ul>
-				</div>
-				<div class="ftc-header__brand ftc-header--hide">
-
-				</div>
-				<div class="ftc-header__hamburg" data-ftc-component="ftc-header-hamburg">
-				</div>
-			</div>
-
-			<div class="ftc-header__top-column ftc-header__top-right">
-					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
-						<a href=http://user.ftchinese.com/login>
-							登录
-						</a>
-						<a href=http://user.ftchinese.com/register>
-							免费注册
-						</a>
-					</div>
-					<div class="ftc-header-readermenu ftc-header-readermenu-member">
-						<a href=/users/mystories>
-							我的FT
-						</a>
-						<a href=/users/cp>
-							设置
-						</a>
-						<a href=http://user.ftchinese.com/logout>
-							登出
-						</a>
-					</div>
-			</div>
-		</div>
-	</div>
-	
-	<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
-		<ul class="ftc-header__nav-list ftc-header__nav-toplist" data-ftc--sticky>	
-		</ul>
-		<ul class="ftc-header__nav-list ftc-header__nav-sublist">	
-		</ul>
-	</nav>
-
-	<div class="ftc-header__search ftc-header__search-default  ftc-header__row" data-ftc-component="ftc-header-search" data-ftc--sticky >
-		<div class="ftc-header__container">
-		
-			<form class="ftc-header__search-formregion" action=/search/ role="search">
-				<button class="ftc-header__search-searchbtn"></button>
-				<div class="ftc-header__search-inputarea">
-					<input class="ftc-header__search-input" type="search" placeholder=输入年月日‘xxxx-xx-xx’可搜索该日存档 >
-				</div>
-				</form>
-			</form>
-			<div class="ftc-header__search-switch">
-			</div>
-		</div>
-	</div>
-	
-</header>
-```
-
-The standard header contains the all little parts of header of our FTChinese website. And the nav of standard header is realized dynamically by js, the data of which is from a javascript object that will be dynamically written when the header is constructed.
-
-### Simple head
-```
-<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
-
-	
-	<div class="ftc-header__top ">
-		<div class="ftc-header__container">
-
-			<div class="ftc-header__top-column ftc-header__top-center ftc-header-hometitle">
-			</div>
-
-
-			<div class="ftc-header__top-column ftc-header__top-right">
-					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
-
-						<a href=http://user.ftchinese.com/login>
-							登录
-						</a>
-
-						<a href=http://user.ftchinese.com/register>
-							免费注册
-						</a>
-
-					</div>
-					<div class="ftc-header-readermenu ftc-header-readermenu-member">
-						<a href=/users/mystories>
-							我的FT
-						</a>
-						<a href=/users/cp>
-							设置
-						</a>
-						<a href=http://user.ftchinese.com/logout>
-							登出
-						</a>
-					</div>
-			</div>
-			
-		</div>
-	</div>
-</header>
-```
-
-The simple header has no nav, lang or search components, which is in a very very simple and easy style.  If you build a single page which is not close to our hosting site, you may choose this simple header.
-
-### Static Nav Header
-If you want the header of your page looks like the hosting site's header, but you do not want to bother with the details of the interaction with the backend, you'd better choose this kind of header.
-
-Here provide the html and data in Nunjucks way.
-```
-<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
-
-	<div class="ftc-header__top ">
-		<div class="ftc-header__container">
-
-			<div class={{'"ftc-header__top-column ftc-header__top-center ftc-header-hometitle"' if isHome == 1 else '"ftc-header__top-column ftc-header__top-center ftc-header-tagtitle"'}} data-ftc-component="ftc-header-title">
-          {{header.myTitle}}
-			</div>
-
-    
-			<div class="ftc-header__top-column ftc-header__top-left">
-
-				<div class="ftc-header__brand">
-        </div>
-				<div class="ftc-header__hamburg" data-ftc-component="ftc-header-hamburg">
-				</div>
-			</div>
-      
-			<div class="ftc-header__top-column ftc-header__top-right">
-					<div class="ftc-header-readermenu ftc-header-readermenu-visitor">
-
-						<a href={{header.signUp.url}}>
-							{{header.signUp.word}}
-						</a>
-
-						<a href={{header.signIn.url}}>
-							{{header.signIn.word}}
-						</a>
-
-					</div>
-					<div class="ftc-header-readermenu ftc-header-readermenu-member">
-						<a href={{header.myFT.url}}>
-							{{header.myFT.word}}
-						</a>
-						<a href={{header.mySet.url}}>
-							{{header.mySet.word}}
-						</a>
-						<a href={{header.signOut.url}}>
-							{{header.signOut.word}}
-						</a>
-					</div>
-			</div>
-			
-		</div>
-	</div>
-
-	{% if header.nav %}
-	<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
-		<ul class="ftc-header__nav-list ftc-header__nav-toplist" data-ftc--sticky>
-      {% set subChannels = {} %}
-    	{% for topChannel in header.nav.topChannels %}
- 			<li class={{'"ftc-header__nav-item ftc-header__nav-topitem ftc-header__nav-topitem-selected"' if header.nav.indexForSelectedTopChannel==topChannel.index else '"ftc-header__nav-item ftc-header__nav-topitem"'}} data-index={{topChannel.index}}>
-          <a data-ftc--target-top href={{topChannel.url}} >{{topChannel.name}}</a>
-          <ul class="ftc-header__nav-pushdownlist">
-						{% for pushdownChannel in topChannel.subChannels %}
-							<li class="ftc-header__nav-pushdownitem" data-index={{pushdownChannel.index}}><a data-ftc--target-pushdown href={{pushdownChannel.url}}>{{pushdownChannel.name}}</a></li>
-						{% endfor %}
-          </ul>
-      </li>
-        {% if header.nav.indexForSelectedTopChannel==topChannel.index %}
-          {% set subChannels = topChannel.subChannels %}
-        {% endif %}
-	    {% endfor %}
-		</ul>
-		<ul class="ftc-header__nav-list ftc-header__nav-sublist">
-      {% for subChannel in subChannels %}
-        <li class={{ '"ftc-header__nav-item ftc-header__nav-subitem ftc-header__nav-subitem-selected"' if header.nav.indexForSelectedSubChannel==subChannel.index else '"ftc-header__nav-item ftc-header__nav-subitem"' }} data-index={{subChannel.index}}>
-            <a href={{subChannel.url}}>{{subChannel.name}}</a>
-        </li>
-      {% endfor %}
-		</ul>
-	</nav>
-
-	{% endif %}
-</header>
-```
-
-And your data is in a json file:
 ```
 {
-  "myTitle":"我的页面",
-	"signUp":{
+  "lang" :{
+		"default":"简体中文",
+		"list": [
+			{ 
+				"name":"简体中文",
+				"url":"#"
+			},
+			{
+				"name":"繁体中文",
+				"url":"http://big5.ftchinese.com/"
+			},
+			{
+				"name":"英文",
+				"url":"https://www.ft.com/"
+			}
+		]
+	},
+	"signIn":{
 		"url":"http://user.ftchinese.com/login",
 		"word":"登录"
 	},
 	...
-  
 	"nav": {
-    "indexForSelectedTopChannel": 0, //The index of top channel which is default selected.This "0" means the top channel "首页" is default selected.
-    "indexForSelectedSubChannel": 8, //The index of sub channel which is default selected.This "8" means the sub channel "数据新闻" of the top channel "首页" is default selected.
+    "indexForSelectedTopChannel": 0,
+    "indexForSelectedSubChannel": -1,
     "topChannels": [
       {
         "name": "首页",
-        "url": "#",
+        "url": "http://www.ftchinese.com",
         "index":0,
         "subChannels":[
           {
@@ -587,62 +393,232 @@ And your data is in a json file:
             "index":1
           },
           ...
-          {
-            "name":"数据新闻",
-            "url":"http://www.ftchinese.com/channel/datanews.html",
-            "index":8
-          },
-          {
-            "name":"FT研究院",
-            "url":"http://www.ftchinese.com/m/marketing/intelligence.html",
-            "index":9
-          },
-          {
-            "name":"FT商城",
-            "url":"https://shop193762308.taobao.com/",
-            "index":10
-          }
-        ]  
+        ]
       },
+      ...
+    ]
+  }
+  ...
+```
+
+But in most cases, you may use the tag data as you are more likely to write another page with a special title which may belong to a top channel and a sub channel. The data are like this:
+
+```
+{
+  "myTitle":"我的页面",
+
+	"signIn":{
+		"url":"http://user.ftchinese.com/login",
+		"word":"登录"
+	},
+	...
+	"nav": {
+    "indexForSelectedTopChannel": 0,
+    "indexForSelectedSubChannel": 8,
+    "topChannels": [
       {
-        "name": "中国",
-        "url": "http://www.ftchinese.com/channel/china.html",
-        "index":1,
+        "name": "首页",
+        "url": "http://www.ftchinese.com",
+        "index":0,
         "subChannels":[
-          {
-            "name":"政经",
-            "url":"http://www.ftchinese.com/channel/chinareport.html",
-            "index":0
-          },
           ...
         ]
       },
-      {
-        "name": "全球",
-        "url": "http://www.ftchinese.com/channel/world.html",
-        "index":2
-      },
-	  ...
+      ...
     ]
   }
+  ...
+
+```
+
+The difference between the home and the tag data is the **"indexForSelectedTopChannel"** and the **"indexForSelectedSubChannel"**—— you can to go the part **The nave > 2. static version** to see more details, and you should provide the field **"myTitle" if you write the tag data.
+
+
+Go to To [home data](https://github.com/FTChinese/ftc-header/blob/master/demos/data/fullHeader-home.json) and [tag data](https://github.com/FTChinese/ftc-header/blob/master/demos/data/fullHeader-tag.json) to get the full json data of this two cases.
+
+
+And if you do not want to use the template, go to [html results](https://github.com/FTChinese/ftc-header/tree/master/demos/htmlresults) to see the final html.
+
+### Simple Header
+The Simple Header only contains the core part of FTC's header.
+
+The template:
+
+```
+<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
+  <!-- The top -->
+	<div class="ftc-header__top ">
+		<div class="ftc-header__container">
+
+			<div class={{ '"ftc-header__top-column ftc-header__top-center ftc-header-tagtitle"'if header.myTitle else '"ftc-header__top-column ftc-header__top-center ftc-header-hometitle"' }} data-ftc-component="ftc-header-title">
+				{{header.myTitle if header.myTitle }}
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-right">
+				{% include "partials/sign.html" %}
+			</div>
+			
+		</div>
+	</div>
+
+	{% include "partials/loginOverlay.html" %}
+
+</header>
+```
+
+The data:
+```
+{	
+	"signIn":{
+		"url":"http://user.ftchinese.com/login",
+		"word":"登录"
+	},
+	"signUp":{
+		"url":"http://user.ftchinese.com/register",
+		"word":"免费注册"
+	},
+	"myFT":{
+		"url":"/users/mystories",
+		"word":"我的FT"
+	},
+	"mySet":{
+		"url":"/users/cp",
+		"word":"设置"
+	},
+	"signOut":{
+		"url":"http://user.ftchinese.com/logout",
+		"word":"登出"
+	}
+
 }
 ```
+And if you want a Simple Header for tag data, you should only add the **"myTitle"** field.
 
-Go to [default json data for staticNavHeader](https://github.com/FTChinese/ftc-header/blob/master/demos/data/staticNavHeader.json) to get the full data.
+### Dynamic Header
+The dynamic header is with the dynamic nav, which is not the real case with our website. But if you what to make a custom single page, the nav of which doesn't need to do some interactive with our website, you may choose this header.
+
+The tempate:
+```
+<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
+
+	<!-- The top -->
+	<div class="ftc-header__top ">
+		<div class="ftc-header__container">
+
+			<div class="ftc-header__top-column ftc-header__top-center  ftc-header-hometitle" data-ftc-component="ftc-header-title">
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-left">
+				{% include "partials/lang.html" %}
+				<div class="ftc-header__brand ftc-header--hide">
+				</div>
+				<div class="ftc-header__hamburg" data-ftc-component="ftc-header-hamburg">
+				</div>
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-right">
+				{% include "partials/sign.html" %}
+			</div>
+			
+		</div>
+	</div>
+
+	{% if header.nav %}
+	  {% include "partials/navDynamic.html" %}
+	{% endif %}
+
+	{% if header.search %}
+		{% include "partials/search.html" %}
+	{% endif %}
+</header>
+
+{% include "partials/loginOverlay.html" %}
+
+```
+
+The data:
+
+```
+{
+	"lang" :{
+		"default":"简体中文",
+		"list": [
+			{ 
+				"name":"简体中文",
+				"url":"#"
+			},
+			{
+				"name":"繁体中文",
+				"url":"http://big5.ftchinese.com/"
+			},
+			{
+				"name":"英文",
+				"url":"https://www.ft.com/"
+			}
+		]
+	},
+	
+	"signIn":{
+		"url":"http://user.ftchinese.com/login",
+		"word":"登录"
+	},
+	"signUp":{
+		"url":"http://user.ftchinese.com/register",
+		"word":"免费注册"
+	},
+	"myFT":{
+		"url":"/users/mystories",
+		"word":"我的FT"
+	},
+	"mySet":{
+		"url":"/users/cp",
+		"word":"设置"
+	},
+	"signOut":{
+		"url":"http://user.ftchinese.com/logout",
+		"word":"登出"
+	},
+
+	"nav": true, 
+
+	"search": {
+		"actionUrl":"/search/",
+		"placeholderText":"输入年月日‘xxxx-xx-xx’可搜索该日存档"
+	}
+
+}
+
+```
+
+And go [here](https://github.com/FTChinese/ftc-header/blob/master/demos/htmlresults/dynamicHeader.html) to see the final html.
 
 ## API for JS
-### For Standard Header
+### For Full Header
 ```
-import {Header} from '@ftchinese/ftc-header/main.js';
+import {FullHeader} from '@ftchinese/ftc-header/main.js';
 
-Header.init();
+FullHeader.init();
+```
+
+### For Simple Header
+```
+import {SimpleHeader} from '@ftchinese/ftc-header/main.js';
+
+SimpleHeader.init();
+```
+
+### For Dynamic Header
+```
+import {DynamicHeader} from ''@ftchinese/ftc-header/main.js';
+
+DynamicHeader.init();
 ```
 The above method will use the default provided nav data.
 
-If you want to define the nav data by your self, please set the **navData** to cover the default data before calling **Header.init()** :
+If you want to define the nav data by your self, please set the **navData** to cover the default data before calling **DynamicHeader.init()** :
 
 ```
-import {Header} from '@ftchinese/ftc-header/main.js';
+import {DynamicHeader} from '@ftchinese/ftc-header/main.js';
 
 //Set the navData constant for the nav's js dynamic generation. The navData should be set  by this pattern:
 var navData = {
@@ -693,23 +669,9 @@ var navData = {
   ]
 }
 
-Header.init();
-```
-Go to [the example navData for standard header](https://github.com/FTChinese/ftc-header/blob/master/demos/data/staticNavHeader.json) to get the full data.
-
-### For Simple Header
-```
-import {Header} from '@ftchinese/ftc-header/main.js';
-
-SimpleHeader.init();
+DynamicHeader.init();
 ```
 
-### For Static Nav Header
-```
-import {StaticNavHeader} from '@ftchinese/ftc-header/main.js';
-
-StaticNavHeader.init();
-```
 
 
 ## API for SCSS
@@ -719,7 +681,7 @@ $ftc-header-is-silent: false;
 
 @import 'ftc-header/main';
 ```
-These is propably suitbale for the Standard Header.
+These is propably suitbale for the Full Header and the Dynamic Header.
 
 As for Simple Header, you may choose to include the mixin as you need:
 
@@ -730,15 +692,5 @@ $ftc-header-is-silent: true;
 
 @include ftcHeaderBase;
 @include ftcHeaderTop;
-```
-
-And for Static Nav Header:
-```
-$ftc-header-is-silent: true;
-
-@import 'ftc-header/main';
-
-@include ftcHeaderBase;
-@include ftcHeaderTop;
-@include ftcHeaderNav;
+@include ftcHeaderLoginOverlay;
 ```
