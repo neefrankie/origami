@@ -118,6 +118,8 @@ gulp.task('html', async () => {
     return renderOneView(demo);
   })).then(() => {
     browserSync.reload('*.html');
+    gulp.src('.tmp/*.html')
+      .pipe(gulp.dest('demos/htmlresults'));
   }).catch(error => {
     console.log(error);
   })

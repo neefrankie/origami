@@ -17,6 +17,8 @@ bower install ftc-header --save //for getting sass API
 Before using our APIs, you may first prepare the html code.
 
 ### Learn about the structure and the components of our header
+At this part, I will introduce the root element and the html code fragments of the components of our header. They are just help you to understand the structure and configuration of ftc-header.If you do are not interested in them, you can skip this part and go direct to the next part:**The 3 kinds of headers we provide**.
+
 #### The Root
 The root element of ftc-header is a **header**, which should have the attribute **data-ftc-component="ftc-header"** and the class **class="ftc-header"**:
 
@@ -26,7 +28,7 @@ The root element of ftc-header is a **header**, which should have the attribute 
 ``` 
 This is the base structure of all kinds of our headers. All the other data are in this **header** element.
 
-#### The Lang
+#### The Lang:
 This is a little component for choosing the language of our website, which is at the left of the top line of our header when home page is showed.
 
 The pure html:
@@ -177,7 +179,7 @@ This is the most complicated part. And There are dynamic and static two modes yo
 
 ##### 1. dynamic version
 
-The dynamic version is that the data about nav and the actions of nav are both written by js. So after you add the js, you can change the channel and see the changing effect on the single page. The related js we will discuss later, and the html are very simple:
+The dynamic version is that the data about nav and the actions of nav are both written by js. So after you adding the js, you can change the channel and see the changing effect on a single page. The related js will be discussed later, and the html are very simple:
 
 ```
 <nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
@@ -283,11 +285,66 @@ And the data:
   }
 
 ```
+[Go here](https://github.com/FTChinese/ftc-header/blob/master/demos/data/fullHeader-tag.json) to see the **nav** prop to get the completed json data about ftc nav.
 
-##
-For the content of the root element, there are 3 default structure you can choose:
 
-### Standard head:
+
+### The 3 kinds of headers we provide
+
+
+### Full Header:
+This is a kind of header which contains the full components of ftc header. And its nav is static, which is the same as our true header in our website.
+
+And the template (using nunjucks) version :
+
+```
+<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
+  <!-- The top -->
+	<div class="ftc-header__top ">
+		<div class="ftc-header__container">
+			{% if header.nav.indexForSelectedTopChannel == 0 and  header.nav.indexForSelectedSubChannel < 0 %}
+				{% set isHome = "yes" %}
+			{% else %}
+				{% set isHome = "no" %}
+			{% endif %}
+
+			<div class={{'"ftc-header__top-column ftc-header__top-center ftc-header-hometitle"' if isHome == "yes" else '"ftc-header__top-column ftc-header__top-center ftc-header-tagtitle"'}} data-ftc-component="ftc-header-title">
+          {{header.myTitle if isHome == "no" else " "}}
+			</div>
+
+    
+			<div class="ftc-header__top-column ftc-header__top-left">
+				{% if isHome == "yes" %}
+					{% include "partials/lang.html" %}
+				{% else %}
+					<div class="ftc-header__brand">
+					</div>
+				{% endif %}
+				
+				<div class="ftc-header__hamburg" data-ftc-component="ftc-header-hamburg">
+				</div>
+			</div>
+      
+			<div class="ftc-header__top-column ftc-header__top-right">
+				{% include "partials/sign.html" %}
+			</div>
+			
+		</div>
+	</div>
+
+	{% if header.nav %}
+   {% include "partials/navStatic.html" %}
+	{% endif %}
+
+	{% if header.search %}
+		{% include "partials/search.html" %}
+	{% endif %}
+
+	{% include "partials/loginOverlay.html" %}
+
+</header>
+```
+
 ```
 <header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
 

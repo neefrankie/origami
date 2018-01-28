@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="copyright" content="FT中文网">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="ftc">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" /> 
+  <meta property="og:title" content=""/>
+  <meta property="og:description" content="" />
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/bower_components/ftc-logos/static/favicons/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/bower_components/ftc-logos/static/favicons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/bower_components/ftc-logos/static/favicons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/bower_components/ftc-logos/static/favicons/apple-touch-icon-76x76.png">
+  <link href="/bower_components/ftc-logos/static/favicons/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+  <title>ftc-header: simpleHeader demo</title>
+  <link rel="stylesheet" type="text/css" href="styles/simpleHeader.css">
+</head>
+
+<body>
+
+<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
+  <!-- The top -->
+	<div class="ftc-header__top ">
+		<div class="ftc-header__container">
+
+			<div class="ftc-header__top-column ftc-header__top-center ftc-header-hometitle">
+			</div>
+
+			<div class="ftc-header__top-column ftc-header__top-right">
+				<!--The sign -->
+<div data-ftc-component="ftc-header-sign">
+  <div class="ftc-header__sign-readermenu ftc-header__sign-visitormenu">
+    <a class="ftc-header__sign-signin" href=http://user.ftchinese.com/login>
+      登录
+    </a>
+    <a href=http://user.ftchinese.com/register>
+      免费注册
+    </a>
+  </div>
+  <div class="ftc-header__sign-readermenu ftc-header__sign-memebermenu ftc-header__sign--hide">
+    <a href=/users/mystories>
+      我的FT
+    </a>
+    <a href=/users/cp>
+      设置
+    </a>
+    <a href=http://user.ftchinese.com/logout>
+      登出
+    </a>
+  </div>
+</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<!-- The loginOverlay -->
+<div class="ftc-header__loginoverlay" data-ftc-component="ftc-header-loginoverlay">
+  <div class="ftc-header__loginoverlay-window">
+
+    <div class="ftc-header__loginoverlay-title">
+      登录
+      <span class="ftc-header__loginoverlay-close">×</span>
+    </div>
+
+    <form method="post" class="ftc-header__loginoverlay-form" action="/users/login"><!-- Add your php file to handle the login or find the password, in my case it is "dev_www\libs\application\controllers\users.php" 待求证是controller下的user.php or model下的user.php-->
+      <div class="ftc-header__loginoverlay-item ftc-header__loginoverlay-username">
+        <label for="ftcLoginUsername">
+            电子邮件/用户名
+        </label>
+        <input type="text" name="username" id="ftcLoginUsername">
+      </div>
+
+      <div class="ftc-header__loginoverlay-item">
+        <label for="ftcLoginPassword">
+          密码
+        </label>
+        <input type="password" class="ftc-header__loginoverlay-oneline" name="password" id="ftcLoginPassword">
+      </div>
+     
+      <div class="ftc-header__loginoverlay-saveandsub">
+        <input class="ftc-header__loginoverlay-saveme" type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ftcLoginSaveme" >
+        <label for="ftcLoginSaveme">记住我</label>
+
+        <input class="ftc-header__loginoverlay-submit" type="submit" value="提交">
+      </div>
+    </form>
+    
+    <div class="ftc-header__loginoverlay-bottom">
+      <div class="ftc-header__loginoverlay-bottomline">
+        <a href="/users/findpassword">
+          找回密码
+        </a>
+      </div>
+      <div class="ftc-header__loginoverlay-bottomline">
+        <a href="http://user.ftchinese.com/register">
+          免费注册
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</header>
+
+<script type="text/javascript" src="scripts/simpleHeader.js"></script>
+</body>
+</html>
