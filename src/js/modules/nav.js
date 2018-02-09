@@ -77,11 +77,14 @@ class Nav {
      * @dest 根据this.indexForSelectedSubChannel，更新this.nameForSelectedSubChannel
      * @depend this.dataForSubchannels、this.indexForSelectedSubChannel
     */
-    this.dataForSubChannels.forEach((value, arrIndex) => {
-      if (value.index == this.indexForSelectedSubChannel) {
-        this.nameForSelectedSubChannel = value.name;
-      }
-    });
+    const dataForSubChannels = this.dataForSubChannels;
+    if (dataForSubChannels && dataForSubChannels.length > 0) {
+      this.dataForSubChannels.forEach((value, arrIndex) => {
+        if (value.index == this.indexForSelectedSubChannel) {
+          this.nameForSelectedSubChannel = value.name;
+        }
+      });
+    }
   }
 
 

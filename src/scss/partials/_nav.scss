@@ -16,18 +16,22 @@
 		padding: 0px 30px;
 		background: #333;
 		font-size: 0;
+
 		@include oGridRespondTo('XL') {
 			padding: 0px 74.5px;
+			
 		}
 		@include oGridRespondTo($until:L) {//For mobile
 			padding: 0;
 			position: fixed;
 			top:44px;
-			box-sizing: border-box;
 		}
 	}
 	.ftc-header__nav-toplist {
 		height: 44px;
+		width: 100%;
+		box-sizing: border-box;
+		white-space: nowrap;
 		@include oGridRespondTo($until:L) {//For mobile
 			height: auto;
 			left:0px;

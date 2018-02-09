@@ -25,13 +25,9 @@
 		</div>
 	</div>
 
-	{% if header.nav %}
-	  {% include "partials/navDynamic.html" %}
-	{% endif %}
+	{% include "partials/navDynamic.html" %}
+	{% include "partials/search.html" %}
 
-	{% if header.search %}
-		{% include "partials/search.html" %}
-	{% endif %}
 </header>
 
 {% include "partials/loginOverlay.html" %}
