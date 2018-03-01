@@ -10,13 +10,13 @@ class FullHeader {
 	constructor (headerEl) {
 		/**
 		 * @param headerEl: Type String or 为空 or  HTMLElement
-		 * 	  TYPE String: document.querySelector的那个选择器字符串,Eg:'[data-ftc-component]="ftc-header"]'
+		 * 	  TYPE String: document.querySelector的那个选择器字符串,Eg:'[data-ftc-component="ftc-header"]'
 		 *    TYPE Element: 直接就是目标header元素，其特征为具有属性data-ftc-component="ftc-header"
 		 */
 
 		// MARK: 处理constructor参数，得到this.header为本html中属性data-ftc-component为"ftc-header"的元素
 		if (!headerEl) {
-			headerEl = document.querySelector('[data-ftc-component]="ftc-header"');
+			headerEl = document.querySelector('[data-ftc-component="ftc-header"]');
 		} else if (typeof headerEl === 'string') {
 			headerEl = document.querySelector(headerEl);
 		}
@@ -58,7 +58,7 @@ class FullHeader {
 		}
 
 		// MARK: 如果rootEl本身不含属性data-ftc-component=ftc-header,但其下的子元素中含有属性'data-ftc-component = "ftc-header"'，如果这些子元素不具有属性'data-ftc-header--js'那么就返回一个new Header(el),这样就得到了一系列的new Header(el),然后过滤掉其中为undefined的new Header(el), 以返回其中不为undefined的new Header(el) —— 这是因为new Header(el)处理已经具有属性'data-ftc-header--js'的元素时，会直接return,那么这个new Header(el)的结果就是undefined
-		return [].map.call(rootEl.querySelectorAll('[data-ftc-component="ftc-header"'), el => {
+		return [].map.call(rootEl.querySelectorAll('[data-ftc-component="ftc-header"]'), el => {
 			if (!el.hasAttribute('data-ftc-header--js')) {
 				return new FullHeader(el);
 			}
@@ -78,7 +78,7 @@ class SimpleHeader {
 
 		// MARK: 处理constructor参数，得到this.header为本html中属性data-ftc-component为"ftc-header"的元素
 		if (!headerEl) {
-			headerEl = document.querySelector('[data-ftc-component]="ftc-header"');
+			headerEl = document.querySelector('[data-ftc-component="ftc-header"]');
 		} else if (typeof headerEl === 'string') {
 			headerEl = document.querySelector(headerEl);
 		}
@@ -115,7 +115,7 @@ class SimpleHeader {
 		}
 
 		// MARK: 如果rootEl本身不含属性data-ftc-component=ftc-header,但其下的子元素中含有属性'data-ftc-component = "ftc-header"'，如果这些子元素不具有属性'data-ftc-header--js'那么就返回一个new Header(el),这样就得到了一系列的new Header(el),然后过滤掉其中为undefined的new Header(el), 以返回其中不为undefined的new Header(el) —— 这是因为new Header(el)处理已经具有属性'data-ftc-header--js'的元素时，会直接return,那么这个new Header(el)的结果就是undefined
-		return [].map.call(rootEl.querySelectorAll('[data-ftc-component="ftc-header"'), el => {
+		return [].map.call(rootEl.querySelectorAll('[data-ftc-component="ftc-header"]'), el => {
 			if (!el.hasAttribute('data-ftc-header--js')) {
 				return new SimpleHeader(el);
 			}
@@ -135,7 +135,7 @@ class DynamicHeader {
 
 		// MARK: 处理constructor参数，得到this.header为本html中属性data-ftc-component为"ftc-header"的元素
 		if (!headerEl) {
-			headerEl = document.querySelector('[data-ftc-component]="ftc-header"');
+			headerEl = document.querySelector('[data-ftc-component="ftc-header"]');
 		} else if (typeof headerEl === 'string') {
 			headerEl = document.querySelector(headerEl);
 		}
@@ -177,7 +177,7 @@ class DynamicHeader {
 		}
 
 		// MARK: 如果rootEl本身不含属性data-ftc-component=ftc-header,但其下的子元素中含有属性'data-ftc-component = "ftc-header"'，如果这些子元素不具有属性'data-ftc-header--js'那么就返回一个new Header(el),这样就得到了一系列的new Header(el),然后过滤掉其中为undefined的new Header(el), 以返回其中不为undefined的new Header(el) —— 这是因为new Header(el)处理已经具有属性'data-ftc-header--js'的元素时，会直接return,那么这个new Header(el)的结果就是undefined
-		return [].map.call(rootEl.querySelectorAll('[data-ftc-component="ftc-header"'), el => {
+		return [].map.call(rootEl.querySelectorAll('[data-ftc-component="ftc-header"]'), el => {
 			if (!el.hasAttribute('data-ftc-header--js')) {
 				return new DynamicHeader(el);
 			}

@@ -1,11 +1,7 @@
-const promisify = require('promisify-node');//Wraps Node modules, functions, and methods written in the Node-callback style to return Promises.
 const fs = require('fs-jetpack');
 
 const path = require('path');
 const nunjucks = require('nunjucks');
-
-const isThere = require('is-there');
-const mkdirp = require('mkdirp');
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
