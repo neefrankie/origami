@@ -34,3 +34,4 @@ bower_components
 .node_repl_history
 .tmp
 ftc-header-1.0.0.tgz
+.vscode

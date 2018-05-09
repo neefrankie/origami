@@ -44,7 +44,6 @@ class FullHeader {
 		 * @param rootEl: TYPE HTMLElement or String
 		 * 	TYPE HTMLElement,要初始化所有属性data-ftc-component为ftc-header的元素的区域的顶级元素，Eg:document.body
 		 *  TYPE String: 以上HTMLElement使用document.querySelector传入的选择器字符串
-		 * @param navMode: Type String, can be 'dynamic' or 'static', the default is 'static'
 		 */
 		if (!rootEl) {
 			rootEl = document.body;
@@ -54,7 +53,7 @@ class FullHeader {
 
 		// MARK:如果rootEl本身含有属性data-ftc-component=ftc-header,则返回一个new Header(rootEl)
 		if (/\bftc-header\b/.test(rootEl.getAttribute('data-ftc-component'))) { //NOTE:用带有零宽单词边界\b的正则匹配，可以包容该属性的写法为data-ftc-component=" ftc-header"/"ftc-header "这种前后有空格的情况。
-			return new FullHeader(rootEl,navMode);
+			return new FullHeader(rootEl);
 		}
 
 		// MARK: 如果rootEl本身不含属性data-ftc-component=ftc-header,但其下的子元素中含有属性'data-ftc-component = "ftc-header"'，如果这些子元素不具有属性'data-ftc-header--js'那么就返回一个new Header(el),这样就得到了一系列的new Header(el),然后过滤掉其中为undefined的new Header(el), 以返回其中不为undefined的new Header(el) —— 这是因为new Header(el)处理已经具有属性'data-ftc-header--js'的元素时，会直接return,那么这个new Header(el)的结果就是undefined
@@ -64,7 +63,7 @@ class FullHeader {
 			}
 		}).filter( el => {
 			return el !== undefined;//MARK:
-		})
+		});
 	}
 }
 
