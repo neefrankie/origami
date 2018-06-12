@@ -1,7 +1,8 @@
 //引入依赖包scss
-@import 'o-grid/main';
+// @import 'o-grid/main';
 
 //引入辅助scss
+@import 'src/scss/helpers/responsetool';
 @import 'src/scss/helpers/base';
 @import 'src/scss/helpers/variables';
 @import 'src/scss/helpers/mixins';
