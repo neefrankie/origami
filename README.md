@@ -617,12 +617,12 @@ The above method will use the default provided nav data.
 
 If you want to define the nav data by your self, please set the **navData** to cover the default data before calling **DynamicHeader.init()** :
 
-```
+```js
 import {DynamicHeader} from '@ftchinese/ftc-header';
 
 //Set the navData constant for the nav's js dynamic generation. The navData should be set  by this pattern:
 var navData = {
-	"indexForSelectedTopChannel": 0,// The default selected top channel index.
+	"indexForSelectedTopChannel": 0, // The default selected top channel index.
   "topChannels": [
     {
       "name": "首页",
