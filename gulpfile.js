@@ -132,7 +132,7 @@ gulp.task('styles', function styles() {
     .pipe($.sass({
       outputStyle: 'expanded',
       precision: 10,
-      includePaths: ['bower_components']
+      includePaths: ['./node_modules'] //这个无效
     }).on('error', $.sass.logError))
     .pipe($.postcss([
       cssnext({
@@ -211,7 +211,7 @@ gulp.task('scripts', async () => {
   }
   //console.log(demos);
   await demos.forEach(rollupOneJs);
-  browserSync.reload();
+  //browserSync.reload();
 });
 
 
@@ -238,5 +238,5 @@ gulp.task('serve', gulp.series('clean','html', 'styles', 'scripts', () => {
   gulp.watch(['src/js/**/*.js','demos/src/*.js','./main.js'], gulp.parallel('scripts'));
 }));
 
-gulp.task('build', gulp.parallel('clean', 'html', 'styles', 'scripts'));
+gulp.task('build', gulp.series('prod','clean', 'html', 'styles', 'scripts'));
 

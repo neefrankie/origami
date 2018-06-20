@@ -595,21 +595,21 @@ And go [here](https://github.com/FTChinese/ftc-header/blob/master/demos/htmlresu
 ## API for JS
 ### For Full Header
 ```
-import {FullHeader} from '@ftchinese/ftc-header/main.js';
+import {FullHeader} from '@ftchinese/ftc-header';
 
 FullHeader.init();
 ```
 
 ### For Simple Header
 ```
-import {SimpleHeader} from '@ftchinese/ftc-header/main.js';
+import {SimpleHeader} from '@ftchinese/ftc-header';
 
 SimpleHeader.init();
 ```
 
 ### For Dynamic Header
 ```
-import {DynamicHeader} from ''@ftchinese/ftc-header/main.js';
+import {DynamicHeader} from '@ftchinese/ftc-header';
 
 DynamicHeader.init();
 ```
@@ -618,7 +618,7 @@ The above method will use the default provided nav data.
 If you want to define the nav data by your self, please set the **navData** to cover the default data before calling **DynamicHeader.init()** :
 
 ```
-import {DynamicHeader} from '@ftchinese/ftc-header/main.js';
+import {DynamicHeader} from '@ftchinese/ftc-header';
 
 //Set the navData constant for the nav's js dynamic generation. The navData should be set  by this pattern:
 var navData = {
@@ -672,23 +672,23 @@ var navData = {
 DynamicHeader.init();
 ```
 
-
-
 ## API for SCSS
 The simplest way is to set the **$ftc-header-is-silent** to be false, and what you need to do is just import the main.scss
-```
+
+```scss
 $ftc-header-is-silent: false;
 
-@import 'ftc-header/main';
+@import '@ftchinese/ftc-header/main.scss';
 ```
+
 These is propably suitbale for the Full Header and the Dynamic Header.
 
 As for Simple Header, you may choose to include the mixin as you need:
 
-```
+```scss
 $ftc-header-is-silent: true;
 
-@import 'ftc-header/main';
+@import '@ftchinese/ftc-header/main.scss';
 
 @include ftcHeaderBase;
 @include ftcHeaderTop;
