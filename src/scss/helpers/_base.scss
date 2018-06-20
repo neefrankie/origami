@@ -3,6 +3,10 @@
 		width:100%;
 		font-family: Helvetica Neue,Verdana,Arial,Hiragino Sans GB,WenQuanYi Micro Hei,Heiti SC,STHeiti,Microsoft Yahei,SimSun,sans-serif;
 		font-size: 16px;
+
+		///保证其永远在页面的最上层
+		position: relative; 
+    z-index: 100;
 	}
 	.ftc-header__container {
 		height:100%;
