@@ -1,8 +1,8 @@
-$o-colors-is-silent: false;
-@import "o-colors/main";
-
 $o-normalise-is-silent: false;
 @import 'o-normalise/main';
+
+$o-colors-is-silent: false;
+@import "o-colors/main";
 
 $o-spacing-is-silent: false;
 @import 'o-spacing/main';
