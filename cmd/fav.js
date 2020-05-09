@@ -35,6 +35,19 @@ const config = {
 };
 
 /**
+ * @typedef {Object} Image
+ * @property {string} name
+ * @property {Buffer} contents
+ * 
+ * @typedef {Object} File
+ * @property {string} name
+ * @property {string} contents
+ * 
+ * @typedef {Object} Response
+ * @property {Image[]} images
+ * @property {File[]} files
+ * @property {string[]} html
+ * 
  * @param {string} inFile - input svg file
  * @param {string} outDir - output directory.
  */
@@ -42,6 +55,9 @@ async function generate(inFile, outDir) {
 
   await mkdir(outDir, { recursive: true });
   
+  /**
+   * @type Response
+   */
   const response = await promiseFavicons(inFile, config);
 
   const promisedWrite = response.images.map(image => {
@@ -55,7 +71,7 @@ async function generate(inFile, outDir) {
   promisedWrite.push(
     writeFile(
       resolve(outDir, 'favicons.html'), 
-      result.html.join('\n')
+      response.html.join('\n')
     )
   );
 
