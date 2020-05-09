@@ -1,6 +1,7 @@
 .idea/
 .sass-cache/
 build/
+public/
 test/output/
 demos/local
 .DS_Store
