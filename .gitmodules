@@ -38,7 +38,7 @@
 	path = packages/o-loading
 	url = https://github.com/Financial-Times/o-loading.git
 [submodule "o-banner"]
-	path = packages/banner
+	path = packages/o-banner
 	url = https://github.com/Financial-Times/o-banner.git
 [submodule "o-big-number"]
 	path = packages/o-big-number
