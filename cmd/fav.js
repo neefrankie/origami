@@ -11,7 +11,7 @@ const config = {
 	developerName: null,            // Your (or your developer's) name. `string` 
 	developerURL: null,             // Your (or your developer's) URL. `string` 
 	background: "#FFCC99",             // Background colour for flattened icons. `string` 
-	path: `http://interactive.ftchinese.com/${baseDir.favicons}`,                      // Path for overriding default icons path. `string` 
+	path: `http://interactive.ftchinese.com/favicons`,                      // Path for overriding default icons path. `string` 
 	display: "standalone",          // Android display: "browser" or "standalone". `string` 
 	orientation: "portrait",        // Android orientation: "portrait" or "landscape". `string` 
 	start_url: "/?homescreen=1",    // Android start application's URL. `string` 
@@ -79,8 +79,8 @@ async function generate(inFile, outDir) {
 }
 
 if (require.main == module) {
-  const inFile = path.resolve(__dirname, '../assets/logos/brand-ftc-logo-square.svg');
-  const outDir = path.resolve(process.cwd, 'public/favicons')
+  const inFile = resolve(__dirname, '../assets/logos/brand-ftc-logo-square.svg');
+  const outDir = resolve(process.cwd, 'public/favicons')
 
 	generate(inFile, outDir)
 		.catch(err => {
