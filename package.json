@@ -5,24 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "sass --load-path=packages scss/index.scss public/styles/origami.css"
+    "build": "sass --load-path=node_modules src/index.scss public/styles/origami.css"
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "@rollup/plugin-buble": "^0.21.3",
-    "@rollup/plugin-typescript": "^4.1.1",
-    "@types/node": "^13.13.5",
-    "@types/sharp": "^0.25.0",
-    "@typescript-eslint/eslint-plugin": "^2.31.0",
-    "@typescript-eslint/parser": "^2.31.0",
-    "eslint": "^7.0.0",
-    "rollup": "^2.8.2",
-    "rollup-plugin-terser": "^5.3.0",
-    "sass": "^1.26.5",
-    "sharp": "^0.25.2",
-    "tslint": "^6.1.2",
-    "typescript": "^3.8.3"
-  }
+  "dependencies": {
+    "@financial-times/math": "^1.1.0",
+    "@financial-times/o-brand": "^4.2.1",
+    "@financial-times/o-buttons": "^7.7.1",
+    "@financial-times/o-colors": "^6.4.2",
+    "@financial-times/o-fonts": "^5.3.4",
+    "@financial-times/o-grid": "^6.1.5",
+    "@financial-times/o-icons": "^7.4.0",
+    "@financial-times/o-normalise": "^3.2.2",
+    "@financial-times/o-spacing": "^3.2.1",
+    "@financial-times/o-typography": "^7.3.2",
+    "@financial-times/sass-mq": "^5.2.3",
+    "mathsass": "^0.11.0",
+    "npm": "^8.19.1",
+    "sass": "^1.54.8"
+  },
+  "devDependencies": {}
 }
