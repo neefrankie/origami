@@ -1,11 +1,3 @@
-# Single Repo for FT Origami Components
+# FT Origami Components
 
-This is an attempt to incorpoate FT Origami components into a single a mono repo with customization tailored to FTC specific needs.
-
-Clone this repostiory together with its submodules.
-
-```shell
-git clone --recursive-submodules
-```
-
-Run `npm run build` produces a complete CSS file.
+Manually build FT Origami components without its build service.
