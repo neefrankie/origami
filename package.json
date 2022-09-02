@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "sass --load-path=node_modules src/index.scss public/styles/origami.css"
+    "dev": "vite",
+    "serve": "vite preview",
+    "test": "jest",
+    "css": "sass --load-path=node_modules src/index.scss public/styles/origami.css"
   },
   "author": "",
   "license": "MIT",
@@ -22,8 +24,17 @@
     "@financial-times/o-typography": "^7.3.2",
     "@financial-times/sass-mq": "^5.2.3",
     "mathsass": "^0.11.0",
-    "npm": "^8.19.1",
     "sass": "^1.54.8"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^18.7.14",
+    "@types/react": "^18.0.18",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.0.1",
+    "npm": "^8.19.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^3.0.9",
+    "vite-plugin-svgr": "^2.2.1"
+  }
 }
