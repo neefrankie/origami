@@ -1,4 +1,4 @@
-/* pages/bilingual/bilingual.wxss */
+/**index.wxss**/
 .top-story__section {
   padding-bottom: 30rpx;
   margin-bottom: 30rpx;
@@ -13,6 +13,12 @@
 }
 .top-story__standfirst {
   color: #505050;
-  font-size: 0.9em;
+  font-size: .9em;
   line-height: 140%;
+}
+.top-story__time {
+    font-size: .8em;
+    margin-top: 15rpx;
+    line-height: 1.5;
+    color: #8b572a;
 }

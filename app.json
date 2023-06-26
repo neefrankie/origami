@@ -1,15 +1,36 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/article/article",
+    "pages/focus/focus",
     "pages/logs/logs"
   ],
-  "window":{
+  "window": {
     "navigationBarBackgroundColor": "#333",
-    "navigationBarTextStyle":"white",
+    "navigationBarTextStyle": "white",
     "navigationBarTitleText": "FT英语",
     "backgroundColor": "#fff1e0",
-    "backgroundTextStyle":"dark",
+    "backgroundTextStyle": "dark",
     "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#c4bdb5",
+    "selectedColor": "#fc6624",
+    "backgroundColor": "#fff1e0",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "双语阅读",
+        "iconPath": "assets/bilingual.png",
+        "selectedIconPath": "assets/bilingual-selected.png"
+      },
+      {
+        "pagePath": "pages/focus/focus",
+        "text": "今日焦点",
+        "iconPath": "assets/focus.png",
+        "selectedIconPath": "assets/focus-selected.png"
+      }
+    ]
   }
 }

@@ -17,19 +17,6 @@ App({
       this.cacheData('cid', cid);
     });
   },
-
-  onShow: function() {
-    
-  },
-
-  onHide: function() {
-
-  },
-
-  onError: function(msg) {
-    console.log(msg);
-  },
-
   getUserInfo:function(cb){
     var that = this
     if(this.globalData.userInfo){
@@ -48,21 +35,12 @@ App({
       })
     }
   },
-
-  getSystemInfo: function(cb) {
-    wx.getSystemInfo({
-      success: function(res) {
-        typeof cb == "function" && cb(res);
-      }
-    });
-  },
-
   globalData:{
     userInfo:null,
     cid: null
   },
 
-// The following are custom methods used by all pages.
+  // The following are custom methods used by all pages.
 // All callback follow node.js style callback of receiving error as first parameter
 /*
  * @param {String} url - the destination to request data
@@ -190,8 +168,8 @@ App({
       success: function(res) {
       },
       fail: function() {
-        console.log(`Tracking failed: ${documentPath}, ${docuemntTitle}`);
+        console.log(`Tracking failed: ${documentPath}, ${documentTitle}`);
       }
     });
   }
-});
+})

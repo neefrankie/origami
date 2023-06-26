@@ -1,0 +1,15 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/article/article",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "navigationBarBackgroundColor": "#333",
+    "navigationBarTextStyle":"white",
+    "navigationBarTitleText": "FT英语",
+    "backgroundColor": "#fff1e0",
+    "backgroundTextStyle":"dark",
+    "enablePullDownRefresh": true
+  }
+}

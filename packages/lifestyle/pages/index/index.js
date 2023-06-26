@@ -1,9 +1,10 @@
-// pages/bilingual/bilingual.js
-const utils = require('../../utils/util.js');
-const gaPath = '/wx/bilingual-reading'
-const gaTitle = '双语阅读';
+//index.js
 //获取应用实例
-var app = getApp();
+var app = getApp()
+
+const utils = require('../../utils/util.js');
+const gaPath = '/wx/life-style'
+const gaTitle = 'FT英语-生活时尚';
 
 Page({
   data:{},
@@ -11,7 +12,7 @@ Page({
     wx.showToast({
       title: '加载中...',
       icon: 'loading',
-      duration: 1500,
+      duration: 10000,
     });
 
     app.checkNetwork((err, type) => {
@@ -20,13 +21,15 @@ Page({
 
     }, (err, type) => {
 // If data connection, try to get data from cache first. If failed, then asking server for data.
-      app.retrieveData('articleList', (err, data) => {
+      app.retrieveData('coverList', (err, data) => {
 // If there is no error, data is retrieved from cache
         if (!err) {
-          console.log('article list retrieved from cache');
+          console.log('Cover list retrieved from cache');
           this.setData({
-            articleList: data
+            coverList: data
           });
+
+          wx.hideToast();
 // Tracking
           app.ga(gaPath, gaTitle);
           return;
@@ -38,18 +41,6 @@ Page({
       });
     });
   },
-  onReady:function(){
-    // 页面渲染完成
-  },
-  onShow:function(){
-    // 页面显示
-  },
-  onHide:function(){
-    // 页面隐藏
-  },
-  onUnload:function(){
-    // 页面关闭
-  },
 
   onPullDownRefresh: function() {
 // Manually request data
@@ -58,9 +49,9 @@ Page({
 
   onShareAppMessage: function() {
     return {
-      title: 'FT双语阅读',
-      desc: 'FT中文网双语阅读',
-      path: '/pages/bilingual/bilingual'
+      title: 'FT英语',
+      desc: '看时尚，学英语',
+      path: '/pages/index/index'
     }
   },
 
@@ -68,28 +59,30 @@ Page({
  * Page specific methods
  */
   fetchAndCacheData: function(cb) {
-    app.fetchData('https://api.ftmailbox.com/index.php/jsapi/sod', (err, data) => {
-      if (err) {return err;} 
-
+    app.fetchData('https://api.ftmailbox.com/index.php/jsapi/lifestyle', (err, data) => {
+      if (err) {return err;}
+      console.log(data);
 // Get only the needed data for cover list
-      const bilingualList = data.map(item => {
+      const coverList = data.map(item => {
+        const pic = item.story_pic;
+        const imageUrl = pic.cover ? pic.cover : pic.other;
         return {
           id: item.id,
-          image: utils.imageService(item.story_pic.other),
+          image: utils.imageService(imageUrl),
           heading: item.cheadline,
           standfirst: item.clongleadbody
         }
       });
 
-// Set bilingual reading's article list.
+// Set data
       this.setData({
-        bilingualList
+        coverList
       });
 
       typeof cb == 'function' && cb();
 
-// Cache cover list.
-      app.cacheData('bilingualList', bilingualList, (err, key) => {
+// Cache list.
+      app.cacheData('coverList', coverList, (err, key) => {
         if (err) {
           console.log('Cache bilingual list failed.');
           return;
@@ -97,8 +90,8 @@ Page({
       });
 
 // Cache individual article
-      data.map(entry => {
-        app.cacheData(entry.id, utils.filterArticleData(entry));
+      data.map(article => {
+        app.cacheData(article.id, utils.filterArticleData(article));
       });
 
 // Tracking
@@ -106,4 +99,4 @@ Page({
     });
   }
 
-})
+});

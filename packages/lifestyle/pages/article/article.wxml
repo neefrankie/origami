@@ -4,7 +4,7 @@
 <view class="container">
     <view class="article">
         <view class="article__header">
-            <text wx:if="{{isBilingual}}">{{englishTitle}}</text>
+            <text>{{englishTitle}}</text>
             <text>{{chineseTitle}}</text>
         </view>
 
@@ -19,7 +19,7 @@
         </view>
 
         <view class="article__time-byline">
-            <text class="article__timestamp">更新于{{publishDate}}</text>
+            <text class="article__timestamp">{{publishDate}}</text>
             <text class="article__byline">{{byline}}</text>
         </view>
 

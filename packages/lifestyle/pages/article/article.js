@@ -1,6 +1,6 @@
 const WxParse = require('../../wxParse/wxParse.js');
 const utils = require('../../utils/util.js');
-const gaBasePath = '/wx/story';
+const gaBasePath = '/wx/life-style';
 const app = getApp();
 
 Page({
@@ -15,19 +15,25 @@ Page({
     
     onLoad: function(options) {
 // `options` to be used by other methods.
+      wx.showToast({
+        title: '加载中...',
+        icon: 'loading',
+        duration: 10000,
+      });
+
       this.options = options;
 
       app.retrieveData(options.id, (err, data) => {
 // If no error, then use cached data        
         if (!err) {
           this.setArticleData(data);
-
+          wx.hideToast();
 // Tracking
-          this.sendTracking(data.chineseTitle);
+          this.sendTracking(data.title);
           return;
         }
 // If error, no data in cache, got to fetch it and store it.
-        this.fetchAndCacheData();
+        this.fetchAndCacheData(wx.hideToast);
       });
     },
 
@@ -37,17 +43,16 @@ Page({
     },
 
     onShareAppMessage: function() {
-      const basePath = '/pages/article/article';
       return {
-        title: `${this.data.chineseTitle} - FT中文网`,
-        desc: this.options.bilingual ? 'FT双语阅读' : 'FT今日焦点',
-        path: `/pages/article/article?${utils.stringify(this.options)}`
+        title: `${this.data.chineseTitle}`,
+        desc: 'FT英语',
+        path: `/pages/article/article?id=${this.options.id}`
       }
     },
 /**
   * The following are methods specific to this page.
   */ 
-    fetchAndCacheData: function() {
+    fetchAndCacheData: function(cb) {
       app.fetchData(`https://api.ftmailbox.com/index.php/jsapi/get_story_more_info/${this.options.id}`, (err, data) => {
         if (err) { return err;}
 
@@ -55,11 +60,12 @@ Page({
 
         this.setArticleData(articleData);
 
+        typeof cb == 'function' && cb();
 // Cache the filtered data, not requested data.
         app.cacheData(this.options.id, articleData);
 
 // Tracking
-        this.sendTracking(articleData.chineseTitle);
+        this.sendTracking(articleData.title);
 
       });        
     },
@@ -69,13 +75,8 @@ Page({
  */
     setArticleData: function (data) {
       this.setData(data);
-
+      const body = data.ebody ? utils.zipBilingual(data.ebody, data.cbody) : data.cbody;
 // Tell the view whether it is used for bilingual story      
-      this.setData({
-        isBilingual: this.options.bilingual
-      });
-
-      const body = this.options.bilingual ? utils.zipBilingual(data.ebody, data.cbody) : data.cbody;
       WxParse.wxParse('body', 'html', body, this);
     },
 
@@ -83,9 +84,8 @@ Page({
  * @param {String} title - current aritcle's title
  */
     sendTracking: function(title) {
-// For chinese text page, use `/wx/story/<id>`
-// For binlingual text page, use `/wx/story/<id>/ce`      
-      const documentPath = this.options.bilingual ? `${gaBasePath}/${this.options.id}/ce` : `${gaBasePath}/${this.options.id}`;
+// For chinese text page, use `/wx/story/<id>`     
+      const documentPath = `${gaBasePath}/${this.options.id}`;
 
       app.ga(documentPath, title);
     }
