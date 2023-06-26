@@ -1,0 +1,40 @@
+{
+  "name": "@ftchinese/origami",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "serve": "vite preview",
+    "test": "jest",
+    "css": "sass --load-path=node_modules src/index.scss public/styles/origami.css"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@financial-times/math": "^1.1.0",
+    "@financial-times/o-brand": "^4.2.1",
+    "@financial-times/o-buttons": "^7.7.1",
+    "@financial-times/o-colors": "^6.4.2",
+    "@financial-times/o-fonts": "^5.3.4",
+    "@financial-times/o-grid": "^6.1.5",
+    "@financial-times/o-icons": "^7.4.0",
+    "@financial-times/o-normalise": "^3.2.2",
+    "@financial-times/o-spacing": "^3.2.1",
+    "@financial-times/o-typography": "^7.3.2",
+    "@financial-times/sass-mq": "^5.2.3",
+    "mathsass": "^0.11.0",
+    "sass": "^1.54.8"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.14",
+    "@types/react": "^18.0.18",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.0.1",
+    "npm": "^8.19.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^3.0.9",
+    "vite-plugin-svgr": "^2.2.1"
+  }
+}
