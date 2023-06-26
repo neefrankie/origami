@@ -1,0 +1,30 @@
+@import "o-colors/main";
+
+body {
+	@include oColorsFor(page);
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	.social-image {
+		display: inline-block;
+		width: 180px;
+		margin: 0 0 20px;
+		text-align: center;
+		img {
+			display: inline-block;
+			border: 1px dotted;
+			width: 100px;
+			height: 100px;
+		}
+
+		span {
+			display: block;
+		}
+		input {
+			cursor: text;
+		}
+	}
+}

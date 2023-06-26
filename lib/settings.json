@@ -1,0 +1,158 @@
+[
+  {
+    "name": "wechat",
+    "themes": [
+      {
+        "name": "default",
+        "fill": "#fff",
+        "background": "#609700",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "pink",
+        "fill": "#a7a59b",
+        "background": null,
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "white",
+        "fill": "#fff",
+        "background": null,
+        "rx": null,
+        "ry": null
+      }
+    ]
+  },
+  {
+    "name": "weibo",
+    "themes": [
+      {
+        "name": "default",
+        "background": "#e6162d",
+        "fill": "#fff",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "pink",
+        "background": null,
+        "fill": "#a7a59b",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "white",
+        "fill": "#fff",
+        "background": null,
+        "rx": null,
+        "ry": null
+      }
+    ]
+  },
+  {
+    "name": "linkedin",
+    "themes": [
+      {
+        "name": "default",
+        "background": "#0977b6",
+        "fill": "#fff",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "pink",
+        "background": null,
+        "fill": "#a7a59b",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "white",
+        "fill": "#fff",
+        "background": null,
+        "rx": null,
+        "ry": null
+      }
+    ]
+  },
+  {
+    "name": "facebook",
+    "themes":[ 
+      {
+        "name": "default",
+        "background": "#3c5a99",
+        "fill": "#fff",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "pink",
+        "background": null,
+        "fill": "#a7a59b",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "white",
+        "fill": "#fff",
+        "background": null,
+        "rx": null,
+        "ry": null
+      }
+    ]
+  },
+  {
+    "name": "twitter",
+    "themes": [
+      {
+        "name": "default",
+        "background": "#6aa9e0",
+        "fill": "#fff",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "pink",
+        "background": null,
+        "fill": "#a7a59b",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "white",
+        "fill": "#fff",
+        "background": null,
+        "rx": null,
+        "ry": null
+      }
+    ]
+  },
+  {
+    "name": "link",
+    "themes": [
+      {
+        "name": "default",
+        "background": "#27757b",
+        "fill": "#fff",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "pink",
+        "background": null,
+        "fill": "#a7a59b",
+        "rx": null,
+        "ry": null
+      },
+      {
+        "name": "white",
+        "fill": "#fff",
+        "background": null,
+        "rx": null,
+        "ry": null
+      }
+    ]
+  }
+]

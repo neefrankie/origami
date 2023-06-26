@@ -1,0 +1,27 @@
+{
+  "name": "social-images",
+  "description": "FTC social images",
+  "main": [
+    "main.scss"
+  ],
+  "authors": [
+    "weiguo.ni"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "social",
+    "share"
+  ],
+  "homepage": "https://github.com/FTChinese/ftc-social-images",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "demos"
+  ],
+  "devDependencies": {
+    "o-colors": "^3.5.4"
+  }
+}

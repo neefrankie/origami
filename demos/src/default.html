@@ -1,0 +1,40 @@
+{% extends "demos/src/base.html" %}
+{% block body %}
+<div class="social-images">
+  <h2>Default Group</h2>
+  <p>Use this group directly. Or use them with FT image-serivces without the `tint` option.</p>
+  <h3>SVG</h3>
+  <ul>
+  	{% for social in socials %}
+    <li class="social-image social-images__{{social}}">
+	    <img src="http://interactive.ftchinese.com/social-images/default/{{social}}.svg" alt="">	
+      <span>{{social}}</span>
+      <input type="text" value="http://interactive.ftchinese.com/social-images/default/{{social}}.svg" readonly>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h3>PNG</h3>
+  <ul>
+  	{% for image in images %}
+    <li class="social-image social-image__{{social}}">
+	    <img src="http://interactive.ftchinese.com/social-images/default/{{social}}.png" alt="">	
+      <span>{{image}}</span>
+      <input type="text" value="http://interactive.ftchinese.com/social-images/default/{{social}}.png" readonly>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h2>For Image Services</h2>
+  <p>Use this group with FT image services. You can tint it to any color you like.</p>
+  <ul>
+  	{% for social in socials %}
+    <li class="social-image social-images__{{social}}">
+	    <img src="http://interactive.ftchinese.com/social-images/{{social}}.svg" alt="">	
+      <span>{{social}}</span>
+      <input type="text" value="http://interactive.ftchinese.com/social-images/{{social}}.svg" readonly>
+    </li>
+    {% endfor %}
+  </ul>  
+</div>
+{% endblock %}
