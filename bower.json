@@ -1,0 +1,27 @@
+{
+  "name": "ftc-logos",
+  "description": "FTC logos",
+  "main": [
+    "main.scss"
+  ],
+  "authors": [
+    "weiguo.ni"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "FTC",
+    "logos"
+  ],
+  "homepage": "https://github.com/FTChinese/ftc-logos",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "demos"
+  ],
+  "devDependencies": {
+    "o-colors": "^3.5.2"
+  }
+}

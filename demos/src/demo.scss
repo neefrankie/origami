@@ -1,0 +1,41 @@
+@import "o-colors/main";
+@import "../../main.scss";
+$o-logos-list: ('brand-ftc-logo-round', 'brand-ftc-logo-square', 'brand-ftc-masthead');
+
+body {
+	@include oColorsFor(page);
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	li {
+		margin: 1em 0;
+		margin-bottom: 2em;
+		span{
+			display: block;
+		}
+		input {
+			height: 1.5em;
+			min-width: 50vw;
+			cursor: text;
+			font-size: 1.2em;
+		}
+		img {
+			height: 100px;
+		}
+	}
+}
+
+.image-service {
+	li div {
+		width: 100px;
+		height: 100px;
+	}
+	@each $name in $o-logos-list {
+		.#{$name} {
+			@include oLogosGetImage($name: $name);
+		}
+	}
+}

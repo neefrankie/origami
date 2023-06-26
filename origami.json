@@ -1,0 +1,16 @@
+{
+    "description": "FTC logos",
+    "origamiType": "module",
+    "origamiCategory": "primitives",
+    "origamiVersion": 1,
+    "support": "https://github.com/FTChinese/ftc-logos/issues",
+    "supportStatus": "active",
+    "demos": [
+        {
+            "name": "image-set",
+            "template": "demos/src/index.html",
+            "data": "demos/src/data.json",
+            "description": "Used on dark theme"
+        }
+    ]
+}
