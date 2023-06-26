@@ -1,0 +1,52 @@
+{
+  "name": "@ftchinese/ftc-share",
+  "version": "4.0.0",
+  "main": "lib/index.js",
+  "module": "dist/o-share.js",
+  "style": "main.scss",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FTChinese/ftc-share.git"
+  },
+  "description": "Share module",
+  "keywords": [
+    "FTC",
+    "share"
+  ],
+  "scripts": {
+    "clean": "rm -rf .tmp/** dist/**",
+    "postinstall": "bower install && npm run dist",
+    "postversion": "git push && git push --tags",
+    "partial": "DEBUG=o-share* node ./lib/build-partial.js",
+    "test-sass": "node-sass -w test/test.scss",
+    "build-sass": "node-sass --include-path=bower_components src/scss/dist.scss dist/o-share.css",
+    "build-js": "rollup -c",
+    "build-html": "DEBUG=o-share* node ./lib",
+    "dist": "npm run build-sass && npm run build-js && npm run build-html"
+  },
+  "author": "weiguo.ni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FTChinese/ftc-share/issues"
+  },
+  "homepage": "https://github.com/FTChinese/ftc-share",
+  "devDependencies": {
+    "@ftchinese/component-stats": "^0.3.0",
+    "browser-sync": "^2.18.8",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.2.0",
+    "inline-source": "^5.2.1",
+    "load-json-file": "^3.0.0"
+  },
+  "dependencies": {
+    "bower": "^1.8.2",
+    "debug": "^3.1.0",
+    "fs-jetpack": "^1.2.0",
+    "node-sass": "^4.5.3",
+    "nunjucks": "^3.0.1",
+    "pify": "^3.0.0",
+    "rollup": "^0.50.0",
+    "rollup-plugin-buble": "^0.16.0"
+  }
+}

@@ -1,0 +1,15 @@
+@import "o-grid/main";
+
+@import "src/scss/variables";
+@import "src/scss/functions";
+@import "src/scss/mixin";
+
+@if (not $o-share-is-silent) {
+	@include oShareBase;
+
+	@each $icon in $_o-share-icons {
+		@include oShareActionIcon($icon);
+	}
+
+	@include oShareInverse;
+}

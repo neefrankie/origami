@@ -1,0 +1,31 @@
+@function oShareGetThemeColor($theme) {
+	$color: map-get($o-share-themes, 'default');
+
+	@if map-has-key($o-share-themes, $theme) {
+		$color: map-get($o-share-themes, $theme);
+	}
+
+	@return $color;
+}
+
+@function oShareImageUrl($icon-name, $tint: null, $format: "svg") {
+	$service-url: "https://www.ft.com/__origami/service/image/v2/images/raw/";
+	$image-url: "http%3A%2F%2Finteractive.ftchinese.com%2Fsocial-images%2F#{$icon-name}.svg";
+	$query: "?source=ftchinese&format=#{$format}";
+	@if $format == "png" {
+		$query: $query + "&width=#{$o-share-icon-size}"
+	}
+
+	@if $tint {
+		$hover-color: str-slice(ie-hex-str($tint), 4);
+		$query: $query + "&tint=%23#{$hover-color},%23#{$hover-color}"
+	}
+	@return $service-url + $image-url + $query;
+}
+
+@function oShareGetBrandColor($icon-name) {
+	@if map-has-ley($o-share-colors, $icon-name) {
+		@return map-get($o-share-colors, $icon-name);
+	}
+	@return transparent;
+}

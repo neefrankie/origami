@@ -1,0 +1,17 @@
+body {
+	background-color: #FFF1E5;
+}
+
+.container {
+	margin-top: 50px;
+	padding: 10px;
+	height: 25px;
+}
+
+.container--inverse {
+	padding: 50px 10px 70px;
+	background-color: #333;
+}
+
+$o-share-is-silent: false;
+@import "../../main";

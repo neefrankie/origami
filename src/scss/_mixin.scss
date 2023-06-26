@@ -1,0 +1,124 @@
+/// Generate base share styles
+/// @param {String} $classname [o-share] 
+@mixin oShareBase($classname: o-share) {
+	.#{$classname} {
+		display: inline-block;
+		ul {
+			margin: 0;
+			padding: 0;
+			// clear float?
+		}
+	}
+	.#{$classname}__action {
+		box-sizing: border-box;
+		float: left;
+		width: $o-share-icon-size + 0px;
+		height: $o-share-icon-size + 0px;
+		margin: 0 5px 0 0;
+		list-style-type: none;
+		line-height: $o-share-icon-size;
+		border: 1px solid rgba($o-share-icon-border, 0.2);
+		border-radius: 0;
+		cursor: pointer;
+
+		@include oGridRespondTo(S) {
+			margin-right: 10px;
+		}
+	}
+
+	.#{$classname}__icon {
+		display: block;
+		position: relative;
+		top: -1px;
+		left: -1px;
+		width: $o-share-icon-size + 0px;
+		height: $o-share-icon-size + 0px;
+		border: 0;
+		cursor: pointer;
+		background-color: transparent;
+
+		&:after {
+			position: absolute;
+			display: block;
+			content: '';
+			width: $o-share-icon-size + 5px;
+			height: $o-share-icon-size + 5px;
+			top: -2px;
+			left: -2px;
+
+			@include oGridRespondTo(S) {
+				width: $o-share-icon-size + 10px;
+				height: $o-share-icon-size + 10px;
+				top: -5px;
+				left: -5px;
+			}
+		}
+	}
+
+	.#{$classname}__text {
+		position: absolute;
+		clip: rect(0 0 0 0);
+		margin: -1px;
+		border: 0;
+		overflow: hidden;
+		padding: 0;
+		width: 1px;
+		height: 1px;
+		white-space: nowrap;
+	}
+}
+
+@mixin oShareActionIcon($icon-name, $classname: o-share, $hover: true) {
+
+	.#{$classname}__icon--#{$icon-name} {
+		&:before {
+			content: '';
+			display: block;
+			width: $o-share-icon-size + 0px;
+			height: $o-share-icon-size + 0px;
+	
+			background-image: url(oShareImageUrl($icon-name: $icon-name));
+			background-image: url(oShareImageUrl($icon-name: $icon-name, $format: "png"))\9;
+	
+			background-size: contain;
+		}
+// preload
+		& .#{$classname}__text {
+			background-image: url(oShareImageUrl($icon-name: $icon-name, $tint: $o-share-hover-background));
+			background-image: url(oShareImageUrl($icon-name: $icon-name, $tint: $o-share-hover-background, $format: "png"))\9;
+		}
+	}
+
+	.#{$classname}__icon--#{$icon-name}:hover,
+	.#{$classname}__icon--#{$icon-name}:focus {
+		border-color: oShareGetBrandColor($icon-name);
+		background-color: oShareGetBrandColor($icon-name);
+
+		&:before {
+			background-image: url(oShareImageUrl($icon-name: $icon-name, $tint: $o-share-hover-background));
+			background-image: url(oShareImageUrl($icon-name: $icon-name, $tint: $o-share-hover-background, $format: "png"))\9;
+		}
+	}
+}
+
+@mixin oShareInverse($classname: o-share) {
+	.#{$classname}--inverse {
+
+		.#{$classname}__action:not(:hover) {
+			border: 1px solid rgba($o-share-inverse-border, 0.5);
+		}
+
+		@each $icon-name in $_o-share-icons {
+
+			.#{$classname}__icon--#{$icon-name} {
+				border-color: oShareGetBrandColor($icon-name);
+
+				&:before {
+					background-image: url(oShareImageUrl($icon-name: $icon-name, $tint: $o-share-inverse-background));
+
+					background-image: url(oShareImageUrl($icon-name: $icon-name, $tint: $o-share-inverse-background, $format: "png"))\9;
+				}
+			} 
+		}
+	}
+}

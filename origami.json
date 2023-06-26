@@ -1,0 +1,31 @@
+{
+	"description": "Share module",
+	"origamiType": "module",
+	"origamiCategory": "components",
+	"origamiVersion": 1,
+	"support": "https://github.com/FTChinese/ftc-share/issues",
+	"supportStatus": "active",
+	"browserFeatures": {
+		"required": [
+			"document.queryselector",
+			"Element.prototype.closest"
+		],
+		"optional": []
+	},
+	"demosDefaults": {
+		"sass": "demos/src/demo.scss",
+		"js": "demos/src/demo.js"
+	},
+	"demos": [
+		{
+			"name": "default",
+			"template": "index.html",
+			"description": "FTC social share"
+		},
+		{
+			"name": "inverse",
+			"template": "index.html",
+			"description": "FTC social share inverse theme"
+		}
+	]
+}
