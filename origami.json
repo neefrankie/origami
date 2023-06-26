@@ -1,0 +1,19 @@
+{
+    "description": "Accessible toggles",
+    "origamiType": "module",
+    "origamiCategory": "components",
+    "origamiVersion": 1,
+    "support": "https://github.com/FTChinese/ftc-toggle/issues",
+    "supportStatus": "active",
+    "demosDefaults": {
+        "js": "demos/src/demo.js"
+    },
+    "demos": [
+        {
+            "name": "toggles",
+            "template": "demos/src/demo.html",
+            "expanded": true,
+            "description": ""
+        }
+    ]
+}

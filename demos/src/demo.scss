@@ -1,0 +1,44 @@
+@import "o-colors/main";
+
+body {
+	@include oColorsFor(page);
+}
+
+ul {
+	background-color:  oColorsGetPaletteColor('pink-tint2');
+	margin: 0;
+  padding: 1em;
+  list-style-type: none;
+}
+.toggle {
+	.toggle-target {
+	  &.o-toggle--active {
+	    color: green;
+	    background-color: orange;
+	  }		
+	}
+}
+
+.menu {
+	position: relative;
+	.menu-target {
+		position: absolute;
+	  display: none;
+	  width: 200px;
+		&.o-toggle--active {
+			display: block;
+		}
+		
+	}
+	.menu-link {
+		display: block;
+		color: oColorsGetPaletteColor('teal-2');
+		
+		line-height: 1.8;
+
+		&:hover {
+			color: oColorsGetPaletteColor('grey-tint5');
+		}
+	}
+}
+
