@@ -1,0 +1,23 @@
+@mixin ftcHeaderHamburg() {
+    
+    .ftc-header__hamburg {
+        @include respondControllHamburg;
+        width:44px;
+        height:44px;
+        background-size: 20px 20px;
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        background-image: url(http://static.ftchinese.com/ftc-icons/svg/white/hamburger-white.svg);
+        
+    }
+    .ftc-header__close {
+        background-image: url(http://static.ftchinese.com/ftc-icons/svg/white/cross-white.svg);
+    }
+}
+
+@mixin respondControllHamburg() {
+    display: none;
+    @include oGridRespondTo($until:'L') {
+      display: block;
+    }
+}

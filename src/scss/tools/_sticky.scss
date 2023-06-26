@@ -1,0 +1,10 @@
+@mixin ftcHeaderSticky() {
+	.ftc-header--sticky {
+		@include oGridRespondTo(L) {
+			position: fixed;
+			top:0;
+		}
+
+	}
+
+}

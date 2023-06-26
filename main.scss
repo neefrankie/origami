@@ -1,0 +1,35 @@
+//引入依赖包scss
+// @import 'o-grid/main';
+@import 'node_modules/sass-mq/mq';
+
+//引入辅助scss
+@import 'src/scss/helpers/responsetool';
+@import 'src/scss/helpers/base';
+@import 'src/scss/helpers/variables';
+@import 'src/scss/helpers/mixins';
+@import 'src/scss/helpers/colors';
+
+//引入小组件scss
+@import 'src/scss/tools/lang';
+@import 'src/scss/tools/sign';
+@import 'src/scss/tools/hamburg';
+@import 'src/scss/tools/sticky';
+@import 'src/scss/tools/brand';
+
+//引入片段scss
+@import 'src/scss/partials/top';
+@import 'src/scss/partials/nav';
+@import 'src/scss/partials/search';
+@import 'src/scss/partials/loginoverlay'; 
+
+
+//引入主混合器header
+@import 'src/scss/header';
+
+@if $ftc-header-is-silent == false { 
+	//如果silent为true,则需要自己手动再次引入ftcHeader;
+	//如果silent为false,就已经引入好了最顶层的混合器：ftcHeader，即所有的css类都是有定义好的。
+	@include ftcHeader;
+
+	$ftc-header-is-silent: true !global;
+}

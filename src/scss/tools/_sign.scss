@@ -1,0 +1,55 @@
+@mixin ftcHeaderSign() {
+  .ftc-header__sign-readermenu {
+    @include respondControllSign();
+    
+    height: 100%;
+    a {
+      display: inline-block;
+      height: 100%;
+      
+      line-height: 57px;
+      padding: 0 5px;
+			color:$header-color;
+			cursor: pointer;
+      text-decoration:none;
+      position: relative;
+     
+			&:hover, &:active {
+				text-decoration: underline;
+      }
+    }
+    
+  }
+
+  .ftc-header__sign-visitormenu{
+    a:nth-child(2)::before { /*NOTE:before区域是从border内开始，压住了padding-left*/
+      content: " ";
+      position: absolute;
+      width: 2px;
+      height: 14px;
+      top: 50%;
+      left: -3px;
+      margin-top: -7px;
+      background-color:#fff;
+    }
+  }
+  
+  .ftc-header__sign--hide {
+    display: none;
+  }
+  /*
+  .ftc-header__sign-visitormenu {
+    @include respondControllSign();
+  }
+  .ftc-header__sign-memebermenu {
+    display:none;
+  }
+  */
+}
+
+@mixin respondControllSign() {
+  display: none;
+  @include oGridRespondTo('L') {
+    display: block;
+  }
+}

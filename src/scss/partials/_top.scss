@@ -1,0 +1,81 @@
+
+@mixin ftcHeaderTop() {
+	.ftc-header__top {
+		height: 44px;
+		background-color:$header-background;
+		color:$header-color;
+		padding:0 10px;
+		font-size: 14px;
+		box-sizing: border-box;
+		@include oGridRespondTo($until:'L') {
+			position: fixed;
+			top:0;
+			width: 100%;
+		}
+		@include oGridRespondTo('L'){
+			height:57px;
+			padding: 0px 30px;
+		}
+		@include oGridRespondTo('XL') {
+			height: 57px;
+			padding: 0px 74.5px;
+		}
+	}
+
+	.ftc-header__top-column {
+    height: 100%;		
+	}
+
+
+	.ftc-header__top-center {
+		width: 100%;
+	}
+	.ftc-header-hometitle {
+		background-size: 98.7px 21px;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-image:url(http://s.ftimg.net/img/svg/brand-ftc-masthead-white.svg);
+		@include oGridRespondTo('L') {
+			background-size: auto 36px;/*背景图片高度为36px，宽度按比例缩放*/
+			background-repeat: no-repeat;
+			background-position: center;
+			background-image: url(http://static.ftchinese.com/images/masthead36.png);
+		}
+	}
+	.ftc-header-tagtitle {
+		background-size: 98.7px 21px;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-image:url(http://s.ftimg.net/img/svg/brand-ftc-masthead-white.svg);
+		color:transparent;
+		@include oGridRespondTo('L') {
+			background: transparent;
+			text-align: center;
+			line-height: 57px;
+			font-size: 32px;
+			color:#fff;
+		}
+		
+	}
+
+	.ftc-header__top-left {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		width:120px;
+		text-align: left;
+		@include ftcHeaderLang();
+		@include ftcHeaderBrand();
+		@include ftcHeaderHamburg();
+	}
+
+	.ftc-header__top-right {
+		position: absolute;
+		right:0px;
+		top:0px;
+		text-align: right;
+		@include ftcHeaderSign();
+	}
+	
+}
+

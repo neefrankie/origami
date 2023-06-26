@@ -1,0 +1,9 @@
+//ftc-header模块scss的主混合器：
+@mixin ftcHeader($features: '') {
+	@include ftcHeaderBase;
+	@include ftcHeaderTop;
+	@include ftcHeaderNav;
+	@include ftcHeaderSearch;
+	@include ftcHeaderSticky;
+	@include ftcHeaderLoginOverlay;
+}

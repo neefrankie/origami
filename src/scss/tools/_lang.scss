@@ -1,0 +1,63 @@
+@mixin ftcHeaderLang() {
+  .ftc-header__lang {
+    @include respondControllLang;
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .ftc-header__lang-list {
+    display:block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    min-width: 100%;
+    margin: 0px;
+    padding: 0 10px;
+    background: #505050;
+  }
+
+  .ftc-header__lang-item {
+    list-style-type: none;
+    border-top: 1px dotted #fff;
+    a {
+      display: inline-block;
+      height:57px;
+      line-height: 57px;
+      white-space: nowrap;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+  .ftc-header__lang-item:first-child {
+    border-top: none;
+    a:after {
+      content:'';
+      display:inline-block;
+      margin-left:10px;
+      @include down-triangle();
+    }
+  }
+
+  .ftc-header__lang-listdefault {
+    background: #333;
+    .ftc-header__lang-item:not(:first-child) {
+      display: none;
+    }
+  }
+}
+
+@mixin down-triangle() {
+  border-top: 8px solid #fff;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}
+
+@mixin respondControllLang() {
+  display: none;
+  @include oGridRespondTo('L') {
+    display: block;
+  }
+}

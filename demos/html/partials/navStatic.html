@@ -1,0 +1,27 @@
+<!-- The static nav, whose data are computed when nunjucks render -->
+<nav class="ftc-header__nav" data-ftc-component="ftc-channelnav" role="navigation" aria-label="Main navigation">
+  <ul class="ftc-header__nav-list ftc-header__nav-toplist" data-ftc--sticky>
+    {% set subChannels = {} %} 
+   
+    {% for topChannel in header.nav.topChannels %}
+     <li class={{'"ftc-header__nav-item ftc-header__nav-topitem ftc-header__nav-topitem-selected"' if header.nav.indexForSelectedTopChannel==topChannel.index else '"ftc-header__nav-item ftc-header__nav-topitem"'}} data-index={{topChannel.index}}>
+        <a data-ftc--target-top href={{topChannel.url}} >{{topChannel.name}}</a>
+        <ul class="ftc-header__nav-pushdownlist">
+          {% for pushdownChannel in topChannel.subChannels %}
+            <li class="ftc-header__nav-pushdownitem" data-index={{pushdownChannel.index}}><a data-ftc--target-pushdown href={{pushdownChannel.url}}>{{pushdownChannel.name}}</a></li>
+          {% endfor %}
+        </ul>
+    </li>
+      {% if header.nav.indexForSelectedTopChannel==topChannel.index %}
+        {% set subChannels = topChannel.subChannels %}
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <ul class="ftc-header__nav-list ftc-header__nav-sublist">
+    {% for subChannel in subChannels %}
+      <li class={{ '"ftc-header__nav-item ftc-header__nav-subitem ftc-header__nav-subitem-selected"' if header.nav.indexForSelectedSubChannel==subChannel.index else '"ftc-header__nav-item ftc-header__nav-subitem"' }} data-index={{subChannel.index}}>
+          <a href={{subChannel.url}}>{{subChannel.name}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

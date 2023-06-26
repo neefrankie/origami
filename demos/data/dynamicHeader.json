@@ -1,0 +1,48 @@
+{
+	"lang" :{
+		"default":"简体中文",
+		"list": [
+			{ 
+				"name":"简体中文",
+				"url":"#"
+			},
+			{
+				"name":"繁体中文",
+				"url":"http://big5.ftchinese.com/"
+			},
+			{
+				"name":"英文",
+				"url":"https://www.ft.com/"
+			}
+		]
+	},
+	
+	"signIn":{
+		"url":"http://user.ftchinese.com/login",
+		"word":"登录"
+	},
+	"signUp":{
+		"url":"http://user.ftchinese.com/register",
+		"word":"免费注册"
+	},
+	"myFT":{
+		"url":"/users/mystories",
+		"word":"我的FT"
+	},
+	"mySet":{
+		"url":"/users/cp",
+		"word":"设置"
+	},
+	"signOut":{
+		"url":"http://user.ftchinese.com/logout",
+		"word":"登出"
+	},
+
+	"nav": true, 
+
+	"search": {
+		"actionUrl":"/search/",
+		"placeholderText":"输入年月日‘xxxx-xx-xx’可搜索该日存档"
+	}
+
+}

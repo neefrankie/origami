@@ -1,0 +1,46 @@
+<!-- The loginOverlay -->
+<div class="ftc-header__loginoverlay" data-ftc-component="ftc-header-loginoverlay">
+  <div class="ftc-header__loginoverlay-window">
+
+    <div class="ftc-header__loginoverlay-title">
+      登录
+      <span class="ftc-header__loginoverlay-close">×</span>
+    </div>
+
+    <form method="post" class="ftc-header__loginoverlay-form" action="/users/login"><!-- Add your php file to handle the login or find the password, in my case it is "dev_www\libs\application\controllers\users.php" 待求证是controller下的user.php or model下的user.php-->
+      <div class="ftc-header__loginoverlay-item ftc-header__loginoverlay-username">
+        <label for="ftcLoginUsername">
+            电子邮件/用户名
+        </label>
+        <input type="text" name="username" id="ftcLoginUsername">
+      </div>
+
+      <div class="ftc-header__loginoverlay-item">
+        <label for="ftcLoginPassword">
+          密码
+        </label>
+        <input type="password" class="ftc-header__loginoverlay-oneline" name="password" id="ftcLoginPassword">
+      </div>
+     
+      <div class="ftc-header__loginoverlay-saveandsub">
+        <input class="ftc-header__loginoverlay-saveme" type="checkbox" value="1" checked="checked" name="saveme" id="ftcLoginSaveme" >
+        <label for="ftcLoginSaveme">记住我</label>
+
+        <input class="ftc-header__loginoverlay-submit" type="submit" value="提交">
+      </div>
+    </form>
+    
+    <div class="ftc-header__loginoverlay-bottom">
+      <div class="ftc-header__loginoverlay-bottomline">
+        <a href="/users/findpassword">
+          找回密码
+        </a>
+      </div>
+      <div class="ftc-header__loginoverlay-bottomline">
+        <a href="http://user.ftchinese.com/register">
+          免费注册
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

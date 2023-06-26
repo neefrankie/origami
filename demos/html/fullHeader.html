@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block header%}
+<header class="ftc-header" data-ftc-component="ftc-header" data-ftc-header--no-js>
+  <!-- The top -->
+	<div class="ftc-header__top ">
+		<div class="ftc-header__container">
+			{% if header.nav.indexForSelectedTopChannel == 0 and  header.nav.indexForSelectedSubChannel < 0 %}
+				{% set isHome = "yes" %}
+			{% else %}
+				{% set isHome = "no" %}
+			{% endif %}
+
+			<div class={{'"ftc-header__top-column ftc-header__top-center ftc-header-hometitle"' if isHome == "yes" else '"ftc-header__top-column ftc-header__top-center ftc-header-tagtitle"'}} data-ftc-component="ftc-header-title">
+          {{header.myTitle if isHome == "no" else " "}}
+			</div>
+
+    
+			<div class="ftc-header__top-column ftc-header__top-left">
+				{% if isHome == "yes" %}
+					{% include "partials/lang.html" %}
+				{% else %}
+					<div class="ftc-header__brand">
+					</div>
+				{% endif %}
+				
+				<div class="ftc-header__hamburg" data-ftc-component="ftc-header-hamburg">
+				</div>
+			</div>
+      
+			<div class="ftc-header__top-column ftc-header__top-right">
+				{% include "partials/sign.html" %}
+			</div>
+			
+		</div>
+	</div>
+
+	
+   {% include "partials/navStatic.html" %}
+
+
+		{% include "partials/search.html" %}
+
+	{% include "partials/loginOverlay.html" %}
+
+</header>
+{% endblock %}

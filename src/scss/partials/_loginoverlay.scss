@@ -1,0 +1,117 @@
+@mixin ftcHeaderLoginOverlay () {
+  .ftc-header__loginoverlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index:10;
+    background-color: rgba(0,0,0,0.7);
+    text-align: center;
+    &::before{
+      height:100%;
+      content:"";
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  .ftc-header__loginoverlay--show {
+    display: block;
+  }
+  .ftc-header__loginoverlay-window {
+    background-color: #fff1e0;
+    display: inline-block;
+    width: 300px;
+    vertical-align: middle;
+    z-index: 20;
+  }
+
+  .ftc-header__loginoverlay-title {
+    background-color: #918f83;
+    color: #fff;
+    position: relative;
+    height:52px;
+    padding:15px;
+    box-sizing: border-box;
+    font-size:16px;
+    text-align: left;
+
+    .ftc-header__loginoverlay-close {
+      position: absolute;
+      display: inline-block;
+      padding: 0;
+      top:0px;
+      height: 100%;
+      right: 15px;
+      font-size: 43px; /*待整理：纯CSS写出来的关闭x号*/
+      font-family: Arial;
+      font-weight: 400;
+      cursor: pointer;
+    }
+  }
+
+  .ftc-header__loginoverlay-form {
+    height:240px;
+    padding:25px 0 0 0;
+  }
+
+  .ftc-header__loginoverlay-item {
+    height: 60px;
+    padding: 15px;
+    label {
+      display: block;
+      height:22px;
+      padding-bottom: 7.5px;
+      text-align: left;
+    }
+    input {
+      display: block;
+      box-sizing: border-box;
+      height:36px;
+      width:100%;
+      padding:7px;
+      border: 1px solid #cec6b9;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: rgb(250, 255, 189);
+    }
+  }
+
+  .ftc-header__loginoverlay-saveandsub {
+    height: 36px;
+    padding: 7.5px 15px;
+    text-align: left;
+    line-height: 36px;
+   .ftc-header__loginoverlay-saveme {
+      margin:0;
+      padding:0;
+    }
+    .ftc-header__loginoverlay-submit {
+      display: inline-block;
+      float:right;
+      height:100%;
+      padding:0px;
+      width:68px;
+      color: #fff;
+      background: #2e6e9e;
+      border: 1px solid #2e6e9e;
+      border-radius: 5px;
+      outline: none;
+      font-size: 16px;
+    }
+  }
+  .ftc-header__loginoverlay-bottom {
+    padding: 7.5px 15px;
+    .ftc-header__loginoverlay-bottomline {
+      text-align: left;
+      height:36px;
+      box-sizing: border-box;
+      border-bottom: 7.5px;
+      a {
+        color: #2e6e9e;
+        text-decoration: none;
+      }
+    }
+  }
+}
