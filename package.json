@@ -1,0 +1,46 @@
+{
+  "name": "@ftchinese/ftc-footer",
+  "version": "0.3.0",
+  "description": "Responsive FTC page footer",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "mocha",
+    "postversion": "git push && git push --tags && ./node_modules/.bin/gulp stats",
+    "clean": "rm -rf dist/** public/** .tmp/**",
+    "build-sass": "node-sass --include-path=bower_components ./src/scss/dist.scss ./dist/footer.css",
+    "build-html": "node ./lib",
+    "build": "npm run build-sass && npm run build-html",
+    "postinstall": "bower install && npm run build"
+  },
+  "keywords": [
+    "FTC",
+    "footer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FTChinese/ftc-footer.git"
+  },
+  "author": "weiguo.ni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FTChinese/ftc-footer/issues"
+  },
+  "homepage": "https://github.com/FTChinese/ftc-footer",
+  "devDependencies": {
+    "@ftchinese/component-stats": "^0.3.0",
+    "browser-sync": "^2.18.13",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "load-json-file": "^3.0.0",
+    "mocha": "^4.0.1"
+  },
+  "dependencies": {
+    "bower": "^1.8.2",
+    "fs-jetpack": "^1.2.0",
+    "inline-source": "^5.2.4",
+    "node-sass": "^4.5.3",
+    "nunjucks": "^3.0.1",
+    "pify": "^3.0.0"
+  }
+}

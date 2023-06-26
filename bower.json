@@ -1,0 +1,24 @@
+{
+  "name": "ftc-footer",
+  "description": "Responsive FTC page footer",
+  "main": [
+    "main.scss"
+  ],
+  "authors": [
+    "weiguo.ni"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/FTChinese/ftc-footer",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "demos",
+    "gulpfile.js"
+  ],
+  "dependencies": {
+    "o-grid": "^4.3.5"
+  }
+}

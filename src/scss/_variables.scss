@@ -1,0 +1,21 @@
+$o-footer-is-silent: true !default;
+
+/// Footer spacing unit
+/// @type Number
+$o-footer-spacing-unit: 20px;
+
+// dark text, link hover text
+$o-footer-white: #ffffff;
+// dark border
+$o-footer-teal-40: #0A5E66;
+// dark background, light text, light link hover text
+$o-footer-black-80: #33302E;
+// dark link text, dark copyright text, light brand background
+$o-footer-black-30: #B3A9A0;
+// dark brand background, light link text, light copyright text
+$o-footer-black-70: #4D4845;
+
+// light border
+$o-footer-claret: #990F3D;
+// light background
+$o-footer-black-5: #F2E5DA;

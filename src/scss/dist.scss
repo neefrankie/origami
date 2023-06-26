@@ -1,0 +1,7 @@
+@import "o-grid/main";
+
+@import "./variables";
+@import "./mixins";
+
+@include oFooterBase();
+@include oFooterMatrix();

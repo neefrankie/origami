@@ -1,0 +1,30 @@
+{
+	"description": "Responsive FTC page footer",
+	"origamiType": "module",
+	"origamiCategory": "components",
+	"origamiVersion": 1,
+	"support": "https://github.com/FTChinese/ftc-footer/issues",
+	"supportStatus": "active",
+	"browserFeatures": {
+		"required": [
+			"html5"
+		]
+	},
+	"demosDefaults": {
+		"sass": "demos/src/demo.scss"
+	},
+	"demos": [
+		{
+			"name": "footer-dark",
+			"template": "index.html",
+			"theme": "dark",
+			"description": ""
+		},
+		{
+			"name": "footer-light",
+			"template": "index.html",
+			"theme": "light",
+			"description": ""
+		}
+	]
+}
