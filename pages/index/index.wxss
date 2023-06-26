@@ -1,0 +1,18 @@
+/**index.wxss**/
+.cover-section {
+  padding-bottom: 30rpx;
+  margin-bottom: 30rpx;
+  border-bottom: 1px solid #ccc1b3;
+}
+.cover-section__heading {
+  font-weight: 700;
+  font-size: 1.05em;
+  line-height: 120%;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+.cover-section__standfirst {
+  color: #505050;
+  font-size: .9em;
+  line-height: 140%;
+}

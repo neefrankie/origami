@@ -1,0 +1,42 @@
+.article__header {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.article__header text {
+    display: block;
+    width: 100%;
+    margin-top: 30rpx;
+}
+
+.article__stand-first {
+    margin-top: 30rpx;
+    margin-bottom: 30rpx;
+    line-height: 161.8%;
+    color: #777;
+}
+
+.article__time-byline {
+    font-size: .8em;
+    margin: 30rpx 0;
+    line-height: 1.5;
+}
+
+.article__timestamp {
+    color: #8b572a;
+}
+
+.article__byline {
+    padding-left: 0.5em;
+}
+
+.wxParse-p {
+    /*line-height: 161.8%;*/
+    line-height: 1.7;
+    padding-bottom: 1em;
+    font-size: 18px;
+}
+/* override wxParse inline style */
+.wxParse-img {
+    width: 100% !important;
+}
