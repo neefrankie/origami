@@ -1,0 +1,17 @@
+{
+  "name": "origami",
+  "version": "1.0.0",
+  "author": "weiguo.ni",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "packageManager": "pnpm@8.14.1"
+}
