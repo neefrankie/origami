@@ -1,7 +1,0 @@
-demos
-dist
-src/scss
-.bowerrc
-bower.json
-gulpfile.js
-main.scss
