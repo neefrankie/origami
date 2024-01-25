@@ -57,10 +57,6 @@ importers:
 
   packages/share: {}
 
-  packages/social-images: {}
-
-  packages/toggle: {}
-
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:

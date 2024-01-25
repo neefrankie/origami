@@ -8,7 +8,7 @@
     "svg": "ts-node src/svg2png.ts",
     "fav": "ts-node src/fav.ts",
     "clean": "shx rm -rf dist/*",
-    "build": "ts-node ./src/tc.ts",
+    "build": "ts-node ./src/logo-fav.ts",
     "build-test": "ts-node ./src/ftc.ts"
   },
   "author": "weiguo.ni",
